@@ -1,0 +1,122 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import type { UiLang } from "@/lib/chapters";
+
+const UI_LANG_KEY = "learnMalay.uiLang.v1";
+const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
+
+function readUiLang(): UiLang {
+  if (typeof window === "undefined") return "ms";
+  const v = window.localStorage.getItem(UI_LANG_KEY);
+  return v === "en" || v === "es" || v === "ms" ? v : "ms";
+}
+
+function writeUiLang(lang: UiLang) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(UI_LANG_KEY, lang);
+}
+
+type Translated = { ms: string; en: string; es: string };
+function pick(tr: Translated, lang: UiLang) {
+  return lang === "ms" ? tr.ms : lang === "en" ? tr.en : tr.es;
+}
+
+export default function WordMatchIntroPage() {
+  const [lang, setLang] = useState<UiLang>("ms");
+
+  useEffect(() => setLang(readUiLang()), []);
+
+  function pickLang(next: UiLang) {
+    setLang(next);
+    writeUiLang(next);
+  }
+
+  const title: Translated = { ms: "Padan Perkataan", en: "Word Match", es: "Emparejar palabras" };
+  const subtitle: Translated = {
+    ms: "Padankan BM dengan EN/ES. Cepat dan menyeronokkan.",
+    en: "Match BM with EN/ES. Fast and fun.",
+    es: "Empareja BM con EN/ES. Rápido y divertido.",
+  };
+
+  return (
+    <main
+      className="relative min-h-screen bg-cover bg-center px-6 py-10"
+      style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
+    >
+      <div className="absolute inset-0 bg-black/25" />
+
+      <div className="relative mx-auto max-w-4xl space-y-6">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="crash-text crash-outline-fallback text-6xl font-black leading-none">
+              {title.ms.toUpperCase()}
+            </h1>
+            {lang !== "ms" && <div className="mt-1 text-lg font-extrabold text-white/90">{pick(title, lang)}</div>}
+            <div className="mt-2 text-sm font-semibold text-white/85">
+              {subtitle.ms}
+              {lang !== "ms" && <span className="opacity-70"> • {pick(subtitle, lang)}</span>}
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-white/85 p-4 shadow">
+            <div className="text-xs font-black opacity-70">LANGUAGE</div>
+            <div className="mt-2 flex gap-2">
+              <button
+                onClick={() => pickLang("ms")}
+                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
+              >
+                BM
+              </button>
+              <button
+                onClick={() => pickLang("en")}
+                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => pickLang("es")}
+                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
+              >
+                ES
+              </button>
+            </div>
+
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Link
+                href="/minigames/word-match/play"
+                className="rounded-xl bg-amber-300 px-3 py-2 text-xs font-black shadow hover:bg-amber-200"
+              >
+                Start Game
+              </Link>
+              <Link href="/minigames" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
+                Back to Mini Games
+              </Link>
+              <Link href="/map" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
+                Back to Map
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
+          <div className="flex flex-col items-center gap-2 text-center">
+            <Image src={AKU2_IDLE_SRC} alt="AkuAku" width={120} height={120} className="drop-shadow" priority />
+            <div className="text-xl font-extrabold">
+              {lang === "ms" ? "Cara main" : lang === "en" ? "How to play" : "Cómo jugar"}
+            </div>
+            <div className="max-w-2xl text-sm font-semibold opacity-80">
+              {lang === "ms"
+                ? "Klik dua kad untuk padankan maksudnya. Salah padan = hilang 1 nyawa."
+                : lang === "en"
+                ? "Click two cards to match meaning. Wrong match = lose 1 life."
+                : "Haz clic en dos cartas para emparejar. Error = pierdes 1 vida."}
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}
