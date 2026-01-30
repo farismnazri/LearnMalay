@@ -24,3 +24,22 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.crash-text {
+  font-family: var(--font-crash), system-ui, Arial, sans-serif;
+  color: #ff8c1a;
+  -webkit-text-stroke: 0.1px #000;
+  letter-spacing: 0.5px;
+}
+
+.crash-outline-fallback {
+  text-shadow:
+    -2px -2px 0 #000,
+     0px -2px 0 #000,
+     2px -2px 0 #000,
+    -2px  0px 0 #000,
+     2px  0px 0 #000,
+    -2px  2px 0 #000,
+     0px  2px 0 #000,
+     2px  2px 0 #000;
+}
