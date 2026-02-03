@@ -216,6 +216,13 @@ export default function MiniGamesHubPage() {
               <Link href="/map" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
                 Back to Map
               </Link>
+              <Link
+              href="minigames/highscores"
+              className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow hover:bg-amber-100"
+              >
+                High Scores
+              </Link>
+
             </div>
           </div>
         </div>

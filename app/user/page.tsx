@@ -12,7 +12,7 @@ import {
   type UserProfile,
 } from "@/lib/userStore";
 
-const ADMIN_PASSWORD = "FNNF";
+const ADMIN_PASSWORD = "admin";
 
 function requireAdminPassword(): boolean {
   const pw = window.prompt("Enter admin password:");

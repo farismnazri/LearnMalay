@@ -34,32 +34,40 @@ export default function WordMatchIntroPage() {
     writeUiLang(next);
   }
 
-  const title: Translated = { ms: "Padan Perkataan", en: "Word Match", es: "Emparejar palabras" };
-  const subtitle: Translated = {
-    ms: "Padankan BM dengan EN/ES. Cepat dan menyeronokkan.",
-    en: "Match BM with EN/ES. Fast and fun.",
-    es: "Empareja BM con EN/ES. Rápido y divertido.",
-  };
+const title =
+  lang === "ms"
+    ? "PADAN\nPERKATAAN"
+    : lang === "en"
+    ? "WORD\nMATCH"
+    : "EMPAREJAR\nPALABRAS";
 
-  return (
-    <main
-      className="relative min-h-screen bg-cover bg-center px-6 py-10"
-      style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
-    >
-      <div className="absolute inset-0 bg-black/25" />
+const subtitle: Translated = {
+  ms: "Padankan BM dengan EN/ES. Cepat dan menyeronokkan.",
+  en: "Match BM with EN/ES. Fast and fun.",
+  es: "Empareja BM con EN/ES. Rápido y divertido.",
+};
 
-      <div className="relative mx-auto max-w-4xl space-y-6">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className="crash-text crash-outline-fallback text-6xl font-black leading-none">
-              {title.ms.toUpperCase()}
-            </h1>
-            {lang !== "ms" && <div className="mt-1 text-lg font-extrabold text-white/90">{pick(title, lang)}</div>}
-            <div className="mt-2 text-sm font-semibold text-white/85">
-              {subtitle.ms}
-              {lang !== "ms" && <span className="opacity-70"> • {pick(subtitle, lang)}</span>}
-            </div>
-          </div>
+return (
+  <main
+    className="relative min-h-screen bg-cover bg-center px-6 py-10"
+    style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
+  >
+    <div className="absolute inset-0 bg-black/25" />
+
+    <div className="relative mx-auto max-w-4xl space-y-6">
+      {/* header row */}
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-6xl font-black leading-none">
+            {title}
+          </h1>
+
+          {/* ✅ render subtitle */}
+          <p className="mt-2 max-w-xl text-sm font-semibold text-white/90 drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
+            {pick(subtitle, lang)}
+          </p>
+        </div>
+
 
           <div className="rounded-2xl bg-white/85 p-4 shadow">
             <div className="text-xs font-black opacity-70">LANGUAGE</div>

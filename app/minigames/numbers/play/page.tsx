@@ -5,6 +5,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { UiLang } from "@/lib/chapters";
 import Image from "next/image";
 
+import { addHighScore } from "@/lib/highscores";
+import { getCurrentUser } from "@/lib/userStore";
+
+const name = getCurrentUser()?.name ?? "GUEST";
+
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png"; // must match filename case in /public
@@ -119,7 +124,7 @@ function msAcceptableAnswers(n: number): string[] {
   out.add(base.replace(/\bsatu juta\b/g, "sejuta"));
 
   // clean duplicates / unchanged
-  return [...out].filter((s) => s && s !== base ? true : true);
+  return [...out].filter(Boolean);
 }
 
 
@@ -196,8 +201,10 @@ function randomInt(min: number, max: number) {
 }
 
 export default function NumbersPlayPage() {
+
   const [lives, setLives] = useState(MAX_LIVES);
   const [gameOver, setGameOver] = useState(false);
+  const [gameWon, setGameWon] = useState(false);
 
   // stats
   const [attempts, setAttempts] = useState(0);
@@ -208,6 +215,8 @@ export default function NumbersPlayPage() {
   const startedAtRef = useRef<number>(Date.now());
   const [elapsedMs, setElapsedMs] = useState(0);
 
+  // record highscore once per run
+  const recordedRef = useRef(false);
 
   const [congratsText, setCongratsText] = useState<string | null>(null);
   const [congratsFade, setCongratsFade] = useState(false);
@@ -222,6 +231,39 @@ export default function NumbersPlayPage() {
   const [input, setInput] = useState("");
   const [feedback, setFeedback] = useState<null | { ok: boolean; msg: string }>(null);
 
+  function recordScoreOnce(
+    result: "win" | "gameover",
+    snapshot?: { attempts: number; totalCorrect: number; totalWrong: number; lives: number; level: number; timeMs: number }
+  ) {
+    if (recordedRef.current) return;
+    recordedRef.current = true;
+
+  const name = (() => {
+    try {
+      return getCurrentUser()?.name ?? "GUEST";
+    } catch {
+      return "GUEST";
+    }
+  })();
+
+
+    const a = snapshot?.attempts ?? attempts;
+    const c = snapshot?.totalCorrect ?? totalCorrect;
+    const w = snapshot?.totalWrong ?? totalWrong;
+    const l = snapshot?.lives ?? lives;
+    const lv = snapshot?.level ?? (levelIdx + 1);
+    const tms = snapshot?.timeMs ?? elapsedMs;
+
+    const accuracy = a > 0 ? (c / a) * 100 : 0;
+
+    addHighScore("numbers", {
+      name,
+      accuracy,
+      timeMs: tms,
+      meta: { result, level: lv, totalCorrect: c, totalWrong: w, attempts: a, lives: l },
+    });
+  }
+
   const congratsTimers = useRef<number[]>([]);
 useEffect(() => {
   return () => {
@@ -232,11 +274,11 @@ useEffect(() => {
 
 useEffect(() => {
   const id = window.setInterval(() => {
-    if (!gameOver) setElapsedMs(Date.now() - startedAtRef.current);
+    if (!gameOver && !gameWon) setElapsedMs(Date.now() - startedAtRef.current);
   }, 250);
 
   return () => window.clearInterval(id);
-}, [gameOver]);
+}, [gameOver, gameWon]);
 
 
 function triggerCongrats(text: string) {
@@ -275,9 +317,8 @@ function triggerCongrats(text: string) {
     [n]
   );
 
-
   function nextNumber() {
-    if (gameOver) return;
+    if (gameOver || gameWon) return;
     setInput("");
     setFeedback(null);
     setN(randomInt(level.min, level.max));
@@ -289,31 +330,39 @@ function triggerCongrats(text: string) {
   writeUiLang(next);
 }
 
-  function submit() {
-  if (gameOver) return;
+function submit() {
+  if (gameOver || gameWon) return;
 
   const got = normalizeAnswer(input);
 
   if (!got) {
     setFeedback({
       ok: false,
-      msg: lang === "ms" ? "Isi jawapan dulu." : lang === "en" ? "Type an answer first." : "Escribe una respuesta.",
+      msg:
+        lang === "ms"
+          ? "Isi jawapan dulu."
+          : lang === "en"
+          ? "Type an answer first."
+          : "Escribe una respuesta.",
     });
     return;
   }
 
-  // ✅ Count an attempt ONLY when they actually submit a non-empty answer
-  setAttempts((a) => a + 1);
+  // count attempt (only on non-empty submit)
+  const nextAttempts = attempts + 1;
+  setAttempts(nextAttempts);
 
+  // ✅ correct
   if (acceptable.includes(got)) {
-    // ✅ Count correct
-    setTotalCorrect((c) => c + 1);
+    const nextTotalCorrect = totalCorrect + 1;
+    setTotalCorrect(nextTotalCorrect);
 
     const nextCorrect = correctCount + 1;
     setCorrectCount(nextCorrect);
 
-    // Level up if completed
+    // completed level?
     if (nextCorrect >= level.requiredCorrect) {
+      // not last level → level up
       if (levelIdx < LEVELS.length - 1) {
         setFeedback({
           ok: true,
@@ -334,20 +383,39 @@ function triggerCongrats(text: string) {
         );
 
         setTimeout(() => setLevelIdx((i) => i + 1), 900);
-      } else {
-        setFeedback({
-          ok: true,
-          msg:
-            lang === "ms"
-              ? "Tahniah! Anda habis semua tahap."
-              : lang === "en"
-              ? "Congrats! You finished all levels."
-              : "¡Felicidades! Terminaste todos los niveles.",
-        });
+        return; // ✅ IMPORTANT: stop here so it doesn't also run "Betul!" and nextNumber()
       }
+
+      // last level → WIN
+      setFeedback({
+        ok: true,
+        msg:
+          lang === "ms"
+            ? "Tahniah! Anda habis semua tahap."
+            : lang === "en"
+            ? "Congrats! You finished all levels."
+            : "¡Felicidades! Terminaste todos los niveles.",
+      });
+
+      setGameWon(true);
+
+      recordScoreOnce("win", {
+        attempts: nextAttempts,
+        totalCorrect: nextTotalCorrect,
+        totalWrong,
+        lives,
+        level: levelIdx + 1,
+        timeMs: elapsedMs,
+      });
+
+      triggerCongrats(
+        lang === "ms" ? "ANDA MENANG!" : lang === "en" ? "YOU WIN!" : "¡GANASTE!"
+      );
+
       return;
     }
 
+    // correct but not finished level yet
     setFeedback({
       ok: true,
       msg: lang === "ms" ? "Betul!" : lang === "en" ? "Correct!" : "¡Correcto!",
@@ -356,8 +424,9 @@ function triggerCongrats(text: string) {
     return;
   }
 
-  // ❌ Wrong answer:
-  setTotalWrong((w) => w + 1);
+  // ❌ wrong
+  const nextTotalWrong = totalWrong + 1;
+  setTotalWrong(nextTotalWrong);
 
   const nextLives = lives - 1;
   setLives(nextLives);
@@ -365,7 +434,15 @@ function triggerCongrats(text: string) {
   if (nextLives <= 0) {
     setGameOver(true);
 
-    // Optional: show a short AkuAku "sorry" message (same popup style)
+    recordScoreOnce("gameover", {
+      attempts: nextAttempts,
+      totalCorrect,
+      totalWrong: nextTotalWrong,
+      lives: 0,
+      level: levelIdx + 1,
+      timeMs: elapsedMs,
+    });
+
     triggerCongrats(
       lang === "ms"
         ? "Aduh… nyawa habis."
@@ -378,7 +455,7 @@ function triggerCongrats(text: string) {
     return;
   }
 
-  // Still alive → show the correct answer and let them retry same number
+  // still alive → show answer, keep same number
   setFeedback({
     ok: false,
     msg:
@@ -388,11 +465,15 @@ function triggerCongrats(text: string) {
         ? `Not yet. Answer: ${expected}`
         : `Aún no. Respuesta: ${expected}`,
   });
+
   queueMicrotask(() => inputRef.current?.select());
 }
 
 
+
 function restart() {
+  recordedRef.current = false;
+  setGameWon(false);
   setGameOver(false);
 
   setLives(MAX_LIVES);
@@ -558,7 +639,7 @@ function restart() {
             <input
               ref={inputRef}
               value={input}
-              disabled={gameOver}
+              disabled={gameOver || gameWon}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") submit();
@@ -576,7 +657,7 @@ function restart() {
               <button
                 type="button"
                 onClick={submit}
-                disabled={gameOver}
+                disabled={gameOver || gameWon}
                 className={[
                   "rounded-2xl bg-amber-300 px-4 py-3 text-sm font-black shadow",
                   gameOver ? "opacity-60" : "hover:bg-amber-200",
@@ -588,7 +669,7 @@ function restart() {
               <button
                 type="button"
                 onClick={nextNumber}
-                disabled={gameOver}
+                disabled={gameOver || gameWon}
                 className={[
                   "rounded-2xl bg-white px-4 py-3 text-sm font-black shadow",
                   gameOver ? "opacity-60" : "",

@@ -150,7 +150,7 @@ export default function MapPage() {
 
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {worldChapters.map((c) => {
-                  const unlocked = c.chapter <= maxUnlockedChapter;
+                  const unlocked = user.isAdmin || user.progress.chapter >= c.chapter;
                   const isCurrent = c.chapter === currentChapter;
 
                   return (

@@ -4,7 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { UiLang } from "@/lib/chapters";
-import { CATEGORY_LABELS, WORD_ITEMS, type WordCategory, type WordItem } from "@/lib/wordMatch/items";
+import {
+  CATEGORY_LABELS,
+  WORD_ITEMS,
+  type WordCategory,
+  type WordItem,
+} from "@/lib/wordMatch/items";
+
+import { addHighScore } from "@/lib/highscores";
+import { getCurrentUser } from "@/lib/userStore";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
@@ -58,6 +66,13 @@ function targetLangFromUi(lang: UiLang): "en" | "es" {
 }
 
 export default function WordMatchPlayPage() {
+  // timer (single source of truth)
+  const startedAtRef = useRef<number>(Date.now());
+  const [elapsedMs, setElapsedMs] = useState(0);
+
+  // record once per run
+  const recordedRef = useRef(false);
+
   const [lang, setLang] = useState<UiLang>("ms");
 
   // progress
@@ -92,10 +107,6 @@ export default function WordMatchPlayPage() {
   const [matches, setMatches] = useState(0);
   const [mistakes, setMistakes] = useState(0);
 
-  // timer
-  const startedAtRef = useRef<number>(Date.now());
-  const [elapsedMs, setElapsedMs] = useState(0);
-
   // Aku2 popup
   const [popupText, setPopupText] = useState<string | null>(null);
   const [popupFade, setPopupFade] = useState(false);
@@ -107,10 +118,12 @@ export default function WordMatchPlayPage() {
     setLang(readUiLang());
   }, []);
 
+  // timer tick (stop when game ends)
   useEffect(() => {
     const id = window.setInterval(() => {
       if (canPlay) setElapsedMs(Date.now() - startedAtRef.current);
     }, 250);
+
     return () => window.clearInterval(id);
   }, [canPlay]);
 
@@ -120,6 +133,30 @@ export default function WordMatchPlayPage() {
       popupTimers.current = [];
     };
   }, []);
+
+  function recordScoreOnce(result: "win" | "gameover", snapshot: { attempts: number; matches: number; mistakes: number; lives: number; level: number; timeMs: number; category: WordCategory }) {
+    if (recordedRef.current) return;
+    recordedRef.current = true;
+
+    const name = getCurrentUser()?.name ?? "Guest";
+
+    const acc = snapshot.attempts > 0 ? (snapshot.matches / snapshot.attempts) * 100 : 0;
+
+    addHighScore("word-match", {
+      name,
+      accuracy: acc,
+      timeMs: snapshot.timeMs,
+      meta: {
+        result,
+        level: snapshot.level,
+        category: snapshot.category,
+        attempts: snapshot.attempts,
+        matches: snapshot.matches,
+        mistakes: snapshot.mistakes,
+        lives: snapshot.lives,
+      },
+    });
+  }
 
   function triggerPopup(text: string) {
     popupTimers.current.forEach((t) => window.clearTimeout(t));
@@ -175,14 +212,21 @@ export default function WordMatchPlayPage() {
     }
 
     setSelectedRightId(pairId);
-    setAttempts((a) => a + 1);
+
+    // snapshot attempt now (avoid async setState timing issues)
+    const nextAttempts = attempts + 1;
+    setAttempts(nextAttempts);
 
     const ok = pairId === selectedBmId;
 
     if (ok) {
-      setMatches((m) => m + 1);
+      const nextMatches = matches + 1;
+      setMatches(nextMatches);
 
-      const nextMatchedCount = matchedSet.has(pairId) ? matchedPairIds.length : matchedPairIds.length + 1;
+      const nextMatchedCount = matchedSet.has(pairId)
+        ? matchedPairIds.length
+        : matchedPairIds.length + 1;
+
       setMatchedPairIds((prev) => (prev.includes(pairId) ? prev : [...prev, pairId]));
 
       triggerPopup(lang === "ms" ? "Betul!" : lang === "en" ? "Correct!" : "¡Correcto!");
@@ -195,7 +239,18 @@ export default function WordMatchPlayPage() {
         setLocked(true);
 
         if (isFinalLevel) {
-          // ✅ STOP HERE: winning screen
+          // record immediately with exact time
+          const timeNow = Date.now() - startedAtRef.current;
+          recordScoreOnce("win", {
+            attempts: nextAttempts,
+            matches: nextMatches,
+            mistakes,
+            lives,
+            level: levelIdx + 1,
+            timeMs: timeNow,
+            category: level.category,
+          });
+
           window.setTimeout(() => {
             setGameWon(true);
             triggerPopup(lang === "ms" ? "Tahniah! Anda menang!" : lang === "en" ? "Congrats! You won!" : "¡Felicidades! ¡Ganaste!");
@@ -212,26 +267,40 @@ export default function WordMatchPlayPage() {
     }
 
     // mismatch
-    setMistakes((w) => w + 1);
+    const nextMistakes = mistakes + 1;
+    setMistakes(nextMistakes);
+
     triggerPopup(lang === "ms" ? "Salah." : lang === "en" ? "Wrong." : "Mal.");
 
     setSelectedBmId(null);
     setSelectedRightId(null);
 
-    setLives((prev) => {
-      const next = prev - 1;
-      if (next <= 0) {
-        window.setTimeout(() => {
-          setGameOver(true);
-          triggerPopup(lang === "ms" ? "Maaf… permainan tamat." : lang === "en" ? "Sorry… game over." : "Lo siento… fin del juego.");
-        }, 150);
-        return 0;
-      }
-      return next;
-    });
+    const nextLives = lives - 1;
+    setLives(nextLives);
+
+    if (nextLives <= 0) {
+      const timeNow = Date.now() - startedAtRef.current;
+
+      recordScoreOnce("gameover", {
+        attempts: nextAttempts,
+        matches,
+        mistakes: nextMistakes,
+        lives: 0,
+        level: levelIdx + 1,
+        timeMs: timeNow,
+        category: level.category,
+      });
+
+      window.setTimeout(() => {
+        setGameOver(true);
+        triggerPopup(lang === "ms" ? "Maaf… permainan tamat." : lang === "en" ? "Sorry… game over." : "Lo siento… fin del juego.");
+      }, 150);
+    }
   }
 
   function restart() {
+    recordedRef.current = false;
+
     setGameOver(false);
     setGameWon(false);
     setLocked(false);
@@ -246,12 +315,10 @@ export default function WordMatchPlayPage() {
 
     setLevelIdx(0);
 
-    // rebuild immediately for first level
-    const first = LEVELS[0];
-    const firstItems = WORD_ITEMS.filter((x) => x.category === first.category);
-    const chosen = shuffle(firstItems).slice(0, first.pairs);
-    setRoundItems(chosen);
-    setRightItems(shuffle(chosen));
+    setPopupText(null);
+    setPopupFade(false);
+
+    // board will rebuild via useEffect(levelIdx, trLang)
     setMatchedPairIds([]);
     setSelectedBmId(null);
     setSelectedRightId(null);
@@ -276,33 +343,40 @@ export default function WordMatchPlayPage() {
   }, [attempts, elapsedMs, levelIdx, matches, mistakes]);
 
   const title =
-  lang === "ms"
-    ? "PADAN\nPERKATAAN"
-    : lang === "en"
-    ? "WORD\nMATCH"
-    : "EMPAREJAR\nPALABRAS";
-
+    lang === "ms"
+      ? "PADAN\nPERKATAAN"
+      : lang === "en"
+      ? "WORD\nMATCH"
+      : "EMPAREJAR\nPALABRAS";
 
   return (
-    <main className="relative min-h-screen bg-cover bg-center px-6 py-10" style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}>
+    <main
+      className="relative min-h-screen bg-cover bg-center px-6 py-10"
+      style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
+    >
       <div className="absolute inset-0 bg-black/25" />
 
       <div className="relative mx-auto max-w-5xl">
+        
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-<h1 className="crash-text crash-outline-fallback whitespace-pre-line text-7xl font-black leading-none">
-  {title}
-</h1>
-
+            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-7xl font-black leading-none">
+              {title}
+            </h1>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="rounded-2xl bg-white/85 p-4 shadow">
-              <div className="text-xs font-black opacity-70">{pick(levelLabel, lang)} • {lang === "ms" ? "Masa" : lang === "en" ? "Time" : "Tiempo"}: {formatDuration(elapsedMs)}</div>
+              <div className="text-xs font-black opacity-70">
+                {pick(levelLabel, lang)} • {lang === "ms" ? "Masa" : lang === "en" ? "Time" : "Tiempo"}:{" "}
+                {formatDuration(elapsedMs)}
+              </div>
 
               <div className="mt-2 space-y-2 text-sm font-semibold">
                 <div>
-                  <div className="text-[11px] font-black opacity-60">{lang === "ms" ? "NYAWA" : lang === "en" ? "LIVES" : "VIDAS"}</div>
+                  <div className="text-[11px] font-black opacity-60">
+                    {lang === "ms" ? "NYAWA" : lang === "en" ? "LIVES" : "VIDAS"}
+                  </div>
                   <div className="mt-1 flex items-center gap-1">
                     {Array.from({ length: MAX_LIVES }).map((_, i) => (
                       <Image
@@ -320,11 +394,15 @@ export default function WordMatchPlayPage() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <div className="text-[11px] font-black opacity-60">{lang === "ms" ? "PADANAN" : lang === "en" ? "MATCHES" : "ACIERTOS"}</div>
+                    <div className="text-[11px] font-black opacity-60">
+                      {lang === "ms" ? "PADANAN" : lang === "en" ? "MATCHES" : "ACIERTOS"}
+                    </div>
                     <div className="mt-1 font-extrabold">{matches}</div>
                   </div>
                   <div>
-                    <div className="text-[11px] font-black opacity-60">{lang === "ms" ? "CUBAAN" : lang === "en" ? "ATTEMPTS" : "INTENTOS"}</div>
+                    <div className="text-[11px] font-black opacity-60">
+                      {lang === "ms" ? "CUBAAN" : lang === "en" ? "ATTEMPTS" : "INTENTOS"}
+                    </div>
                     <div className="mt-1 font-extrabold">{attempts}</div>
                   </div>
                 </div>
@@ -335,13 +413,22 @@ export default function WordMatchPlayPage() {
               <div className="text-xs font-black opacity-70">LANG</div>
 
               <div className="mt-2 flex gap-2">
-                <button onClick={() => pickLang("ms")} className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}>
+                <button
+                  onClick={() => pickLang("ms")}
+                  className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
+                >
                   BM
                 </button>
-                <button onClick={() => pickLang("en")} className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}>
+                <button
+                  onClick={() => pickLang("en")}
+                  className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
+                >
                   EN
                 </button>
-                <button onClick={() => pickLang("es")} className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}>
+                <button
+                  onClick={() => pickLang("es")}
+                  className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
+                >
                   ES
                 </button>
               </div>

@@ -1,21 +1,29 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
+import FigureCard from "@/components/game/FigureCard";
 
 import AkuAkuPopup from "@/components/game/AkuAkuPopup";
-import { chapter01Intro } from "@/lib/akuAku/chapter-01";
-
-import { getCurrentUser, type UserProfile } from "@/lib/userStore";
-import { chapter01, type UiLang, type ChapterPage, type ChapterSection } from "@/lib/chapters";
-
-import Image from "next/image";
-
-import TickCard from "@/components/game/TickCard";
-
 import BackgroundAudio from "@/components/game/BackgroundAudio";
 
+import TableCard from "@/components/game/TableCard";
+import TickCard from "@/components/game/TickCard";
+import WordSearchCard from "@/components/game/WordSearchCard";
+
+import { chapter01Intro } from "@/lib/akuAku/chapter-01";
+import { chapter02Intro } from "@/lib/akuAku/chapter-02";
+import { chapter03Intro } from "@/lib/akuAku/chapter-03";
+import { chapter04Intro } from "@/lib/akuAku/chapter-04";
+
+import { getCurrentUser, updateProgress, type UserProfile } from "@/lib/userStore";
+
+// IMPORTANT: pull types from the same place as chapters (avoid broken /types imports)
+import { chapter01, chapter02, chapter03, chapter04, type UiLang, type ChapterPage, type ChapterSection } from "@/lib/chapters";
+
+const MAX_CHAPTERS = 11;
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 
 function readUiLang(): UiLang {
@@ -55,11 +63,17 @@ export default function ChapterPage() {
 
   const content = useMemo(() => {
     if (chapterId === 1) return chapter01;
+    if (chapterId === 2) return chapter02;
+    if (chapterId === 3) return chapter03;
+    if (chapterId === 4) return chapter04;
     return null;
   }, [chapterId]);
 
   const introDialogs = useMemo(() => {
     if (chapterId === 1) return chapter01Intro;
+    if (chapterId === 2) return chapter02Intro;
+    if (chapterId === 3) return chapter03Intro;
+    if (chapterId === 4) return chapter04Intro;
     return [];
   }, [chapterId]);
 
@@ -75,10 +89,7 @@ export default function ChapterPage() {
           <div className="text-xl font-extrabold">No user selected</div>
           <p className="mt-2 text-sm opacity-70">Select a user to continue.</p>
           <div className="mt-5 flex gap-3">
-            <Link
-              className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow"
-              href="/user"
-            >
+            <Link className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow" href="/user">
               Select User
             </Link>
             <Link className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow" href="/map">
@@ -89,6 +100,8 @@ export default function ChapterPage() {
       </main>
     );
   }
+
+  const isAdmin = !!user.isAdmin;
 
   if (!content) {
     return (
@@ -104,37 +117,86 @@ export default function ChapterPage() {
     );
   }
 
-  // helper: world/level mapping (your rule)
+  // helper: world/level mapping
   const world = content.id <= 4 ? 1 : content.id <= 8 ? 2 : 3;
   const level = content.id <= 4 ? content.id : content.id <= 8 ? content.id - 4 : content.id - 8;
 
-  // Chapter title (big header)
   const titleMs = content.title.ms.toUpperCase();
   const titleTrans = lang === "ms" ? "" : lang === "en" ? content.title.en : content.title.es;
 
-  // Current page
   const pages = content.pages ?? [];
   const totalPages = pages.length;
+
   const safeIdx = Math.min(Math.max(pageIdx, 0), Math.max(totalPages - 1, 0));
-  const currentPage: ChapterPage | null = totalPages > 0 ? pages[safeIdx] : null;
+  const currentPage = (pages[safeIdx] as ChapterPage | undefined) ?? undefined;
+
+  const isLastPage = totalPages > 0 && safeIdx === totalPages - 1;
+
+  const isFinalChapter = chapterId >= MAX_CHAPTERS;
+  const nextChapter = Math.min(MAX_CHAPTERS, chapterId + 1);
+  const alreadyUnlockedNext = isFinalChapter || user.progress.chapter >= nextChapter;
+
+  function markChapterDone() {
+    if (!isLastPage) return;
+    if (isAdmin) return;
+    if (isFinalChapter) return;
+
+    setUser((prev) => {
+      if (!prev) return prev;
+
+      const nextProgress = {
+        chapter: Math.max(prev.progress.chapter, nextChapter),
+        page: 1,
+      };
+
+      updateProgress(prev.id, nextProgress);
+      return { ...prev, progress: nextProgress };
+    });
+  }
 
   function nextPage() {
-    setPageIdx((v) => Math.min(totalPages - 1, v + 1));
+    setPageIdx((v) => Math.min(Math.max(totalPages - 1, 0), v + 1));
   }
 
   function prevPage() {
     setPageIdx((v) => Math.max(0, v - 1));
   }
 
+  // IMPORTANT: define renderPage BEFORE return, not inside JSX
+  const renderPage = (page: ChapterPage) => {
+    // If your ChapterPage union doesn't include "wordsearch" yet, TS can complain.
+    // This switch stays clean if your lib types are updated; otherwise it still runs fine.
+    switch ((page as any).kind) {
+      case "intro":
+        return (page as any).sections.map((s: any) => <SectionCard key={s.id} section={s} lang={lang} />);
+      case "table":
+        return <TableCard page={page as any} lang={lang} />;
+      case "chat":
+        return <ChatCard page={page as any} lang={lang} userName={user.name} />;
+      case "dragfill":
+        return <DragFillCard page={page as any} lang={lang} />;
+      case "typein":
+        return <TypeInCard page={page as any} lang={lang} />;
+      case "boxdrag":
+        return <BoxDragCard page={page as any} lang={lang} />;
+      case "wordsearch":
+        return <WordSearchCard page={page as any} lang={lang} />;
+      case "tick":
+        return <TickCard page={page as any} lang={lang} />;
+      case "figure":
+        return <FigureCard page={page as any} lang={lang} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <main
       className="relative min-h-screen bg-cover bg-center px-6 py-10"
       style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
     >
+      <BackgroundAudio src="/assets/audio/bgm.mp3" />
 
-    <BackgroundAudio src="/assets/audio/bgm.mp3" />
-    
-      {/* Aku-Aku Intro Popup */}
       <AkuAkuPopup
         open={showIntro && introDialogs.length > 0}
         onClose={() => setShowIntro(false)}
@@ -152,9 +214,7 @@ export default function ChapterPage() {
               CHAPTER {content.id} - {titleMs}
             </div>
 
-            {lang !== "ms" && (
-              <div className="mt-1 text-lg font-extrabold text-white/90">{titleTrans}</div>
-            )}
+            {lang !== "ms" && <div className="mt-1 text-lg font-extrabold text-white/90">{titleTrans}</div>}
 
             {totalPages > 0 && (
               <div className="mt-2 text-sm font-semibold text-white/80">
@@ -173,25 +233,19 @@ export default function ChapterPage() {
             <div className="mt-3 flex gap-2">
               <button
                 onClick={() => pickLang("ms")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${
-                  lang === "ms" ? "bg-amber-300" : "bg-white"
-                }`}
+                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
               >
                 BM
               </button>
               <button
                 onClick={() => pickLang("en")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${
-                  lang === "en" ? "bg-amber-300" : "bg-white"
-                }`}
+                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
               >
                 EN
               </button>
               <button
                 onClick={() => pickLang("es")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${
-                  lang === "es" ? "bg-amber-300" : "bg-white"
-                }`}
+                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
               >
                 ES
               </button>
@@ -235,25 +289,77 @@ export default function ChapterPage() {
 
         {/* PAGE CONTENT */}
         <div className="mt-8 grid gap-5">
-        {!currentPage ? (
+          {!currentPage ? (
             <div className="rounded-3xl bg-white/90 p-6 shadow-xl">No pages yet.</div>
-        ) : currentPage.kind === "intro" ? (
-            currentPage.sections.map((s) => <SectionCard key={s.id} section={s} lang={lang} />)
-        ) : currentPage.kind === "table" ? (
-            <TableCard page={currentPage} lang={lang} />
-        ) : currentPage.kind === "chat" ? (
-            <ChatCard page={currentPage} lang={lang} userName={user.name} />
-        ) : currentPage.kind === "dragfill" ? (
-            <DragFillCard page={currentPage} lang={lang} />
-        ) : currentPage.kind === "tick" ? (
-            <TickCard page={currentPage} lang={lang} />
-        ) : null}
+          ) : (
+            renderPage(currentPage)
+          )}
         </div>
+
+        {/* CHAPTER COMPLETE CTA */}
+        {!isAdmin && totalPages > 0 && isLastPage && !isFinalChapter && (
+          <section className="mt-5 rounded-3xl bg-white/90 p-6 shadow-xl">
+            <div className="text-xs font-black opacity-60">{lang === "ms" ? "SELESAI" : lang === "en" ? "DONE" : "LISTO"}</div>
+
+            <div className="mt-2 text-2xl font-extrabold">
+              {lang === "ms"
+                ? "Anda sudah sampai ke akhir bab!"
+                : lang === "en"
+                ? "You reached the end of the chapter!"
+                : "¡Llegaste al final del capítulo!"}
+            </div>
+
+            <div className="mt-2 text-sm font-semibold opacity-70">
+              {alreadyUnlockedNext
+                ? lang === "ms"
+                  ? "Bab seterusnya sudah dibuka."
+                  : lang === "en"
+                  ? "Next chapter is already unlocked."
+                  : "El siguiente capítulo ya está desbloqueado."
+                : lang === "ms"
+                ? "Tekan butang di bawah untuk buka bab seterusnya."
+                : lang === "en"
+                ? "Press the button below to unlock the next chapter."
+                : "Pulsa el botón para desbloquear el siguiente capítulo."}
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={markChapterDone}
+                disabled={alreadyUnlockedNext || isAdmin}
+                className={[
+                  "rounded-xl px-4 py-2 text-sm font-black shadow",
+                  alreadyUnlockedNext ? "bg-white opacity-60" : "bg-emerald-600 text-white hover:bg-emerald-500",
+                ].join(" ")}
+              >
+                {alreadyUnlockedNext
+                  ? lang === "ms"
+                    ? "Sudah dibuka"
+                    : lang === "en"
+                    ? "Already unlocked"
+                    : "Ya desbloqueado"
+                  : lang === "ms"
+                  ? "Tanda siap (buka bab seterusnya)"
+                  : lang === "en"
+                  ? "Mark as done (unlock next)"
+                  : "Marcar como hecho (desbloquear siguiente)"}
+              </button>
+
+              <Link href="/map" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+                {lang === "ms" ? "Kembali ke Peta" : lang === "en" ? "Back to Map" : "Volver al Mapa"}
+              </Link>
+            </div>
+          </section>
+        )}
       </div>
     </main>
   );
 }
 
+/* ---------------------------
+   SECTION CARD
+---------------------------- */
 function SectionCard({ section, lang }: { section: ChapterSection; lang: UiLang }) {
   const L = {
     question: lang === "ms" ? "SOALAN" : lang === "en" ? "QUESTION" : "PREGUNTA",
@@ -303,116 +409,26 @@ function SectionCard({ section, lang }: { section: ChapterSection; lang: UiLang 
   );
 }
 
-function TableCard({
-  page,
-  lang,
-}: {
-  page: Extract<ChapterPage, { kind: "table" }>;
-  lang: UiLang;
-}) {
+
+
+/* ---------------------------
+   CHAT CARD
+---------------------------- */
+function ChatCard({ page, lang, userName }: { page: any; lang: UiLang; userName: string }) {
   const titleTrans = lang === "ms" ? "" : lang === "en" ? page.title.en : page.title.es;
+  const contextTrans = !page.context ? "" : lang === "ms" ? "" : lang === "en" ? page.context.en : page.context.es;
 
-  function renderTranslatedLine(line: { ms: string; en: string; es: string }, idx: number) {
-    const trans = lang === "ms" ? "" : lang === "en" ? line.en : line.es;
-
-    return (
-      <div key={`${line.ms}-${idx}`}>
-        <div className="text-base font-extrabold">{line.ms}</div>
-        {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{trans}</div>}
-      </div>
-    );
-  }
-
-  function renderHeader(label: { ms: string; en: string; es: string }) {
-    const trans = lang === "ms" ? "" : lang === "en" ? label.en : label.es;
-    return (
-      <div>
-        <div className="text-sm font-black">{label.ms}</div>
-        {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{trans}</div>}
-      </div>
-    );
-  }
-
-  const firstColKey = page.columns?.[0]?.key;
-
-  return (
-    <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
-      <div className="text-2xl font-extrabold">{page.title.ms}</div>
-      {lang !== "ms" && <div className="text-sm font-semibold opacity-70">{titleTrans}</div>}
-
-      <div className="mt-5 overflow-x-auto">
-        <table className="w-full min-w-[760px] border-separate border-spacing-0 overflow-hidden rounded-2xl">
-          <thead>
-            <tr className="bg-amber-200">
-              {page.columns.map((c) => (
-                <th key={c.key} className="border border-black/10 p-4 text-left align-top">
-                  {renderHeader(c.label)}
-                </th>
-              ))}
-            </tr>
-          </thead>
-
-          <tbody>
-            {page.rows.map((r) => (
-              <tr key={r.id} className="bg-white/95">
-                {page.columns.map((c) => {
-                  const lines = r.cells?.[c.key] ?? [];
-
-                  const isFirst = c.key === firstColKey;
-                  const tdClass = isFirst
-                    ? "border border-black/10 bg-amber-100/70 p-4 align-top"
-                    : "border border-black/10 p-4 align-top";
-
-                  return (
-                    <td key={`${r.id}-${c.key}`} className={tdClass}>
-                      <div className="space-y-2">
-                        {lines.length === 0 ? (
-                          <div className="text-xs font-semibold opacity-40">—</div>
-                        ) : (
-                          lines.map(renderTranslatedLine)
-                        )}
-                      </div>
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
-  );
-}
-
-function ChatCard({
-  page,
-  lang,
-  userName,
-}: {
-  page: Extract<ChapterPage, { kind: "chat" }>;
-  lang: UiLang;
-  userName: string;
-}) {
-  const titleTrans = lang === "ms" ? "" : lang === "en" ? page.title.en : page.title.es;
-  const contextTrans =
-    !page.context
-      ? ""
-      : lang === "ms"
-      ? ""
-      : lang === "en"
-      ? page.context.en
-      : page.context.es;
-
-  const youId = "azman"; // you/me
-  const otherId = "ayub"; // bandicoot
-
-  const other = page.participants.find((p) => p.id === otherId);
-  const otherAvatar = other?.avatarSrc;
+  const youId = "azman";
 
   function msgText(t: { ms: string; en: string; es: string }) {
     if (lang === "ms") return { main: t.ms, sub: "" };
     const sub = lang === "en" ? t.en : t.es;
     return { main: t.ms, sub };
+  }
+
+  function initials(name: string) {
+    const parts = name.trim().split(/\s+/).slice(0, 2);
+    return parts.map((p) => p[0]?.toUpperCase() ?? "").join("");
   }
 
   return (
@@ -428,48 +444,41 @@ function ChatCard({
       )}
 
       <div className="mt-5 space-y-3">
-        {page.messages.map((m) => {
+        {page.messages.map((m: any) => {
           const isYou = m.from === youId;
+
+          const speaker = page.participants.find((p: any) => p.id === m.from);
+          const speakerNameMs = speaker?.name.ms ?? m.from;
+          const speakerAvatar = speaker?.avatarSrc;
+
           const { main, sub } = msgText(m.text);
 
           return (
             <div key={m.id} className={`flex items-end gap-2 ${isYou ? "justify-end" : "justify-start"}`}>
-              {/* left avatar (bandicoot) */}
               {!isYou && (
                 <div className="h-10 w-10 overflow-hidden rounded-full bg-white shadow">
-                  {otherAvatar ? (
-                    <Image
-                      src={otherAvatar}
-                      alt="Pak Cik Ayub"
-                      width={40}
-                      height={40}
-                      className="h-10 w-10 object-cover"
-                    />
+                  {speakerAvatar ? (
+                    <Image src={speakerAvatar} alt={speakerNameMs} width={40} height={40} className="h-10 w-10 object-cover" />
                   ) : (
                     <div className="flex h-10 w-10 items-center justify-center text-xs font-black">
-                      AY
+                      {initials(speakerNameMs) || "?"}
                     </div>
                   )}
                 </div>
               )}
 
-              {/* bubble */}
               <div
                 className={[
                   "max-w-[78%] rounded-2xl px-4 py-3 shadow",
                   isYou ? "bg-amber-200 text-black" : "bg-white text-black",
                 ].join(" ")}
               >
-                {/* speaker tiny label (optional but cute) */}
-                <div className="text-[10px] font-black opacity-50">
-                  {isYou ? userName.toUpperCase() : (other?.name.ms ?? "PAK CIK AYUB").toUpperCase()}
-                </div>
+                <div className="text-[10px] font-black opacity-50">{(isYou ? userName : speakerNameMs).toUpperCase()}</div>
 
-                <div className="mt-1 text-sm font-extrabold whitespace-pre-line">{main}</div>
-                {lang !== "ms" && <div className="mt-1 text-xs font-semibold opacity-70 whitespace-pre-line">{sub}</div>}
+                <div className="mt-1 whitespace-pre-line text-sm font-extrabold">{main}</div>
+                {lang !== "ms" && <div className="mt-1 whitespace-pre-line text-xs font-semibold opacity-70">{sub}</div>}
               </div>
 
-              {/* right spacer (keeps bubble alignment symmetrical) */}
               {isYou && <div className="h-10 w-10" />}
             </div>
           );
@@ -479,14 +488,11 @@ function ChatCard({
   );
 }
 
-function DragFillCard({
-  page,
-  lang,
-}: {
-  page: Extract<ChapterPage, { kind: "dragfill" }>;
-  lang: UiLang;
-}) {
-  const [placed, setPlaced] = useState<Record<string, string>>({}); // blankId -> optionId
+/* ---------------------------
+   DRAG FILL CARD
+---------------------------- */
+function DragFillCard({ page, lang }: { page: any; lang: UiLang }) {
+  const [placed, setPlaced] = useState<Record<string, string>>({});
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
@@ -533,10 +539,14 @@ function DragFillCard({
     return placed[blankId] === correct;
   }
 
+  function blankKey(itemId: string, slot: "q" | "a") {
+    return `${itemId}-${slot}`;
+  }
+
   function renderTextOrBlank(x: any, blankId: string) {
     if (x.kind === "text") {
       return (
-        <div className="text-sm font-extrabold whitespace-pre-line">
+        <div className="whitespace-pre-line text-sm font-extrabold">
           {x.text.ms}
           {lang !== "ms" && <div className="mt-1 text-xs font-semibold opacity-70">{tr(x.text)}</div>}
         </div>
@@ -544,13 +554,11 @@ function DragFillCard({
     }
 
     const chosenId = placed[blankId];
-    const chosen = page.options.find((o) => o.id === chosenId);
-
+    const chosen = page.options.find((o: any) => o.id === chosenId);
     const ok = checked ? isCorrect(blankId, x.correctOptionId) : null;
 
     return (
-      <div className="text-sm font-extrabold whitespace-pre-line">
-        {/* Malay main line */}
+      <div className="whitespace-pre-line text-sm font-extrabold">
         <span>{x.before.ms}</span>
 
         <span
@@ -569,11 +577,10 @@ function DragFillCard({
 
         <span>{x.after.ms}</span>
 
-        {/* Translation line only when not BM */}
         {lang !== "ms" && (
           <div className="mt-2 text-xs font-semibold opacity-70">
             {tr(x.before)}
-            <span className="mx-2 inline-block min-w-[160px] text-center rounded-lg bg-black/5 px-2 py-1">
+            <span className="mx-2 inline-block min-w-[160px] rounded-lg bg-black/5 px-2 py-1 text-center">
               {chosen ? tr(chosen) : "—"}
             </span>
             {tr(x.after)}
@@ -581,11 +588,6 @@ function DragFillCard({
         )}
       </div>
     );
-  }
-
-  // stable IDs for blanks
-  function blankKey(itemId: string, slot: "q" | "a") {
-    return `${itemId}-${slot}`;
   }
 
   return (
@@ -598,9 +600,8 @@ function DragFillCard({
         {lang !== "ms" && <div className="mt-1 text-xs font-semibold opacity-70">{instTrans}</div>}
       </div>
 
-      {/* draggable options */}
       <div className="mt-5 flex flex-wrap gap-2">
-        {page.options.map((o) => (
+        {page.options.map((o: any) => (
           <div
             key={o.id}
             draggable
@@ -614,9 +615,8 @@ function DragFillCard({
         ))}
       </div>
 
-      {/* QnA items */}
       <div className="mt-6 space-y-4">
-        {page.items.map((it) => {
+        {page.items.map((it: any) => {
           const qId = blankKey(it.id, "q");
           const aId = blankKey(it.id, "a");
 
@@ -633,14 +633,14 @@ function DragFillCard({
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="rounded-2xl bg-white/70 p-4">
                   <div className="text-xs font-black opacity-60">{L.q}</div>
-                  <div className={qOk === null ? "" : qOk ? "ring-2 ring-emerald-400 rounded-xl p-2" : "ring-2 ring-red-400 rounded-xl p-2"}>
+                  <div className={qOk === null ? "" : qOk ? "rounded-xl p-2 ring-2 ring-emerald-400" : "rounded-xl p-2 ring-2 ring-red-400"}>
                     {renderTextOrBlank(it.q, qId)}
                   </div>
                 </div>
 
                 <div className="rounded-2xl bg-white/70 p-4">
                   <div className="text-xs font-black opacity-60">{L.a}</div>
-                  <div className={aOk === null ? "" : aOk ? "ring-2 ring-emerald-400 rounded-xl p-2" : "ring-2 ring-red-400 rounded-xl p-2"}>
+                  <div className={aOk === null ? "" : aOk ? "rounded-xl p-2 ring-2 ring-emerald-400" : "rounded-xl p-2 ring-2 ring-red-400"}>
                     {renderTextOrBlank(it.a, aId)}
                   </div>
                 </div>
@@ -651,10 +651,7 @@ function DragFillCard({
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
-        <button
-          onClick={() => setChecked(true)}
-          className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow"
-        >
+        <button onClick={() => setChecked(true)} className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow">
           Check Answers
         </button>
         <button
@@ -666,6 +663,371 @@ function DragFillCard({
         >
           Reset
         </button>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------------------
+   TYPE IN CARD
+---------------------------- */
+function TypeInCard({ page, lang }: { page: any; lang: UiLang }) {
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [checked, setChecked] = useState(false);
+  const [revealed, setRevealed] = useState<Record<string, boolean>>({});
+
+  const AKU_SRC = "/assets/characters/Akuaku_idle.png";
+
+  useEffect(() => {
+    setAnswers({});
+    setChecked(false);
+    setRevealed({});
+  }, [page.id]);
+
+  const titleTrans = lang === "ms" ? "" : lang === "en" ? page.title.en : page.title.es;
+  const instTrans = lang === "ms" ? "" : lang === "en" ? page.instructions.en : page.instructions.es;
+
+  function tr(t: { ms: string; en: string; es: string }) {
+    return lang === "ms" ? t.ms : lang === "en" ? t.en : t.es;
+  }
+
+  function norm(s: string) {
+    const x = s.trim();
+    if (page.caseSensitive) return x;
+    return x.toLowerCase().replace(/[-–—]/g, " ").replace(/\s+/g, " ");
+  }
+
+  function isCorrect(itemId: string, correct: string) {
+    return norm(answers[itemId] ?? "") === norm(correct);
+  }
+
+  function setInput(itemId: string, value: string) {
+    setAnswers((prev) => ({ ...prev, [itemId]: value }));
+    setRevealed((prev) => {
+      if (!prev[itemId]) return prev;
+      const copy = { ...prev };
+      delete copy[itemId];
+      return copy;
+    });
+  }
+
+  return (
+    <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
+      <div className="text-2xl font-extrabold">{page.title.ms}</div>
+      {lang !== "ms" && <div className="text-sm font-semibold opacity-70">{titleTrans}</div>}
+
+      <div className="mt-3 text-sm font-semibold opacity-70">
+        {page.instructions.ms}
+        {lang !== "ms" && <div className="mt-1 text-xs font-semibold opacity-70">{instTrans}</div>}
+      </div>
+
+      <div className="mt-6 space-y-3">
+        {page.items.map((it: any) => {
+          const ok = checked ? isCorrect(it.id, it.answer) : null;
+          const showReveal = !!revealed[it.id];
+
+          return (
+            <div key={it.id} className="rounded-2xl bg-black/5 p-4">
+              <div className="mb-2 text-xs font-black opacity-60">#{it.n}</div>
+
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <div className="text-lg font-extrabold">
+                  <span className="inline-block rounded-xl bg-amber-100 px-3 py-2">{it.scrambled}</span>
+                  <span className="mx-2 opacity-60">→</span>
+                </div>
+
+                <input
+                  value={answers[it.id] ?? ""}
+                  onChange={(e) => setInput(it.id, e.target.value)}
+                  placeholder="..."
+                  className="min-w-0 flex-1 rounded-xl border-2 border-black/10 bg-white px-3 py-2 text-sm font-bold shadow"
+                />
+
+                {checked && (
+                  <div className="flex items-center gap-2">
+                    {ok ? (
+                      <span className="rounded-full bg-emerald-600 px-3 py-1 text-xs font-black text-white">
+                        {lang === "ms" ? "BETUL" : lang === "en" ? "CORRECT" : "CORRECTO"}
+                      </span>
+                    ) : (
+                      <>
+                        <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-black text-white">
+                          {lang === "ms" ? "SALAH" : lang === "en" ? "WRONG" : "INCORRECTO"}
+                        </span>
+
+                        <button
+                          type="button"
+                          onClick={() => setRevealed((p) => ({ ...p, [it.id]: true }))}
+                          className="block cursor-pointer select-none bg-transparent transition hover:scale-[1.04] active:scale-[0.98]"
+                          title={
+                            lang === "ms"
+                              ? "Klik untuk lihat jawapan"
+                              : lang === "en"
+                              ? "Click to reveal answer"
+                              : "Clic para ver la respuesta"
+                          }
+                        >
+                          <Image src={AKU_SRC} alt="AkuAku hint" width={44} height={44} className="h-11 w-11" />
+                        </button>
+
+                        {showReveal && (
+                          <div className="ml-2 rounded-xl bg-amber-100 px-3 py-2 text-xs font-extrabold">
+                            <div>
+                              {lang === "ms" ? "Jawapan" : lang === "en" ? "Answer" : "Respuesta"}:{" "}
+                              <span className="font-black">{it.answer}</span>
+                            </div>
+                            {it.meaning && lang !== "ms" && <div className="mt-1 opacity-70">{tr(it.meaning)}</div>}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {checked && it.meaning && lang !== "ms" && (
+                <div className="mt-2 text-xs font-semibold opacity-70">{tr(it.meaning)}</div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-6 flex flex-wrap gap-2">
+        <button onClick={() => setChecked(true)} className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow">
+          Check Answers
+        </button>
+        <button
+          onClick={() => {
+            setAnswers({});
+            setChecked(false);
+            setRevealed({});
+          }}
+          className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow"
+        >
+          Reset
+        </button>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------------------
+   BOX DRAG CARD
+---------------------------- */
+function BoxDragCard({ page, lang }: { page: any; lang: UiLang }) {
+  const [placed, setPlaced] = useState<Record<string, string>>({});
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    setPlaced({});
+    setChecked(false);
+  }, [page.id]);
+
+  const titleTrans = lang === "ms" ? "" : lang === "en" ? page.title.en : page.title.es;
+  const instTrans = lang === "ms" ? "" : lang === "en" ? page.instructions.en : page.instructions.es;
+
+  function tr(t: { ms: string; en: string; es: string }) {
+    return lang === "ms" ? t.ms : lang === "en" ? t.en : t.es;
+  }
+
+  function onDragStart(e: React.DragEvent, optionId: string) {
+    e.dataTransfer.setData("text/plain", optionId);
+  }
+
+  function allowDrop(e: React.DragEvent) {
+    e.preventDefault();
+  }
+
+  function onDrop(e: React.DragEvent, nodeId: string) {
+    e.preventDefault();
+    const optionId = e.dataTransfer.getData("text/plain");
+    if (!optionId) return;
+    setPlaced((prev) => ({ ...prev, [nodeId]: optionId }));
+  }
+
+  function clear(nodeId: string) {
+    setPlaced((prev) => {
+      const copy = { ...prev };
+      delete copy[nodeId];
+      return copy;
+    });
+  }
+
+  function isCorrect(nodeId: string, correctOptionId?: string) {
+    if (!correctOptionId) return false;
+    return placed[nodeId] === correctOptionId;
+  }
+
+  function posStyle(node: any): React.CSSProperties {
+    if (typeof node.xPct === "number" && typeof node.yPct === "number") {
+      return { left: `${node.xPct}%`, top: `${node.yPct}%` };
+    }
+
+    switch (node.position) {
+      case "topLeft":
+        return { left: "25%", top: "18%" };
+      case "topRight":
+        return { left: "75%", top: "18%" };
+      case "bottomLeft":
+        return { left: "18%", top: "78%" };
+      case "bottomCenter":
+        return { left: "50%", top: "78%" };
+      case "bottomRight":
+        return { left: "82%", top: "78%" };
+      default:
+        return { left: "50%", top: "50%" };
+    }
+  }
+
+  function nodeClass(shape: "rect" | "oval", ok: boolean | null, hasValue: boolean) {
+    const base =
+      "absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center text-center shadow font-extrabold text-sm sm:text-base";
+    const shapeCls = shape === "oval" ? "rounded-full" : "rounded-2xl";
+    const fill = hasValue ? "bg-amber-100" : "bg-white";
+    const border = ok === null ? "border-2 border-black/20" : ok ? "border-2 border-emerald-500" : "border-2 border-red-500";
+    const size = page.compact
+      ? "w-[125px] h-[56px] sm:w-[145px] sm:h-[60px] px-3"
+      : "w-[220px] h-[72px] sm:w-[260px] sm:h-[80px] px-4";
+
+    return [base, shapeCls, fill, border, size].join(" ");
+  }
+
+  const VB_W = 1000;
+  const VB_H = 600;
+
+  function pxX(pct: number) {
+    return (pct / 100) * VB_W;
+  }
+  function pxY(pct: number) {
+    return (pct / 100) * VB_H;
+  }
+
+  return (
+    <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
+      <div className="text-2xl font-extrabold">{page.title.ms}</div>
+      {lang !== "ms" && <div className="text-sm font-semibold opacity-70">{titleTrans}</div>}
+
+      <div className="mt-3 text-sm font-semibold opacity-70">
+        {page.instructions.ms}
+        {lang !== "ms" && <div className="mt-1 text-xs font-semibold opacity-70">{instTrans}</div>}
+      </div>
+
+      <div className="mt-5 flex flex-wrap gap-2">
+        {page.options.map((o: any) => (
+          <div
+            key={o.id}
+            draggable
+            onDragStart={(e) => onDragStart(e, o.id)}
+            className="cursor-grab rounded-2xl bg-white px-4 py-2 text-sm font-black shadow active:cursor-grabbing"
+            title="Drag me"
+          >
+            <div>{o.ms}</div>
+            {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{tr(o)}</div>}
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-2 sm:mt-5">
+        <div className="relative mx-auto w-full max-w-7xl rounded-3xl bg-white/70 p-6 shadow">
+          <div className="relative w-full overflow-x-auto">
+            <div
+              className={`relative ${page.compact ? "min-w-[1100px]" : "min-w-[900px]"}`}
+              style={{ aspectRatio: page.compact ? "21 / 9" : "16 / 9" }}
+            >
+              <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1000 600" preserveAspectRatio="none">
+                <defs>
+                  <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+                    <path d="M0,0 L6,3 L0,6 Z" fill="rgba(0,0,0,0.55)" />
+                  </marker>
+                </defs>
+
+                {page.lines && page.lines.length > 0 ? (
+                  page.lines.map((ln: any, i: number) => (
+                    <line
+                      key={i}
+                      x1={pxX(ln.x1)}
+                      y1={pxY(ln.y1)}
+                      x2={pxX(ln.x2)}
+                      y2={pxY(ln.y2)}
+                      stroke="rgba(0,0,0,0.55)"
+                      strokeWidth="3"
+                      markerEnd={ln.arrow ? "url(#arrow)" : undefined}
+                    />
+                  ))
+                ) : (
+                  <>
+                    <line x1="310" y1="120" x2="690" y2="120" stroke="rgba(0,0,0,0.55)" strokeWidth="3" />
+                    <line x1="500" y1="120" x2="500" y2="260" stroke="rgba(0,0,0,0.55)" strokeWidth="3" />
+                    <line x1="200" y1="260" x2="800" y2="260" stroke="rgba(0,0,0,0.55)" strokeWidth="3" />
+                    <line x1="200" y1="260" x2="200" y2="390" stroke="rgba(0,0,0,0.55)" strokeWidth="3" markerEnd="url(#arrow)" />
+                    <line x1="500" y1="260" x2="500" y2="390" stroke="rgba(0,0,0,0.55)" strokeWidth="3" markerEnd="url(#arrow)" />
+                    <line x1="800" y1="260" x2="800" y2="390" stroke="rgba(0,0,0,0.55)" strokeWidth="3" markerEnd="url(#arrow)" />
+                  </>
+                )}
+              </svg>
+
+              {page.nodes.map((node: any) => {
+                const style = posStyle(node);
+
+                if (node.fixedText) {
+                  return (
+                    <div key={node.id} style={style} className={nodeClass(node.shape, null, true)}>
+                      <div>
+                        <div className="text-base sm:text-lg">{node.fixedText.ms}</div>
+                        {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{tr(node.fixedText)}</div>}
+                      </div>
+                    </div>
+                  );
+                }
+
+                const chosenId = placed[node.id];
+                const chosen = page.options.find((o: any) => o.id === chosenId);
+                const ok = checked ? isCorrect(node.id, node.correctOptionId) : null;
+
+                return (
+                  <div
+                    key={node.id}
+                    style={style}
+                    onDragOver={allowDrop}
+                    onDrop={(e) => onDrop(e, node.id)}
+                    onClick={() => clear(node.id)}
+                    className={nodeClass(node.shape, ok, !!chosen)}
+                    title="Drop here (click to clear)"
+                  >
+                    <div>
+                      <div className="text-base sm:text-lg">{chosen ? chosen.ms : "—"}</div>
+                      {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{chosen ? tr(chosen) : "—"}</div>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-4 text-xs font-semibold opacity-70">
+            {lang === "ms"
+              ? "Seret perkataan ke tempat yang betul. Klik pada kotak untuk kosongkan."
+              : lang === "en"
+              ? "Drag the words into the correct places. Click a box to clear it."
+              : "Arrastra las palabras al lugar correcto. Haz clic en una casilla para borrarla."}
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button onClick={() => setChecked(true)} className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow">
+              Check Answers
+            </button>
+            <button
+              onClick={() => {
+                setPlaced({});
+                setChecked(false);
+              }}
+              className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );
