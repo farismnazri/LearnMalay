@@ -19,6 +19,8 @@ import { chapter03Intro } from "@/lib/akuAku/chapter-03";
 import { chapter04Intro } from "@/lib/akuAku/chapter-04";
 import { chapter05Intro } from "@/lib/akuAku/chapter-05";
 import { chapter06Intro } from "@/lib/akuAku/chapter-06";
+import { chapter07Intro } from "@/lib/akuAku/chapter-07";
+import { chapter08Intro } from "@/lib/akuAku/chapter-08";
 
 import { getCurrentUser, updateProgress, type UserProfile } from "@/lib/userStore";
 
@@ -30,6 +32,8 @@ import {
   chapter04,
   chapter05,
   chapter06,
+  chapter07,
+  chapter08,
   type UiLang,
   type ChapterPage,
   type ChapterSection,
@@ -54,6 +58,7 @@ export default function ChapterPage() {
   const chapterId = Number((params as any)?.id ?? "0");
 
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
   const [lang, setLang] = useState<UiLang>("ms");
 
   // Aku-Aku intro popup state
@@ -63,8 +68,18 @@ export default function ChapterPage() {
   const [pageIdx, setPageIdx] = useState(0);
 
   useEffect(() => {
-    setUser(getCurrentUser());
+    let alive = true;
+    getCurrentUser()
+      .then((u) => {
+        if (alive) setUser(u);
+      })
+      .finally(() => {
+        if (alive) setLoadingUser(false);
+      });
     setLang(readUiLang());
+    return () => {
+      alive = false;
+    };
   }, []);
 
   // Reset intro + page index when navigating to different chapter
@@ -80,6 +95,8 @@ export default function ChapterPage() {
     if (chapterId === 4) return chapter04;
     if (chapterId === 5) return chapter05;
     if (chapterId === 6) return chapter06;
+    if (chapterId === 7) return chapter07;
+    if (chapterId === 8) return chapter08;
     return null;
   }, [chapterId]);
 
@@ -90,6 +107,8 @@ export default function ChapterPage() {
     if (chapterId === 4) return chapter04Intro;
     if (chapterId === 5) return chapter05Intro;
     if (chapterId === 6) return chapter06Intro;
+    if (chapterId === 7) return chapter07Intro;
+    if (chapterId === 8) return chapter08Intro;
     return [];
   }, [chapterId]);
 
@@ -98,7 +117,11 @@ export default function ChapterPage() {
     writeUiLang(next);
   }
 
-  if (!user) {
+  if (!user && loadingUser) {
+    return null; // no flash, rely on cached user
+  }
+
+  if (!user && !loadingUser) {
     return (
       <main className="min-h-screen px-6 py-10">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/90 p-6 shadow">
@@ -152,20 +175,18 @@ export default function ChapterPage() {
   const nextChapter = Math.min(MAX_CHAPTERS, chapterId + 1);
   const alreadyUnlockedNext = isFinalChapter || user.progress.chapter >= nextChapter;
 
-  function markChapterDone() {
+  async function markChapterDone() {
     if (!isLastPage) return;
     if (isAdmin) return;
     if (isFinalChapter) return;
 
     setUser((prev) => {
       if (!prev) return prev;
-
       const nextProgress = {
         chapter: Math.max(prev.progress.chapter, nextChapter),
         page: 1,
       };
-
-      updateProgress(prev.id, nextProgress);
+      void updateProgress(prev.id, nextProgress);
       return { ...prev, progress: nextProgress };
     });
   }
@@ -231,6 +252,10 @@ export default function ChapterPage() {
                 ? `CHAPTER 5 -\nNOMBOR,\nANGKA &\nALAMAT`
                 : content.id === 6
                 ? `CHAPTER 6 -\nALAM\nSEKITAR &\nCUACA`
+                : content.id === 7
+                ? "CHAPTER 7 - MAKANAN\n& KUIH-MUIH"
+                : content.id === 8
+                ? "CHAPTER 8 - PERAYAAN\nDI MALAYSIA"
                 : `CHAPTER ${content.id} - ${titleMs}`}
             </div>
 

@@ -8,8 +8,6 @@ import Image from "next/image";
 import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser } from "@/lib/userStore";
 
-const name = getCurrentUser()?.name ?? "GUEST";
-
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png"; // must match filename case in /public
@@ -230,6 +228,13 @@ export default function NumbersPlayPage() {
   const [n, setN] = useState<number>(() => randomInt(level.min, level.max));
   const [input, setInput] = useState("");
   const [feedback, setFeedback] = useState<null | { ok: boolean; msg: string }>(null);
+  const [playerName, setPlayerName] = useState("GUEST");
+
+  useEffect(() => {
+    getCurrentUser().then((u) => {
+      if (u?.name) setPlayerName(u.name);
+    });
+  }, []);
 
   function recordScoreOnce(
     result: "win" | "gameover",
@@ -237,15 +242,6 @@ export default function NumbersPlayPage() {
   ) {
     if (recordedRef.current) return;
     recordedRef.current = true;
-
-  const name = (() => {
-    try {
-      return getCurrentUser()?.name ?? "GUEST";
-    } catch {
-      return "GUEST";
-    }
-  })();
-
 
     const a = snapshot?.attempts ?? attempts;
     const c = snapshot?.totalCorrect ?? totalCorrect;
@@ -257,7 +253,7 @@ export default function NumbersPlayPage() {
     const accuracy = a > 0 ? (c / a) * 100 : 0;
 
     addHighScore("numbers", {
-      name,
+      name: playerName,
       accuracy,
       timeMs: tms,
       meta: { result, level: lv, totalCorrect: c, totalWrong: w, attempts: a, lives: l },

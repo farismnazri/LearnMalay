@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none">
+  <rect width="1280" height="720" fill="#F8FAFC"/>
+  <rect x="40" y="40" width="1200" height="640" rx="24" fill="#E2E8F0" stroke="#94A3B8" stroke-width="4"/>
+  <circle cx="640" cy="340" r="130" fill="#CBD5E1"/>
+  <text x="640" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" fill="#1E293B" font-weight="700">IMAGE PLACEHOLDER</text>
+  <text x="640" y="372" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" fill="#334155">LAUK AYAM</text>
+</svg>

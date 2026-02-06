@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none">
+  <rect width="1280" height="720" fill="#FDF4FF"/>
+  <rect x="40" y="40" width="1200" height="640" rx="24" fill="#F5D0FE" stroke="#E879F9" stroke-width="4"/>
+  <circle cx="640" cy="340" r="130" fill="#F0ABFC"/>
+  <text x="640" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" fill="#86198F" font-weight="700">IMAGE PLACEHOLDER</text>
+  <text x="640" y="372" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" fill="#A21CAF">JENIS KUIH</text>
+</svg>
