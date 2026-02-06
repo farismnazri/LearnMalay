@@ -6,6 +6,8 @@ import type { UiLang } from "@/lib/chapters";
 import WordSearchCard from "@/components/game/WordSearchCard";
 import { WORD_ITEMS, CATEGORY_LABELS, type WordCategory } from "@/lib/wordMatch/items";
 import { addHighScore } from "@/lib/highscores";
+import { getCurrentUser } from "@/lib/userStore";
+import { useRef } from "react";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 
@@ -45,6 +47,9 @@ export default function WordSearchMiniGame() {
   const [startTs, setStartTs] = useState<number | null>(null);
   const [finishedTs, setFinishedTs] = useState<number | null>(null);
   const [tick, setTick] = useState(0);
+  const [showAllSeq, setShowAllSeq] = useState(0);
+  const [saved, setSaved] = useState(false);
+  const saveLock = useRef(false);
 
   useEffect(() => setLang(readUiLang()), []);
   useEffect(() => {
@@ -107,6 +112,9 @@ export default function WordSearchMiniGame() {
     setSeed((s) => s + 1);
     setStartTs(Date.now());
     setFinishedTs(null);
+    setSaved(false);
+    setShowAllSeq((s) => s + 1); // clear highlights
+    saveLock.current = false;
   }
 
   function handleProgress(found: number, total: number) {
@@ -114,17 +122,21 @@ export default function WordSearchMiniGame() {
   }
 
   function handleComplete() {
+    if (saved || saveLock.current) return; // avoid duplicate saves
+    saveLock.current = true;
     const now = Date.now();
     const started = startTs ?? now;
     const elapsed = now - started;
     setFinishedTs(now);
-    addHighScore("wordsearch", {
-      name: "Player",
-      accuracy: 100,
-      timeMs: elapsed,
-      meta: { difficulty, theme, words: selectedTargets.length },
-    });
-  }
+    setSaved(true);
+  const user = getCurrentUser();
+  addHighScore("wordsearch", {
+    name: user?.name ?? "Player",
+    accuracy: 100,
+    timeMs: elapsed,
+    meta: { difficulty, theme, words: selectedTargets.length },
+  });
+}
 
   const elapsedMs = finishedTs
     ? finishedTs - (startTs ?? finishedTs)
@@ -232,12 +244,22 @@ export default function WordSearchMiniGame() {
               </div>
             </div>
 
-            <div className="flex items-end">
+            <div className="flex items-end gap-2">
               <button
                 onClick={regen}
                 className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-black text-white shadow hover:bg-emerald-500"
               >
                 Regenerate Grid
+              </button>
+              <button
+                onClick={() => {
+                  setShowAllSeq((s) => s + 1);
+                  setFinishedTs(Date.now());
+                  setSaved(true); // do not save highscore when revealing
+                }}
+                className="rounded-xl bg-white px-4 py-2 text-xs font-bold shadow hover:bg-amber-100"
+              >
+                Show Answers
               </button>
               <div className="ml-3 rounded-xl bg-black/5 px-3 py-2 text-xs font-black">
                 ⏱ {fmt(elapsedMs)} {finishedTs ? "(Done)" : ""}
@@ -247,7 +269,13 @@ export default function WordSearchMiniGame() {
         </section>
 
         {/* game */}
-        <WordSearchCard page={pageData as any} lang={lang} onProgress={handleProgress} onComplete={handleComplete} />
+        <WordSearchCard
+          page={pageData as any}
+          lang={lang}
+          onProgress={(found) => handleProgress(found, selectedTargets.length)}
+          onComplete={handleComplete}
+          showAllTrigger={showAllSeq}
+        />
       </div>
     </main>
   );

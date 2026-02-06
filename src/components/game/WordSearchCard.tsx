@@ -63,18 +63,20 @@ export default function WordSearchCard({
   lang,
   onProgress,
   onComplete,
+  showAllTrigger,
 }: {
   page: any; // keep flexible so ChapterPage union issues don’t explode
   lang: UiLang;
   onProgress?: (foundCount: number, total: number) => void;
   onComplete?: (foundCount: number, total: number) => void;
+  showAllTrigger?: number; // when this value changes, reveal all answers
 }) {
   const allowDiagonal = page.allowDiagonal ?? true;
   const allowReverse = page.allowReverse ?? true;
   const alphabet = (page.alphabet ?? "ABCDEFGHIJKLMNOPQRSTUVWXYZ").toUpperCase();
 
   // Generate or parse grid
-  const grid: string[][] = useMemo(() => {
+  const { grid, placements } = useMemo(() => {
     const g = page.grid;
     const size = Math.max(6, Math.min(18, page.size ?? 12));
 
@@ -95,8 +97,9 @@ export default function WordSearchCard({
       return [];
     }
 
-    function tryGenerate(words: string[]): string[][] {
+    function tryGenerate(words: string[]): { grid: string[][]; placements: Record<string, Cell[]> } {
       const gridArr = Array.from({ length: size }, () => Array.from({ length: size }, () => ""));
+      const placements: Record<string, Cell[]> = {};
       const dirs = [
         [1, 0],
         [-1, 0],
@@ -125,7 +128,7 @@ export default function WordSearchCard({
         return true;
       }
 
-      function placeWord(w: string) {
+      function placeWord(id: string, w: string) {
         const attempts = 200;
         for (let t = 0; t < attempts; t++) {
           const dir = dirs[Math.floor(Math.random() * dirs.length)];
@@ -144,9 +147,12 @@ export default function WordSearchCard({
         return false;
       }
 
-      words.forEach((w) => {
+      words.forEach((w, idx) => {
         const word = allowReverse && Math.random() < 0.5 ? w.split("").reverse().join("") : w;
-        placeWord(word);
+        const ok = placeWord(`w${idx}`, word);
+        if (ok) {
+          // placement already recorded by placeWord
+        }
       });
 
       // fill blanks
@@ -158,14 +164,17 @@ export default function WordSearchCard({
         }
       }
 
-      return gridArr;
+      return { grid: gridArr, placements };
     }
 
     // If grid provided, parse; else auto-generate
     const parsed = parseGrid(g);
-    if (parsed.length > 0 && parsed[0].length > 0) return parsed;
+    if (parsed.length > 0 && parsed[0].length > 0) return { grid: parsed, placements: {} };
 
-    const words = (page.targets ?? []).flatMap((t: any) => ("words" in t ? t.words : [t.word])).map((w: string) => w.toUpperCase().replace(/\s+/g, ""));
+    const words = (page.targets ?? [])
+      .flatMap((t: any) => ("words" in t ? t.words : [t.word]))
+      .map((w: string) => w.toUpperCase().replace(/\s+/g, ""))
+      .filter((w: string) => w.length <= size);
     return tryGenerate(words);
   }, [page.grid, page.size, page.targets, allowDiagonal, allowReverse, alphabet]);
 
@@ -194,12 +203,14 @@ export default function WordSearchCard({
   const [start, setStart] = useState<Cell | null>(null);
   const [found, setFound] = useState<Record<string, Cell[]>>({});
   const [showFoundOverlay, setShowFoundOverlay] = useState(false);
+  const [lastShowAll, setLastShowAll] = useState<number | undefined>(undefined);
 
   // reset state when page changes (e.g., regenerate)
   useEffect(() => {
     setStart(null);
     setFound({});
     setShowFoundOverlay(false);
+    setLastShowAll(undefined);
   }, [page.id, page.grid, page.targets]);
 
   const locked = useMemo(() => {
@@ -278,10 +289,19 @@ export default function WordSearchCard({
   const titleTrans = lang === "ms" ? "" : lang === "en" ? page.title?.en : page.title?.es;
   const instTrans = lang === "ms" ? "" : lang === "en" ? page.instructions?.en : page.instructions?.es;
 
+  // handle show-all trigger
+  useEffect(() => {
+    if (showAllTrigger === undefined) return;
+    if (lastShowAll === showAllTrigger) return;
+    setLastShowAll(showAllTrigger);
+    setFound(placements);
+    onProgress?.(Object.keys(placements).length, targets.length);
+    // showing answers should not call onComplete that saves highscores; gate it by a prop
+  }, [showAllTrigger, lastShowAll, placements, targets.length, onProgress]);
+
   // fire initial progress on mount/update
-  useMemo(() => {
+  useEffect(() => {
     onProgress?.(Object.keys(found).length, targets.length);
-    return null;
   }, [found, targets.length, onProgress]);
 
   return (
