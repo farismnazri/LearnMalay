@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import type { GameId, ScoreEntry } from "@/lib/highscores";
 import { clearHighScores, loadHighScores } from "@/lib/highscores";
@@ -45,23 +45,26 @@ function formatDate(iso: string) {
 }
 
 export default function HighScoresPage() {
-  const me = getCurrentUser();
-  const isAdmin = me?.id === ADMIN_ID || me?.isAdmin === true;
-
-
   const [gameId, setGameId] = useState<GameId>("numbers");
 
-  // Load scores once on first client render, and refresh when clearing
-  const [store, setStore] = useState(() => loadHighScores());
+  const [me, setMe] = useState<Awaited<ReturnType<typeof getCurrentUser>>>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [store, setStore] = useState<Record<GameId, ScoreEntry[]>>({ numbers: [], "word-match": [], wordsearch: [] });
+  const [users, setUsers] = useState<Awaited<ReturnType<typeof listUsers>>>([]);
 
-  // Load known users once (from your userStore)
-  const [users] = useState(() => listUsers());
+  const [userFilter, setUserFilter] = useState<string>(ALL_USERS);
 
-  // Default filter: current user if exists, otherwise All
-  const [userFilter, setUserFilter] = useState<string>(() => {
-    const me = getCurrentUser();
-    return me?.name ?? ALL_USERS;
-  });
+  useEffect(() => {
+    async function load() {
+      const [u, s, cur] = await Promise.all([listUsers(), loadHighScores(), getCurrentUser()]);
+      setUsers(u);
+      setStore(s);
+      setMe(cur);
+      setIsAdmin(Boolean(cur?.id === ADMIN_ID || cur?.isAdmin));
+      setUserFilter(cur?.name ?? ALL_USERS);
+    }
+    load();
+  }, []);
 
   // --- admin modal state ---
   const [pwOpen, setPwOpen] = useState(false);
@@ -98,7 +101,6 @@ export default function HighScoresPage() {
   }, [filteredRows]);
 
   function showMine() {
-    const me = getCurrentUser();
     if (!me?.name) return;
     setUserFilter(me.name);
   }
@@ -119,8 +121,9 @@ export default function HighScoresPage() {
         return;
     }
 
-    clearHighScores(gameId);
-    setStore(loadHighScores());
+    clearHighScores(gameId).then(() => {
+      loadHighScores().then(setStore);
+    });
 
     setPwOpen(false);
     setPw("");

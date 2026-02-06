@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import {
   getCurrentUser,
   setCurrentUserId,
+  updateProgress,
   type UserProfile,
 } from "@/lib/userStore";
 
@@ -33,15 +34,30 @@ function buildChapters(): ChapterCard[] {
 export default function MapPage() {
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setUser(getCurrentUser());
+    let alive = true;
+    getCurrentUser()
+      .then((u) => {
+        if (alive) setUser(u);
+      })
+      .finally(() => {
+        if (alive) setLoading(false);
+      });
+    return () => {
+      alive = false;
+    };
   }, []);
 
   const chapters = useMemo(() => buildChapters(), []);
   const currentChapter = user?.progress.chapter ?? 0;
 
-  if (!user) {
+  if (!user && loading) {
+    return null; // no flash
+  }
+
+  if (!user && !loading) {
     return (
       <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/80 p-6 shadow">
@@ -70,25 +86,15 @@ export default function MapPage() {
     );
   }
 
-  function selectChapter(chapter: number) {
+  async function selectChapter(chapter: number) {
     const userId = user?.id;
     if (!userId) return;
 
-    const raw = window.localStorage.getItem("learnMalay.users.v1");
-    if (!raw) return;
+    const nextProgress = { chapter, page: 1 };
+    await updateProgress(userId, nextProgress);
+    await setCurrentUserId(userId);
 
-    const users = JSON.parse(raw) as Record<string, UserProfile>;
-    const u = users[userId];
-    if (!u) return;
-
-    u.progress.chapter = chapter;
-    users[userId] = u;
-
-    window.localStorage.setItem("learnMalay.users.v1", JSON.stringify(users));
-
-    setCurrentUserId(userId);
-    setUser({ ...u });
-
+    setUser((prev) => (prev ? { ...prev, progress: nextProgress } : prev));
     router.push(`/chapter/${chapter}`);
   }
 

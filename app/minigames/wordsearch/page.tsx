@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { UiLang } from "@/lib/chapters";
 import WordSearchCard from "@/components/game/WordSearchCard";
 import { WORD_ITEMS, CATEGORY_LABELS, type WordCategory } from "@/lib/wordMatch/items";
 import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser } from "@/lib/userStore";
-import { useRef } from "react";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 
@@ -49,9 +48,15 @@ export default function WordSearchMiniGame() {
   const [tick, setTick] = useState(0);
   const [showAllSeq, setShowAllSeq] = useState(0);
   const [saved, setSaved] = useState(false);
+  const [playerName, setPlayerName] = useState("Player");
   const saveLock = useRef(false);
 
-  useEffect(() => setLang(readUiLang()), []);
+  useEffect(() => {
+    setLang(readUiLang());
+    getCurrentUser().then((u) => {
+      if (u?.name) setPlayerName(u.name);
+    });
+  }, []);
   useEffect(() => {
     const id = window.setInterval(() => setTick((t) => t + 1), 500);
     return () => window.clearInterval(id);
@@ -129,14 +134,13 @@ export default function WordSearchMiniGame() {
     const elapsed = now - started;
     setFinishedTs(now);
     setSaved(true);
-  const user = getCurrentUser();
-  addHighScore("wordsearch", {
-    name: user?.name ?? "Player",
-    accuracy: 100,
-    timeMs: elapsed,
-    meta: { difficulty, theme, words: selectedTargets.length },
-  });
-}
+    addHighScore("wordsearch", {
+      name: playerName,
+      accuracy: 100,
+      timeMs: elapsed,
+      meta: { difficulty, theme, words: selectedTargets.length },
+    });
+  }
 
   const elapsedMs = finishedTs
     ? finishedTs - (startTs ?? finishedTs)

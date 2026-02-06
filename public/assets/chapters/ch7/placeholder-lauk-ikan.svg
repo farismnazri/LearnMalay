@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none">
+  <rect width="1280" height="720" fill="#F0F9FF"/>
+  <rect x="40" y="40" width="1200" height="640" rx="24" fill="#DBEAFE" stroke="#93C5FD" stroke-width="4"/>
+  <circle cx="640" cy="340" r="130" fill="#BFDBFE"/>
+  <text x="640" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" fill="#1E3A8A" font-weight="700">IMAGE PLACEHOLDER</text>
+  <text x="640" y="372" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" fill="#1D4ED8">LAUK IKAN</text>
+</svg>

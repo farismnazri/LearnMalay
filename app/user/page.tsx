@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   clearCurrentUserId,
   deleteUser,
-  getCurrentUserId,
+  getCurrentUser,
   listUsers,
   setCurrentUserId,
   upsertUser,
@@ -29,9 +29,25 @@ export default function UserSelectPage() {
   const [name, setName] = useState("");
   const [err, setErr] = useState<string | null>(null);
 
-  function refresh() {
-    setUsers(listUsers());
-    setCurrentId(getCurrentUserId());
+  async function refresh() {
+    try {
+      const [u, current] = await Promise.all([listUsers(), getCurrentUser()]);
+      const nextUsers = u ?? [];
+      if (!nextUsers.find((x) => x.id === "ADMIN")) {
+        nextUsers.unshift({
+          id: "ADMIN",
+          name: "ADMIN",
+          isAdmin: true,
+          progress: { chapter: 11, page: 1 },
+        });
+      }
+      setUsers(nextUsers);
+      setCurrentId(current?.id ?? null);
+    } catch (e) {
+      console.error(e);
+      setUsers([]);
+      setCurrentId(null);
+    }
   }
 
   useEffect(() => {
@@ -40,13 +56,13 @@ export default function UserSelectPage() {
 
   const hasUsers = useMemo(() => users.length > 0, [users]);
 
-  function handleSelect(id: string) {
+  async function handleSelect(id: string) {
     if (id === "ADMIN" && !requireAdminPassword()) return;
-    setCurrentUserId(id);
-    refresh();
+    await setCurrentUserId(id);
+    await refresh();
   }
 
-  function handleCreate() {
+  async function handleCreate() {
     setErr(null);
 
     const clean = name.trim().toUpperCase();
@@ -58,26 +74,26 @@ export default function UserSelectPage() {
     }
 
     try {
-      const profile = upsertUser(name);
-      setCurrentUserId(profile.id);
+      const profile = await upsertUser(name);
+      await setCurrentUserId(profile.id);
       setName("");
-      refresh();
+      await refresh();
     } catch (e: any) {
       setErr(e?.message ?? "Could not create user.");
     }
   }
 
-  function handleDelete(id: string) {
+  async function handleDelete(id: string) {
     const ok = window.confirm(`Delete user "${id}"? This cannot be undone.`);
     if (!ok) return;
 
-    deleteUser(id);
-    refresh();
+    await deleteUser(id);
+    await refresh();
   }
 
-  function handleClearSelection() {
-    clearCurrentUserId();
-    refresh();
+  async function handleClearSelection() {
+    await clearCurrentUserId();
+    await refresh();
   }
 
   return (

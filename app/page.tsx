@@ -17,7 +17,7 @@ export default function TitleScreen() {
   const [user, setUser] = useState<UserProfile | null>(null);
 
   useEffect(() => {
-    setUser(getCurrentUser());
+    getCurrentUser().then((u) => setUser(u));
   }, []);
 
   const canStart = useMemo(() => Boolean(user), [user]);

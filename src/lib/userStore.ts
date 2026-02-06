@@ -1,141 +1,165 @@
-export type UserProgress = {
-  chapter: number; // unlocked / current chapter (1..11)
-  page: number;    // current page within that chapter (1..N)
-};
+"use client";
 
-export type UserProfile = {
-  id: string;
-  name: string;
-  isAdmin?: boolean;
-  progress: UserProgress;
-};
+import useSWR from "swr";
+import { ADMIN_ID, type UserProfile, type UserProgress } from "./userStoreTypes";
 
-const CURRENT_KEY = "learnMalay.currentUserId.v1";
-const USERS_KEY = "learnMalay.users.v1";
+let cachedUser: UserProfile | null = null;
 
-export const ADMIN_ID = "ADMIN";
+const CURRENT_COOKIE = "learnMalay.currentUserId";
 
-function assertClient() {
-  if (typeof window === "undefined") {
-    throw new Error("userStore: localStorage is only available in the browser.");
-  }
+function setCookieClient(name: string, value: string, maxAgeSec: number) {
+  if (typeof document === "undefined") return;
+  document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAgeSec}; SameSite=Lax`;
 }
 
-function readUsers(): Record<string, UserProfile> {
-  assertClient();
-  const raw = window.localStorage.getItem(USERS_KEY);
-  if (!raw) return {};
+function clearCookieClient(name: string) {
+  if (typeof document === "undefined") return;
+  document.cookie = `${name}=; Path=/; Max-Age=0; SameSite=Lax`;
+}
+
+function readCookieClient(name: string): string | null {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie
+    .split(";")
+    .map((c) => c.trim())
+    .find((c) => c.startsWith(`${name}=`));
+  return match ? decodeURIComponent(match.split("=")[1] ?? "") : null;
+}
+
+// Simple fetcher helpers for client-side calls to /api
+const fetchJson = async <T>(url: string, init?: RequestInit): Promise<T> => {
+  const res = await fetch(url, init);
+  const text = await res.text().catch(() => "");
+  if (!res.ok) {
+    console.error(`Request to ${url} failed`, res.status, text);
+    return null as T;
+  }
+  if (!text) return null as T;
   try {
-    return JSON.parse(raw) as Record<string, UserProfile>;
+    return JSON.parse(text) as T;
   } catch {
-    return {};
+    throw new Error(`Invalid JSON from ${url}`);
   }
+};
+
+// ---- React hooks ----
+export function useUsers() {
+  const { data, error, mutate, isLoading } = useSWR<UserProfile[]>("/api/users", fetchJson, {
+    revalidateOnFocus: false,
+  });
+
+  return {
+    users: data ?? [],
+    loading: isLoading,
+    error,
+    refresh: () => mutate(),
+  };
 }
 
-function writeUsers(users: Record<string, UserProfile>) {
-  assertClient();
-  window.localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
-
-export function getCurrentUserId(): string | null {
-  if (typeof window === "undefined") return null;
-  return window.localStorage.getItem(CURRENT_KEY);
-}
-
-export function setCurrentUserId(id: string) {
-  assertClient();
-  window.localStorage.setItem(CURRENT_KEY, id);
-}
-
-export function clearCurrentUserId() {
-  if (typeof window === "undefined") return;
-  window.localStorage.removeItem(CURRENT_KEY);
-}
-
-export function getCurrentUser(): UserProfile | null {
-  if (typeof window === "undefined") return null;
-  const id = getCurrentUserId();
-  if (!id) return null;
-  const users = readUsers();
-  return users[id] ?? null;
-}
-
-export function listUsers(): UserProfile[] {
-  if (typeof window === "undefined") return [];
-
-  const users = readUsers();
-
-  // Ensure ADMIN always exists (virtual -> persisted if missing)
-  if (!users[ADMIN_ID]) {
-    users[ADMIN_ID] = {
-      id: ADMIN_ID,
-      name: ADMIN_ID,
-      isAdmin: true,
-      progress: { chapter: 1, page: 1 },
-    };
-    writeUsers(users);
-  } else {
-    // If ADMIN exists from older saves but missing flags, repair it
-    users[ADMIN_ID] = {
-      ...users[ADMIN_ID],
-      id: ADMIN_ID,
-      name: ADMIN_ID,
-      isAdmin: true,
-      progress: users[ADMIN_ID].progress ?? { chapter: 11 },
-    };
-    writeUsers(users);
-  }
-
-  return Object.values(users).sort((a, b) => {
-    if (a.isAdmin && !b.isAdmin) return -1;
-    if (!a.isAdmin && b.isAdmin) return 1;
-    return a.name.localeCompare(b.name);
+export function useCurrentUser() {
+  return useSWR<UserProfile | null>("/api/users/current", fetchJson, {
+    revalidateOnFocus: false,
   });
 }
 
-export function upsertUser(name: string): UserProfile {
-  assertClient();
-
-  const clean = name.trim().toUpperCase();
-  if (!clean) throw new Error("upsertUser: name is empty.");
-
-  const users = readUsers();
-  if (users[clean]) return users[clean];
-
-  const isAdmin = clean === ADMIN_ID;
-
-  const created: UserProfile = {
-    id: clean,
-    name: clean,
-    isAdmin,
-    progress: { chapter: 1, page: 1 },
-  };
-
-  users[clean] = created;
-  writeUsers(users);
-  return created;
+// ---- imperative helpers for convenience ----
+export async function listUsers(): Promise<UserProfile[]> {
+  const users = (await fetchJson<UserProfile[] | null>("/api/users")) ?? [];
+  if (!users.find((u) => u.id === ADMIN_ID)) {
+    users.unshift({
+      id: ADMIN_ID,
+      name: ADMIN_ID,
+      isAdmin: true,
+      progress: { chapter: 11, page: 1 },
+    });
+  }
+  if (cachedUser) {
+    const match = users.find((u) => u.id === cachedUser.id);
+    if (match) cachedUser = match;
+  }
+  return users;
 }
 
-export function deleteUser(id: string) {
-  assertClient();
+export async function getCurrentUser(): Promise<UserProfile | null> {
+  if (cachedUser) return cachedUser;
+  try {
+    const fromApi = await fetchJson<UserProfile | null>("/api/users/current");
+    if (fromApi) {
+      cachedUser = fromApi;
+      return fromApi;
+    }
+  } catch {
+    // ignore
+  }
 
-  const users = readUsers();
-  if (!users[id]) return;
+  // Fallback: read cookie client-side and map to known users
+  if (typeof window !== "undefined") {
+    const id = readCookieClient(CURRENT_COOKIE);
+    if (id) {
+      const users = await listUsers().catch(() => []) as UserProfile[];
+      const match = users.find((u) => u.id === id) ?? null;
+      if (match) cachedUser = match;
+      return match;
+    }
+  }
+  return null;
+}
 
-  delete users[id];
-  writeUsers(users);
+export function getCachedUser() {
+  return cachedUser;
+}
 
-  const current = getCurrentUserId();
-  if (current === id) {
-    clearCurrentUserId();
+export async function setCurrentUserId(id: string) {
+  setCookieClient(CURRENT_COOKIE, id, 60 * 60 * 24 * 365 * 5);
+  try {
+    const res = await fetchJson<UserProfile | null>("/api/users/current", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    if (res) {
+      cachedUser = res;
+    } else {
+      const users = await listUsers().catch(() => []) as UserProfile[];
+      const match = users.find((u) => u.id === id) ?? null;
+      if (match) cachedUser = match;
+    }
+  } catch (e) {
+    console.error(e);
   }
 }
 
-export function updateProgress(id: string, progress: UserProgress) {
-  assertClient();
-  const users = readUsers();
-  const u = users[id];
-  if (!u) return;
-  users[id] = { ...u, progress };
-  writeUsers(users);
+export async function clearCurrentUserId() {
+  clearCookieClient(CURRENT_COOKIE);
+  cachedUser = null;
+  try {
+    await fetchJson("/api/users/current", { method: "DELETE" });
+  } catch (e) {
+    console.error(e);
+  }
 }
+
+export async function upsertUser(name: string): Promise<UserProfile> {
+  const clean = name.trim();
+  if (!clean) throw new Error("Name is empty");
+
+  return fetchJson<UserProfile>("/api/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: clean }),
+  });
+}
+
+export async function deleteUser(id: string) {
+  await fetchJson("/api/users?id=" + encodeURIComponent(id), { method: "DELETE" });
+}
+
+export async function updateProgress(id: string, progress: UserProgress) {
+  await fetchJson("/api/users/progress", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, progress }),
+  });
+}
+
+export { ADMIN_ID, type UserProfile, type UserProgress };

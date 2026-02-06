@@ -96,6 +96,7 @@ export default function WordMatchPlayPage() {
   const [selectedBmId, setSelectedBmId] = useState<string | null>(null);
   const [selectedRightId, setSelectedRightId] = useState<string | null>(null);
   const [locked, setLocked] = useState(false);
+  const [playerName, setPlayerName] = useState("Guest");
 
   // lives + end states
   const [lives, setLives] = useState(MAX_LIVES);
@@ -134,16 +135,20 @@ export default function WordMatchPlayPage() {
     };
   }, []);
 
+  useEffect(() => {
+    getCurrentUser().then((u) => {
+      if (u?.name) setPlayerName(u.name);
+    });
+  }, []);
+
   function recordScoreOnce(result: "win" | "gameover", snapshot: { attempts: number; matches: number; mistakes: number; lives: number; level: number; timeMs: number; category: WordCategory }) {
     if (recordedRef.current) return;
     recordedRef.current = true;
 
-    const name = getCurrentUser()?.name ?? "Guest";
-
     const acc = snapshot.attempts > 0 ? (snapshot.matches / snapshot.attempts) * 100 : 0;
 
     addHighScore("word-match", {
-      name,
+      name: playerName,
       accuracy: acc,
       timeMs: snapshot.timeMs,
       meta: {
