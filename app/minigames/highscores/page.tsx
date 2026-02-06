@@ -194,6 +194,16 @@ export default function HighScoresPage() {
               >
                 Word Match
               </button>
+              <button
+                type="button"
+                onClick={() => setGameId("wordsearch")}
+                className={[
+                  "rounded-full px-4 py-2 text-xs font-black shadow transition",
+                  gameId === "wordsearch" ? "bg-amber-300" : "bg-white hover:bg-amber-100",
+                ].join(" ")}
+              >
+                Wordsearch
+              </button>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">

@@ -2,3 +2,6 @@ export * from "./types";
 export * from "./chapter-01";
 export * from "./chapter-02";
 export * from "./chapter-03";
+export * from "./chapter-04";
+export * from "./chapter-05";
+export * from "./chapter-06";

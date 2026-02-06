@@ -423,9 +423,9 @@ export const chapter04: ChapterContent = {
             kind: "image",
             src: "/assets/chapters/ch4/kanan.png",
             alt: { ms: "kanan", en: "right", es: "derecha" },
-            w: 120,
-            h: 80,
-            className: "h-10 w-auto object-contain",
+            w: 420,
+            h: 420,
+            className: "w-full h-auto max-h-48 object-contain",
           },
         ],
         word: [{ ms: "kanan", en: "right", es: "derecha" }],
@@ -439,9 +439,9 @@ export const chapter04: ChapterContent = {
             kind: "image",
             src: "/assets/chapters/ch4/kiri.png",
             alt: { ms: "kiri", en: "left", es: "izquierda" },
-            w: 120,
-            h: 80,
-            className: "h-10 w-auto object-contain",
+            w: 420,
+            h: 420,
+            className: "w-full h-auto max-h-48 object-contain",
           },
         ],
         word: [{ ms: "kiri", en: "left", es: "izquierda" }],
@@ -455,9 +455,9 @@ export const chapter04: ChapterContent = {
             kind: "image",
             src: "/assets/chapters/ch4/sini.png",
             alt: { ms: "sini", en: "here", es: "aquí" },
-            w: 120,
-            h: 80,
-            className: "h-10 w-auto object-contain",
+            w: 420,
+            h: 420,
+            className: "w-full h-auto max-h-48 object-contain",
           },
         ],
         word: [{ ms: "sini", en: "here", es: "aquí" }],
@@ -471,9 +471,9 @@ export const chapter04: ChapterContent = {
             kind: "image",
             src: "/assets/chapters/ch4/sana.png",
             alt: { ms: "sana", en: "there", es: "allá" },
-            w: 700,
-            h: 400,
-            className: "h-10 w-auto object-contain",
+            w: 640,
+            h: 360,
+            className: "w-full h-auto max-h-48 object-contain",
           },
         ],
         word: [{ ms: "sana", en: "there", es: "allá" }],
@@ -575,46 +575,76 @@ export const chapter04: ChapterContent = {
     },
 
     // ------------------------------------------------------------
-    // Page 2: DIFFERENT TIMES OF DAY (intro list)
+    // Page 2: DIFFERENT TIMES OF DAY (table with images)
     // ------------------------------------------------------------
     {
       id: "c4-p2-waktu-harian",
-      kind: "intro",
-      sections: [
+      kind: "table",
+      title: {
+        ms: "Waktu Pagi, Petang, dan Malam",
+        en: "Morning, evening, and night",
+        es: "Mañana, tarde y noche",
+      },
+      columns: [
+        { key: "pagi", label: { ms: "Pagi", en: "Morning", es: "Mañana" } },
+        { key: "tengahari", label: { ms: "Tengah hari", en: "Midday", es: "Mediodía" } },
+        { key: "petang", label: { ms: "Petang", en: "Evening", es: "Tarde" } },
+        { key: "malam", label: { ms: "Malam", en: "Night", es: "Noche" } },
+      ],
+      rows: [
         {
-          kind: "list",
-          id: "c4-s1-waktu-harian",
-          title: {
-            ms: "Waktu Pagi, Petang, dan Malam",
-            en: "Morning, evening, and night",
-            es: "Mañana, tarde y noche",
+          id: "row-gambar-waktu",
+          cells: {
+            pagi: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch4/pagi.png",
+                alt: { ms: "Pagi", en: "Morning", es: "Mañana" },
+                w: 320,
+                h: 200,
+                className: "w-full h-auto max-h-44 object-contain",
+              },
+            ],
+            tengahari: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch4/tengahhari.png",
+                alt: { ms: "Tengah hari", en: "Midday", es: "Mediodía" },
+                w: 320,
+                h: 200,
+                className: "w-full h-auto max-h-44 object-contain",
+              },
+            ],
+            petang: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch4/petang.png",
+                alt: { ms: "Petang", en: "Evening", es: "Tarde" },
+                w: 320,
+                h: 200,
+                className: "w-full h-auto max-h-44 object-contain",
+              },
+            ],
+            malam: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch4/malam.png",
+                alt: { ms: "Malam", en: "Night", es: "Noche" },
+                w: 320,
+                h: 200,
+                className: "w-full h-auto max-h-44 object-contain",
+              },
+            ],
           },
-          items: [
-            {
-              id: "c4-i1-pagi",
-              ms: "Pagi",
-              en: "Morning",
-              es: "Mañana",
-            },
-            {
-              id: "c4-i2-tengah-hari",
-              ms: "Tengah hari",
-              en: "Midday / noon",
-              es: "Mediodía",
-            },
-            {
-              id: "c4-i3-petang",
-              ms: "Petang",
-              en: "Evening (late afternoon / early evening)",
-              es: "Tarde",
-            },
-            {
-              id: "c4-i4-malam",
-              ms: "Malam",
-              en: "Night",
-              es: "Noche",
-            },
-          ],
+        },
+        {
+          id: "row-desc-waktu",
+          cells: {
+            pagi: [{ ms: "Pagi (±6:00–11:59)", en: "Morning (≈6:00–11:59)", es: "Mañana (≈6:00–11:59)" }],
+            tengahari: [{ ms: "Tengah hari (±12:00–1:59)", en: "Midday (≈12:00–1:59)", es: "Mediodía (≈12:00–13:59)" }],
+            petang: [{ ms: "Petang (±2:00–6:59)", en: "Evening (≈2:00–6:59)", es: "Tarde (≈14:00–18:59)" }],
+            malam: [{ ms: "Malam (±7:00–5:59)", en: "Night (≈7:00–5:59)", es: "Noche (≈19:00–5:59)" }],
+          },
         },
       ],
     },
@@ -725,60 +755,327 @@ export const chapter04: ChapterContent = {
     },
 
     // ------------------------------------------------------------
-    // Page 5: CHAT (time + directions)
+    // Page 5: CHAT (situasi masa di perhentian bas)
     // ------------------------------------------------------------
     {
       id: "c4-p5-chat-masa-arah",
       kind: "chat",
       title: {
-        ms: "Dialog: Masa dan Arah",
-        en: "Dialogue: Time and directions",
-        es: "Diálogo: Tiempo y direcciones",
+        ms: "Situasi 4.1 Masa",
+        en: "Situation 4.1 Time",
+        es: "Situación 4.1 Tiempo",
       },
       context: {
-        ms: "Anda bertanya masa dan arah kepada seorang kawan.",
-        en: "You ask a friend for the time and directions.",
-        es: "Le preguntas a un amigo la hora y direcciones.",
+        ms: "Latar tempat: Sebuah perhentian bas.",
+        en: "Setting: A bus stop.",
+        es: "Lugar: Una parada de autobús.",
       },
       participants: [
         { id: "azman", name: { ms: "Azman", en: "Azman", es: "Azman" } },
-        { id: "nina", name: { ms: "Nina", en: "Nina", es: "Nina" } },
+        {
+          id: "mohamad",
+          name: { ms: "Mohamad", en: "Mohamad", es: "Mohamad" },
+          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+        },
       ],
       messages: [
         {
           id: "c4-m1",
           from: "azman",
           text: {
-            ms: "Nina, pukul berapa sekarang?",
-            en: "Nina, what time is it now?",
-            es: "Nina, ¿qué hora es ahora?",
+            ms: "Maafkan saya encik, boleh saya tahu pukul berapa sekarang?",
+            en: "Excuse me sir, may I know what time it is now?",
+            es: "Disculpe señor, ¿puedo saber qué hora es ahora?",
           },
         },
         {
           id: "c4-m2",
-          from: "nina",
+          from: "mohamad",
           text: {
-            ms: "Sekarang pukul tiga petang.",
-            en: "It’s three in the afternoon.",
-            es: "Son las tres de la tarde.",
+            ms: "Boleh. Sekarang pukul 7.45 pagi. Kenapa?",
+            en: "Sure. It's 7:45 a.m. Why?",
+            es: "Claro. Son las 7:45 de la mañana. ¿Por qué?",
           },
         },
         {
           id: "c4-m3",
           from: "azman",
           text: {
-            ms: "Terima kasih! Kaunter tiket bas dekat mana?",
-            en: "Thanks! Where is the bus ticket counter?",
-            es: "¡Gracias! ¿Dónde está el mostrador de boletos de autobús?",
+            ms: "Saya sebenarnya sudah terlewat untuk pergi ke kelas.",
+            en: "I'm actually already late for class.",
+            es: "De hecho ya llego tarde a clase.",
           },
         },
         {
           id: "c4-m4",
-          from: "nina",
+          from: "mohamad",
           text: {
-            ms: "Jalan terus, kemudian belok kanan.",
-            en: "Go straight, then turn right.",
-            es: "Sigue recto y luego gira a la derecha.",
+            ms: "Pukul berapa kelas awak bermula?",
+            en: "What time does your class start?",
+            es: "¿A qué hora empieza tu clase?",
+          },
+        },
+        {
+          id: "c4-m5",
+          from: "azman",
+          text: {
+            ms: "Kelas saya pukul 8.00 pagi. Sebenarnya saya terlewat bangun sebab semalam saya bermain futsal.",
+            en: "My class is at 8:00 a.m. I woke up late because I played futsal last night.",
+            es: "Mi clase es a las 8:00 a. m. Me desperté tarde porque anoche jugué fútbol sala.",
+          },
+        },
+        {
+          id: "c4-m6",
+          from: "mohamad",
+          text: {
+            ms: "Oh, awak bermain futsal juga?",
+            en: "Oh, you play futsal too?",
+            es: "Ah, ¿también juegas fútbol sala?",
+          },
+        },
+        {
+          id: "c4-m7",
+          from: "azman",
+          text: {
+            ms: "Ya, saya bermain futsal dua kali seminggu.",
+            en: "Yes, I play futsal twice a week.",
+            es: "Sí, juego fútbol sala dos veces por semana.",
+          },
+        },
+        {
+          id: "c4-m8",
+          from: "mohamad",
+          text: {
+            ms: "Baguslah. Baik untuk kesihatan.",
+            en: "That's great. Good for health.",
+            es: "Qué bien. Es bueno para la salud.",
+          },
+        },
+        {
+          id: "c4-m9",
+          from: "azman",
+          text: {
+            ms: "Eh, bas sudah sampai. Jom kita pergi.",
+            en: "Oh, the bus has arrived. Let's go.",
+            es: "Eh, el autobús ya llegó. Vamos.",
+          },
+        },
+      ],
+    },
+
+    // ------------------------------------------------------------
+    // Page 5b: CHAT (wayang)
+    // ------------------------------------------------------------
+    {
+      id: "c4-p5b-chat-wayang",
+      kind: "chat",
+      title: {
+        ms: "Situasi 4.2 Masa Menonton Wayang",
+        en: "Situation 4.2 Movie Time",
+        es: "Situación 4.2 Hora de cine",
+      },
+      context: {
+        ms: "Latar tempat: Kaunter perkhidmatan azman di sebuah panggung wayang.",
+        en: "Setting: Customer service counter at a cinema.",
+        es: "Lugar: Mostrador de atención al cliente en un cine.",
+      },
+      participants: [
+        { id: "azman", name: { ms: "Azman", en: "Azman", es: "Azman" } },
+        {
+          id: "jurukaunter",
+          name: { ms: "Jurukaunter", en: "Ticket clerk", es: "Taquillero" },
+          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+        },
+      ],
+      messages: [
+        {
+          id: "c4-42-m1",
+          from: "jurukaunter",
+          text: {
+            ms: "Selamat petang, encik.",
+            en: "Good afternoon, sir.",
+            es: "Buenas tardes, señor.",
+          },
+        },
+        {
+          id: "c4-42-m2",
+          from: "azman",
+          text: {
+            ms: "Selamat petang.",
+            en: "Good afternoon.",
+            es: "Buenas tardes.",
+          },
+        },
+        {
+          id: "c4-42-m3",
+          from: "jurukaunter",
+          text: {
+            ms: "Encik hendak menonton cerita apa?",
+            en: "Which movie would you like to watch?",
+            es: "¿Qué película le gustaría ver?",
+          },
+        },
+        {
+          id: "c4-42-m4",
+          from: "azman",
+          text: {
+            ms: "Saya hendak menonton cerita “Dendam – Perjanjian Dua Alam”.",
+            en: 'I want to watch the movie "Dendam – Perjanjian Dua Alam".',
+            es: 'Quiero ver la película "Dendam – Perjanjian Dua Alam".',
+          },
+        },
+        {
+          id: "c4-42-m5",
+          from: "jurukaunter",
+          text: {
+            ms: "Baik, tayangan untuk cerita itu ada pada pukul 10.00 pagi, 4.00 petang, dan 9.00 malam.\nEncik hendak membeli tiket pada pukul berapa?",
+            en: "Alright, showtimes are at 10:00 a.m., 4:00 p.m., and 9:00 p.m.\nWhat time would you like to buy tickets for?",
+            es: "Bien, las funciones son a las 10:00 a. m., 4:00 p. m. y 9:00 p. m.\n¿Para qué hora quiere comprar las entradas?",
+          },
+        },
+        {
+          id: "c4-42-m6",
+          from: "azman",
+          text: {
+            ms: "Kalau macam itu, saya hendak menonton pada pukul 4 untuk dua orang. Berapa harganya?",
+            en: "In that case, I'd like the 4 p.m. show for two people. How much is it?",
+            es: "En ese caso, quiero la función de las 4 p. m. para dos personas. ¿Cuánto cuesta?",
+          },
+        },
+        {
+          id: "c4-42-m7",
+          from: "jurukaunter",
+          text: {
+            ms: "Baik, satu tiket harganya RM12. Kalau untuk dua orang, harganya RM24.",
+            en: "Sure, one ticket is RM12. For two people, it's RM24.",
+            es: "Claro, un boleto cuesta RM12. Para dos personas son RM24.",
+          },
+        },
+        {
+          id: "c4-42-m8",
+          from: "azman",
+          text: {
+            ms: "Oo, RM24 ya, ini wangnya.",
+            en: "Oh, RM24, here is the cash.",
+            es: "Ah, RM24, aquí está el dinero.",
+          },
+        },
+        {
+          id: "c4-42-m9",
+          from: "jurukaunter",
+          text: {
+            ms: "Ini tiket encik untuk dua orang. Terima kasih.",
+            en: "Here are your tickets for two. Thank you.",
+            es: "Aquí están sus entradas para dos. Gracias.",
+          },
+        },
+        {
+          id: "c4-42-m10",
+          from: "azman",
+          text: {
+            ms: "Sama-sama.",
+            en: "You're welcome.",
+            es: "De nada.",
+          },
+        },
+        {
+          id: "c4-42-m11",
+          from: "jurukaunter",
+          text: {
+            ms: "Selamat menonton.",
+            en: "Enjoy the movie.",
+            es: "Disfrute la película.",
+          },
+        },
+      ],
+    },
+
+    // ------------------------------------------------------------
+    // Page 5c: CHAT (penunjuk arah jalan)
+    // ------------------------------------------------------------
+    {
+      id: "c4-p5c-chat-arah",
+      kind: "chat",
+      title: {
+        ms: "Situasi 4.3 Penunjuk Arah Jalan",
+        en: "Situation 4.3 Giving Directions",
+        es: "Situación 4.3 Dar indicaciones",
+      },
+      context: {
+        ms: "Latar tempat: Tepi jalan raya.",
+        en: "Setting: Roadside.",
+        es: "Lugar: Al borde de la carretera.",
+      },
+      participants: [
+        { id: "azman", name: { ms: "Azman", en: "Azman", es: "Azman" } },
+        {
+          id: "ahmad",
+          name: { ms: "Ahmad", en: "Ahmad", es: "Ahmad" },
+          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+        },
+      ],
+      messages: [
+        {
+          id: "c4-43-m1",
+          from: "ahmad",
+          text: {
+            ms: "Abang, boleh tumpang tanya? Di mana klinik kesihatan yang paling dekat ya?",
+            en: "Sir, may I ask? Where is the nearest health clinic?",
+            es: "Disculpe, ¿dónde está la clínica de salud más cercana?",
+          },
+        },
+        {
+          id: "c4-43-m2",
+          from: "azman",
+          text: {
+            ms: "Oo, boleh. Tidak ada masalah. Klinik kesihatan yang paling dekat di sini kira-kira 500 meter.",
+            en: "Sure, no problem. The nearest clinic from here is about 500 meters away.",
+            es: "Claro, no hay problema. La clínica más cercana está a unos 500 metros de aquí.",
+          },
+        },
+        {
+          id: "c4-43-m3",
+          from: "azman",
+          text: {
+            ms: "Awak jalan terus ikut jalan ini, kira-kira 200 meter awak belok ke kiri daripada simpang depan sana, lepas itu awak jalan terus lagi, dan awak akan nampak klinik kesihatan di sebelah kanan. Di situlah klinik itu.",
+            en: "Walk straight along this road, about 200 meters turn left at the junction ahead, then keep going straight and you'll see the clinic on the right. That's the clinic.",
+            es: "Sigue recto por esta calle, a unos 200 metros gira a la izquierda en la intersección, luego sigue recto y verás la clínica a la derecha. Ahí está la clínica.",
+          },
+        },
+        {
+          id: "c4-43-m4",
+          from: "ahmad",
+          text: {
+            ms: "Terima kasih, abang.",
+            en: "Thank you, sir.",
+            es: "Gracias.",
+          },
+        },
+        {
+          id: "c4-43-m5",
+          from: "azman",
+          text: {
+            ms: "Sama-sama. Hati-hati.",
+            en: "You're welcome. Take care.",
+            es: "De nada. Cuídate.",
+          },
+        },
+        {
+          id: "c4-43-m6",
+          from: "ahmad",
+          text: {
+            ms: "Saya gerak dulu.",
+            en: "I'll get going now.",
+            es: "Me voy ya.",
+          },
+        },
+        {
+          id: "c4-43-m7",
+          from: "azman",
+          text: {
+            ms: "Baik.",
+            en: "Alright.",
+            es: "De acuerdo.",
           },
         },
       ],
@@ -849,14 +1146,18 @@ export const chapter04: ChapterContent = {
         es: "Encuentra y marca las palabras escondidas.",
       },
       grid: [
-        "PAGIQWERTYUIO",
-        "KANANZXCVBNMP",
-        "PETANGQWERTYU",
-        "MALAMHJKLZXCV",
-        "QAZWSKIRIXXXX",
-        "XXXXDEPANNNNN",
-        "POIUYTREWQASD",
-        "LKJHGFDSAMNBV",
+        "PAXLOMISBTNP",
+        "QARCUDYMLOVE",
+        "HZGJFQWERKYT",
+        "BLUIDOCVAIHA",
+        "MEPQZLTSORGN",
+        "RMALAMEWHIPG",
+        "JFCQVNOZLSUX",
+        "KREYAHBNDTGC",
+        "PTONWGJKQVAM",
+        "LIAUXMDEPANF",
+        "GKZSRELCHOQY",
+        "VBDWJIFPMCRK",
       ],
       targets: [
         {
@@ -896,8 +1197,8 @@ export const chapter04: ChapterContent = {
           meaning: { ms: "depan", en: "front / ahead", es: "delante" },
         },
       ],
-      allowDiagonal: false,
-      allowReverse: false,
+      allowDiagonal: true,
+      allowReverse: true,
     },
   ],
 };

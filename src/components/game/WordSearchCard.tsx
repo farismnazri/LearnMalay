@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 import type { UiLang, WordSearchPage, WordSearchTarget, Translated } from "@/lib/chapters/types";
 
 type Cell = { r: number; c: number };
@@ -60,37 +61,113 @@ function keyOf(cell: Cell) {
 export default function WordSearchCard({
   page,
   lang,
+  onProgress,
+  onComplete,
 }: {
   page: any; // keep flexible so ChapterPage union issues don’t explode
   lang: UiLang;
+  onProgress?: (foundCount: number, total: number) => void;
+  onComplete?: (foundCount: number, total: number) => void;
 }) {
   const allowDiagonal = page.allowDiagonal ?? true;
   const allowReverse = page.allowReverse ?? true;
+  const alphabet = (page.alphabet ?? "ABCDEFGHIJKLMNOPQRSTUVWXYZ").toUpperCase();
 
+  // Generate or parse grid
   const grid: string[][] = useMemo(() => {
     const g = page.grid;
+    const size = Math.max(6, Math.min(18, page.size ?? 12));
 
-    // string[][] already
-    if (Array.isArray(g) && Array.isArray(g[0])) {
-      return (g as any[]).map((row) => row.map((ch: string, c: number) => String(ch).toUpperCase()));
+    function parseGrid(input: any): string[][] {
+      if (Array.isArray(input) && Array.isArray(input[0])) {
+        return (input as any[]).map((row) => row.map((ch: string) => String(ch).toUpperCase()));
+      }
+      if (Array.isArray(input) && typeof input[0] === "string") {
+        return (input as string[]).map((row) => row.split("").map((ch) => ch.toUpperCase()));
+      }
+      if (typeof input === "string") {
+        return input
+          .split("\n")
+          .map((row: string) => row.trim())
+          .filter(Boolean)
+          .map((row: string) => row.split("").map((ch) => ch.toUpperCase()));
+      }
+      return [];
     }
 
-    // string[] rows like ["ABCDEF", "GHIJKL"]
-    if (Array.isArray(g) && typeof g[0] === "string") {
-      return (g as string[]).map((row) => row.split("").map((ch: string, c: number) => ch.toUpperCase()));
+    function tryGenerate(words: string[]): string[][] {
+      const gridArr = Array.from({ length: size }, () => Array.from({ length: size }, () => ""));
+      const dirs = [
+        [1, 0],
+        [-1, 0],
+        [0, 1],
+        [0, -1],
+      ];
+      if (allowDiagonal) {
+        dirs.push(
+          [1, 1],
+          [1, -1],
+          [-1, 1],
+          [-1, -1]
+        );
+      }
+
+      function canPlace(r: number, c: number, dr: number, dc: number, w: string) {
+        const endR = r + dr * (w.length - 1);
+        const endC = c + dc * (w.length - 1);
+        if (endR < 0 || endR >= size || endC < 0 || endC >= size) return false;
+        for (let i = 0; i < w.length; i++) {
+          const rr = r + dr * i;
+          const cc = c + dc * i;
+          const existing = gridArr[rr][cc];
+          if (existing && existing !== w[i]) return false;
+        }
+        return true;
+      }
+
+      function placeWord(w: string) {
+        const attempts = 200;
+        for (let t = 0; t < attempts; t++) {
+          const dir = dirs[Math.floor(Math.random() * dirs.length)];
+          const dr = dir[0];
+          const dc = dir[1];
+          const r = Math.floor(Math.random() * size);
+          const c = Math.floor(Math.random() * size);
+          if (!canPlace(r, c, dr, dc, w)) continue;
+          for (let i = 0; i < w.length; i++) {
+            const rr = r + dr * i;
+            const cc = c + dc * i;
+            gridArr[rr][cc] = w[i];
+          }
+          return true;
+        }
+        return false;
+      }
+
+      words.forEach((w) => {
+        const word = allowReverse && Math.random() < 0.5 ? w.split("").reverse().join("") : w;
+        placeWord(word);
+      });
+
+      // fill blanks
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          if (!gridArr[r][c]) {
+            gridArr[r][c] = alphabet[Math.floor(Math.random() * alphabet.length)];
+          }
+        }
+      }
+
+      return gridArr;
     }
 
-    // single string with newlines
-    if (typeof g === "string") {
-      return g
-        .split("\n")
-        .map((row: string) => row.trim())
-        .filter(Boolean)
-        .map((row: string) => row.split("").map((ch: string, c: number) => ch.toUpperCase()));
-    }
+    // If grid provided, parse; else auto-generate
+    const parsed = parseGrid(g);
+    if (parsed.length > 0 && parsed[0].length > 0) return parsed;
 
-    return [];
-  }, [page.grid]);
+    const words = (page.targets ?? []).flatMap((t: any) => ("words" in t ? t.words : [t.word])).map((w: string) => w.toUpperCase().replace(/\s+/g, ""));
+    return tryGenerate(words);
+  }, [page.grid, page.size, page.targets, allowDiagonal, allowReverse, alphabet]);
 
   const targets = useMemo(() => {
     const raw: WordSearchTarget[] = (page.targets ?? []) as WordSearchTarget[];
@@ -116,7 +193,14 @@ export default function WordSearchCard({
 
   const [start, setStart] = useState<Cell | null>(null);
   const [found, setFound] = useState<Record<string, Cell[]>>({});
-  const [flash, setFlash] = useState<{ ok: boolean; msg: string } | null>(null);
+  const [showFoundOverlay, setShowFoundOverlay] = useState(false);
+
+  // reset state when page changes (e.g., regenerate)
+  useEffect(() => {
+    setStart(null);
+    setFound({});
+    setShowFoundOverlay(false);
+  }, [page.id, page.grid, page.targets]);
 
   const locked = useMemo(() => {
     const s = new Set<string>();
@@ -124,9 +208,9 @@ export default function WordSearchCard({
     return s;
   }, [found]);
 
-  function show(ok: boolean, msg: string) {
-    setFlash({ ok, msg });
-    window.setTimeout(() => setFlash(null), 1100);
+  function pulseFound() {
+    setShowFoundOverlay(true);
+    window.setTimeout(() => setShowFoundOverlay(false), 1000);
   }
 
   function formedWord(cells: Cell[]) {
@@ -154,7 +238,6 @@ export default function WordSearchCard({
 
     if (!isStraightLine(a, b, allowDiagonal)) {
       setStart(cell); // treat as new start
-      show(false, lang === "ms" ? "Garis tak sah" : lang === "en" ? "Invalid line" : "Línea inválida");
       return;
     }
 
@@ -176,17 +259,30 @@ export default function WordSearchCard({
 
     if (!match) {
       setStart(null);
-      show(false, lang === "ms" ? "Tiada padanan" : lang === "en" ? "No match" : "Sin coincidencia");
       return;
     }
 
-    setFound((prev) => ({ ...prev, [match.id]: cells }));
+    setFound((prev) => {
+      const next = { ...prev, [match.id]: cells };
+      const total = targets.length;
+      onProgress?.(Object.keys(next).length, total);
+      if (Object.keys(next).length === total) {
+        onComplete?.(total, total);
+      }
+      return next;
+    });
     setStart(null);
-    show(true, lang === "ms" ? "Jumpa!" : lang === "en" ? "Found!" : "¡Encontrado!");
+    pulseFound();
   }
 
   const titleTrans = lang === "ms" ? "" : lang === "en" ? page.title?.en : page.title?.es;
   const instTrans = lang === "ms" ? "" : lang === "en" ? page.instructions?.en : page.instructions?.es;
+
+  // fire initial progress on mount/update
+  useMemo(() => {
+    onProgress?.(Object.keys(found).length, targets.length);
+    return null;
+  }, [found, targets.length, onProgress]);
 
   return (
     <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
@@ -197,18 +293,6 @@ export default function WordSearchCard({
         {page.instructions?.ms ?? ""}
         {lang !== "ms" && <div className="mt-1 text-xs font-semibold opacity-70">{instTrans}</div>}
       </div>
-
-      {/* status flash */}
-      {flash && (
-        <div
-          className={[
-            "mt-4 inline-flex rounded-full px-4 py-2 text-xs font-black shadow",
-            flash.ok ? "bg-emerald-600 text-white" : "bg-red-600 text-white",
-          ].join(" ")}
-        >
-          {flash.msg}
-        </div>
-      )}
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
         {/* GRID */}
@@ -275,7 +359,11 @@ export default function WordSearchCard({
         {/* TARGET LIST */}
         <div className="rounded-2xl bg-white/70 p-4 shadow">
           <div className="text-xs font-black opacity-60">
-            {lang === "ms" ? "CARI 5 PERKATAAN" : lang === "en" ? "FIND 5 WORDS" : "ENCUENTRA 5 PALABRAS"}
+            {lang === "ms"
+              ? `CARI ${targets.length} PERKATAAN`
+              : lang === "en"
+              ? `FIND ${targets.length} WORDS`
+              : `ENCUENTRA ${targets.length} PALABRAS`}
           </div>
 
           <div className="mt-3 space-y-2">
@@ -310,6 +398,25 @@ export default function WordSearchCard({
           </div>
         </div>
       </div>
+
+      {/* success overlay */}
+      {showFoundOverlay && (
+        <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-2 animate-pulse">
+            <Image
+              src="/assets/characters/Akuaku_idle.png"
+              alt="Aku Aku"
+              width={140}
+              height={140}
+              className="drop-shadow-xl"
+              priority
+            />
+            <div className="rounded-full bg-emerald-600 px-4 py-1 text-sm font-black text-white shadow-lg">
+              {lang === "ms" ? "Jumpa!" : lang === "en" ? "Found!" : "¡Encontrado!"}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

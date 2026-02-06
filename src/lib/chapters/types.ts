@@ -81,6 +81,7 @@ export type ChapterChatPage = {
   kind: "chat";
   title: Translated;
   context?: Translated;
+  youId?: string; // optional: which participant is treated as “you” in UI (bubbles on the right)
   participants: Array<{
     id: string; // "azman", "ayub", etc.
     name: Translated;
@@ -125,6 +126,9 @@ export type TypeInItem = {
   scrambled: string; // what user sees (e.g., "bnaag")
   answer: string; // correct Malay word (e.g., "abang")
   meaning?: Translated; // optional translation/explanation shown after checking
+  image?: { src: string; alt?: string; w?: number; h?: number; className?: string };
+  images?: Array<{ src: string; alt?: string; w?: number; h?: number; className?: string }>;
+  [key: string]: any; // allow optional UI metadata (e.g., images)
 };
 
 export type TypeInPage = {
@@ -222,7 +226,10 @@ export type WordSearchPage = {
 
   // Most common: string[] rows, e.g. ["LGIMTH...", "..."]
   // Also allowed: string[][] if you ever want to store per-cell arrays
-  grid: string[] | string[][];
+  grid?: string[] | string[][];
+  autoGenerate?: boolean; // if true or grid missing, build grid at runtime
+  size?: number; // optional grid size (N x N), default 12
+  alphabet?: string; // optional letters to fill, default A-Z
 
   targets: WordSearchTarget[];
 
@@ -245,7 +252,15 @@ export type FigurePage = {
 export type ChapterPage =
   | { id: string; kind: "intro"; sections: ChapterSection[] }
   | { id: string; kind: "table"; title: Translated; columns: any[]; rows: any[] }
-  | { id: string; kind: "chat"; title: Translated; context?: Translated; participants: any[]; messages: any[] }
+  | {
+      id: string;
+      kind: "chat";
+      title: Translated;
+      context?: Translated;
+      youId?: string;
+      participants: any[];
+      messages: any[];
+    }
   | { id: string; kind: "dragfill"; title: Translated; instructions: Translated; options: any[]; items: any[] }
   | {
       id: string;
@@ -260,13 +275,7 @@ export type ChapterPage =
       title: Translated;
       instructions: Translated;
       caseSensitive?: boolean;
-      items: Array<{
-        id: string;
-        n: number;
-        scrambled: string;
-        answer: string;
-        meaning?: Translated;
-      }>;
+      items: TypeInItem[];
     }
   | BoxDragPage
   | WordSearchPage
@@ -281,6 +290,3 @@ export type ChapterContent = {
   title: Translated;
   pages: ChapterPage[];
 };
-
-
-

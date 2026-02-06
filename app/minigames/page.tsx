@@ -59,6 +59,18 @@ const GAMES: MiniGame[] = [
     status: "beta",
     badge: { ms: "BARU", en: "NEW", es: "NUEVO" },
   },
+  {
+    id: "wordsearch",
+    title: { ms: "Cari Perkataan", en: "Wordsearch", es: "Sopa de letras" },
+    desc: {
+      ms: "Cari perkataan dalam grid. Pilih tahap & tema.",
+      en: "Find words in a grid. Choose difficulty & theme.",
+      es: "Encuentra palabras en una cuadrícula. Elige dificultad y tema.",
+    },
+    href: "/minigames/wordsearch",
+    status: "beta",
+    badge: { ms: "BARU", en: "NEW", es: "NUEVO" },
+  },
 
   // Future (greyed out)
   {

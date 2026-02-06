@@ -1,5 +1,5 @@
 // src/lib/highscores.ts
-export type GameId = "numbers" | "word-match";
+export type GameId = "numbers" | "word-match" | "wordsearch";
 
 export type ScoreEntry = {
   id: string;
@@ -25,6 +25,7 @@ function safeParse(json: string | null): Store | null {
     return {
       numbers: Array.isArray(obj.numbers) ? obj.numbers : [],
       "word-match": Array.isArray(obj["word-match"]) ? obj["word-match"] : [],
+      wordsearch: Array.isArray(obj.wordsearch) ? obj.wordsearch : [],
     };
   } catch {
     return null;

@@ -17,11 +17,23 @@ import { chapter01Intro } from "@/lib/akuAku/chapter-01";
 import { chapter02Intro } from "@/lib/akuAku/chapter-02";
 import { chapter03Intro } from "@/lib/akuAku/chapter-03";
 import { chapter04Intro } from "@/lib/akuAku/chapter-04";
+import { chapter05Intro } from "@/lib/akuAku/chapter-05";
+import { chapter06Intro } from "@/lib/akuAku/chapter-06";
 
 import { getCurrentUser, updateProgress, type UserProfile } from "@/lib/userStore";
 
 // IMPORTANT: pull types from the same place as chapters (avoid broken /types imports)
-import { chapter01, chapter02, chapter03, chapter04, type UiLang, type ChapterPage, type ChapterSection } from "@/lib/chapters";
+import {
+  chapter01,
+  chapter02,
+  chapter03,
+  chapter04,
+  chapter05,
+  chapter06,
+  type UiLang,
+  type ChapterPage,
+  type ChapterSection,
+} from "@/lib/chapters";
 
 const MAX_CHAPTERS = 11;
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
@@ -66,6 +78,8 @@ export default function ChapterPage() {
     if (chapterId === 2) return chapter02;
     if (chapterId === 3) return chapter03;
     if (chapterId === 4) return chapter04;
+    if (chapterId === 5) return chapter05;
+    if (chapterId === 6) return chapter06;
     return null;
   }, [chapterId]);
 
@@ -74,6 +88,8 @@ export default function ChapterPage() {
     if (chapterId === 2) return chapter02Intro;
     if (chapterId === 3) return chapter03Intro;
     if (chapterId === 4) return chapter04Intro;
+    if (chapterId === 5) return chapter05Intro;
+    if (chapterId === 6) return chapter06Intro;
     return [];
   }, [chapterId]);
 
@@ -210,8 +226,12 @@ export default function ChapterPage() {
         {/* top bar */}
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <div className="crash-text crash-outline-fallback text-7xl font-black leading-none">
-              CHAPTER {content.id} - {titleMs}
+            <div className="crash-text crash-outline-fallback text-7xl font-black leading-none whitespace-pre-line">
+              {content.id === 5
+                ? `CHAPTER 5 -\nNOMBOR,\nANGKA &\nALAMAT`
+                : content.id === 6
+                ? `CHAPTER 6 -\nALAM\nSEKITAR &\nCUACA`
+                : `CHAPTER ${content.id} - ${titleMs}`}
             </div>
 
             {lang !== "ms" && <div className="mt-1 text-lg font-extrabold text-white/90">{titleTrans}</div>}
@@ -418,7 +438,7 @@ function ChatCard({ page, lang, userName }: { page: any; lang: UiLang; userName:
   const titleTrans = lang === "ms" ? "" : lang === "en" ? page.title.en : page.title.es;
   const contextTrans = !page.context ? "" : lang === "ms" ? "" : lang === "en" ? page.context.en : page.context.es;
 
-  const youId = "azman";
+  const youId = page.youId ?? "azman";
 
   function msgText(t: { ms: string; en: string; es: string }) {
     if (lang === "ms") return { main: t.ms, sub: "" };
@@ -731,10 +751,39 @@ function TypeInCard({ page, lang }: { page: any; lang: UiLang }) {
               <div className="mb-2 text-xs font-black opacity-60">#{it.n}</div>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <div className="text-lg font-extrabold">
-                  <span className="inline-block rounded-xl bg-amber-100 px-3 py-2">{it.scrambled}</span>
-                  <span className="mx-2 opacity-60">→</span>
-                </div>
+                {it.images ? (
+                  <div className="flex w-full flex-wrap gap-2 sm:w-72">
+                    {(it.images as any[]).map((img, idx) => (
+                      <div
+                        key={`${it.id}-img-${idx}`}
+                        className="flex-1 min-w-[120px] overflow-hidden rounded-2xl border border-black/10 bg-white/80 p-2 shadow"
+                      >
+                        <Image
+                          src={img.src}
+                          alt={img.alt ?? ""}
+                          width={img.w ?? 320}
+                          height={img.h ?? 200}
+                          className={img.className ?? "w-full h-auto object-contain"}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : it.image ? (
+                  <div className="w-full sm:w-60 overflow-hidden rounded-2xl border border-black/10 bg-white/80 p-2 shadow">
+                    <Image
+                      src={it.image.src}
+                      alt={it.image.alt ?? ""}
+                      width={it.image.w ?? 320}
+                      height={it.image.h ?? 200}
+                      className={it.image.className ?? "w-full h-auto object-contain"}
+                    />
+                  </div>
+                ) : (
+                  <div className="text-lg font-extrabold">
+                    <span className="inline-block rounded-xl bg-amber-100 px-3 py-2">{it.scrambled}</span>
+                    <span className="mx-2 opacity-60">→</span>
+                  </div>
+                )}
 
                 <input
                   value={answers[it.id] ?? ""}
