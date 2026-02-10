@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 
 
@@ -14,7 +15,9 @@ function chapterToWorldLevel(chapter: number) {
 
 
 export default function TitleScreen() {
+  const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [starting, setStarting] = useState(false);
 
   useEffect(() => {
     getCurrentUser().then((u) => setUser(u));
@@ -26,6 +29,17 @@ export default function TitleScreen() {
     const chapter = user?.progress.chapter ?? 1;
     return chapterToWorldLevel(chapter);
   }, [user]);
+
+  async function handleStart() {
+    if (starting) return;
+    try {
+      setStarting(true);
+      const current = await getCurrentUser();
+      router.push(current ? "/map" : "/user");
+    } finally {
+      setStarting(false);
+    }
+  }
 
   return (
     <main
@@ -74,23 +88,19 @@ export default function TitleScreen() {
         </header>
 
         <section className="flex w-full max-w-sm flex-col gap-4">
-          {canStart ? (
-            <Link
-              href="/map"
-              className="w-full rounded-3xl bg-orange-500 px-6 py-5 text-3xl font-extrabold shadow-xl transition active:scale-[0.97] hover:scale-[1.02]"
-            >
-              <span className="crash-text crash-outline-fallback">START</span>
-            </Link>
-          ) : (
-            <button
-              type="button"
-              disabled
-              className="w-full cursor-not-allowed rounded-3xl bg-orange-500/50 px-6 py-5 text-3xl font-extrabold shadow-xl opacity-70"
-              title="Select a user first"
-            >
-              <span className="crash-text crash-outline-fallback">START</span>
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => void handleStart()}
+            disabled={starting}
+            className={[
+              "w-full rounded-3xl px-6 py-5 text-3xl font-extrabold shadow-xl transition",
+              "active:scale-[0.97] hover:scale-[1.02]",
+              starting ? "cursor-wait bg-orange-500/70 opacity-80" : "bg-orange-500",
+            ].join(" ")}
+            title={canStart ? "Continue to map" : "Go to login / create user"}
+          >
+            <span className="crash-text crash-outline-fallback">{starting ? "..." : "START"}</span>
+          </button>
 
           <Link
             href="/user"

@@ -1,12 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import {
   getCurrentUser,
-  setCurrentUserId,
-  updateProgress,
   type UserProfile,
 } from "@/lib/userStore";
 
@@ -50,6 +50,12 @@ export default function MapPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/user");
+    }
+  }, [loading, user, router]);
+
   const chapters = useMemo(() => buildChapters(), []);
   const currentChapter = user?.progress.chapter ?? 0;
 
@@ -57,88 +63,89 @@ export default function MapPage() {
     return null; // no flash
   }
 
-  if (!user && !loading) {
-    return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
-        <div className="mx-auto max-w-xl rounded-2xl bg-white/80 p-6 shadow">
-          <h1 className="crash-text crash-outline-fallback text-5xl font-black">
-            WORLD MAP
-          </h1>
-          <p className="mt-4 text-sm font-semibold text-black/70">
-            You need to select a user first.
-          </p>
-          <div className="mt-6 flex gap-3">
-            <Link
-              href="/user"
-              className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow"
-            >
-              Go to Select User
-            </Link>
-            <Link
-              href="/"
-              className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow"
-            >
-              Back to Title
-            </Link>
-          </div>
-        </div>
-      </main>
-    );
-  }
+  if (!user && !loading) return null;
 
-  async function selectChapter(chapter: number) {
-    const userId = user?.id;
-    if (!userId) return;
-
-    const nextProgress = { chapter, page: 1 };
-    await updateProgress(userId, nextProgress);
-    await setCurrentUserId(userId);
-
-    setUser((prev) => (prev ? { ...prev, progress: nextProgress } : prev));
+  function selectChapter(chapter: number) {
     router.push(`/chapter/${chapter}`);
   }
 
+  if (!user) return null;
+
   const isAdmin = Boolean(user.isAdmin);
-  const maxUnlockedChapter = isAdmin ? 11 : currentChapter;
+  const totalChapters = chapters.length;
+  const unlockedCount = isAdmin
+    ? totalChapters
+    : chapters.filter((c) => c.chapter <= currentChapter).length;
+  const completionPct = Math.round((unlockedCount / totalChapters) * 100);
 
   return (
     <main
-      className="relative min-h-screen bg-cover bg-center px-6 py-10"
-      style={{
-        backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')",
-      }}
+      className="relative min-h-screen overflow-hidden bg-[#081d14] px-6 py-10"
     >
-      <div className="absolute inset-0 bg-black/20" />
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_12%,rgba(255,220,88,0.16)_0%,rgba(255,220,88,0.03)_35%,transparent_52%),radial-gradient(circle_at_85%_18%,rgba(126,197,88,0.2)_0%,rgba(126,197,88,0.04)_38%,transparent_58%),linear-gradient(180deg,rgba(6,20,14,0.48)_0%,rgba(9,30,20,0.62)_42%,rgba(10,35,23,0.72)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.18)_0px,rgba(0,0,0,0.18)_1px,transparent_2px,transparent_4px)]" />
 
-      <div className="relative mx-auto max-w-5xl">
-        <div className="flex items-end justify-between gap-4">
-          <div>
-            <h1 className="crash-text crash-outline-fallback text-6xl font-black">
-              WORLD MAP
-            </h1>
-            <p className="mt-2 text-sm font-semibold text-white/90">
-              User: <span className="font-bold">{user.name}</span>
+      <div className="relative z-10 mx-auto max-w-5xl">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="w-full max-w-2xl rounded-3xl border border-[#c7deaa]/45 bg-[#153525]/75 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.45)] backdrop-blur-md">
+            <div className="flex items-center gap-4">
+              <Image
+                src={getProfileAvatarSrc(user.avatarId)}
+                alt={`${user.name} avatar`}
+                width={60}
+                height={60}
+                className="h-14 w-14 rounded-full border-2 border-[#f8da72]/75 bg-white/95 object-cover shadow-lg"
+              />
+
+              <div className="min-w-0">
+                <h1 className="crash-text crash-outline-fallback text-5xl leading-none font-black text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)]">
+                  WORLD MAP
+                </h1>
+                <p className="mt-1 text-sm font-bold text-[#eef8da]">
+                  Explorer: <span className="text-[#ffe98e]">{user.name}</span> • Current Chapter:{" "}
+                  <span className="text-[#ffe98e]">{currentChapter}</span>
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <span className="rounded-full border border-[#b8d98a]/60 bg-[#2f5f34]/70 px-3 py-1 text-[11px] font-black tracking-wide text-[#eff9dc]">
+                UNLOCKED {unlockedCount}/{totalChapters}
+              </span>
+              <span className="rounded-full border border-[#f0d487]/60 bg-[#72531e]/60 px-3 py-1 text-[11px] font-black tracking-wide text-[#fff0bf]">
+                {completionPct}% COMPLETE
+              </span>
               {isAdmin && (
-                <span className="ml-2 rounded-full bg-red-600 px-2 py-1 text-xs font-black text-white">
-                  ADMIN
+                <span className="rounded-full border border-rose-300/70 bg-rose-100 px-3 py-1 text-[11px] font-black tracking-wide text-rose-900">
+                  ADMIN MODE
                 </span>
-              )}{" "}
-              • Current Chapter: <span className="font-bold">{currentChapter}</span>
-            </p>
+              )}
+            </div>
+
+            <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-black/35">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-[#88cb58] via-[#c8d95f] to-[#ffd74c]"
+                style={{ width: `${Math.max(4, completionPct)}%` }}
+              />
+            </div>
           </div>
 
           {/* TOP RIGHT BUTTONS */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 rounded-2xl border border-[#bfd9a0]/45 bg-[#173728]/70 p-2 shadow-xl backdrop-blur-md">
             <Link
               href="/minigames"
-              className="rounded-xl bg-amber-300 px-4 py-2 text-sm font-black shadow transition hover:scale-[1.01] active:scale-[0.98]"
+              className="rounded-xl bg-gradient-to-r from-[#ffd447] to-[#ffbf3f] px-4 py-2 text-sm font-black text-[#3f2f00] shadow transition hover:brightness-105 active:scale-[0.98]"
             >
               Mini Games
             </Link>
 
             <Link
               href="/"
-              className="rounded-xl bg-white/80 px-4 py-2 text-sm font-bold shadow transition hover:scale-[1.01] active:scale-[0.98]"
+              className="rounded-xl border border-[#bcd7a1]/50 bg-[#24482f]/80 px-4 py-2 text-sm font-black text-[#f5f9e8] shadow transition hover:bg-[#2d5b3a] active:scale-[0.98]"
             >
               Back
             </Link>
@@ -150,14 +157,21 @@ export default function MapPage() {
 
           return (
             <section key={w} className="mt-10">
-              <h2 className="crash-text crash-outline-fallback text-4xl font-black">
-                WORLD {w}
-              </h2>
+              <div className="inline-flex items-center gap-2 rounded-2xl border border-[#d5e6ba]/50 bg-[#173728]/70 px-4 py-2 shadow-lg backdrop-blur-md">
+                <h2 className="crash-text crash-outline-fallback text-4xl font-black leading-none text-[#ffd65b]">
+                  WORLD {w}
+                </h2>
+                <span className="rounded-full border border-[#bdd89d]/60 bg-[#305f34]/80 px-3 py-1 text-[11px] font-black text-[#ecf6d9]">
+                  {worldChapters.filter((c) => user.isAdmin || user.progress.chapter >= c.chapter).length}/
+                  {worldChapters.length} OPEN
+                </span>
+              </div>
 
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {worldChapters.map((c) => {
                   const unlocked = user.isAdmin || user.progress.chapter >= c.chapter;
                   const isCurrent = c.chapter === currentChapter;
+                  const lockHint = c.chapter === 1 ? "Start here" : `Finish Chapter ${c.chapter - 1}`;
 
                   return (
                     <button
@@ -165,12 +179,16 @@ export default function MapPage() {
                       disabled={!unlocked}
                       onClick={() => selectChapter(c.chapter)}
                       className={[
-                        "rounded-2xl p-5 text-left shadow-xl transition",
-                        "active:scale-[0.98]",
+                        "group relative overflow-hidden rounded-3xl border p-5 text-left shadow-xl transition-all duration-200",
+                        "active:scale-[0.98] focus:outline-none",
                         unlocked
-                          ? "hover:scale-[1.01]"
-                          : "cursor-not-allowed opacity-50",
-                        isCurrent ? "bg-amber-300" : "bg-white/85",
+                          ? "hover:-translate-y-0.5 hover:shadow-[0_18px_30px_rgba(0,0,0,0.28)]"
+                          : "cursor-not-allowed",
+                        isCurrent
+                          ? "border-[#e8c04f]/90 bg-gradient-to-br from-[#ffde64] via-[#ffd04d] to-[#f7bf3d] text-[#2f2606]"
+                          : unlocked
+                          ? "border-[#dfd29f]/70 bg-[#fff6d8]/92 text-[#23331c]"
+                          : "border-[#88aa7b]/35 bg-[#173828]/70 text-[#dbebcf]/85",
                       ].join(" ")}
                       title={
                         unlocked
@@ -178,19 +196,32 @@ export default function MapPage() {
                           : `Locked until you reach Chapter ${c.chapter}`
                       }
                     >
-                      <div className="text-xs font-semibold opacity-70">
+                      <div className="text-xs font-black opacity-65">
                         CHAPTER
                       </div>
-                      <div className="mt-1 text-2xl font-extrabold">
+                      <div className="mt-1 text-3xl font-black leading-none">
                         {c.chapter}
                       </div>
-                      <div className="mt-2 text-sm font-semibold opacity-70">
+                      <div className="mt-2 text-sm font-bold opacity-80">
                         World {c.world} • Level {c.level}
                       </div>
 
                       {isCurrent && (
-                        <div className="mt-3 inline-block rounded-full bg-black/10 px-3 py-1 text-xs font-bold">
+                        <div className="mt-3 inline-block rounded-full border border-black/20 bg-black/10 px-3 py-1 text-xs font-black">
                           CURRENT
+                        </div>
+                      )}
+
+                      {unlocked && !isCurrent && (
+                        <div className="mt-3 inline-block rounded-full border border-[#b9cf7e]/75 bg-[#3f6d37]/90 px-3 py-1 text-xs font-black text-[#eef8d7]">
+                          OPEN
+                        </div>
+                      )}
+
+                      {!unlocked && (
+                        <div className="mt-3 inline-flex flex-col rounded-2xl border border-[#9eb88c]/40 bg-black/25 px-3 py-2">
+                          <span className="text-[11px] font-black tracking-wide text-[#ffe18f]">LOCKED</span>
+                          <span className="mt-0.5 text-[11px] font-semibold text-[#e4f0d4]">{lockHint}</span>
                         </div>
                       )}
                     </button>

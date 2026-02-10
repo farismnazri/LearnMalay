@@ -11,5 +11,7 @@ export async function POST(req: Request) {
   if (!user) return NextResponse.json({ error: "user not found" }, { status: 404 });
 
   setCurrentChapter(body.id, body.progress);
-  return NextResponse.json({ ok: true });
+  const updatedUser = getUser(body.id);
+  if (!updatedUser) return NextResponse.json({ error: "user not found" }, { status: 404 });
+  return NextResponse.json(updatedUser);
 }

@@ -12,6 +12,7 @@ import BackgroundAudio from "@/components/game/BackgroundAudio";
 import TableCard from "@/components/game/TableCard";
 import TickCard from "@/components/game/TickCard";
 import WordSearchCard from "@/components/game/WordSearchCard";
+import CrosswordCard from "@/components/game/CrosswordCard";
 
 import { chapter01Intro } from "@/lib/akuAku/chapter-01";
 import { chapter02Intro } from "@/lib/akuAku/chapter-02";
@@ -21,8 +22,12 @@ import { chapter05Intro } from "@/lib/akuAku/chapter-05";
 import { chapter06Intro } from "@/lib/akuAku/chapter-06";
 import { chapter07Intro } from "@/lib/akuAku/chapter-07";
 import { chapter08Intro } from "@/lib/akuAku/chapter-08";
+import { chapter09Intro } from "@/lib/akuAku/chapter-09";
+import { chapter10Intro } from "@/lib/akuAku/chapter-10";
+import { chapter11Intro } from "@/lib/akuAku/chapter-11";
 
 import { getCurrentUser, updateProgress, type UserProfile } from "@/lib/userStore";
+import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 
 // IMPORTANT: pull types from the same place as chapters (avoid broken /types imports)
 import {
@@ -34,6 +39,9 @@ import {
   chapter06,
   chapter07,
   chapter08,
+  chapter09,
+  chapter10,
+  chapter11,
   type UiLang,
   type ChapterPage,
   type ChapterSection,
@@ -66,6 +74,7 @@ export default function ChapterPage() {
 
   // Page flow
   const [pageIdx, setPageIdx] = useState(0);
+  const [markingDone, setMarkingDone] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -97,6 +106,9 @@ export default function ChapterPage() {
     if (chapterId === 6) return chapter06;
     if (chapterId === 7) return chapter07;
     if (chapterId === 8) return chapter08;
+    if (chapterId === 9) return chapter09;
+    if (chapterId === 10) return chapter10;
+    if (chapterId === 11) return chapter11;
     return null;
   }, [chapterId]);
 
@@ -109,6 +121,9 @@ export default function ChapterPage() {
     if (chapterId === 6) return chapter06Intro;
     if (chapterId === 7) return chapter07Intro;
     if (chapterId === 8) return chapter08Intro;
+    if (chapterId === 9) return chapter09Intro;
+    if (chapterId === 10) return chapter10Intro;
+    if (chapterId === 11) return chapter11Intro;
     return [];
   }, [chapterId]);
 
@@ -139,6 +154,8 @@ export default function ChapterPage() {
       </main>
     );
   }
+
+  if (!user) return null;
 
   const isAdmin = !!user.isAdmin;
 
@@ -179,16 +196,21 @@ export default function ChapterPage() {
     if (!isLastPage) return;
     if (isAdmin) return;
     if (isFinalChapter) return;
+    if (markingDone) return;
+    if (!user) return;
 
-    setUser((prev) => {
-      if (!prev) return prev;
-      const nextProgress = {
-        chapter: Math.max(prev.progress.chapter, nextChapter),
-        page: 1,
-      };
-      void updateProgress(prev.id, nextProgress);
-      return { ...prev, progress: nextProgress };
-    });
+    const nextProgress = {
+      chapter: Math.max(user.progress.chapter, nextChapter),
+      page: 1,
+    };
+
+    try {
+      setMarkingDone(true);
+      const updatedUser = await updateProgress(user.id, nextProgress);
+      setUser(updatedUser);
+    } finally {
+      setMarkingDone(false);
+    }
   }
 
   function nextPage() {
@@ -209,7 +231,14 @@ export default function ChapterPage() {
       case "table":
         return <TableCard page={page as any} lang={lang} />;
       case "chat":
-        return <ChatCard page={page as any} lang={lang} userName={user.name} />;
+        return (
+          <ChatCard
+            page={page as any}
+            lang={lang}
+            userName={user.name}
+            userAvatarSrc={getProfileAvatarSrc(user.avatarId)}
+          />
+        );
       case "dragfill":
         return <DragFillCard page={page as any} lang={lang} />;
       case "typein":
@@ -218,6 +247,8 @@ export default function ChapterPage() {
         return <BoxDragCard page={page as any} lang={lang} />;
       case "wordsearch":
         return <WordSearchCard page={page as any} lang={lang} />;
+      case "crossword":
+        return <CrosswordCard key={(page as any).id} page={page as any} lang={lang} />;
       case "tick":
         return <TickCard page={page as any} lang={lang} />;
       case "figure":
@@ -228,10 +259,18 @@ export default function ChapterPage() {
   };
 
   return (
-    <main
-      className="relative min-h-screen bg-cover bg-center px-6 py-10"
-      style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
-    >
+    <main className="relative min-h-screen overflow-x-hidden bg-[#0a2014] px-6 py-10">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[100svh]">
+        <div
+          className="absolute inset-0 bg-top bg-no-repeat"
+          style={{
+            backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')",
+            backgroundSize: "100% auto",
+          }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0.36)_58%,rgba(10,32,20,0.98)_100%)]" />
+      </div>
+
       <BackgroundAudio src="/assets/audio/bgm.mp3" />
 
       <AkuAkuPopup
@@ -241,9 +280,7 @@ export default function ChapterPage() {
         title="Aku-Aku"
       />
 
-      <div className="absolute inset-0 bg-black/30" />
-
-      <div className="relative mx-auto max-w-5xl">
+      <div className="relative z-10 mx-auto max-w-5xl">
         {/* top bar */}
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -372,7 +409,7 @@ export default function ChapterPage() {
               <button
                 type="button"
                 onClick={markChapterDone}
-                disabled={alreadyUnlockedNext || isAdmin}
+                disabled={alreadyUnlockedNext || isAdmin || markingDone}
                 className={[
                   "rounded-xl px-4 py-2 text-sm font-black shadow",
                   alreadyUnlockedNext ? "bg-white opacity-60" : "bg-emerald-600 text-white hover:bg-emerald-500",
@@ -389,6 +426,7 @@ export default function ChapterPage() {
                   : lang === "en"
                   ? "Mark as done (unlock next)"
                   : "Marcar como hecho (desbloquear siguiente)"}
+                {markingDone ? "..." : ""}
               </button>
 
               <Link href="/map" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
@@ -459,11 +497,23 @@ function SectionCard({ section, lang }: { section: ChapterSection; lang: UiLang 
 /* ---------------------------
    CHAT CARD
 ---------------------------- */
-function ChatCard({ page, lang, userName }: { page: any; lang: UiLang; userName: string }) {
+function ChatCard({
+  page,
+  lang,
+  userName,
+  userAvatarSrc,
+}: {
+  page: any;
+  lang: UiLang;
+  userName: string;
+  userAvatarSrc: string;
+}) {
   const titleTrans = lang === "ms" ? "" : lang === "en" ? page.title.en : page.title.es;
   const contextTrans = !page.context ? "" : lang === "ms" ? "" : lang === "en" ? page.context.en : page.context.es;
 
   const youId = page.youId ?? "azman";
+  const aku2Name = "Aku2";
+  const aku2AvatarSrc = "/assets/characters/Akuaku_idle.png";
 
   function msgText(t: { ms: string; en: string; es: string }) {
     if (lang === "ms") return { main: t.ms, sub: "" };
@@ -491,10 +541,8 @@ function ChatCard({ page, lang, userName }: { page: any; lang: UiLang; userName:
       <div className="mt-5 space-y-3">
         {page.messages.map((m: any) => {
           const isYou = m.from === youId;
-
-          const speaker = page.participants.find((p: any) => p.id === m.from);
-          const speakerNameMs = speaker?.name.ms ?? m.from;
-          const speakerAvatar = speaker?.avatarSrc;
+          const speakerNameMs = isYou ? userName : aku2Name;
+          const speakerAvatar = isYou ? userAvatarSrc : aku2AvatarSrc;
 
           const { main, sub } = msgText(m.text);
 
@@ -503,7 +551,13 @@ function ChatCard({ page, lang, userName }: { page: any; lang: UiLang; userName:
               {!isYou && (
                 <div className="h-10 w-10 overflow-hidden rounded-full bg-white shadow">
                   {speakerAvatar ? (
-                    <Image src={speakerAvatar} alt={speakerNameMs} width={40} height={40} className="h-10 w-10 object-cover" />
+                    <Image
+                      src={speakerAvatar}
+                      alt={speakerNameMs}
+                      width={40}
+                      height={40}
+                      className="h-10 w-10 bg-[#fbf5df] object-contain p-0.5"
+                    />
                   ) : (
                     <div className="flex h-10 w-10 items-center justify-center text-xs font-black">
                       {initials(speakerNameMs) || "?"}
@@ -518,13 +572,17 @@ function ChatCard({ page, lang, userName }: { page: any; lang: UiLang; userName:
                   isYou ? "bg-amber-200 text-black" : "bg-white text-black",
                 ].join(" ")}
               >
-                <div className="text-[10px] font-black opacity-50">{(isYou ? userName : speakerNameMs).toUpperCase()}</div>
+                <div className="text-[10px] font-black opacity-50">{speakerNameMs.toUpperCase()}</div>
 
                 <div className="mt-1 whitespace-pre-line text-sm font-extrabold">{main}</div>
                 {lang !== "ms" && <div className="mt-1 whitespace-pre-line text-xs font-semibold opacity-70">{sub}</div>}
               </div>
 
-              {isYou && <div className="h-10 w-10" />}
+              {isYou && (
+                <div className="h-10 w-10 overflow-hidden rounded-full bg-white shadow">
+                  <Image src={userAvatarSrc} alt={userName} width={40} height={40} className="h-10 w-10 object-cover" />
+                </div>
+              )}
             </div>
           );
         })}

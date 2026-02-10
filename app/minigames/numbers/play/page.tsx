@@ -6,7 +6,8 @@ import type { UiLang } from "@/lib/chapters";
 import Image from "next/image";
 
 import { addHighScore } from "@/lib/highscores";
-import { getCurrentUser } from "@/lib/userStore";
+import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
+import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 
@@ -229,11 +230,25 @@ export default function NumbersPlayPage() {
   const [input, setInput] = useState("");
   const [feedback, setFeedback] = useState<null | { ok: boolean; msg: string }>(null);
   const [playerName, setPlayerName] = useState("GUEST");
+  const [playerAvatarId, setPlayerAvatarId] = useState<ProfileAvatarId | undefined>(undefined);
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
 
   useEffect(() => {
-    getCurrentUser().then((u) => {
-      if (u?.name) setPlayerName(u.name);
-    });
+    let alive = true;
+    getCurrentUser()
+      .then((u) => {
+        if (!alive) return;
+        setUser(u);
+        if (u?.name) setPlayerName(u.name);
+        setPlayerAvatarId(u?.avatarId);
+      })
+      .finally(() => {
+        if (alive) setLoadingUser(false);
+      });
+    return () => {
+      alive = false;
+    };
   }, []);
 
   function recordScoreOnce(
@@ -254,6 +269,7 @@ export default function NumbersPlayPage() {
 
     addHighScore("numbers", {
       name: playerName,
+      avatarId: playerAvatarId,
       accuracy,
       timeMs: tms,
       meta: { result, level: lv, totalCorrect: c, totalWrong: w, attempts: a, lives: l },
@@ -488,6 +504,51 @@ function restart() {
 
   queueMicrotask(() => inputRef.current?.focus());
 }
+
+  const requiredChapter = MINIGAME_PREREQUISITES.numbers;
+  const unlocked = isMinigameUnlocked(user, "numbers");
+
+  if (loadingUser) return null;
+
+  if (!user) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+        <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
+          <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
+          <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
+          <div className="mt-6 flex gap-3">
+            <Link href="/user" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+              Go to Login
+            </Link>
+            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+              Back to Mini Games
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!unlocked) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+        <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
+          <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
+          <p className="mt-4 text-sm font-semibold text-black/70">
+            Complete Chapter {requiredChapter} first to play Numbers.
+          </p>
+          <div className="mt-6 flex gap-3">
+            <Link href="/map" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+              Go to Map
+            </Link>
+            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+              Back to Mini Games
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
 
   return (

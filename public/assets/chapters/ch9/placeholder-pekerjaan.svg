@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none">
+  <rect width="1280" height="720" fill="#F3F4F6"/>
+  <rect x="40" y="40" width="1200" height="640" rx="24" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="4"/>
+  <circle cx="640" cy="360" r="120" fill="#D1D5DB"/>
+  <text x="640" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" fill="#1F2937" font-weight="700">IMAGE PLACEHOLDER</text>
+  <text x="640" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#374151">CHAPTER 9</text>
+  <text x="640" y="410" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#4B5563">PEKERJAAN</text>
+</svg>

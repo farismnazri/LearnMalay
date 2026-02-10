@@ -6,6 +6,8 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 
 import AkuAkuPopup from "@/components/game/AkuAkuPopup";
+import { getCurrentUser, type UserProfile } from "@/lib/userStore";
+import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 
 type UiLang = "ms" | "en" | "es";
 type Translated = { ms: string; en: string; es: string };
@@ -189,6 +191,8 @@ const NUMBER_SETS: NumberSet[] = [
 
 export default function MiniGamesPage() {
   const [lang, setLang] = useState<UiLang>("ms");
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
   const [activeKey, setActiveKey] = useState<string>("sa");
 
   const [akuOpen, setAkuOpen] = useState(false);
@@ -248,7 +252,18 @@ export default function MiniGamesPage() {
   }
 
   useEffect(() => {
+    let alive = true;
     setLang(readUiLang());
+    getCurrentUser()
+      .then((u) => {
+        if (alive) setUser(u);
+      })
+      .finally(() => {
+        if (alive) setLoadingUser(false);
+      });
+    return () => {
+      alive = false;
+    };
   }, []);
 
   function pickLang(next: UiLang) {
@@ -260,6 +275,51 @@ export default function MiniGamesPage() {
     () => NUMBER_SETS.find((s) => s.key === activeKey) ?? NUMBER_SETS[0],
     [activeKey]
   );
+
+  const requiredChapter = MINIGAME_PREREQUISITES.numbers;
+  const unlocked = isMinigameUnlocked(user, "numbers");
+
+  if (loadingUser) return null;
+
+  if (!user) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+        <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
+          <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
+          <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
+          <div className="mt-6 flex gap-3">
+            <Link href="/user" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+              Go to Login
+            </Link>
+            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+              Back to Mini Games
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!unlocked) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+        <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
+          <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
+          <p className="mt-4 text-sm font-semibold text-black/70">
+            Complete Chapter {requiredChapter} first to play Numbers.
+          </p>
+          <div className="mt-6 flex gap-3">
+            <Link href="/map" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+              Go to Map
+            </Link>
+            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+              Back to Mini Games
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main

@@ -12,7 +12,8 @@ import {
 } from "@/lib/wordMatch/items";
 
 import { addHighScore } from "@/lib/highscores";
-import { getCurrentUser } from "@/lib/userStore";
+import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
+import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
@@ -97,6 +98,9 @@ export default function WordMatchPlayPage() {
   const [selectedRightId, setSelectedRightId] = useState<string | null>(null);
   const [locked, setLocked] = useState(false);
   const [playerName, setPlayerName] = useState("Guest");
+  const [playerAvatarId, setPlayerAvatarId] = useState<ProfileAvatarId | undefined>(undefined);
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
 
   // lives + end states
   const [lives, setLives] = useState(MAX_LIVES);
@@ -136,9 +140,20 @@ export default function WordMatchPlayPage() {
   }, []);
 
   useEffect(() => {
-    getCurrentUser().then((u) => {
-      if (u?.name) setPlayerName(u.name);
-    });
+    let alive = true;
+    getCurrentUser()
+      .then((u) => {
+        if (!alive) return;
+        setUser(u);
+        if (u?.name) setPlayerName(u.name);
+        setPlayerAvatarId(u?.avatarId);
+      })
+      .finally(() => {
+        if (alive) setLoadingUser(false);
+      });
+    return () => {
+      alive = false;
+    };
   }, []);
 
   function recordScoreOnce(result: "win" | "gameover", snapshot: { attempts: number; matches: number; mistakes: number; lives: number; level: number; timeMs: number; category: WordCategory }) {
@@ -149,6 +164,7 @@ export default function WordMatchPlayPage() {
 
     addHighScore("word-match", {
       name: playerName,
+      avatarId: playerAvatarId,
       accuracy: acc,
       timeMs: snapshot.timeMs,
       meta: {
@@ -353,6 +369,51 @@ export default function WordMatchPlayPage() {
       : lang === "en"
       ? "WORD\nMATCH"
       : "EMPAREJAR\nPALABRAS";
+
+  const requiredChapter = MINIGAME_PREREQUISITES["word-match"];
+  const unlocked = isMinigameUnlocked(user, "word-match");
+
+  if (loadingUser) return null;
+
+  if (!user) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+        <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
+          <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
+          <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
+          <div className="mt-6 flex gap-3">
+            <Link href="/user" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+              Go to Login
+            </Link>
+            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+              Back to Mini Games
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!unlocked) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+        <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
+          <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
+          <p className="mt-4 text-sm font-semibold text-black/70">
+            Complete Chapter {requiredChapter} first to play Word Match.
+          </p>
+          <div className="mt-6 flex gap-3">
+            <Link href="/map" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+              Go to Map
+            </Link>
+            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+              Back to Mini Games
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main

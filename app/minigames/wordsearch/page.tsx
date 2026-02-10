@@ -6,7 +6,8 @@ import type { UiLang } from "@/lib/chapters";
 import WordSearchCard from "@/components/game/WordSearchCard";
 import { WORD_ITEMS, CATEGORY_LABELS, type WordCategory } from "@/lib/wordMatch/items";
 import { addHighScore } from "@/lib/highscores";
-import { getCurrentUser } from "@/lib/userStore";
+import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
+import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 
@@ -49,12 +50,19 @@ export default function WordSearchMiniGame() {
   const [showAllSeq, setShowAllSeq] = useState(0);
   const [saved, setSaved] = useState(false);
   const [playerName, setPlayerName] = useState("Player");
+  const [playerAvatarId, setPlayerAvatarId] = useState<ProfileAvatarId | undefined>(undefined);
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
   const saveLock = useRef(false);
 
   useEffect(() => {
     setLang(readUiLang());
     getCurrentUser().then((u) => {
+      setUser(u);
       if (u?.name) setPlayerName(u.name);
+      setPlayerAvatarId(u?.avatarId);
+    }).finally(() => {
+      setLoadingUser(false);
     });
   }, []);
   useEffect(() => {
@@ -136,6 +144,7 @@ export default function WordSearchMiniGame() {
     setSaved(true);
     addHighScore("wordsearch", {
       name: playerName,
+      avatarId: playerAvatarId,
       accuracy: 100,
       timeMs: elapsed,
       meta: { difficulty, theme, words: selectedTargets.length },
@@ -153,6 +162,51 @@ export default function WordSearchMiniGame() {
     const m = Math.floor(s / 60);
     const secs = s % 60;
     return `${m.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  }
+
+  const requiredChapter = MINIGAME_PREREQUISITES.wordsearch;
+  const unlocked = isMinigameUnlocked(user, "wordsearch");
+
+  if (loadingUser) return null;
+
+  if (!user) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+        <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
+          <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
+          <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
+          <div className="mt-6 flex gap-3">
+            <Link href="/user" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+              Go to Login
+            </Link>
+            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+              Back to Mini Games
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!unlocked) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+        <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
+          <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
+          <p className="mt-4 text-sm font-semibold text-black/70">
+            Complete Chapter {requiredChapter} first to play Wordsearch.
+          </p>
+          <div className="mt-6 flex gap-3">
+            <Link href="/map" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+              Go to Map
+            </Link>
+            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+              Back to Mini Games
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
   }
 
   return (

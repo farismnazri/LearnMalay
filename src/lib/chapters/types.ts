@@ -236,6 +236,27 @@ export type WordSearchPage = {
   allowDiagonal?: boolean;
   allowReverse?: boolean;
 };
+
+export type CrosswordClue = {
+  id: string;
+  n: number;
+  dir: "across" | "down";
+  row: number; // 0-based
+  col: number; // 0-based
+  answer: string;
+  clue: Translated;
+  revealed?: number[]; // optional prefilled character indexes
+};
+
+export type CrosswordPage = {
+  id: string;
+  kind: "crossword";
+  title: Translated;
+  instructions: Translated;
+  clues: CrosswordClue[];
+  rows?: number; // optional fixed board height
+  cols?: number; // optional fixed board width
+};
 export type FigurePage = {
   id: string;
   kind: "figure";
@@ -279,6 +300,7 @@ export type ChapterPage =
     }
   | BoxDragPage
   | WordSearchPage
+  | CrosswordPage
   | FigurePage;
 
 

@@ -7,3 +7,6 @@ export { chapter05 } from "./chapter-05";
 export { chapter06 } from "./chapter-06";
 export { chapter07 } from "./chapter-07";
 export { chapter08 } from "./chapter-08";
+export { chapter09 } from "./chapter-09";
+export { chapter10 } from "./chapter-10";
+export { chapter11 } from "./chapter-11";

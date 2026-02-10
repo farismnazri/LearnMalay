@@ -17,6 +17,21 @@ function ensureDir(filePath: string) {
   }
 }
 
+function hasColumn(instance: Database.Database, table: string, column: string) {
+  const rows = instance.prepare(`PRAGMA table_info(${table})`).all() as Array<{ name: string }>;
+  return rows.some((r) => r.name === column);
+}
+
+function addColumnIfMissing(
+  instance: Database.Database,
+  table: string,
+  column: string,
+  definition: string
+) {
+  if (hasColumn(instance, table, column)) return;
+  instance.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+}
+
 function migrate(instance: Database.Database) {
   instance.exec(`
     PRAGMA journal_mode = WAL;
@@ -24,6 +39,7 @@ function migrate(instance: Database.Database) {
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
+      avatar_id TEXT,
       is_admin INTEGER NOT NULL DEFAULT 0,
       progress_chapter INTEGER NOT NULL DEFAULT 1,
       progress_page INTEGER NOT NULL DEFAULT 1,
@@ -32,10 +48,17 @@ function migrate(instance: Database.Database) {
 
     CREATE INDEX IF NOT EXISTS idx_users_name ON users(name);
 
+    CREATE TABLE IF NOT EXISTS app_meta (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL,
+      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
     CREATE TABLE IF NOT EXISTS highscores (
       id TEXT PRIMARY KEY,
       game_id TEXT NOT NULL,
       name TEXT NOT NULL,
+      avatar_id TEXT,
       accuracy REAL NOT NULL,
       time_ms INTEGER NOT NULL,
       date_iso TEXT NOT NULL,
@@ -46,6 +69,12 @@ function migrate(instance: Database.Database) {
     CREATE INDEX IF NOT EXISTS idx_highscores_game ON highscores(game_id);
     CREATE INDEX IF NOT EXISTS idx_highscores_sort ON highscores(game_id, accuracy DESC, time_ms ASC, date_iso DESC);
   `);
+
+  addColumnIfMissing(instance, "users", "password_hash", "TEXT");
+  addColumnIfMissing(instance, "users", "password_salt", "TEXT");
+  addColumnIfMissing(instance, "users", "password_algo", "TEXT");
+  addColumnIfMissing(instance, "users", "avatar_id", "TEXT");
+  addColumnIfMissing(instance, "highscores", "avatar_id", "TEXT");
 }
 
 export function getDb() {

@@ -7,3 +7,6 @@ export * from "./chapter-05";
 export * from "./chapter-06";
 export * from "./chapter-07";
 export * from "./chapter-08";
+export * from "./chapter-09";
+export * from "./chapter-10";
+export * from "./chapter-11";

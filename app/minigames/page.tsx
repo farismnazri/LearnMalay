@@ -2,8 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { getCurrentUser, type UserProfile } from "@/lib/userStore";
+import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import type { UiLang } from "@/lib/chapters";
+import {
+  getLatestUnlockedMinigameId,
+  hasCompletedChapter,
+} from "@/lib/minigameUnlocks";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 
@@ -23,15 +29,12 @@ function pick(tr: Translated, lang: UiLang) {
   return lang === "ms" ? tr.ms : lang === "en" ? tr.en : tr.es;
 }
 
-type GameStatus = "ready" | "beta" | "building";
-
 type MiniGame = {
-  id: string;
+  id: "numbers" | "word-match" | "wordsearch" | "currency";
   title: Translated;
   desc: Translated;
-  href?: string; // only for clickable games
-  status: GameStatus;
-  badge?: Translated; // optional label
+  href: string;
+  requiredChapter: number;
 };
 
 const GAMES: MiniGame[] = [
@@ -44,8 +47,7 @@ const GAMES: MiniGame[] = [
       es: "Escribe números en malayo. Niveles + vidas.",
     },
     href: "/minigames/numbers",
-    status: "ready",
-    badge: { ms: "SIAP", en: "READY", es: "LISTO" },
+    requiredChapter: 1,
   },
   {
     id: "word-match",
@@ -56,8 +58,7 @@ const GAMES: MiniGame[] = [
       es: "Empareja BM con EN/ES. Rápido y divertido.",
     },
     href: "/minigames/word-match",
-    status: "beta",
-    badge: { ms: "BARU", en: "NEW", es: "NUEVO" },
+    requiredChapter: 2,
   },
   {
     id: "wordsearch",
@@ -68,88 +69,111 @@ const GAMES: MiniGame[] = [
       es: "Encuentra palabras en una cuadrícula. Elige dificultad y tema.",
     },
     href: "/minigames/wordsearch",
-    status: "beta",
-    badge: { ms: "BARU", en: "NEW", es: "NUEVO" },
-  },
-
-  // Future (greyed out)
-  {
-    id: "listen-tap",
-    title: { ms: "Dengar & Tekan", en: "Listen & Tap", es: "Escucha y toca" },
-    desc: {
-      ms: "Dengar audio, pilih jawapan betul.",
-      en: "Hear audio, tap the correct answer.",
-      es: "Escucha audio y elige la respuesta.",
-    },
-    status: "building",
-    badge: { ms: "BINA", en: "BUILDING", es: "EN CONSTRUCCIÓN" },
+    requiredChapter: 3,
   },
   {
-    id: "sentence-build",
-    title: { ms: "Susun Ayat", en: "Sentence Builder", es: "Construir frases" },
+    id: "currency",
+    title: { ms: "Wang Malaysia", en: "Malaysian Currency", es: "Moneda Malasia" },
     desc: {
-      ms: "Susun perkataan jadi ayat yang betul.",
-      en: "Arrange words into a correct sentence.",
-      es: "Ordena palabras para formar una frase.",
+      ms: "Belajar bayar dan kira baki dengan wang Malaysia.",
+      en: "Practice paying and returning change with Malaysian money.",
+      es: "Practica pagar y devolver cambio con moneda malasia.",
     },
-    status: "building",
-    badge: { ms: "BINA", en: "BUILDING", es: "EN CONSTRUCCIÓN" },
-  },
-  {
-    id: "time-clock",
-    title: { ms: "Masa & Jam", en: "Time & Clock", es: "Hora y reloj" },
-    desc: {
-      ms: "Baca jam dan tulis ‘pukul…’.",
-      en: "Read the clock and write ‘pukul…’.",
-      es: "Lee el reloj y escribe ‘pukul…’.",
-    },
-    status: "building",
-    badge: { ms: "BINA", en: "BUILDING", es: "EN CONSTRUCCIÓN" },
+    href: "/minigames/currency",
+    requiredChapter: 5,
   },
 ];
 
-function Badge({ text, status }: { text: string; status: GameStatus }) {
+function Badge({ text, tone }: { text: string; tone: "new" | "locked" }) {
   const cls =
-    status === "ready"
-      ? "bg-emerald-200 text-emerald-950"
-      : status === "beta"
-      ? "bg-amber-200 text-amber-950"
-      : "bg-zinc-200 text-zinc-800";
-  return <span className={`inline-flex rounded-full px-2 py-1 text-[11px] font-black ${cls}`}>{text}</span>;
+    tone === "new"
+      ? "border border-[#e7bf56]/80 bg-[#ffdc68] text-[#3f2f00]"
+      : "border border-[#8ab06f]/45 bg-[#1f422d]/90 text-[#dff0cb]";
+  return <span className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-black tracking-wide ${cls}`}>{text}</span>;
 }
 
-function GameCard({ g, lang }: { g: MiniGame; lang: UiLang }) {
-  const isDisabled = g.status === "building" || !g.href;
+function lockMessage(lang: UiLang, requiredChapter: number, hasUser: boolean) {
+  if (!hasUser) {
+    return lang === "ms"
+      ? "Pilih pengguna dahulu untuk lihat akses minigame."
+      : lang === "en"
+      ? "Select a user first to view minigame access."
+      : "Selecciona un usuario primero para ver el acceso a minijuegos.";
+  }
+
+  return lang === "ms"
+    ? `Kunci: Selesaikan Bab ${requiredChapter} dahulu untuk main.`
+    : lang === "en"
+    ? `Locked: Complete Chapter ${requiredChapter} first to play.`
+    : `Bloqueado: Completa primero el Capítulo ${requiredChapter} para jugar.`;
+}
+
+function GameCard({
+  g,
+  lang,
+  user,
+  latestUnlockedId,
+}: {
+  g: MiniGame;
+  lang: UiLang;
+  user: UserProfile | null;
+  latestUnlockedId: MiniGame["id"] | null;
+}) {
+  const unlocked = hasCompletedChapter(user, g.requiredChapter);
+  const isLatestNew = unlocked && latestUnlockedId === g.id;
+  const hasUser = Boolean(user);
+  const isDisabled = !unlocked;
+
+  const badgeText = isLatestNew
+    ? "NEW"
+    : isDisabled
+    ? lang === "ms"
+      ? "LOCKED"
+      : lang === "en"
+      ? "LOCKED"
+      : "BLOQUEADO"
+    : null;
 
   const inner = (
     <div
       className={[
-        "relative rounded-3xl bg-white/90 p-5 shadow-xl transition",
-        isDisabled ? "opacity-55 grayscale" : "hover:scale-[1.01] active:scale-[0.99]",
+        "relative overflow-hidden rounded-3xl border p-5 shadow-xl transition-all duration-200",
+        "border-[#d6c992]/75 bg-[#fff6dc]/95 text-[#22341b]",
+        isDisabled
+          ? "cursor-not-allowed opacity-85"
+          : "hover:-translate-y-0.5 hover:border-[#e0b64f] hover:bg-gradient-to-br hover:from-[#ffe275] hover:via-[#ffd65a] hover:to-[#f2c246] hover:text-[#2f2606] hover:shadow-[0_16px_30px_rgba(0,0,0,0.28)] active:scale-[0.99]",
       ].join(" ")}
     >
+      <div className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-white/20 blur-2xl" />
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="text-xl font-extrabold">{pick(g.title, lang)}</div>
-          <div className="mt-1 text-sm font-semibold opacity-80">{pick(g.desc, lang)}</div>
+          <div className="text-xl font-black">{pick(g.title, lang)}</div>
+          <div className="mt-1 text-sm font-semibold opacity-85">{pick(g.desc, lang)}</div>
+          <div className="mt-3 inline-flex rounded-full border border-black/10 bg-black/10 px-3 py-1 text-[11px] font-black opacity-85">
+            {lang === "ms"
+              ? `Prasyarat: Bab ${g.requiredChapter}`
+              : lang === "en"
+              ? `Prerequisite: Chapter ${g.requiredChapter}`
+              : `Requisito: Capítulo ${g.requiredChapter}`}
+          </div>
         </div>
 
         <div className="flex flex-col items-end gap-2">
-          {g.badge && <Badge text={pick(g.badge, lang)} status={g.status} />}
+          {badgeText && <Badge text={badgeText} tone={isLatestNew ? "new" : "locked"} />}
           <Image
             src="/assets/characters/Akuaku_idle.png"
             alt="AkuAku"
-            width={44}
-            height={44}
-            className="drop-shadow"
+            width={52}
+            height={52}
+            className="rounded-full bg-white/30 p-1 drop-shadow"
             priority={false}
           />
         </div>
       </div>
 
       {isDisabled && (
-        <div className="mt-4 rounded-2xl bg-black/5 p-3 text-xs font-black opacity-70">
-          {lang === "ms" ? "SEDANG DIBINA" : lang === "en" ? "BUILDING" : "EN CONSTRUCCIÓN"}
+        <div className="mt-4 rounded-2xl border border-[#94b985]/40 bg-black/25 p-3 text-xs font-black text-[#eaf6d8]/95">
+          {lockMessage(lang, g.requiredChapter, hasUser)}
         </div>
       )}
     </div>
@@ -157,21 +181,37 @@ function GameCard({ g, lang }: { g: MiniGame; lang: UiLang }) {
 
   if (isDisabled) return <div>{inner}</div>;
   return (
-    <Link href={g.href!} className="block">
+    <Link href={g.href} className="block">
       {inner}
     </Link>
   );
 }
 
 export default function MiniGamesHubPage() {
-  const [lang, setLang] = useState<UiLang>("ms");
+  const [lang, setLang] = useState<UiLang>(() => readUiLang());
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
 
-  useEffect(() => setLang(readUiLang()), []);
+  useEffect(() => {
+    let alive = true;
+    getCurrentUser()
+      .then((u) => {
+        if (alive) setUser(u);
+      })
+      .finally(() => {
+        if (alive) setLoadingUser(false);
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   function pickLang(next: UiLang) {
     setLang(next);
     writeUiLang(next);
   }
+
+  const latestUnlockedId = useMemo(() => getLatestUnlockedMinigameId(user), [user]);
 
   const title: Translated = { ms: "Mini Games", en: "Mini Games", es: "Mini Juegos" };
   const subtitle: Translated = {
@@ -181,68 +221,93 @@ export default function MiniGamesHubPage() {
   };
 
   return (
-    <main
-      className="relative min-h-screen bg-cover bg-center px-6 py-10"
-      style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
-    >
-      <div className="absolute inset-0 bg-black/25" />
+    <main className="relative min-h-screen overflow-hidden bg-[#081d14] px-6 py-10">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(255,220,88,0.16)_0%,rgba(255,220,88,0.03)_35%,transparent_52%),radial-gradient(circle_at_85%_18%,rgba(126,197,88,0.2)_0%,rgba(126,197,88,0.04)_38%,transparent_58%),linear-gradient(180deg,rgba(6,20,14,0.5)_0%,rgba(9,30,20,0.62)_42%,rgba(10,35,23,0.75)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.18)_0px,rgba(0,0,0,0.18)_1px,transparent_2px,transparent_4px)]" />
 
-      <div className="relative mx-auto max-w-5xl space-y-6">
+      <div className="relative z-10 mx-auto max-w-5xl space-y-6">
         {/* header row */}
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className="crash-text crash-outline-fallback text-6xl font-black leading-none">
-              {title.ms.toUpperCase()}
-            </h1>
-            {lang !== "ms" && <div className="mt-1 text-lg font-extrabold text-white/90">{pick(title, lang)}</div>}
-            <div className="mt-2 text-sm font-semibold text-white/85">
-              {subtitle.ms}
-              {lang !== "ms" && <span className="opacity-70"> • {pick(subtitle, lang)}</span>}
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="w-full max-w-2xl rounded-3xl border border-[#c7deaa]/45 bg-[#153525]/75 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.45)] backdrop-blur-md">
+            <div className="flex items-center gap-4">
+              <Image
+                src={getProfileAvatarSrc(user?.avatarId)}
+                alt="Player avatar"
+                width={60}
+                height={60}
+                className="h-14 w-14 rounded-full border-2 border-[#f8da72]/75 bg-white/95 object-cover shadow-lg"
+              />
+              <div>
+                <h1 className="crash-text crash-outline-fallback text-6xl font-black leading-none text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)]">
+                  {title.ms.toUpperCase()}
+                </h1>
+                {lang !== "ms" && <div className="mt-1 text-lg font-black text-[#f3f7e8]">{pick(title, lang)}</div>}
+              </div>
             </div>
+
+            <div className="mt-3 text-sm font-semibold text-[#eef8da]/90">
+              {subtitle.ms}
+              {lang !== "ms" && <span className="opacity-80"> • {pick(subtitle, lang)}</span>}
+            </div>
+            {!loadingUser && user && (
+              <div className="mt-3 inline-flex rounded-full border border-[#bdd89f]/60 bg-[#2f5f34]/75 px-3 py-1 text-xs font-black tracking-wide text-[#f2fbdc]">
+                {lang === "ms"
+                  ? `Kemajuan semasa: Bab ${user.progress.chapter}`
+                  : lang === "en"
+                  ? `Current progress: Chapter ${user.progress.chapter}`
+                  : `Progreso actual: Capítulo ${user.progress.chapter}`}
+              </div>
+            )}
           </div>
 
-          <div className="rounded-2xl bg-white/85 p-4 shadow">
-            <div className="text-xs font-black opacity-70">LANGUAGE</div>
+          <div className="rounded-3xl border border-[#c6dca8]/45 bg-[#163726]/75 p-4 shadow-xl backdrop-blur-md">
+            <div className="text-xs font-black tracking-wide text-[#eff8db]/85">LANGUAGE</div>
             <div className="mt-2 flex gap-2">
               <button
                 onClick={() => pickLang("ms")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
+                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-[#ffd447] text-[#3f2f00]" : "bg-[#f7f2dc] text-[#1f3519]"}`}
               >
                 BM
               </button>
               <button
                 onClick={() => pickLang("en")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
+                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-[#ffd447] text-[#3f2f00]" : "bg-[#f7f2dc] text-[#1f3519]"}`}
               >
                 EN
               </button>
               <button
                 onClick={() => pickLang("es")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
+                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-[#ffd447] text-[#3f2f00]" : "bg-[#f7f2dc] text-[#1f3519]"}`}
               >
                 ES
               </button>
             </div>
 
             <div className="mt-3 flex flex-wrap gap-2">
-              <Link href="/map" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
+              <Link
+                href="/map"
+                className="rounded-xl border border-[#bcd7a1]/55 bg-[#274d32]/85 px-3 py-2 text-xs font-black text-[#f2fae1] shadow hover:bg-[#315f3d]"
+              >
                 Back to Map
               </Link>
               <Link
-              href="minigames/highscores"
-              className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow hover:bg-amber-100"
+                href="/minigames/highscores"
+                className="rounded-xl bg-gradient-to-r from-[#ffd447] to-[#ffbf3f] px-3 py-2 text-xs font-black text-[#3f2e00] shadow hover:brightness-105"
               >
                 High Scores
               </Link>
-
             </div>
           </div>
         </div>
 
         {/* game grid */}
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
           {GAMES.map((g) => (
-            <GameCard key={g.id} g={g} lang={lang} />
+            <GameCard key={g.id} g={g} lang={lang} user={user} latestUnlockedId={latestUnlockedId} />
           ))}
         </section>
       </div>
