@@ -30,11 +30,12 @@ function pick(tr: Translated, lang: UiLang) {
 }
 
 type MiniGame = {
-  id: "numbers" | "word-match" | "wordsearch" | "currency";
+  id: "numbers" | "word-match" | "wordsearch" | "currency" | "misi-membeli";
   title: Translated;
   desc: Translated;
   href: string;
   requiredChapter: number;
+  backgroundSrc: string;
 };
 
 const GAMES: MiniGame[] = [
@@ -48,6 +49,7 @@ const GAMES: MiniGame[] = [
     },
     href: "/minigames/numbers",
     requiredChapter: 1,
+    backgroundSrc: "/assets/backgrounds/Nombor.png",
   },
   {
     id: "word-match",
@@ -59,6 +61,7 @@ const GAMES: MiniGame[] = [
     },
     href: "/minigames/word-match",
     requiredChapter: 2,
+    backgroundSrc: "/assets/backgrounds/PadanPerkataan.png",
   },
   {
     id: "wordsearch",
@@ -70,6 +73,7 @@ const GAMES: MiniGame[] = [
     },
     href: "/minigames/wordsearch",
     requiredChapter: 3,
+    backgroundSrc: "/assets/backgrounds/CariPerkataan.png",
   },
   {
     id: "currency",
@@ -81,6 +85,19 @@ const GAMES: MiniGame[] = [
     },
     href: "/minigames/currency",
     requiredChapter: 5,
+    backgroundSrc: "/assets/backgrounds/WangMalaysia.png",
+  },
+  {
+    id: "misi-membeli",
+    title: { ms: "Misi Membeli", en: "Shopping Mission", es: "Misión de Compras" },
+    desc: {
+      ms: "Cari item dalam scene pasar dan bayar ikut senarai.",
+      en: "Find market items on scene and check out with your list.",
+      es: "Encuentra artículos en la escena del mercado y paga con tu lista.",
+    },
+    href: "/minigames/misi-membeli",
+    requiredChapter: 11,
+    backgroundSrc: "/assets/backgrounds/misi_membeli.png",
   },
 ];
 
@@ -137,45 +154,54 @@ function GameCard({
   const inner = (
     <div
       className={[
-        "relative overflow-hidden rounded-3xl border p-5 shadow-xl transition-all duration-200",
-        "border-[#d6c992]/75 bg-[#fff6dc]/95 text-[#22341b]",
+        "relative aspect-square overflow-hidden rounded-3xl border shadow-xl transition-all duration-200",
+        "border-[#d6c992]/80 text-[#22341b]",
         isDisabled
-          ? "cursor-not-allowed opacity-85"
-          : "hover:-translate-y-0.5 hover:border-[#e0b64f] hover:bg-gradient-to-br hover:from-[#ffe275] hover:via-[#ffd65a] hover:to-[#f2c246] hover:text-[#2f2606] hover:shadow-[0_16px_30px_rgba(0,0,0,0.28)] active:scale-[0.99]",
+          ? "cursor-not-allowed opacity-90"
+          : "hover:-translate-y-0.5 hover:border-[#e0b64f] hover:shadow-[0_16px_30px_rgba(0,0,0,0.28)] active:scale-[0.99]",
       ].join(" ")}
     >
+      <div
+        className={[
+          "absolute inset-0 bg-cover bg-center",
+          isDisabled ? "grayscale" : "",
+        ].join(" ")}
+        style={{ backgroundImage: `url('${g.backgroundSrc}')` }}
+      />
+      {isDisabled && <div className="absolute inset-0 bg-[#10210f]/55" />}
       <div className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-white/20 blur-2xl" />
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <div className="text-xl font-black">{pick(g.title, lang)}</div>
-          <div className="mt-1 text-sm font-semibold opacity-85">{pick(g.desc, lang)}</div>
-          <div className="mt-3 inline-flex rounded-full border border-black/10 bg-black/10 px-3 py-1 text-[11px] font-black opacity-85">
-            {lang === "ms"
-              ? `Prasyarat: Bab ${g.requiredChapter}`
-              : lang === "en"
-              ? `Prerequisite: Chapter ${g.requiredChapter}`
-              : `Requisito: Capítulo ${g.requiredChapter}`}
-          </div>
-        </div>
-
-        <div className="flex flex-col items-end gap-2">
-          {badgeText && <Badge text={badgeText} tone={isLatestNew ? "new" : "locked"} />}
-          <Image
-            src="/assets/characters/Akuaku_idle.png"
-            alt="AkuAku"
-            width={52}
-            height={52}
-            className="rounded-full bg-white/30 p-1 drop-shadow"
-            priority={false}
-          />
-        </div>
+      <div className="absolute right-4 top-4 z-20 flex flex-col items-end gap-2">
+        {badgeText && <Badge text={badgeText} tone={isLatestNew ? "new" : "locked"} />}
+        <Image
+          src="/assets/characters/Akuaku_idle.png"
+          alt="AkuAku"
+          width={52}
+          height={52}
+          className="rounded-full bg-white/65 p-1 drop-shadow"
+          priority={false}
+        />
       </div>
 
-      {isDisabled && (
-        <div className="mt-4 rounded-2xl border border-[#94b985]/40 bg-black/25 p-3 text-xs font-black text-[#eaf6d8]/95">
-          {lockMessage(lang, g.requiredChapter, hasUser)}
+      <div
+        className={[
+          "absolute inset-x-0 bottom-0 z-10 p-4",
+          isDisabled ? "bg-[#203521] text-[#e9f6d7]" : "bg-[#f6eed3] text-[#22341b]",
+        ].join(" ")}
+      >
+        <div className="text-2xl font-black leading-tight">{pick(g.title, lang)}</div>
+        <div className="mt-2 inline-flex rounded-full border border-black/15 bg-black/10 px-3 py-1 text-xs font-black">
+          {lang === "ms"
+            ? `Prasyarat: Bab ${g.requiredChapter}`
+            : lang === "en"
+            ? `Prerequisite: Chapter ${g.requiredChapter}`
+            : `Requisito: Capítulo ${g.requiredChapter}`}
         </div>
-      )}
+        {isDisabled && (
+          <div className="mt-2 text-xs font-black text-[#d4e7be]">
+            {lockMessage(lang, g.requiredChapter, hasUser)}
+          </div>
+        )}
+      </div>
     </div>
   );
 

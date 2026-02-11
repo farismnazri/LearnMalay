@@ -51,6 +51,7 @@ export default function HighScoresPage() {
     "word-match": [],
     wordsearch: [],
     currency: [],
+    "misi-membeli": [],
   });
   const [users, setUsers] = useState<Awaited<ReturnType<typeof listUsers>>>([]);
 
@@ -265,6 +266,19 @@ export default function HighScoresPage() {
                 ].join(" ")}
               >
                 Currency
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setGameId("misi-membeli")}
+                className={[
+                  "rounded-full border px-4 py-2 text-xs font-black shadow transition",
+                  gameId === "misi-membeli"
+                    ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
+                    : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
+                ].join(" ")}
+              >
+                Misi Membeli
               </button>
             </div>
 

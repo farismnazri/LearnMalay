@@ -322,10 +322,11 @@ export default function MiniGamesPage() {
   }
 
   return (
-    <main
-      className="relative min-h-screen bg-cover bg-center px-6 py-10"
-      style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
-    >
+    <main className="relative min-h-screen bg-cover bg-center px-6 py-10">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
+      />
       <AkuAkuPopup
         open={akuOpen}
         onClose={() => setAkuOpen(false)}

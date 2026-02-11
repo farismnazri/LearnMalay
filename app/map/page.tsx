@@ -91,46 +91,52 @@ export default function MapPage() {
 
       <div className="relative z-10 mx-auto max-w-5xl">
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="w-full max-w-2xl rounded-3xl border border-[#c7deaa]/45 bg-[#153525]/75 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.45)] backdrop-blur-md">
-            <div className="flex items-center gap-4">
-              <Image
-                src={getProfileAvatarSrc(user.avatarId)}
-                alt={`${user.name} avatar`}
-                width={60}
-                height={60}
-                className="h-14 w-14 rounded-full border-2 border-[#f8da72]/75 bg-white/95 object-cover shadow-lg"
-              />
+          <div
+            className="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-cover bg-center bg-no-repeat p-5 shadow-[0_20px_55px_rgba(0,0,0,0.45)]"
+            style={{ backgroundImage: "url('/assets/borders/Worldmap.png')" }}
+          >
+            <div className="absolute inset-0 bg-[#1b2f20]/38" />
+            <div className="relative z-10 pl-3 sm:pl-4">
+              <div className="flex items-center gap-4">
+                <Image
+                  src={getProfileAvatarSrc(user.avatarId)}
+                  alt={`${user.name} avatar`}
+                  width={60}
+                  height={60}
+                  className="h-14 w-14 rounded-full border-2 border-[#f8da72]/75 bg-white/95 object-cover shadow-lg"
+                />
 
-              <div className="min-w-0">
-                <h1 className="crash-text crash-outline-fallback text-5xl leading-none font-black text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)]">
-                  WORLD MAP
-                </h1>
-                <p className="mt-1 text-sm font-bold text-[#eef8da]">
-                  Explorer: <span className="text-[#ffe98e]">{user.name}</span> • Current Chapter:{" "}
-                  <span className="text-[#ffe98e]">{currentChapter}</span>
-                </p>
+                <div className="min-w-0">
+                  <h1 className="crash-text crash-outline-fallback text-5xl leading-none font-black text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)]">
+                    WORLD MAP
+                  </h1>
+                  <p className="mt-1 text-sm font-bold text-[#eef8da]">
+                    Explorer: <span className="text-[#ffe98e]">{user.name}</span> • Current Chapter:{" "}
+                    <span className="text-[#ffe98e]">{currentChapter}</span>
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <div className="mt-4 flex flex-wrap items-center gap-2">
-              <span className="rounded-full border border-[#b8d98a]/60 bg-[#2f5f34]/70 px-3 py-1 text-[11px] font-black tracking-wide text-[#eff9dc]">
-                UNLOCKED {unlockedCount}/{totalChapters}
-              </span>
-              <span className="rounded-full border border-[#f0d487]/60 bg-[#72531e]/60 px-3 py-1 text-[11px] font-black tracking-wide text-[#fff0bf]">
-                {completionPct}% COMPLETE
-              </span>
-              {isAdmin && (
-                <span className="rounded-full border border-rose-300/70 bg-rose-100 px-3 py-1 text-[11px] font-black tracking-wide text-rose-900">
-                  ADMIN MODE
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                <span className="rounded-full border border-[#b8d98a]/60 bg-[#2f5f34]/70 px-3 py-1 text-[11px] font-black tracking-wide text-[#eff9dc]">
+                  UNLOCKED {unlockedCount}/{totalChapters}
                 </span>
-              )}
-            </div>
+                <span className="rounded-full border border-[#f0d487]/60 bg-[#72531e]/60 px-3 py-1 text-[11px] font-black tracking-wide text-[#fff0bf]">
+                  {completionPct}% COMPLETE
+                </span>
+                {isAdmin && (
+                  <span className="rounded-full border border-rose-300/70 bg-rose-100 px-3 py-1 text-[11px] font-black tracking-wide text-rose-900">
+                    ADMIN MODE
+                  </span>
+                )}
+              </div>
 
-            <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-black/35">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-[#88cb58] via-[#c8d95f] to-[#ffd74c]"
-                style={{ width: `${Math.max(4, completionPct)}%` }}
-              />
+              <div className="mt-3 mx-1 h-2.5 w-[calc(100%-2rem)] overflow-hidden rounded-full bg-black/35">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-[#88cb58] via-[#c8d95f] to-[#ffd74c]"
+                  style={{ width: `${Math.max(4, completionPct)}%` }}
+                />
+              </div>
             </div>
           </div>
 

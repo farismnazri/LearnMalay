@@ -1,11 +1,15 @@
 import "./globals.css";
 import { crashFont } from "@/lib/fonts";
+import type { Metadata } from "next";
 
 import BackgroundAudio from "@/components/game/BackgroundAudio";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Learn Malay",
   description: "Crash-inspired Malay learning app",
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 export default function RootLayout({

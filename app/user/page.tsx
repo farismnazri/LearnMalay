@@ -31,6 +31,12 @@ function getErrorMessage(error: unknown, fallback: string) {
   return fallback;
 }
 
+function chapterToWorldLevel(chapter: number) {
+  if (chapter <= 4) return { world: 1, level: chapter };
+  if (chapter <= 8) return { world: 2, level: chapter - 4 };
+  return { world: 3, level: Math.max(1, Math.min(3, chapter - 8)) };
+}
+
 export default function UserSelectPage() {
   const router = useRouter();
 
@@ -100,6 +106,20 @@ export default function UserSelectPage() {
 
   const cleanName = useMemo(() => normalizeUserNameInput(name).trim(), [name]);
   const cleanPassword = useMemo(() => normalizePasswordInput(password), [password]);
+  const worldLevel = useMemo(() => {
+    if (!me) return { world: "-", level: "-" };
+    return chapterToWorldLevel(me.progress.chapter);
+  }, [me]);
+  const progressPct = useMemo(() => {
+    if (!me) return 0;
+    if (me.isAdmin) return 100;
+    const chapter = Math.max(1, Math.min(11, Number(me.progress.chapter) || 1));
+    return Math.round((chapter / 11) * 100);
+  }, [me]);
+  const semiWidePlankStyle = { backgroundImage: "url('/assets/borders/woodplanksemiwide.png')" };
+  const longPlankStyle = { backgroundImage: "url('/assets/borders/WoodplankPlainHoriLong.png')" };
+  const shortPlankStyle = { backgroundImage: "url('/assets/borders/WoodplankPlainHoriShort.png')" };
+  const squarePlankStyle = { backgroundImage: "url('/assets/borders/woodplanksquare.png')" };
 
   function setNameInput(v: string) {
     setName(normalizeUserNameInput(v));
@@ -313,192 +333,233 @@ export default function UserSelectPage() {
           </Link>
         </div>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <section className="rounded-3xl border border-[#c6d9a5]/45 bg-[#f6f2dc]/92 p-6 text-[#244120] shadow-2xl backdrop-blur-xl">
-            <div className="inline-flex rounded-2xl bg-[#2e572a]/15 p-1">
-              <button
-                type="button"
-                onClick={() => {
-                  setMode("login");
-                  setErr(null);
-                }}
-                className={[
-                  "rounded-xl px-4 py-2 text-sm font-black transition",
-                  mode === "login"
-                    ? "bg-[#ffd84a] text-[#3f3100]"
-                    : "text-[#2d4b24]/85 hover:text-[#203817]",
-                ].join(" ")}
-              >
-                Login
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setMode("create");
-                  setErr(null);
-                }}
-                className={[
-                  "rounded-xl px-4 py-2 text-sm font-black transition",
-                  mode === "create"
-                    ? "bg-[#ffbf3f] text-[#3f2a00]"
-                    : "text-[#2d4b24]/85 hover:text-[#203817]",
-                ].join(" ")}
-              >
-                Create Account
-              </button>
-            </div>
-
-            <div className="mt-5 grid gap-4">
-              <label className="grid gap-2">
-                <span className="text-xs font-black uppercase tracking-wide text-[#355a2d]/85">Username</span>
-                <input
-                  value={name}
-                  onChange={(e) => setNameInput(e.target.value)}
-                  autoComplete="username"
-                  className="w-full rounded-2xl border border-[#c8dcae] bg-[#fffdea] px-4 py-3 text-sm font-bold text-[#1f3519] outline-none placeholder:text-[#6f8662] focus:border-[#7dbb4c]"
-                  placeholder="Enter your username"
-                  maxLength={32}
-                />
-              </label>
-
-              <label className="grid gap-2">
-                <span className="text-xs font-black uppercase tracking-wide text-[#355a2d]/85">
-                  Password {mode === "login" && isAdminName(cleanName) ? "(admin popup)" : ""}
-                </span>
-                <input
-                  value={password}
-                  onChange={(e) => setPasswordInput(e.target.value)}
-                  autoComplete={mode === "login" ? "current-password" : "new-password"}
-                  type="password"
-                  className="w-full rounded-2xl border border-[#c8dcae] bg-[#fffdea] px-4 py-3 text-sm font-bold text-[#1f3519] outline-none placeholder:text-[#6f8662] focus:border-[#7dbb4c]"
-                  placeholder={mode === "create" ? "Set any password" : "Enter your password"}
-                  maxLength={256}
-                />
-              </label>
-
-              {mode === "create" && (
-                <div className="grid gap-2">
-                  <span className="text-xs font-black uppercase tracking-wide text-[#355a2d]/85">
-                    Choose Your Icon
-                  </span>
-                  <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
-                    {PROFILE_AVATARS.map((avatar) => {
-                      const selected = avatar.id === avatarId;
-                      return (
-                        <button
-                          key={avatar.id}
-                          type="button"
-                          onClick={() => setAvatarId(avatar.id)}
-                          className={[
-                            "rounded-2xl border p-2 transition",
-                            selected
-                              ? "border-[#ffc83d] bg-[#ffefab]"
-                              : "border-[#c8dcae] bg-[#fffdea] hover:border-[#9bc46d]",
-                          ].join(" ")}
-                          title={avatar.label}
-                        >
-                          <Image
-                            src={avatar.src}
-                            alt={avatar.label}
-                            width={56}
-                            height={56}
-                            className="mx-auto h-12 w-12 rounded-full object-cover"
-                          />
-                          <div className="mt-1 text-center text-[11px] font-black text-[#2d4b24]">
-                            {avatar.label}
-                          </div>
-                        </button>
-                      );
-                    })}
+        <div className="mt-8 grid gap-6 lg:grid-cols-[1.12fr_0.88fr]">
+          <section className="text-[#2a1708]">
+            <div
+              className="mx-auto w-full bg-[length:100%_100%] bg-center bg-no-repeat px-0 py-6"
+              style={semiWidePlankStyle}
+            >
+              <div className="mx-auto w-[86%] px-2 pb-4 sm:w-[82%] sm:px-3">
+                <div className="flex justify-center">
+                  <div className="inline-flex rounded-2xl border border-[#8f5e31]/45 bg-[#f4d6a1]/90 p-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMode("login");
+                        setErr(null);
+                      }}
+                      className={[
+                        "rounded-xl px-4 py-2 text-sm font-black transition",
+                        mode === "login"
+                          ? "bg-[#f3ad45] text-[#3f230a]"
+                          : "text-[#4a2f15]/85 hover:text-[#2f1909]",
+                      ].join(" ")}
+                    >
+                      Login
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMode("create");
+                        setErr(null);
+                      }}
+                      className={[
+                        "rounded-xl px-4 py-2 text-sm font-black transition",
+                        mode === "create"
+                          ? "bg-[#f3ad45] text-[#3f230a]"
+                          : "text-[#4a2f15]/85 hover:text-[#2f1909]",
+                      ].join(" ")}
+                    >
+                      Sign Up
+                    </button>
                   </div>
                 </div>
-              )}
-            </div>
 
-            {err && (
-              <div className="mt-4 rounded-2xl border border-rose-300/70 bg-rose-100 px-4 py-3 text-sm font-semibold text-rose-900">
-                {err}
+                <div className="mt-5 grid gap-3">
+                  <label className="grid gap-2">
+                    <span className="text-xs font-black uppercase text-center tracking-wide text-[#000000]/85">Username</span>
+                    <input
+                      value={name}
+                      onChange={(e) => setNameInput(e.target.value)}
+                      autoComplete="username"
+                      className="w-full rounded-2xl border border-[#9d6e44]/70 bg-[#fff8e7] px-4 py-3 text-sm font-bold text-[#2d1c0d] outline-none placeholder:text-[#91745a] focus:border-[#d28f45]"
+                      placeholder="Enter your username"
+                      maxLength={32}
+                    />
+                  </label>
+
+                  <label className="grid gap-2">
+                    <span className="text-xs font-black text-center uppercase tracking-wide text-[#000000]/85">
+                      Password {mode === "login" && isAdminName(cleanName) ? "(admin popup)" : ""}
+                    </span>
+                    <input
+                      value={password}
+                      onChange={(e) => setPasswordInput(e.target.value)}
+                      autoComplete={mode === "login" ? "current-password" : "new-password"}
+                      type="password"
+                      className="w-full rounded-2xl border border-[#9d6e44]/70 bg-[#fff8e7] px-4 py-3 text-sm font-bold text-[#2d1c0d] outline-none placeholder:text-[#91745a] focus:border-[#d28f45]"
+                      placeholder={mode === "create" ? "Set any password" : "Enter your password"}
+                      maxLength={256}
+                    />
+                  </label>
+
+                  {mode === "create" && (
+                    <div className="grid gap-2">
+                      <span className="text-xs font-black uppercase tracking-wide text-[#533417]/85">
+                        Choose Your Icon
+                      </span>
+                      <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
+                        {PROFILE_AVATARS.map((avatar) => {
+                          const selected = avatar.id === avatarId;
+                          return (
+                            <button
+                              key={avatar.id}
+                              type="button"
+                              onClick={() => setAvatarId(avatar.id)}
+                              className={[
+                                "rounded-2xl border p-2 transition",
+                                selected
+                                  ? "border-[#b3743c] bg-[#ffe2b6]"
+                                  : "border-[#a5774f]/65 bg-[#fff8e7] hover:border-[#b3743c]",
+                              ].join(" ")}
+                              title={avatar.label}
+                            >
+                              <Image
+                                src={avatar.src}
+                                alt={avatar.label}
+                                width={56}
+                                height={56}
+                                className="mx-auto h-12 w-12 rounded-full object-cover"
+                              />
+                              <div className="mt-1 text-center text-[11px] font-black text-[#3e230c]">
+                                {avatar.label}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {err && (
+                  <div className="mt-4 rounded-2xl border border-rose-300/70 bg-rose-100 px-4 py-3 text-sm font-semibold text-rose-900">
+                    {err}
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={handleAuthSubmit}
+                  disabled={isActionDisabled}
+                  className="mt-4 w-full rounded-2xl bg-gradient-to-r from-[#f9b453] via-[#ef9f3f] to-[#de8431] px-5 py-3 text-sm font-black text-[#3b220b] shadow-lg transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {submitting ? "Please wait..." : mode === "login" ? "Login" : "Create Account"}
+                </button>
               </div>
-            )}
-
-            <button
-              type="button"
-              onClick={handleAuthSubmit}
-              disabled={isActionDisabled}
-              className="mt-5 w-full rounded-2xl bg-gradient-to-r from-[#ffd447] via-[#ffca3e] to-[#f6b835] px-5 py-3 text-sm font-black text-[#3f2c00] shadow-lg transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {submitting ? "Please wait..." : mode === "login" ? "Login" : "Create Account"}
-            </button>
+            </div>
           </section>
 
-          <section className="rounded-3xl border border-[#98be6f]/55 bg-[#244722]/80 p-6 shadow-2xl backdrop-blur-xl">
-            <div className="text-xs font-black uppercase tracking-[0.25em] text-[#ffe590]/90">Status</div>
-            {me ? (
-              <div className="mt-3">
-                <div className="flex items-center gap-3">
+          <section className="space-y-3">
+            <div
+              className="relative overflow-hidden rounded-2xl bg-[length:105%_100%] bg-center bg-no-repeat px-4 py-4 text-[#2a1708] shadow-lg"
+              style={longPlankStyle}
+            >
+              <div className="flex items-center gap-4">
+                <div className="h-[76px] w-[76px] rounded-full bg-[#fff8e8]/95 p-[10px] shadow-[inset_0_0_0_2px_rgba(255,255,255,0.65),0_6px_14px_rgba(0,0,0,0.2)]">
                   <Image
-                    src={getProfileAvatarSrc(me.avatarId)}
-                    alt={`${me.name} avatar`}
-                    width={40}
-                    height={40}
-                    className="h-10 w-10 rounded-full border border-[#b6d496]/50 bg-white/95 object-cover"
+                    src={getProfileAvatarSrc(me?.avatarId ?? DEFAULT_USER_AVATAR_ID)}
+                    alt={me ? `${me.name} avatar` : "Default avatar"}
+                    width={56}
+                    height={56}
+                    className="h-full w-full rounded-full object-cover"
                   />
-                  <div className="text-lg font-black text-[#fff9df]">Signed in as {me.name}</div>
                 </div>
-                <div className="mt-1 text-sm font-semibold text-[#e4efcf]/90">
-                  Chapter {me.progress.chapter}
-                  {me.isAdmin ? " • ADMIN" : ""}
+                <div className="min-w-0">
+                  <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#633f1f]/80">Active User</div>
+                  <div className="mt-0.5 truncate text-2xl font-black text-[#2c1808]">
+                    {me ? me.name : "NO ACTIVE USER"}
+                    {me?.isAdmin ? <span className="ml-2 text-sm text-[#7c2f1d]">ADMIN</span> : null}
+                  </div>
                 </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <Link
-                    href="/map"
-                    className="rounded-xl bg-[#ffd447] px-4 py-2 text-sm font-black text-[#3f2e00]"
-                  >
-                    Continue
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={handleSwitchUser}
-                    className="rounded-xl border border-[#b4d194]/50 bg-[#3a6132]/80 px-4 py-2 text-sm font-black text-[#f8f4d9]"
-                  >
-                    Switch User
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleDeleteMyAccount}
-                    disabled={submitting || Boolean(me.isAdmin)}
-                    className="rounded-xl border border-rose-300/60 bg-rose-100/90 px-4 py-2 text-sm font-black text-rose-900 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    Delete My Account
-                  </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-[1fr_auto] gap-3">
+              <div
+                className="relative overflow-hidden rounded-xl bg-[length:100%_108%] bg-center bg-no-repeat px-3 py-2 text-[#2a1708] shadow-lg"
+                style={shortPlankStyle}
+              >
+                <div className="flex h-[110px] items-center justify-evenly gap-3">
+                  <div className="text-center">
+                    <div className="text-[15px] font-black uppercase tracking-[0.16em] text-[#633f1f]/80">World</div>
+                    <div className="text-4xl font-black leading-none text-[#2c1808]">{worldLevel.world}</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-[15px] font-black uppercase tracking-[0.16em] text-[#633f1f]/80">Level</div>
+                    <div className="text-4xl font-black leading-none text-[#2c1808]">{worldLevel.level}</div>
+                  </div>
                 </div>
+              </div>
+              <div
+                className="relative overflow-hidden rounded-xl bg-[length:100%_100%] bg-center bg-no-repeat px-2 py-2 text-[#2a1708] shadow-lg"
+                style={squarePlankStyle}
+              >
+                <div className="flex h-[110px] w-[110px] flex-col items-center justify-center text-center sm:h-[120px] sm:w-[120px]">
+                  <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#7a4d27]/85">
+                  <div className="text-4xl font-black leading-none text-[#2c1808]">{progressPct}%</div>
+                    Progress
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {me ? (
+              <div className="flex flex-wrap gap-2">
+                <Link
+                  href="/map"
+                  className="rounded-xl bg-[#f3b14f] px-4 py-2 text-sm font-black text-[#3f230a]"
+                >
+                  Continue
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleSwitchUser}
+                  className="rounded-xl border border-[#d1b48d]/65 bg-[#4b3220] px-4 py-2 text-sm font-black text-[#f9edd7]"
+                >
+                  Switch User
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDeleteMyAccount}
+                  disabled={submitting || Boolean(me.isAdmin)}
+                  className="rounded-xl border border-rose-300/60 bg-rose-100 px-4 py-2 text-sm font-black text-rose-900 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Delete My Account
+                </button>
                 {me.isAdmin && (
-                  <div className="mt-2 text-xs font-semibold text-[#e4efcf]/90">
+                  <div className="basis-full text-xs font-semibold text-[#f7ebd4]/95">
                     Admin account cannot be deleted.
                   </div>
                 )}
               </div>
-            ) : (
-              <div className="mt-3 text-sm font-semibold text-[#e4efcf]/90">
-                No active session. Login or create an account to continue.
-              </div>
-            )}
+            ) : null}
 
             {!me?.isAdmin && (
-              <div className="mt-6 rounded-2xl border border-[#b9d79a]/35 bg-[#355e2f]/70 p-4 text-xs font-semibold text-[#edf6db]/95">
-                We no longer show saved user accounts on this page. Enter your username and password to login.
+              <div className="text-xs font-semibold text-[#f2e3c8]">
+                Enter your username and password to login, or create a new account.
               </div>
             )}
 
             {me?.isAdmin && (
-              <div className="mt-6 rounded-2xl border border-[#b9d79a]/35 bg-[#355e2f]/70 p-4">
-                <div className="text-xs font-black uppercase tracking-[0.25em] text-[#ffe590]/90">Manage Users</div>
-                <p className="mt-1 text-xs font-semibold text-[#edf6db]/95">
+              <div className="pt-2">
+                <div className="text-xs font-black uppercase tracking-[0.25em] text-[#ffd59c]/90">Manage Users</div>
+                <p className="mt-1 text-xs font-semibold text-[#f2e3c8]/95">
                   Admin view of all accounts. Passwords are hidden and never shown.
                 </p>
 
                 {adminUsersLoading && (
-                  <div className="mt-3 text-sm font-semibold text-[#edf6db]/90">Loading users...</div>
+                  <div className="mt-3 text-sm font-semibold text-[#f2e3c8]/90">Loading users...</div>
                 )}
 
                 {adminUsersError && (
@@ -514,7 +575,7 @@ export default function UserSelectPage() {
                       return (
                         <div
                           key={u.id}
-                          className="flex items-center justify-between gap-3 rounded-xl border border-[#b8d69b]/35 bg-[#2d5128]/70 px-3 py-3"
+                          className="flex items-center justify-between gap-3 rounded-xl border border-[#c39a6d]/55 bg-[#4a321f] px-3 py-3"
                         >
                           <div className="flex min-w-0 items-center gap-3">
                             <Image
@@ -522,10 +583,10 @@ export default function UserSelectPage() {
                               alt={`${u.name} avatar`}
                               width={36}
                               height={36}
-                              className="h-9 w-9 rounded-full border border-[#b6d496]/50 bg-white/95 object-cover"
+                              className="h-9 w-9 rounded-full border border-[#d6b186]/55 bg-white/95 object-cover"
                             />
                             <div className="min-w-0">
-                              <div className="truncate text-sm font-black text-[#fff9df]">
+                              <div className="truncate text-sm font-black text-[#fff1d6]">
                                 {u.name}
                                 {isAccountAdmin && (
                                   <span className="ml-2 rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-black text-rose-900">
@@ -533,7 +594,7 @@ export default function UserSelectPage() {
                                   </span>
                                 )}
                               </div>
-                              <div className="text-[11px] font-semibold text-[#e4efcf]/85">
+                              <div className="text-[11px] font-semibold text-[#edd9ba]/85">
                                 Chapter {u.progress.chapter} • Password hidden
                               </div>
                             </div>
@@ -542,7 +603,7 @@ export default function UserSelectPage() {
                             type="button"
                             onClick={() => openDeleteUserModal(u)}
                             disabled={isAccountAdmin || deleteSubmitting}
-                            className="rounded-lg border border-rose-300/60 bg-rose-100/90 px-3 py-1.5 text-xs font-black text-rose-900 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="rounded-lg border border-rose-300/60 bg-rose-100 px-3 py-1.5 text-xs font-black text-rose-900 disabled:cursor-not-allowed disabled:opacity-50"
                           >
                             Delete
                           </button>

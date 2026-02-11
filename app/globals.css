@@ -27,19 +27,85 @@ body {
 
 .crash-text {
   font-family: var(--font-crash), system-ui, Arial, sans-serif;
-  color: #ff8c1a;
-  -webkit-text-stroke: 0.1px #000;
+  color: #f57f1f;
   letter-spacing: 0.5px;
 }
 
+.crash-title {
+  -webkit-text-stroke: 0 transparent;
+  text-shadow: none;
+}
+
+.crash-title-outline {
+  text-shadow: none;
+}
+
+.crash-ui {
+  -webkit-text-stroke: 0 transparent;
+  letter-spacing: 0.08em;
+  text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000,
+    -2px -2px 0 #000, 0px 2px 0 #000, 2px 0px 0 #000, 0px -2px 0 #000,
+    -2px 0px 0 #000;
+}
+
+.crash-ui-outline {
+  text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000,
+    -2px -2px 0 #000, 0px 2px 0 #000, 2px 0px 0 #000, 0px -2px 0 #000,
+    -2px 0px 0 #000;
+}
+
 .crash-outline-fallback {
-  text-shadow:
-    -2px -2px 0 #000,
-     0px -2px 0 #000,
-     2px -2px 0 #000,
-    -2px  0px 0 #000,
-     2px  0px 0 #000,
-    -2px  2px 0 #000,
-     0px  2px 0 #000,
-     2px  2px 0 #000;
+  text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000,
+    -2px -2px 0 #000, 0px 2px 0 #000, 2px 0px 0 #000, 0px -2px 0 #000,
+    -2px 0px 0 #000;
+}
+
+.crash-outline-chapter {
+  text-shadow: 4px 4px 0 #000, -4px 4px 0 #000, 2px -2px 0 #000,
+    -4px -2px 0 #000, 0px 2px 0 #000, 2px 0px 0 #000, 0px -2px 0 #000,
+    -2px 0px 0 #000;
+}
+
+.crash-hover-white {
+  transition:
+    color 140ms ease;
+}
+
+.group:hover .crash-hover-white {
+  color: #f5fbff;
+  -webkit-text-stroke: 0 transparent;
+  text-shadow: none;
+}
+
+/* Landing title: quick cartoony drop + bounce on mount (~1s total). */
+.title-drop-bounce {
+  transform-origin: center top;
+  animation: titleDropBounce 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  will-change: transform;
+}
+
+@keyframes titleDropBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(-45vh) scale(0.9);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(0) scale(1.03);
+  }
+  73% {
+    transform: translateY(-16px) scale(0.99);
+  }
+  88% {
+    transform: translateY(0) scale(1.01);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title-drop-bounce {
+    animation: none;
+  }
 }

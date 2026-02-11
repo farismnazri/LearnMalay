@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
+import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 
 
 function chapterToWorldLevel(chapter: number) {
@@ -29,6 +31,9 @@ export default function TitleScreen() {
     const chapter = user?.progress.chapter ?? 1;
     return chapterToWorldLevel(chapter);
   }, [user]);
+  const plankBgStyle = { backgroundImage: "url('/assets/borders/woodplankuser.png')" };
+  const gapUnitPx = 16;
+  const topGapPx = gapUnitPx * 7;
 
   async function handleStart() {
     if (starting) return;
@@ -48,73 +53,92 @@ export default function TitleScreen() {
         backgroundImage: "url('/assets/backgrounds/mainpagebackground.jpg')",
       }}
     >
-      {/* subtle scanlines (behind UI) */}
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.10)_0px,rgba(0,0,0,0.10)_1px,transparent_2px,transparent_4px)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(255,221,111,0.2)_0%,rgba(255,221,111,0.06)_35%,transparent_58%),linear-gradient(180deg,rgba(6,20,14,0.24)_0%,rgba(8,24,17,0.55)_45%,rgba(9,23,18,0.76)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.18)_0px,rgba(0,0,0,0.18)_1px,transparent_2px,transparent_4px)]" />
 
-      {/* TOP-RIGHT USER CARD */}
-      <div className="absolute right-6 top-6 z-10 rounded-2xl bg-black/45 p-4 text-left shadow-xl backdrop-blur">
-        <div className="text-xs font-semibold text-white/70">PROFILE</div>
+      <div
+        className="relative z-10 mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center px-6 text-center"
+        style={{ paddingTop: topGapPx }}
+      >
+        <header className="w-full">
+          <Image
+            src="/assets/titles/learnmalay_title.png"
+            alt="Learn Malay"
+            width={1536}
+            height={1024}
+            priority
+            className="title-drop-bounce mx-auto h-auto w-[min(86vw,720px)] select-none"
+          />
 
-        <div className="mt-2 space-y-1 text-sm text-white">
-          <div className="flex gap-2">
-            <span className="w-16 text-white/70">Name:</span>
-            <span className="font-bold">{user ? user.name : "—"}</span>
+          <div
+            className="relative mx-auto flex w-full max-w-[820px] items-center justify-center overflow-hidden rounded-2xl bg-[length:50%_100%] bg-center bg-no-repeat px-4 py-5 shadow-xl"
+            style={{ ...plankBgStyle, marginTop: gapUnitPx }}
+          >
+            <div className="absolute inset-0 bg-[#000000]/0" />
+            <div className="relative z-10 flex w-full items-center justify-center gap-3">
+              <Image
+                src={getProfileAvatarSrc(user?.avatarId)}
+                alt="User icon"
+                width={56}
+                height={56}
+                className="h-12 w-12 rounded-full border-2 border-[#f2cc87]/80 bg-white/95 object-cover shadow-lg"
+              />
+
+              <div className="min-w-0 text-left text-[#000000]">
+                <div className="truncate text-base font-black tracking-wide">{user ? user.name : "NO USER SELECTED"}</div>
+                <div className="mt-1 text-xs font-black tracking-[0.16em] text-[#000000]">
+                  WORLD {user ? wl.world : "-"}   LEVEL {user ? wl.level : "-"}
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div className="flex gap-2">
-            <span className="w-16 text-white/70">World:</span>
-            <span className="font-bold">{user ? wl.world : "—"}</span>
-          </div>
-
-          <div className="flex gap-2">
-            <span className="w-16 text-white/70">Level:</span>
-            <span className="font-bold">{user ? wl.level : "—"}</span>
-          </div>
-        </div>
-
-        {!user && (
-          <div className="mt-3 text-xs font-semibold text-amber-200">
-            Select a user to start.
-          </div>
-        )}
-      </div>
-
-      {/* UI content */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center gap-8 px-6 text-center">
-        <header className="space-y-3">
-          <h1 className="crash-text crash-outline-fallback text-9xl font-black leading-none">
-            LEARN MALAY
-          </h1>
         </header>
 
-        <section className="flex w-full max-w-sm flex-col gap-4">
+        <section
+          className="flex w-full max-w-[980px] items-start justify-center gap-1 sm:gap--60"
+          style={{ marginTop: -20 }}
+        >
           <button
             type="button"
             onClick={() => void handleStart()}
             disabled={starting}
             className={[
-              "w-full rounded-3xl px-6 py-5 text-3xl font-extrabold shadow-xl transition",
-              "active:scale-[0.97] hover:scale-[1.02]",
-              starting ? "cursor-wait bg-orange-500/70 opacity-80" : "bg-orange-500",
+              "relative w-[46%] max-w-[430px] transition duration-150",
+              "active:scale-[0.985] hover:-translate-y-0.5 hover:brightness-105",
+              starting ? "cursor-wait opacity-75" : "",
             ].join(" ")}
             title={canStart ? "Continue to map" : "Go to login / create user"}
+            aria-label={starting ? "Loading" : "Start"}
           >
-            <span className="crash-text crash-outline-fallback">{starting ? "..." : "START"}</span>
+            <Image
+              src="/assets/titles/Start_Title.png"
+              alt={starting ? "Loading" : "Start"}
+              width={1536}
+              height={1024}
+              priority
+              className="h-auto w-full select-none drop-shadow-[0_10px_24px_rgba(0,0,0,0.45)]"
+            />
           </button>
 
           <Link
             href="/user"
-            className="w-full rounded-3xl bg-amber-300 px-6 py-5 text-3xl font-extrabold shadow-xl transition active:scale-[0.97] hover:scale-[1.02]"
+            className="relative w-[46%] max-w-[430px] transition duration-150 hover:-translate-y-0.5 hover:brightness-105 active:scale-[0.985]"
+            aria-label="Select User"
           >
-            <span className="crash-text crash-outline-fallback">SELECT USER</span>
+            <Image
+              src="/assets/titles/select_user.png"
+              alt="Select User"
+              width={1536}
+              height={1024}
+              priority
+              className="h-auto w-full select-none drop-shadow-[0_10px_24px_rgba(0,0,0,0.45)]"
+            />
           </Link>
         </section>
       </div>
 
       <footer className="absolute bottom-6 left-0 right-0 z-10 text-center">
-        <p className="crash-text crash-outline-fallback text-lg font-extrabold">
-          By Faris Nazri
-        </p>
+        <p className="text-xs font-black tracking-[0.22em] text-[#f8efcb]/88">By Faris, dedicated to my wife, Natth</p>
       </footer>
     </main>
   );

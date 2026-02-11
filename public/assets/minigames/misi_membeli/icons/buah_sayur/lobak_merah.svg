@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="lobak_merah placeholder">
+  <rect width="256" height="256" rx="28" fill="#3a8c4f"/>
+  <rect x="18" y="18" width="220" height="220" rx="24" fill="white" fill-opacity="0.17" stroke="white" stroke-opacity="0.45" stroke-width="2"/>
+  <circle cx="128" cy="90" r="34" fill="white" fill-opacity="0.35"/>
+  <path d="M128 58l8 24h24l-20 14 8 24-20-14-20 14 8-24-20-14h24z" fill="white" fill-opacity="0.8"/>
+  <text x="128" y="186" text-anchor="middle" fill="white" font-size="20" font-family="Arial, sans-serif" font-weight="700">lobak_merah</text>
+  <text x="128" y="212" text-anchor="middle" fill="white" fill-opacity="0.9" font-size="12" font-family="Arial, sans-serif">Placeholder</text>
+</svg>

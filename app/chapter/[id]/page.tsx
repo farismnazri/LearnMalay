@@ -284,7 +284,7 @@ export default function ChapterPage() {
         {/* top bar */}
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <div className="crash-text crash-outline-fallback text-7xl font-black leading-none whitespace-pre-line">
+            <div className="crash-text crash-outline-chapter text-7xl font-black leading-none whitespace-pre-line">
               {content.id === 5
                 ? `CHAPTER 5 -\nNOMBOR,\nANGKA &\nALAMAT`
                 : content.id === 6

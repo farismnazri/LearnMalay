@@ -133,10 +133,11 @@ export default function CurrencyIntroPage() {
   };
 
   return (
-    <main
-      className="relative min-h-screen bg-cover bg-center px-6 py-10"
-      style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
-    >
+    <main className="relative min-h-screen bg-cover bg-center px-6 py-10">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
+      />
       <div className="absolute inset-0 bg-black/25" />
 
       <div className="relative mx-auto max-w-4xl space-y-6">

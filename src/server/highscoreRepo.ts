@@ -36,6 +36,7 @@ export function listHighScores(): Record<GameId, ScoreEntry[]> {
     "word-match": [],
     wordsearch: [],
     currency: [],
+    "misi-membeli": [],
   };
 
   for (const r of rows) {
