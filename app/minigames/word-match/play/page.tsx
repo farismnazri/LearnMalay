@@ -17,6 +17,9 @@ import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlock
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
+const AKU2_BETUL_SRC = "/assets/characters/Akuaku_Betul.webp";
+const AKU2_IDLE_POPUP_SIZE = 140;
+const AKU2_BETUL_POPUP_SIZE = 300;
 const MAX_LIVES = 5;
 
 function readUiLang(): UiLang {
@@ -37,6 +40,11 @@ function formatDuration(ms: number) {
 type Translated = { ms: string; en: string; es: string };
 function pick(tr: Translated, lang: UiLang) {
   return lang === "ms" ? tr.ms : lang === "en" ? tr.en : tr.es;
+}
+
+function isPositivePopupText(text: string | null) {
+  if (!text) return false;
+  return /betul|correct|correcto|tahniah|congrats|felicidades|menang|you win|ganaste/i.test(text);
 }
 
 type Level = {
@@ -116,6 +124,12 @@ export default function WordMatchPlayPage() {
   const [popupText, setPopupText] = useState<string | null>(null);
   const [popupFade, setPopupFade] = useState(false);
   const popupTimers = useRef<number[]>([]);
+  const popupIsPositive = isPositivePopupText(popupText);
+  const popupAvatarSrc = useMemo(
+    () => (isPositivePopupText(popupText) ? AKU2_BETUL_SRC : AKU2_IDLE_SRC),
+    [popupText]
+  );
+  const popupAvatarSize = popupIsPositive ? AKU2_BETUL_POPUP_SIZE : AKU2_IDLE_POPUP_SIZE;
 
   const canPlay = !gameOver && !gameWon;
 
@@ -609,10 +623,12 @@ export default function WordMatchPlayPage() {
           ].join(" ")}
         >
           <div className="flex flex-col items-center gap-0">
-            <Image src={AKU2_IDLE_SRC} alt="AkuAku" width={140} height={140} className="animate-bounce drop-shadow-lg" priority />
-            <div className="text-center text-lg font-black text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
-              {popupText}
-            </div>
+            <Image src={popupAvatarSrc} alt="AkuAku" width={popupAvatarSize} height={popupAvatarSize} className="animate-bounce drop-shadow-lg" priority />
+            {!popupIsPositive && (
+              <div className="text-center text-lg font-black text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
+                {popupText}
+              </div>
+            )}
           </div>
         </div>
       )}

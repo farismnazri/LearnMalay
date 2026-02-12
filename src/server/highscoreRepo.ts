@@ -28,7 +28,25 @@ function rowToEntry(row: HighscoreRow): ScoreEntry {
 export function listHighScores(): Record<GameId, ScoreEntry[]> {
   const db = getDb();
   const rows = db
-    .prepare("SELECT * FROM highscores ORDER BY game_id ASC, accuracy DESC, time_ms ASC, date_iso DESC")
+    .prepare(
+      `SELECT * FROM highscores
+       ORDER BY
+         game_id ASC,
+         CASE
+           WHEN game_id = 'numbers' THEN
+             CASE json_extract(meta_json, '$.difficulty')
+               WHEN 'ultrahard' THEN 4
+               WHEN 'hard' THEN 3
+               WHEN 'medium' THEN 2
+               WHEN 'easy' THEN 1
+               ELSE 0
+             END
+           ELSE 0
+         END DESC,
+         accuracy DESC,
+         time_ms ASC,
+         date_iso DESC`
+    )
     .all() as HighscoreRow[];
 
   const store: Record<GameId, ScoreEntry[]> = {
@@ -91,7 +109,21 @@ function trimTop(gameId: GameId, max: number) {
     `DELETE FROM highscores WHERE id IN (
       SELECT id FROM highscores
       WHERE game_id = ?
-      ORDER BY accuracy DESC, time_ms ASC, date_iso DESC
+      ORDER BY
+        CASE
+          WHEN game_id = 'numbers' THEN
+            CASE json_extract(meta_json, '$.difficulty')
+              WHEN 'ultrahard' THEN 4
+              WHEN 'hard' THEN 3
+              WHEN 'medium' THEN 2
+              WHEN 'easy' THEN 1
+              ELSE 0
+            END
+          ELSE 0
+        END DESC,
+        accuracy DESC,
+        time_ms ASC,
+        date_iso DESC
       LIMIT -1 OFFSET ?
     )`
   ).run(gameId, max);

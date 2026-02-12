@@ -17,7 +17,7 @@ function readVol() {
 }
 
 export default function BackgroundAudio({
-  src = "/assets/audio/bgm.mp3",
+  src = "/assets/audio/bgm.m4a",
 }: {
   src?: string;
 }) {

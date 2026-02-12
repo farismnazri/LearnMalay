@@ -111,47 +111,29 @@ function createGridSlots(
   return slots;
 }
 
-function randomInRange(min: number, max: number) {
-  return min + Math.random() * (max - min);
-}
-
-function isTooClose(a: SpotSlot, b: SpotSlot) {
-  const minDistPct = 5.8;
-  return Math.hypot(a.x - b.x, a.y - b.y) < minDistPct;
-}
-
 function buildRandomThemeSlots(region: ThemeRegion, count: number): SpotSlot[] {
-  const slots: SpotSlot[] = [];
-  let attempts = 0;
+  if (count <= 0) return [];
 
-  while (slots.length < count && attempts < 1500) {
-    attempts += 1;
-    const slot: SpotSlot = {
-      x: randomInRange(region.xMin, region.xMax),
-      y: randomInRange(region.yMin, region.yMax),
-      size: Math.floor(randomInRange(50, 63)),
-    };
-    if (slots.some((existing) => isTooClose(existing, slot))) continue;
-    slots.push(slot);
-  }
+  // Use shuffled grid slots so hard mode stays scrambled but icons don't overlap.
+  const padding = 2.2;
+  const xStart = region.xMin + padding;
+  const xEnd = region.xMax - padding;
+  const yStart = region.yMin + padding;
+  const yEnd = region.yMax - padding;
 
-  if (slots.length < count) {
-    const fallback = shuffle(
-      createGridSlots(region.xMin, region.xMax, region.yMin, region.yMax, 5, 2, 56)
-    ).map((slot) => ({
-      x: Math.min(region.xMax, Math.max(region.xMin, slot.x + randomInRange(-2.5, 2.5))),
-      y: Math.min(region.yMax, Math.max(region.yMin, slot.y + randomInRange(-2.5, 2.5))),
-      size: Math.floor(randomInRange(50, 63)),
-    }));
+  const cols = count >= 10 ? 4 : count >= 7 ? 3 : 2;
+  const rows = Math.max(1, Math.ceil(count / cols));
 
-    for (const slot of fallback) {
-      if (slots.length >= count) break;
-      if (slots.some((existing) => isTooClose(existing, slot))) continue;
-      slots.push(slot);
-    }
-  }
+  const baseSize = rows >= 3 ? 36 : rows === 2 ? 44 : 50;
+  const sizeMin = Math.max(32, baseSize - 2);
+  const sizeMax = Math.min(52, baseSize + 2);
 
-  return slots.slice(0, count);
+  const templateSlots = shuffle(createGridSlots(xStart, xEnd, yStart, yEnd, cols, rows, baseSize));
+  return templateSlots.slice(0, count).map((slot) => ({
+    x: slot.x,
+    y: slot.y,
+    size: Math.floor(sizeMin + Math.random() * (sizeMax - sizeMin + 1)),
+  }));
 }
 
 function readUiLang(): UiLang {

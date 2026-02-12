@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${crashFont.variable} antialiased`}>
-        <BackgroundAudio src="/assets/audio/bgm.mp3" />
+        <BackgroundAudio src="/assets/audio/bgm.m4a" />
         {children}
       </body>
     </html>

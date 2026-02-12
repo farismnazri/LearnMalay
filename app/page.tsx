@@ -31,8 +31,8 @@ export default function TitleScreen() {
     const chapter = user?.progress.chapter ?? 1;
     return chapterToWorldLevel(chapter);
   }, [user]);
-  const plankBgStyle = { backgroundImage: "url('/assets/borders/woodplankuser.png')" };
-  const gapUnitPx = 16;
+  const plankBgStyle = { backgroundImage: "url('/assets/borders/woodplankuser.webp')" };
+  const gapUnitPx = 30;
   const topGapPx = gapUnitPx * 7;
 
   async function handleStart() {
@@ -62,7 +62,7 @@ export default function TitleScreen() {
       >
         <header className="w-full">
           <Image
-            src="/assets/titles/learnmalay_title.png"
+            src="/assets/titles/learnmalay_title.webp"
             alt="Learn Malay"
             width={1536}
             height={1024}
@@ -96,7 +96,7 @@ export default function TitleScreen() {
 
         <section
           className="flex w-full max-w-[980px] items-start justify-center gap-1 sm:gap--60"
-          style={{ marginTop: -20 }}
+          style={{ marginTop: 30 }}
         >
           <button
             type="button"
@@ -111,7 +111,7 @@ export default function TitleScreen() {
             aria-label={starting ? "Loading" : "Start"}
           >
             <Image
-              src="/assets/titles/Start_Title.png"
+              src="/assets/titles/Start_Title.webp"
               alt={starting ? "Loading" : "Start"}
               width={1536}
               height={1024}
@@ -126,7 +126,7 @@ export default function TitleScreen() {
             aria-label="Select User"
           >
             <Image
-              src="/assets/titles/select_user.png"
+              src="/assets/titles/select_user.webp"
               alt="Select User"
               width={1536}
               height={1024}

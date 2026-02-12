@@ -10,6 +10,9 @@ import { getProfileAvatarSrc, type ProfileAvatarId } from "@/lib/profileAvatars"
 import { ADMIN_ID, getCurrentUser, listUsers, verifyAdminPassword } from "@/lib/userStore";
 
 const ALL_USERS = "__ALL__";
+const ALL_DIFFICULTIES = "__ALL_DIFFICULTIES__";
+type NumberDifficulty = "easy" | "medium" | "hard" | "ultrahard";
+type NumbersDifficultyFilter = typeof ALL_DIFFICULTIES | NumberDifficulty | "unknown";
 
 function activityCount(s: ScoreEntry) {
   const meta = (s.meta ?? {}) as Record<string, unknown>;
@@ -24,6 +27,29 @@ function activityCount(s: ScoreEntry) {
       : 0;
 
   return Number.isFinite(a) ? a : 0;
+}
+
+function scoreDifficulty(s: ScoreEntry): NumberDifficulty | "unknown" {
+  const meta = (s.meta ?? {}) as Record<string, unknown>;
+  const d = meta.difficulty;
+  return d === "easy" || d === "medium" || d === "hard" || d === "ultrahard" ? d : "unknown";
+}
+
+function difficultyRank(d: NumberDifficulty | "unknown") {
+  if (d === "ultrahard") return 4;
+  if (d === "hard") return 3;
+  if (d === "medium") return 2;
+  if (d === "easy") return 1;
+  return 0;
+}
+
+function difficultyLabel(d: NumbersDifficultyFilter) {
+  if (d === ALL_DIFFICULTIES) return "All difficulties";
+  if (d === "ultrahard") return "Ultra Hard";
+  if (d === "hard") return "Hard";
+  if (d === "medium") return "Medium";
+  if (d === "easy") return "Easy";
+  return "Unknown";
 }
 
 function formatDuration(ms: number) {
@@ -56,6 +82,7 @@ export default function HighScoresPage() {
   const [users, setUsers] = useState<Awaited<ReturnType<typeof listUsers>>>([]);
 
   const [userFilter, setUserFilter] = useState<string>(ALL_USERS);
+  const [difficultyFilter, setDifficultyFilter] = useState<NumbersDifficultyFilter>(ALL_DIFFICULTIES);
 
   useEffect(() => {
     async function load() {
@@ -95,13 +122,18 @@ export default function HighScoresPage() {
   }, [users, baseRows]);
 
   const filteredRows = useMemo(() => {
-    if (userFilter === ALL_USERS) return baseRows;
-    return baseRows.filter((r) => r.name === userFilter);
-  }, [baseRows, userFilter]);
+    const byUser = userFilter === ALL_USERS ? baseRows : baseRows.filter((r) => r.name === userFilter);
+    if (gameId !== "numbers" || difficultyFilter === ALL_DIFFICULTIES) return byUser;
+    return byUser.filter((r) => scoreDifficulty(r) === difficultyFilter);
+  }, [baseRows, userFilter, gameId, difficultyFilter]);
 
   // Sort by Activities first, then Accuracy, then Time
   const sortedRows = useMemo(() => {
     return [...filteredRows].sort((a, b) => {
+      if (gameId === "numbers") {
+        const diff = difficultyRank(scoreDifficulty(b)) - difficultyRank(scoreDifficulty(a));
+        if (diff !== 0) return diff;
+      }
       const act = activityCount(b) - activityCount(a);
       if (act !== 0) return act;
 
@@ -109,7 +141,12 @@ export default function HighScoresPage() {
       if (a.timeMs !== b.timeMs) return a.timeMs - b.timeMs;
       return b.dateISO.localeCompare(a.dateISO);
     });
-  }, [filteredRows]);
+  }, [filteredRows, gameId]);
+
+  function pickGame(next: GameId) {
+    setGameId(next);
+    setDifficultyFilter(ALL_DIFFICULTIES);
+  }
 
   function showMine() {
     if (!me?.name) return;
@@ -144,6 +181,8 @@ export default function HighScoresPage() {
   }
 
   const activeUserLabel = userFilter === ALL_USERS ? "All users" : userFilter;
+  const showDifficultyFilter = gameId === "numbers";
+  const showDifficultyColumn = gameId === "numbers";
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#081d14] px-6 py-10">
@@ -182,6 +221,11 @@ export default function HighScoresPage() {
               <span className="rounded-full border border-[#f0d487]/60 bg-[#72531e]/65 px-3 py-1 text-[11px] font-black tracking-wide text-[#fff0bf]">
                 User: {activeUserLabel}
               </span>
+              {showDifficultyFilter && (
+                <span className="rounded-full border border-[#d6cb95]/70 bg-[#fff2c9] px-3 py-1 text-[11px] font-black tracking-wide text-[#4f3a00]">
+                  Difficulty: {difficultyLabel(difficultyFilter)}
+                </span>
+              )}
               {isAdmin && (
                 <span className="rounded-full border border-rose-300/70 bg-rose-100 px-3 py-1 text-[11px] font-black tracking-wide text-rose-900">
                   ADMIN
@@ -218,7 +262,7 @@ export default function HighScoresPage() {
 
               <button
                 type="button"
-                onClick={() => setGameId("numbers")}
+                onClick={() => pickGame("numbers")}
                 className={[
                   "rounded-full border px-4 py-2 text-xs font-black shadow transition",
                   gameId === "numbers"
@@ -231,7 +275,7 @@ export default function HighScoresPage() {
 
               <button
                 type="button"
-                onClick={() => setGameId("word-match")}
+                onClick={() => pickGame("word-match")}
                 className={[
                   "rounded-full border px-4 py-2 text-xs font-black shadow transition",
                   gameId === "word-match"
@@ -244,7 +288,7 @@ export default function HighScoresPage() {
 
               <button
                 type="button"
-                onClick={() => setGameId("wordsearch")}
+                onClick={() => pickGame("wordsearch")}
                 className={[
                   "rounded-full border px-4 py-2 text-xs font-black shadow transition",
                   gameId === "wordsearch"
@@ -257,7 +301,7 @@ export default function HighScoresPage() {
 
               <button
                 type="button"
-                onClick={() => setGameId("currency")}
+                onClick={() => pickGame("currency")}
                 className={[
                   "rounded-full border px-4 py-2 text-xs font-black shadow transition",
                   gameId === "currency"
@@ -270,7 +314,7 @@ export default function HighScoresPage() {
 
               <button
                 type="button"
-                onClick={() => setGameId("misi-membeli")}
+                onClick={() => pickGame("misi-membeli")}
                 className={[
                   "rounded-full border px-4 py-2 text-xs font-black shadow transition",
                   gameId === "misi-membeli"
@@ -306,9 +350,31 @@ export default function HighScoresPage() {
                 My scores
               </button>
             </div>
+
+            {showDifficultyFilter && (
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="text-xs font-black tracking-wide opacity-65">DIFFICULTY</div>
+                <select
+                  value={difficultyFilter}
+                  onChange={(e) => setDifficultyFilter(e.target.value as NumbersDifficultyFilter)}
+                  className="rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
+                >
+                  <option value={ALL_DIFFICULTIES}>All difficulties</option>
+                  <option value="ultrahard">Ultra Hard</option>
+                  <option value="hard">Hard</option>
+                  <option value="medium">Medium</option>
+                  <option value="easy">Easy</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </div>
+            )}
           </div>
 
-          <div className="mt-3 text-xs font-semibold text-[#2c431f]/75">Ranked by activities, then accuracy, then time.</div>
+          <div className="mt-3 text-xs font-semibold text-[#2c431f]/75">
+            {showDifficultyFilter
+              ? "Ranked by difficulty first (Ultra Hard > Hard > Medium > Easy), then activities, accuracy, and time."
+              : "Ranked by activities, then accuracy, then time."}
+          </div>
 
           <div className="mt-5 overflow-x-auto rounded-2xl border border-[#d7cb98]/70 shadow">
             <table className="w-full min-w-[860px] border-separate border-spacing-0 overflow-hidden">
@@ -323,6 +389,11 @@ export default function HighScoresPage() {
                   <th className="border border-black/10 p-4 text-left align-top">
                     <div className="text-xs font-black text-[#4f3a00]/80">ACTIVITIES</div>
                   </th>
+                  {showDifficultyColumn && (
+                    <th className="border border-black/10 p-4 text-left align-top">
+                      <div className="text-xs font-black text-[#4f3a00]/80">DIFFICULTY</div>
+                    </th>
+                  )}
                   <th className="border border-black/10 p-4 text-left align-top">
                     <div className="text-xs font-black text-[#4f3a00]/80">ACCURACY</div>
                   </th>
@@ -338,7 +409,7 @@ export default function HighScoresPage() {
               <tbody>
                 {sortedRows.length === 0 ? (
                   <tr className="bg-white/95">
-                    <td className="border border-black/10 p-6" colSpan={6}>
+                    <td className="border border-black/10 p-6" colSpan={showDifficultyColumn ? 7 : 6}>
                       <div className="text-sm font-semibold text-[#2d431e]/70">
                         No scores for this filter yet.
                       </div>
@@ -368,6 +439,12 @@ export default function HighScoresPage() {
                         <div className="text-sm font-black text-[#273d1e]">{activityCount(r)}</div>
                       </td>
 
+                      {showDifficultyColumn && (
+                        <td className="border border-black/10 p-4 align-top">
+                          <div className="text-sm font-black text-[#273d1e]">{difficultyLabel(scoreDifficulty(r))}</div>
+                        </td>
+                      )}
+
                       <td className="border border-black/10 p-4 align-top">
                         <div className="text-sm font-black text-[#273d1e]">{Math.round(r.accuracy)}%</div>
                       </td>
@@ -389,7 +466,9 @@ export default function HighScoresPage() {
           <div className="mt-4 rounded-2xl border border-[#cfbf86]/60 bg-[#f8ecbf]/80 p-4">
             <div className="text-xs font-black tracking-wide text-[#5a450b]/70">SCORING</div>
             <div className="mt-1 text-sm font-semibold text-[#4a3a10]/75">
-              Ranked by activities (higher), then accuracy (higher), then time (lower).
+              {showDifficultyFilter
+                ? "Difficulty (higher) first, then activities (higher), accuracy (higher), and time (lower)."
+                : "Ranked by activities (higher), then accuracy (higher), then time (lower)."}
             </div>
           </div>
         </section>

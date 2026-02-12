@@ -63,12 +63,12 @@ return (
     {/* WRAPPER: relative so the character can overlap */}
     <div className="relative w-full max-w-3xl">
       {/* CHARACTER (overlapping, bigger, left) */}
-    <div className="pointer-events-none absolute -left-10 -top-10 z-10 sm:-left-[220px] sm:-top-[140px]">
+    <div className="pointer-events-none absolute -left-20 -top-10 z-10 sm:-left-[150px] sm:-top-[140px]">
         <Image
           src="/assets/characters/Akuaku_idle.png"
           alt="Aku-Aku"
-          width={400}
-          height={400}
+          width={300}
+          height={300}
           className="select-none drop-shadow-2xl"
           priority
         />

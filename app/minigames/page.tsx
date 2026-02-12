@@ -49,7 +49,7 @@ const GAMES: MiniGame[] = [
     },
     href: "/minigames/numbers",
     requiredChapter: 1,
-    backgroundSrc: "/assets/backgrounds/Nombor.png",
+    backgroundSrc: "/assets/backgrounds/Nombor.webp",
   },
   {
     id: "word-match",
@@ -61,7 +61,7 @@ const GAMES: MiniGame[] = [
     },
     href: "/minigames/word-match",
     requiredChapter: 2,
-    backgroundSrc: "/assets/backgrounds/PadanPerkataan.png",
+    backgroundSrc: "/assets/backgrounds/PadanPerkataan.webp",
   },
   {
     id: "wordsearch",
@@ -73,7 +73,7 @@ const GAMES: MiniGame[] = [
     },
     href: "/minigames/wordsearch",
     requiredChapter: 3,
-    backgroundSrc: "/assets/backgrounds/CariPerkataan.png",
+    backgroundSrc: "/assets/backgrounds/CariPerkataan.webp",
   },
   {
     id: "currency",
@@ -85,7 +85,7 @@ const GAMES: MiniGame[] = [
     },
     href: "/minigames/currency",
     requiredChapter: 5,
-    backgroundSrc: "/assets/backgrounds/WangMalaysia.png",
+    backgroundSrc: "/assets/backgrounds/WangMalaysia.webp",
   },
   {
     id: "misi-membeli",
@@ -97,7 +97,7 @@ const GAMES: MiniGame[] = [
     },
     href: "/minigames/misi-membeli",
     requiredChapter: 11,
-    backgroundSrc: "/assets/backgrounds/misi_membeli.png",
+    backgroundSrc: "/assets/backgrounds/misi_membeli.webp",
   },
 ];
 
@@ -170,17 +170,11 @@ function GameCard({
       />
       {isDisabled && <div className="absolute inset-0 bg-[#10210f]/55" />}
       <div className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-white/20 blur-2xl" />
-      <div className="absolute right-4 top-4 z-20 flex flex-col items-end gap-2">
-        {badgeText && <Badge text={badgeText} tone={isLatestNew ? "new" : "locked"} />}
-        <Image
-          src="/assets/characters/Akuaku_idle.png"
-          alt="AkuAku"
-          width={52}
-          height={52}
-          className="rounded-full bg-white/65 p-1 drop-shadow"
-          priority={false}
-        />
-      </div>
+      {badgeText && (
+        <div className="absolute right-4 top-4 z-20">
+          <Badge text={badgeText} tone={isLatestNew ? "new" : "locked"} />
+        </div>
+      )}
 
       <div
         className={[
@@ -248,11 +242,16 @@ export default function MiniGamesHubPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#081d14] px-6 py-10">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
-      />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(255,220,88,0.16)_0%,rgba(255,220,88,0.03)_35%,transparent_52%),radial-gradient(circle_at_85%_18%,rgba(126,197,88,0.2)_0%,rgba(126,197,88,0.04)_38%,transparent_58%),linear-gradient(180deg,rgba(6,20,14,0.5)_0%,rgba(9,30,20,0.62)_42%,rgba(10,35,23,0.75)_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[100svh]">
+        <div
+          className="absolute inset-0 bg-top bg-no-repeat"
+          style={{
+            backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')",
+            backgroundSize: "100% auto",
+          }}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(255,220,88,0.16)_0%,rgba(255,220,88,0.03)_35%,transparent_52%),radial-gradient(circle_at_85%_18%,rgba(126,197,88,0.2)_0%,rgba(126,197,88,0.04)_38%,transparent_58%),linear-gradient(180deg,rgba(6,20,14,0.48)_0%,rgba(9,30,20,0.66)_58%,rgba(10,35,23,0.98)_100%)]" />
+      </div>
       <div className="pointer-events-none absolute inset-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.18)_0px,rgba(0,0,0,0.18)_1px,transparent_2px,transparent_4px)]" />
 
       <div className="relative z-10 mx-auto max-w-5xl space-y-6">

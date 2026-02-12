@@ -116,10 +116,10 @@ export default function UserSelectPage() {
     const chapter = Math.max(1, Math.min(11, Number(me.progress.chapter) || 1));
     return Math.round((chapter / 11) * 100);
   }, [me]);
-  const semiWidePlankStyle = { backgroundImage: "url('/assets/borders/woodplanksemiwide.png')" };
-  const longPlankStyle = { backgroundImage: "url('/assets/borders/WoodplankPlainHoriLong.png')" };
-  const shortPlankStyle = { backgroundImage: "url('/assets/borders/WoodplankPlainHoriShort.png')" };
-  const squarePlankStyle = { backgroundImage: "url('/assets/borders/woodplanksquare.png')" };
+  const semiWidePlankStyle = { backgroundImage: "url('/assets/borders/woodplanksemiwide.webp')" };
+  const longPlankStyle = { backgroundImage: "url('/assets/borders/WoodplankPlainHoriLong.webp')" };
+  const shortPlankStyle = { backgroundImage: "url('/assets/borders/WoodplankPlainHoriShort.webp')" };
+  const squarePlankStyle = { backgroundImage: "url('/assets/borders/woodplanksquare.webp')" };
 
   function setNameInput(v: string) {
     setName(normalizeUserNameInput(v));
@@ -351,7 +351,7 @@ export default function UserSelectPage() {
                       className={[
                         "rounded-xl px-4 py-2 text-sm font-black transition",
                         mode === "login"
-                          ? "bg-[#f3ad45] text-[#3f230a]"
+                          ? "bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] text-[#f3ffe9] shadow-[0_4px_10px_rgba(22,91,42,0.35)]"
                           : "text-[#4a2f15]/85 hover:text-[#2f1909]",
                       ].join(" ")}
                     >
@@ -366,7 +366,7 @@ export default function UserSelectPage() {
                       className={[
                         "rounded-xl px-4 py-2 text-sm font-black transition",
                         mode === "create"
-                          ? "bg-[#f3ad45] text-[#3f230a]"
+                          ? "bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] text-[#f3ffe9] shadow-[0_4px_10px_rgba(22,91,42,0.35)]"
                           : "text-[#4a2f15]/85 hover:text-[#2f1909]",
                       ].join(" ")}
                     >
@@ -452,7 +452,7 @@ export default function UserSelectPage() {
                   type="button"
                   onClick={handleAuthSubmit}
                   disabled={isActionDisabled}
-                  className="mt-4 w-full rounded-2xl bg-gradient-to-r from-[#f9b453] via-[#ef9f3f] to-[#de8431] px-5 py-3 text-sm font-black text-[#3b220b] shadow-lg transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="mt-4 w-full rounded-2xl bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] px-5 py-3 text-sm font-black text-[#f3ffe9] shadow-lg transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {submitting ? "Please wait..." : mode === "login" ? "Login" : "Create Account"}
                 </button>

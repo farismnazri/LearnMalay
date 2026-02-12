@@ -13,12 +13,12 @@ export type ProfileAvatarOption = {
 };
 
 export const PROFILE_AVATARS: ProfileAvatarOption[] = [
-  { id: "crash", label: "Crash", src: "/assets/characters/Profile/CrashProfile.png" },
-  { id: "coco", label: "Coco", src: "/assets/characters/Profile/CocoProfile.png" },
-  { id: "cortex", label: "Cortex", src: "/assets/characters/Profile/CortexProfile.png" },
-  { id: "nitrus", label: "Nitrus", src: "/assets/characters/Profile/NitrusProfile.png" },
-  { id: "ripper", label: "Ripper", src: "/assets/characters/Profile/RipperProfile.png" },
-  { id: "tawna", label: "Tawna", src: "/assets/characters/Profile/TawnaProfile.png" },
+  { id: "crash", label: "Crash", src: "/assets/characters/Profile/CrashProfile.webp" },
+  { id: "coco", label: "Coco", src: "/assets/characters/Profile/CocoProfile.webp" },
+  { id: "cortex", label: "Cortex", src: "/assets/characters/Profile/CortexProfile.webp" },
+  { id: "nitrus", label: "Nitrus", src: "/assets/characters/Profile/NitrusProfile.webp" },
+  { id: "ripper", label: "Ripper", src: "/assets/characters/Profile/RipperProfile.webp" },
+  { id: "tawna", label: "Tawna", src: "/assets/characters/Profile/TawnaProfile.webp" },
 ];
 
 export const DEFAULT_USER_AVATAR_ID: ProfileAvatarId = "crash";

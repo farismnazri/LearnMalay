@@ -10,8 +10,12 @@ import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/us
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
+const NUMBERS_DIFF_KEY = "learnMalay.numbersDifficulty.v1";
 
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png"; // must match filename case in /public
+const AKU2_BETUL_SRC = "/assets/characters/Akuaku_Betul.webp";
+const AKU2_IDLE_POPUP_SIZE = 140;
+const AKU2_BETUL_POPUP_SIZE = 300;
 const MAX_LIVES = 5;
 
 function formatDuration(ms: number) {
@@ -32,10 +36,28 @@ function writeUiLang(lang: UiLang) {
   window.localStorage.setItem(UI_LANG_KEY, lang);
 }
 
+type NumberDifficulty = "easy" | "medium" | "hard" | "ultrahard";
+
+function readNumbersDifficulty(): NumberDifficulty {
+  if (typeof window === "undefined") return "easy";
+  const v = window.localStorage.getItem(NUMBERS_DIFF_KEY);
+  return v === "easy" || v === "medium" || v === "hard" || v === "ultrahard" ? v : "easy";
+}
+
+function writeNumbersDifficulty(diff: NumberDifficulty) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(NUMBERS_DIFF_KEY, diff);
+}
+
 
 type Translated = { ms: string; en: string; es: string };
 function pick(tr: Translated, lang: UiLang) {
   return lang === "ms" ? tr.ms : lang === "en" ? tr.en : tr.es;
+}
+
+function isPositivePopupText(text: string | null) {
+  if (!text) return false;
+  return /betul|correct|correcto|tahniah|congrats|felicidades|menang|you win|ganaste/i.test(text);
 }
 
 function normalizeAnswer(s: string) {
@@ -44,6 +66,13 @@ function normalizeAnswer(s: string) {
     .trim()
     .replace(/\s+/g, " ")
     .replace(/\s*\/\s*/g, "/"); // optional: "sifar / kosong" -> "sifar/kosong"
+}
+
+function normalizeDigitAnswer(s: string) {
+  const digits = s.replace(/[^\d]/g, "");
+  if (!digits) return "";
+  const n = Number(digits);
+  return Number.isFinite(n) ? String(n) : "";
 }
 
 function digitWord(n: number): string {
@@ -219,8 +248,15 @@ export default function NumbersPlayPage() {
 
   const [congratsText, setCongratsText] = useState<string | null>(null);
   const [congratsFade, setCongratsFade] = useState(false);
+  const popupIsPositive = isPositivePopupText(congratsText);
+  const popupAvatarSrc = useMemo(
+    () => (isPositivePopupText(congratsText) ? AKU2_BETUL_SRC : AKU2_IDLE_SRC),
+    [congratsText]
+  );
+  const popupAvatarSize = popupIsPositive ? AKU2_BETUL_POPUP_SIZE : AKU2_IDLE_POPUP_SIZE;
 
   const [lang, setLang] = useState<UiLang>("ms");
+  const [difficulty, setDifficulty] = useState<NumberDifficulty>("easy");
 
   const [levelIdx, setLevelIdx] = useState(0);
   const level = LEVELS[levelIdx];
@@ -233,6 +269,19 @@ export default function NumbersPlayPage() {
   const [playerAvatarId, setPlayerAvatarId] = useState<ProfileAvatarId | undefined>(undefined);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  const [showUltraPrompt, setShowUltraPrompt] = useState(true);
+
+  const requiredCorrect =
+    difficulty === "easy" || difficulty === "medium"
+      ? 10
+      : difficulty === "hard"
+      ? 5
+      : level.requiredCorrect;
+  const isTextToNumberMode = difficulty === "easy";
+  const isUltraHardMode = difficulty === "ultrahard";
+  const popupPositionClass = isUltraHardMode
+    ? "top-[22%] sm:top-[18%] -translate-y-0"
+    : "top-1/2 -translate-y-1/2";
 
   useEffect(() => {
     let alive = true;
@@ -272,7 +321,7 @@ export default function NumbersPlayPage() {
       avatarId: playerAvatarId,
       accuracy,
       timeMs: tms,
-      meta: { result, level: lv, totalCorrect: c, totalWrong: w, attempts: a, lives: l },
+      meta: { result, difficulty, level: lv, totalCorrect: c, totalWrong: w, attempts: a, lives: l },
     });
   }
 
@@ -311,7 +360,18 @@ function triggerCongrats(text: string) {
 
   useEffect(() => {
     setLang(readUiLang());
+    setDifficulty(readNumbersDifficulty());
   }, []);
+
+  useEffect(() => {
+    if (gameOver || gameWon || !isUltraHardMode) {
+      setShowUltraPrompt(true);
+      return;
+    }
+    setShowUltraPrompt(true);
+    const id = window.setTimeout(() => setShowUltraPrompt(false), 2000);
+    return () => window.clearTimeout(id);
+  }, [gameOver, gameWon, isUltraHardMode, n]);
 
   // If level changes, refresh number + reset state
   useEffect(() => {
@@ -328,6 +388,30 @@ function triggerCongrats(text: string) {
     () => msAcceptableAnswers(n).map((s) => normalizeAnswer(s)),
     [n]
   );
+  const difficultyLabel: Record<NumberDifficulty, Translated> = {
+    easy: { ms: "Mudah", en: "Easy", es: "Fácil" },
+    medium: { ms: "Sederhana", en: "Medium", es: "Medio" },
+    hard: { ms: "Sukar", en: "Hard", es: "Difícil" },
+    ultrahard: { ms: "Ultra Sukar", en: "Ultra Hard", es: "Ultra Difícil" },
+  };
+  const promptTitle: Translated = isTextToNumberMode
+    ? {
+        ms: "BACA DALAM BM, TAIP NOMBOR",
+        en: "READ IN MALAY, TYPE DIGITS",
+        es: "LEE EN MALAYO, ESCRIBE DIGITOS",
+      }
+    : isUltraHardMode
+    ? {
+        ms: "NOMBOR MUNCUL 2 SAAT",
+        en: "NUMBER SHOWS FOR 2 SECONDS",
+        es: "EL NUMERO APARECE 2 SEGUNDOS",
+      }
+    : {
+        ms: "TULIS DALAM BAHASA MELAYU",
+        en: "TYPE IN MALAY",
+        es: "ESCRIBE EN MALAYO",
+      };
+  const promptHidden = isUltraHardMode && !showUltraPrompt;
 
   function nextNumber() {
     if (gameOver || gameWon) return;
@@ -338,23 +422,58 @@ function triggerCongrats(text: string) {
   }
 
   function pickLang(next: UiLang) {
-  setLang(next);
-  writeUiLang(next);
-}
+    setLang(next);
+    writeUiLang(next);
+  }
+
+  function resetRun(nextDifficulty: NumberDifficulty) {
+    congratsTimers.current.forEach((t) => window.clearTimeout(t));
+    congratsTimers.current = [];
+    setCongratsText(null);
+    setCongratsFade(false);
+    recordedRef.current = false;
+    setGameWon(false);
+    setGameOver(false);
+    setLives(MAX_LIVES);
+    setAttempts(0);
+    setTotalCorrect(0);
+    setTotalWrong(0);
+    startedAtRef.current = Date.now();
+    setElapsedMs(0);
+    setLevelIdx(0);
+    setCorrectCount(0);
+    setInput("");
+    setFeedback(null);
+    setDifficulty(nextDifficulty);
+    writeNumbersDifficulty(nextDifficulty);
+    setN(randomInt(LEVELS[0].min, LEVELS[0].max));
+    queueMicrotask(() => inputRef.current?.focus());
+  }
+
+  function pickDifficulty(next: NumberDifficulty) {
+    if (next === difficulty) return;
+    resetRun(next);
+  }
 
 function submit() {
   if (gameOver || gameWon) return;
 
-  const got = normalizeAnswer(input);
+  const got = isTextToNumberMode ? normalizeDigitAnswer(input) : normalizeAnswer(input);
 
   if (!got) {
     setFeedback({
       ok: false,
       msg:
         lang === "ms"
-          ? "Isi jawapan dulu."
+          ? isTextToNumberMode
+            ? "Taip nombor dulu."
+            : "Isi jawapan dulu."
           : lang === "en"
-          ? "Type an answer first."
+          ? isTextToNumberMode
+            ? "Type a number first."
+            : "Type an answer first."
+          : isTextToNumberMode
+          ? "Escribe un numero primero."
           : "Escribe una respuesta.",
     });
     return;
@@ -365,7 +484,9 @@ function submit() {
   setAttempts(nextAttempts);
 
   // ✅ correct
-  if (acceptable.includes(got)) {
+  const isCorrect = isTextToNumberMode ? got === String(n) : acceptable.includes(got);
+
+  if (isCorrect) {
     const nextTotalCorrect = totalCorrect + 1;
     setTotalCorrect(nextTotalCorrect);
 
@@ -373,7 +494,7 @@ function submit() {
     setCorrectCount(nextCorrect);
 
     // completed level?
-    if (nextCorrect >= level.requiredCorrect) {
+    if (nextCorrect >= requiredCorrect) {
       // not last level → level up
       if (levelIdx < LEVELS.length - 1) {
         setFeedback({
@@ -427,13 +548,16 @@ function submit() {
       return;
     }
 
-    // correct but not finished level yet
-    setFeedback({
-      ok: true,
-      msg: lang === "ms" ? "Betul!" : lang === "en" ? "Correct!" : "¡Correcto!",
-    });
-    setTimeout(() => nextNumber(), 250);
-    return;
+  // correct but not finished level yet
+  setFeedback({
+    ok: true,
+    msg: lang === "ms" ? "Betul!" : lang === "en" ? "Correct!" : "¡Correcto!",
+  });
+  triggerCongrats(
+    lang === "ms" ? "Betul!" : lang === "en" ? "Correct!" : "¡Correcto!"
+  );
+  setTimeout(() => nextNumber(), 250);
+  return;
   }
 
   // ❌ wrong
@@ -472,10 +596,10 @@ function submit() {
     ok: false,
     msg:
       lang === "ms"
-        ? `Belum. Jawapan: ${expected}`
+        ? `Belum. Jawapan: ${isTextToNumberMode ? n : expected}`
         : lang === "en"
-        ? `Not yet. Answer: ${expected}`
-        : `Aún no. Respuesta: ${expected}`,
+        ? `Not yet. Answer: ${isTextToNumberMode ? n : expected}`
+        : `Aún no. Respuesta: ${isTextToNumberMode ? n : expected}`,
   });
 
   queueMicrotask(() => inputRef.current?.select());
@@ -484,25 +608,7 @@ function submit() {
 
 
 function restart() {
-  recordedRef.current = false;
-  setGameWon(false);
-  setGameOver(false);
-
-  setLives(MAX_LIVES);
-  setAttempts(0);
-  setTotalCorrect(0);
-  setTotalWrong(0);
-
-  startedAtRef.current = Date.now();
-  setElapsedMs(0);
-
-  setLevelIdx(0);
-  setCorrectCount(0);
-  setInput("");
-  setFeedback(null);
-  setN(randomInt(LEVELS[0].min, LEVELS[0].max));
-
-  queueMicrotask(() => inputRef.current?.focus());
+  resetRun(difficulty);
 }
 
   const requiredChapter = MINIGAME_PREREQUISITES.numbers;
@@ -606,6 +712,9 @@ function restart() {
         </div>
         <div className="mt-1 font-extrabold">{pick(level.rangeLabel, lang)}
         </div>
+        <div className="mt-1 text-xs font-black opacity-70">
+          {lang === "ms" ? "Kesukaran" : lang === "en" ? "Difficulty" : "Dificultad"}: {pick(difficultyLabel[difficulty], lang)}
+        </div>
       </div>
 
       {/* Correct + Time */}
@@ -617,7 +726,7 @@ function restart() {
         </div>
 
         <div className="mt-1 font-extrabold">
-          {correctCount}/{level.requiredCorrect}
+          {correctCount}/{requiredCorrect}
           <span className="opacity-60"> • </span>
           {formatDuration(elapsedMs)}
         </div>
@@ -658,6 +767,23 @@ function restart() {
       </button>
     </div>
 
+    <div className="mt-4 text-xs font-black opacity-70">
+      {lang === "ms" ? "KESUKARAN" : lang === "en" ? "DIFFICULTY" : "DIFICULTAD"}
+    </div>
+    <div className="mt-2 grid grid-cols-2 gap-2">
+      {(["easy", "medium", "hard", "ultrahard"] as NumberDifficulty[]).map((d) => (
+        <button
+          key={d}
+          onClick={() => pickDifficulty(d)}
+          className={`rounded-xl px-3 py-2 text-xs font-black shadow ${
+            difficulty === d ? "bg-amber-300" : "bg-white"
+          }`}
+        >
+          {pick(difficultyLabel[d], lang)}
+        </button>
+      ))}
+    </div>
+
     <div className="mt-3 flex flex-wrap gap-2">
       <Link href="/minigames" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
         Back to Mini Games
@@ -683,16 +809,32 @@ function restart() {
 
         <section className="mt-8 rounded-3xl bg-white/90 p-6 shadow-xl">
           <div className="text-xs font-black opacity-60">
-            {lang === "ms" ? "TULIS DALAM BAHASA MELAYU" : lang === "en" ? "TYPE IN MALAY" : "ESCRIBE EN MALAYO"}
+            {pick(promptTitle, lang)}
           </div>
 
           <div className="mt-4 rounded-2xl bg-black/5 p-6 text-center">
-            <div className="text-6xl font-black">{n}</div>
+            {isTextToNumberMode ? (
+              <div className="text-3xl font-black sm:text-4xl">{expected}</div>
+            ) : promptHidden ? (
+              <div className="text-3xl font-black tracking-[0.3em] text-black/35">••••</div>
+            ) : (
+              <div className="text-6xl font-black">{n}</div>
+            )}
           </div>
 
           <div className="mt-5">
             <label className="text-xs font-black opacity-60">
-              {lang === "ms" ? "Jawapan" : lang === "en" ? "Answer" : "Respuesta"}
+              {isTextToNumberMode
+                ? lang === "ms"
+                  ? "Nombor"
+                  : lang === "en"
+                  ? "Number"
+                  : "Numero"
+                : lang === "ms"
+                ? "Jawapan"
+                : lang === "en"
+                ? "Answer"
+                : "Respuesta"}
             </label>
             <input
               ref={inputRef}
@@ -706,7 +848,16 @@ function restart() {
                 "mt-2 w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-lg font-semibold shadow-sm outline-none",
                 gameOver ? "opacity-60" : "",
               ].join(" ")}
-              placeholder={lang === "ms" ? "" : lang === "en" ? "" : ""}
+              placeholder={
+                isTextToNumberMode
+                  ? lang === "ms"
+                    ? "Contoh: 125"
+                    : lang === "en"
+                    ? "Example: 125"
+                    : "Ejemplo: 125"
+                  : ""
+              }
+              inputMode={isTextToNumberMode ? "numeric" : "text"}
               autoComplete="off"
               spellCheck={false}
             />
@@ -754,23 +905,26 @@ function restart() {
 {congratsText && (
 <div
   className={[
-    "fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-300",
+    "fixed left-1/2 z-50 -translate-x-1/2 pointer-events-none transition-opacity duration-300",
+    popupPositionClass,
     congratsFade ? "opacity-0" : "opacity-100",
   ].join(" ")}
 >
 <div className="flex flex-col items-center gap-0">
   <Image
-    src={AKU2_IDLE_SRC}
+    src={popupAvatarSrc}
     alt="AkuAku"
-    width={140}
-    height={140}
+    width={popupAvatarSize}
+    height={popupAvatarSize}
     className="animate-bounce drop-shadow-lg"
     priority
   />
 
-  <div className="text-center text-lg font-black text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
-    {congratsText}
-  </div>
+  {!popupIsPositive && (
+    <div className="text-center text-lg font-black text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
+      {congratsText}
+    </div>
+  )}
 </div>
   </div>
 )}

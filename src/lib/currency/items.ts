@@ -19,7 +19,7 @@ export const CURRENCY_ITEMS: CurrencyItem[] = [
     id: "note-100",
     value: 10000, // RM100.00
     type: "note",
-    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_100_Ringgit.png",
+    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_100_Ringgit.webp",
     label: {
       ms: "RM100",
       en: "RM100",
@@ -30,7 +30,7 @@ export const CURRENCY_ITEMS: CurrencyItem[] = [
     id: "note-50",
     value: 5000, // RM50.00
     type: "note",
-    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_50_Ringgit.png",
+    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_50_Ringgit.webp",
     label: {
       ms: "RM50",
       en: "RM50",
@@ -41,7 +41,7 @@ export const CURRENCY_ITEMS: CurrencyItem[] = [
     id: "note-20",
     value: 2000, // RM20.00
     type: "note",
-    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_20_Ringgit.png",
+    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_20_Ringgit.webp",
     label: {
       ms: "RM20",
       en: "RM20",
@@ -52,7 +52,7 @@ export const CURRENCY_ITEMS: CurrencyItem[] = [
     id: "note-10",
     value: 1000, // RM10.00
     type: "note",
-    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_10_ringgit.png",
+    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_10_ringgit.webp",
     label: {
       ms: "RM10",
       en: "RM10",
@@ -63,7 +63,7 @@ export const CURRENCY_ITEMS: CurrencyItem[] = [
     id: "note-5",
     value: 500, // RM5.00
     type: "note",
-    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_5_Ringgit.png",
+    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_5_Ringgit.webp",
     label: {
       ms: "RM5",
       en: "RM5",
@@ -74,7 +74,7 @@ export const CURRENCY_ITEMS: CurrencyItem[] = [
     id: "note-1",
     value: 100, // RM1.00
     type: "note",
-    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_1_Ringgit.png",
+    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_1_Ringgit.webp",
     label: {
       ms: "RM1",
       en: "RM1",
@@ -86,7 +86,7 @@ export const CURRENCY_ITEMS: CurrencyItem[] = [
     id: "coin-50",
     value: 50, // 50 sen
     type: "coin",
-    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_50_Sen.png",
+    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_50_Sen.webp",
     label: {
       ms: "50 sen",
       en: "50 sen",
@@ -97,7 +97,7 @@ export const CURRENCY_ITEMS: CurrencyItem[] = [
     id: "coin-20",
     value: 20, // 20 sen
     type: "coin",
-    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_20_Sen.png",
+    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_20_Sen.webp",
     label: {
       ms: "20 sen",
       en: "20 sen",
@@ -108,7 +108,7 @@ export const CURRENCY_ITEMS: CurrencyItem[] = [
     id: "coin-10",
     value: 10, // 10 sen
     type: "coin",
-    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_10_Sen.png",
+    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_10_Sen.webp",
     label: {
       ms: "10 sen",
       en: "10 sen",
@@ -119,7 +119,7 @@ export const CURRENCY_ITEMS: CurrencyItem[] = [
     id: "coin-5",
     value: 5, // 5 sen
     type: "coin",
-    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_5_Sen.png",
+    imagePath: "/assets/chapters/ch5/Malaysian_Money_Front_Only_5_Sen.webp",
     label: {
       ms: "5 sen",
       en: "5 sen",
