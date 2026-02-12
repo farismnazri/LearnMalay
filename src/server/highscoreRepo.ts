@@ -1,19 +1,24 @@
-import { getDb } from "./db";
+import { getCollections, type HighscoreDocument } from "./db";
 import type { GameId, ScoreEntry } from "@/lib/highscoresTypes";
 import { isProfileAvatarId } from "@/lib/profileAvatars";
 
-type HighscoreRow = {
-  id: string;
-  game_id: string;
-  name: string;
-  accuracy: number;
-  time_ms: number;
-  date_iso: string;
-  meta_json?: string | null;
-  avatar_id?: string | null;
+const NUMBERS_DIFFICULTY_WEIGHT: Record<string, number> = {
+  ultrahard: 4,
+  hard: 3,
+  medium: 2,
+  easy: 1,
 };
 
-function rowToEntry(row: HighscoreRow): ScoreEntry {
+function difficultyWeightFor(gameId: GameId, meta: ScoreEntry["meta"]): number {
+  if (gameId !== "numbers") return 0;
+
+  const raw = meta && typeof meta === "object" ? meta.difficulty : undefined;
+  if (typeof raw !== "string") return 0;
+
+  return NUMBERS_DIFFICULTY_WEIGHT[raw.toLowerCase()] ?? 0;
+}
+
+function rowToEntry(row: HighscoreDocument): ScoreEntry {
   return {
     id: row.id,
     name: row.name,
@@ -21,33 +26,23 @@ function rowToEntry(row: HighscoreRow): ScoreEntry {
     accuracy: Number(row.accuracy),
     timeMs: Number(row.time_ms),
     dateISO: row.date_iso,
-    meta: row.meta_json ? JSON.parse(row.meta_json) : undefined,
+    meta: row.meta_json ? (JSON.parse(row.meta_json) as Record<string, unknown>) : undefined,
   };
 }
 
-export function listHighScores(): Record<GameId, ScoreEntry[]> {
-  const db = getDb();
-  const rows = db
-    .prepare(
-      `SELECT * FROM highscores
-       ORDER BY
-         game_id ASC,
-         CASE
-           WHEN game_id = 'numbers' THEN
-             CASE json_extract(meta_json, '$.difficulty')
-               WHEN 'ultrahard' THEN 4
-               WHEN 'hard' THEN 3
-               WHEN 'medium' THEN 2
-               WHEN 'easy' THEN 1
-               ELSE 0
-             END
-           ELSE 0
-         END DESC,
-         accuracy DESC,
-         time_ms ASC,
-         date_iso DESC`
-    )
-    .all() as HighscoreRow[];
+function sortSpec() {
+  return {
+    game_id: 1 as const,
+    difficulty_weight: -1 as const,
+    accuracy: -1 as const,
+    time_ms: 1 as const,
+    date_iso: -1 as const,
+  };
+}
+
+export async function listHighScores(): Promise<Record<GameId, ScoreEntry[]>> {
+  const { highscores } = await getCollections();
+  const rows = await highscores.find({}, { sort: sortSpec() }).toArray();
 
   const store: Record<GameId, ScoreEntry[]> = {
     numbers: [],
@@ -58,14 +53,19 @@ export function listHighScores(): Record<GameId, ScoreEntry[]> {
   };
 
   for (const r of rows) {
-    if (store[r.game_id as GameId]) store[r.game_id as GameId].push(rowToEntry(r));
+    if (store[r.game_id as GameId]) {
+      store[r.game_id as GameId].push(rowToEntry(r));
+    }
   }
 
   return store;
 }
 
-export function addHighScore(gameId: GameId, entry: Omit<ScoreEntry, "id" | "dateISO"> & Partial<Pick<ScoreEntry, "id" | "dateISO">>) {
-  const db = getDb();
+export async function addHighScore(
+  gameId: GameId,
+  entry: Omit<ScoreEntry, "id" | "dateISO"> & Partial<Pick<ScoreEntry, "id" | "dateISO">>
+): Promise<void> {
+  const { highscores } = await getCollections();
 
   const full: ScoreEntry = {
     id: entry.id ?? crypto.randomUUID(),
@@ -77,54 +77,45 @@ export function addHighScore(gameId: GameId, entry: Omit<ScoreEntry, "id" | "dat
     meta: entry.meta,
   };
 
-  db.prepare(
-    `INSERT INTO highscores (id, game_id, name, avatar_id, accuracy, time_ms, date_iso, meta_json)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-  ).run(
-    full.id,
-    gameId,
-    full.name,
-    full.avatarId ?? null,
-    full.accuracy,
-    full.timeMs,
-    full.dateISO,
-    full.meta ? JSON.stringify(full.meta) : null
-  );
+  await highscores.insertOne({
+    id: full.id,
+    game_id: gameId,
+    name: full.name,
+    avatar_id: full.avatarId ?? null,
+    accuracy: full.accuracy,
+    time_ms: full.timeMs,
+    date_iso: full.dateISO,
+    meta_json: full.meta ? JSON.stringify(full.meta) : null,
+    difficulty_weight: difficultyWeightFor(gameId, full.meta),
+    created_at: new Date().toISOString(),
+  });
 
-  trimTop(gameId, 20);
+  await trimTop(gameId, 20);
 }
 
-export function clearHighScores(gameId?: GameId) {
-  const db = getDb();
+export async function clearHighScores(gameId?: GameId): Promise<void> {
+  const { highscores } = await getCollections();
+
   if (!gameId) {
-    db.prepare("DELETE FROM highscores").run();
+    await highscores.deleteMany({});
     return;
   }
-  db.prepare("DELETE FROM highscores WHERE game_id = ?").run(gameId);
+
+  await highscores.deleteMany({ game_id: gameId });
 }
 
-function trimTop(gameId: GameId, max: number) {
-  const db = getDb();
-  db.prepare(
-    `DELETE FROM highscores WHERE id IN (
-      SELECT id FROM highscores
-      WHERE game_id = ?
-      ORDER BY
-        CASE
-          WHEN game_id = 'numbers' THEN
-            CASE json_extract(meta_json, '$.difficulty')
-              WHEN 'ultrahard' THEN 4
-              WHEN 'hard' THEN 3
-              WHEN 'medium' THEN 2
-              WHEN 'easy' THEN 1
-              ELSE 0
-            END
-          ELSE 0
-        END DESC,
-        accuracy DESC,
-        time_ms ASC,
-        date_iso DESC
-      LIMIT -1 OFFSET ?
-    )`
-  ).run(gameId, max);
+async function trimTop(gameId: GameId, max: number): Promise<void> {
+  const { highscores } = await getCollections();
+
+  const rowsToDelete = await highscores
+    .find({ game_id: gameId }, { projection: { id: 1 }, sort: sortSpec(), skip: max })
+    .toArray();
+
+  if (rowsToDelete.length === 0) return;
+
+  await highscores.deleteMany({
+    id: {
+      $in: rowsToDelete.map((row) => row.id),
+    },
+  });
 }

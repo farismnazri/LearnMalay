@@ -1,5 +1,5 @@
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
-import { getDb } from "./db";
+import { getCollections, type UserDocument } from "./db";
 import { ADMIN_ID, type UserProfile, type UserProgress } from "@/lib/userStoreTypes";
 import {
   ADMIN_AVATAR_ID,
@@ -8,20 +8,11 @@ import {
   type ProfileAvatarId,
 } from "@/lib/profileAvatars";
 
-type UserRow = {
-  id: string;
-  name: string;
-  is_admin: number;
-  progress_chapter: number;
-  progress_page: number;
-  password_hash: string | null;
-  password_salt: string | null;
-  password_algo: string | null;
-  avatar_id: string | null;
-};
-
 const ADMIN_DEFAULT_PASSWORD = process.env.LEARN_MALAY_ADMIN_PASSWORD ?? "admin";
 const AUTH_BOOTSTRAP_KEY = "users_auth_v1_bootstrap_done";
+
+let userDataStateReady = false;
+let userDataStatePromise: Promise<void> | null = null;
 
 function normalizeUserId(id: string) {
   return id.trim().toUpperCase();
@@ -59,7 +50,7 @@ function sanitizeAvatarId(rawAvatarId: string | null | undefined): ProfileAvatar
   return rawAvatarId;
 }
 
-function avatarIdFromDb(rawAvatarId: string | null, isAdmin: boolean): ProfileAvatarId {
+function avatarIdFromDb(rawAvatarId: string | null | undefined, isAdmin: boolean): ProfileAvatarId {
   if (rawAvatarId && isProfileAvatarId(rawAvatarId)) return rawAvatarId;
   return isAdmin ? ADMIN_AVATAR_ID : DEFAULT_USER_AVATAR_ID;
 }
@@ -81,13 +72,15 @@ function verifyPassword(password: string, saltHex: string | null, hashHex: strin
   return timingSafeEqual(a, b);
 }
 
-function toProfile(row: UserRow): UserProfile {
-  const avatarId = avatarIdFromDb(row.avatar_id, Boolean(row.is_admin));
+function toProfile(row: UserDocument): UserProfile {
+  const isAdmin = Boolean(row.is_admin);
+  const avatarId = avatarIdFromDb(row.avatar_id, isAdmin);
+
   return {
     id: row.id,
     name: row.name,
     avatarId,
-    isAdmin: Boolean(row.is_admin),
+    isAdmin,
     progress: {
       chapter: Number(row.progress_chapter) || 1,
       page: Number(row.progress_page) || 1,
@@ -95,94 +88,128 @@ function toProfile(row: UserRow): UserProfile {
   };
 }
 
-function ensureAdmin(db = getDb()) {
-  const existing = db.prepare("SELECT * FROM users WHERE id = ?").get(ADMIN_ID) as UserRow | undefined;
+async function ensureAdmin() {
+  const { users } = await getCollections();
+  const existing = await users.findOne({ id: ADMIN_ID });
 
   if (!existing) {
     const pw = hashPassword(ADMIN_DEFAULT_PASSWORD);
-    db.prepare(
-      `INSERT INTO users (
-        id, name, is_admin, progress_chapter, progress_page, password_hash, password_salt, password_algo, avatar_id
-      ) VALUES (?, ?, 1, 11, 1, ?, ?, ?, ?)`
-    ).run(ADMIN_ID, ADMIN_ID, pw.hash, pw.salt, pw.algo, ADMIN_AVATAR_ID);
+    await users.insertOne({
+      id: ADMIN_ID,
+      name: ADMIN_ID,
+      avatar_id: ADMIN_AVATAR_ID,
+      is_admin: true,
+      progress_chapter: 11,
+      progress_page: 1,
+      password_hash: pw.hash,
+      password_salt: pw.salt,
+      password_algo: pw.algo,
+      created_at: new Date().toISOString(),
+    });
     return;
   }
+
+  const updates: Partial<UserDocument> = {};
 
   if (!existing.password_hash || !existing.password_salt) {
     const pw = hashPassword(ADMIN_DEFAULT_PASSWORD);
-    db.prepare(
-      `UPDATE users
-       SET is_admin = 1,
-           password_hash = ?,
-           password_salt = ?,
-           password_algo = ?,
-           progress_chapter = CASE WHEN progress_chapter < 11 THEN 11 ELSE progress_chapter END,
-           progress_page = CASE WHEN progress_page < 1 THEN 1 ELSE progress_page END
-       WHERE id = ?`
-    ).run(pw.hash, pw.salt, pw.algo, ADMIN_ID);
-    return;
+    updates.password_hash = pw.hash;
+    updates.password_salt = pw.salt;
+    updates.password_algo = pw.algo;
   }
 
   if (!existing.is_admin) {
-    db.prepare("UPDATE users SET is_admin = 1 WHERE id = ?").run(ADMIN_ID);
+    updates.is_admin = true;
   }
 
   if (!existing.avatar_id || !isProfileAvatarId(existing.avatar_id)) {
-    db.prepare("UPDATE users SET avatar_id = ? WHERE id = ?").run(ADMIN_AVATAR_ID, ADMIN_ID);
+    updates.avatar_id = ADMIN_AVATAR_ID;
+  }
+
+  const currentChapter = Number(existing.progress_chapter) || 1;
+  const currentPage = Number(existing.progress_page) || 1;
+  if (currentChapter < 11) updates.progress_chapter = 11;
+  if (currentPage < 1) updates.progress_page = 1;
+
+  if (Object.keys(updates).length > 0) {
+    await users.updateOne({ id: ADMIN_ID }, { $set: updates });
   }
 }
 
-function ensureAuthBootstrap(db = getDb()) {
-  const done = db.prepare("SELECT value FROM app_meta WHERE key = ?").get(AUTH_BOOTSTRAP_KEY) as
-    | { value: string }
-    | undefined;
+async function ensureAuthBootstrap() {
+  const { appMeta } = await getCollections();
+  const done = await appMeta.findOne({ key: AUTH_BOOTSTRAP_KEY });
 
   if (done?.value === "1") return;
 
-  ensureAdmin(db);
-  db.prepare("DELETE FROM users WHERE id <> ?").run(ADMIN_ID);
-  db.prepare(
-    `INSERT INTO app_meta (key, value, updated_at)
-     VALUES (?, '1', datetime('now'))
-     ON CONFLICT(key) DO UPDATE SET value = '1', updated_at = datetime('now')`
-  ).run(AUTH_BOOTSTRAP_KEY);
-}
-
-function ensureAvatarBackfill(db = getDb()) {
-  db.prepare("UPDATE users SET avatar_id = ? WHERE id = ? AND (avatar_id IS NULL OR avatar_id = '')").run(
-    ADMIN_AVATAR_ID,
-    ADMIN_ID
-  );
-  db.prepare("UPDATE users SET avatar_id = ? WHERE id <> ? AND (avatar_id IS NULL OR avatar_id = '')").run(
-    DEFAULT_USER_AVATAR_ID,
-    ADMIN_ID
+  await appMeta.updateOne(
+    { key: AUTH_BOOTSTRAP_KEY },
+    {
+      $set: {
+        value: "1",
+        updated_at: new Date().toISOString(),
+      },
+    },
+    { upsert: true }
   );
 }
 
-function ensureUserDataState(db = getDb()) {
-  ensureAdmin(db);
-  ensureAuthBootstrap(db);
-  ensureAvatarBackfill(db);
+async function ensureAvatarBackfill() {
+  const { users } = await getCollections();
+
+  await users.updateOne(
+    {
+      id: ADMIN_ID,
+      $or: [{ avatar_id: null }, { avatar_id: "" }, { avatar_id: { $exists: false } }],
+    },
+    { $set: { avatar_id: ADMIN_AVATAR_ID } }
+  );
+
+  await users.updateMany(
+    {
+      id: { $ne: ADMIN_ID },
+      $or: [{ avatar_id: null }, { avatar_id: "" }, { avatar_id: { $exists: false } }],
+    },
+    { $set: { avatar_id: DEFAULT_USER_AVATAR_ID } }
+  );
 }
 
-export function initializeUserAuthState() {
-  const db = getDb();
-  ensureUserDataState(db);
+async function ensureUserDataState() {
+  if (userDataStateReady) return;
+
+  if (!userDataStatePromise) {
+    userDataStatePromise = (async () => {
+      await ensureAdmin();
+      await ensureAuthBootstrap();
+      await ensureAvatarBackfill();
+    })();
+  }
+
+  try {
+    await userDataStatePromise;
+    userDataStateReady = true;
+  } finally {
+    userDataStatePromise = null;
+  }
 }
 
-export function listUsers(): UserProfile[] {
-  const db = getDb();
-  ensureUserDataState(db);
-  const rows = db.prepare("SELECT * FROM users ORDER BY name ASC").all() as UserRow[];
+export async function initializeUserAuthState() {
+  await ensureUserDataState();
+}
+
+export async function listUsers(): Promise<UserProfile[]> {
+  await ensureUserDataState();
+  const { users } = await getCollections();
+  const rows = await users.find({}, { sort: { name: 1 } }).toArray();
   return rows.map(toProfile);
 }
 
-export function getUser(id: string): UserProfile | null {
+export async function getUser(id: string): Promise<UserProfile | null> {
   try {
-    const db = getDb();
-    ensureUserDataState(db);
+    await ensureUserDataState();
+    const { users } = await getCollections();
     const cleanId = normalizeUserId(id);
-    const row = db.prepare("SELECT * FROM users WHERE id = ?").get(cleanId) as UserRow | undefined;
+    const row = await users.findOne({ id: cleanId });
     return row ? toProfile(row) : null;
   } catch (e) {
     console.error("getUser failed", e);
@@ -190,9 +217,13 @@ export function getUser(id: string): UserProfile | null {
   }
 }
 
-export function createUserAccount(input: { name: string; password: string; avatarId?: string }): UserProfile {
-  const db = getDb();
-  ensureUserDataState(db);
+export async function createUserAccount(input: {
+  name: string;
+  password: string;
+  avatarId?: string;
+}): Promise<UserProfile> {
+  await ensureUserDataState();
+  const { users } = await getCollections();
 
   const user = sanitizeUserName(input.name);
   const password = sanitizePassword(input.password);
@@ -202,69 +233,98 @@ export function createUserAccount(input: { name: string; password: string; avata
     throw new Error("Admin account already exists. Please log in.");
   }
 
-  const existing = db.prepare("SELECT id FROM users WHERE id = ?").get(user.id) as { id: string } | undefined;
+  const existing = await users.findOne({ id: user.id }, { projection: { id: 1 } });
   if (existing) {
     throw new Error("Account already exists. Please log in.");
   }
 
   const pw = hashPassword(password);
-  db.prepare(
-    `INSERT INTO users (
-      id, name, is_admin, progress_chapter, progress_page, password_hash, password_salt, password_algo, avatar_id
-    ) VALUES (?, ?, 0, 1, 1, ?, ?, ?, ?)`
-  ).run(user.id, user.name.toUpperCase(), pw.hash, pw.salt, pw.algo, avatarId);
 
-  return getUser(user.id)!;
+  try {
+    await users.insertOne({
+      id: user.id,
+      name: user.name.toUpperCase(),
+      avatar_id: avatarId,
+      is_admin: false,
+      progress_chapter: 1,
+      progress_page: 1,
+      password_hash: pw.hash,
+      password_salt: pw.salt,
+      password_algo: pw.algo,
+      created_at: new Date().toISOString(),
+    });
+  } catch (error: unknown) {
+    if (typeof error === "object" && error && "code" in error && (error as { code?: number }).code === 11000) {
+      throw new Error("Account already exists. Please log in.");
+    }
+    throw error;
+  }
+
+  return (await getUser(user.id))!;
 }
 
-export function verifyUserPassword(id: string, password: string): boolean {
-  const db = getDb();
-  ensureUserDataState(db);
+export async function verifyUserPassword(id: string, password: string): Promise<boolean> {
+  await ensureUserDataState();
+  const { users } = await getCollections();
 
   const cleanId = normalizeUserId(id);
   const cleanPassword = sanitizePassword(password);
 
-  const row = db.prepare("SELECT password_hash, password_salt FROM users WHERE id = ?").get(cleanId) as
-    | Pick<UserRow, "password_hash" | "password_salt">
-    | undefined;
+  const row = await users.findOne(
+    { id: cleanId },
+    {
+      projection: {
+        password_hash: 1,
+        password_salt: 1,
+      },
+    }
+  );
 
   if (!row) return false;
-  return verifyPassword(cleanPassword, row.password_salt, row.password_hash);
+  return verifyPassword(cleanPassword, row.password_salt ?? null, row.password_hash ?? null);
 }
 
-export function authenticateUserAccount(input: { name: string; password: string }): UserProfile | null {
-  const db = getDb();
-  ensureUserDataState(db);
+export async function authenticateUserAccount(input: {
+  name: string;
+  password: string;
+}): Promise<UserProfile | null> {
+  await ensureUserDataState();
 
   const user = sanitizeUserName(input.name);
-  const ok = verifyUserPassword(user.id, input.password);
+  const ok = await verifyUserPassword(user.id, input.password);
   if (!ok) return null;
 
   return getUser(user.id);
 }
 
-export function deleteUser(id: string) {
-  const db = getDb();
-  ensureUserDataState(db);
+export async function deleteUser(id: string): Promise<void> {
+  await ensureUserDataState();
+  const { users } = await getCollections();
 
   const cleanId = normalizeUserId(id);
   if (cleanId === ADMIN_ID) throw new Error("Admin cannot be deleted.");
 
-  db.prepare("DELETE FROM users WHERE id = ?").run(cleanId);
+  await users.deleteOne({ id: cleanId });
 }
 
-export function setCurrentChapter(id: string, progress: UserProgress) {
-  const db = getDb();
-  ensureUserDataState(db);
+export async function setCurrentChapter(id: string, progress: UserProgress): Promise<void> {
+  await ensureUserDataState();
+  const { users } = await getCollections();
 
   const cleanId = normalizeUserId(id);
 
   const chapter = Math.max(1, Math.min(11, Number(progress.chapter) || 1));
   const page = Math.max(1, Number(progress.page) || 1);
 
-  const current = db
-    .prepare("SELECT progress_chapter, progress_page FROM users WHERE id = ?")
-    .get(cleanId) as { progress_chapter: number; progress_page: number } | undefined;
+  const current = await users.findOne(
+    { id: cleanId },
+    {
+      projection: {
+        progress_chapter: 1,
+        progress_page: 1,
+      },
+    }
+  );
 
   if (!current) return;
 
@@ -274,9 +334,13 @@ export function setCurrentChapter(id: string, progress: UserProgress) {
   const nextChapter = Math.max(currentChapter, chapter);
   const nextPage = chapter < currentChapter ? currentPage : page;
 
-  db.prepare(`UPDATE users SET progress_chapter = ?, progress_page = ? WHERE id = ?`).run(
-    nextChapter,
-    nextPage,
-    cleanId
+  await users.updateOne(
+    { id: cleanId },
+    {
+      $set: {
+        progress_chapter: nextChapter,
+        progress_page: nextPage,
+      },
+    }
   );
 }

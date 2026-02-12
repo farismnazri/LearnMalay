@@ -13,7 +13,7 @@ function getErrorMessage(error: unknown, fallback: string) {
 }
 
 export async function GET() {
-  return NextResponse.json(listUsers());
+  return NextResponse.json(await listUsers());
 }
 
 export async function POST(req: Request) {
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const profile = createUserAccount({
+    const profile = await createUserAccount({
       name: body.name,
       password: body.password,
       avatarId: body.avatarId,
@@ -53,7 +53,7 @@ export async function DELETE(req: Request) {
     const currentId = rawCurrentId ? decodeURIComponent(rawCurrentId) : null;
     if (!currentId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const actor = getUser(currentId);
+    const actor = await getUser(currentId);
     if (!actor) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const targetId = id.trim().toUpperCase();
@@ -63,7 +63,7 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    deleteUser(id);
+    await deleteUser(id);
     const res = NextResponse.json({ ok: true });
     if (actorId === targetId) {
       res.headers.append(

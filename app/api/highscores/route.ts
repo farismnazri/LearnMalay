@@ -4,21 +4,26 @@ import type { GameId, ScoreEntry } from "@/lib/highscoresTypes";
 
 export const runtime = "nodejs";
 
+type IncomingBody = {
+  gameId?: GameId;
+  entry?: Omit<ScoreEntry, "id" | "dateISO"> & Partial<Pick<ScoreEntry, "id" | "dateISO">>;
+};
+
 export async function GET() {
-  return NextResponse.json(listHighScores());
+  return NextResponse.json(await listHighScores());
 }
 
 export async function POST(req: Request) {
-  const body = (await req.json().catch(() => null)) as { gameId?: GameId; entry?: Partial<ScoreEntry> } | null;
+  const body = (await req.json().catch(() => null)) as IncomingBody | null;
   if (!body?.gameId || !body.entry) return NextResponse.json({ error: "gameId and entry required" }, { status: 400 });
 
-  addHighScore(body.gameId, body.entry as any);
+  await addHighScore(body.gameId, body.entry);
   return NextResponse.json({ ok: true });
 }
 
 export async function DELETE(req: Request) {
   const { searchParams } = new URL(req.url);
   const gameId = searchParams.get("gameId") as GameId | null;
-  clearHighScores(gameId ?? undefined);
+  await clearHighScores(gameId ?? undefined);
   return NextResponse.json({ ok: true });
 }

@@ -21,10 +21,10 @@ async function readCurrentId(): Promise<string | null> {
 
 export async function GET() {
   try {
-    initializeUserAuthState();
+    await initializeUserAuthState();
     const id = await readCurrentId();
     if (!id) return NextResponse.json(null);
-    const user = getUser(id);
+    const user = await getUser(id);
     return NextResponse.json(user ?? null);
   } catch (error: unknown) {
     console.error("GET /api/users/current failed", error);
@@ -39,14 +39,15 @@ export async function POST(req: Request) {
 
     const userId = body.id.trim().toUpperCase();
     const currentId = await readCurrentId();
-    const allowByPassword = typeof body.password === "string" && verifyUserPassword(userId, body.password);
+    const allowByPassword =
+      typeof body.password === "string" && (await verifyUserPassword(userId, body.password));
     const allowByExistingSession = currentId === userId;
 
     if (!allowByPassword && !allowByExistingSession) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const user = getUser(userId);
+    const user = await getUser(userId);
     if (!user) return NextResponse.json({ error: "user not found" }, { status: 404 });
 
     const res = NextResponse.json(user);

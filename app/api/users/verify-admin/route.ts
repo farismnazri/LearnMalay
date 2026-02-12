@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const ok = verifyUserPassword(ADMIN_ID, body.password);
+    const ok = await verifyUserPassword(ADMIN_ID, body.password);
     return NextResponse.json({ ok });
   } catch (error: unknown) {
     return NextResponse.json(

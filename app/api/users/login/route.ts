@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const profile = authenticateUserAccount({ name: body.name, password: body.password });
+    const profile = await authenticateUserAccount({ name: body.name, password: body.password });
     if (!profile) {
       return NextResponse.json({ error: "Invalid username or password." }, { status: 401 });
     }
