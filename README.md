@@ -7,6 +7,11 @@ First, run the development server:
 cd ~/Documents/LearnMalay/learn-malay
 npm run dev
 
+Environment notes:
+- `MONGODB_URI` (recommended): enables persistent storage.
+- Without `MONGODB_URI`, local development uses an in-memory store (data resets on server restart).
+- `LEARN_MALAY_ADMIN_PASSWORD` is required in non-development environments (`npm run build` / `npm run start` deployments).
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { addHighScore, clearHighScores, listHighScores } from "@/server/highscoreRepo";
 import type { GameId, ScoreEntry } from "@/lib/highscoresTypes";
+import { getSessionUser } from "@/server/sessionAuth";
 
 export const runtime = "nodejs";
 
@@ -22,6 +23,10 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+  const { user } = await getSessionUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!user.isAdmin) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
   const { searchParams } = new URL(req.url);
   const gameId = searchParams.get("gameId") as GameId | null;
   await clearHighScores(gameId ?? undefined);

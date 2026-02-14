@@ -7,7 +7,6 @@ import { useParams } from "next/navigation";
 import FigureCard from "@/components/game/FigureCard";
 
 import AkuAkuPopup from "@/components/game/AkuAkuPopup";
-import BackgroundAudio from "@/components/game/BackgroundAudio";
 
 import TableCard from "@/components/game/TableCard";
 import TickCard from "@/components/game/TickCard";
@@ -270,8 +269,6 @@ export default function ChapterPage() {
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0.36)_58%,rgba(10,32,20,0.98)_100%)]" />
       </div>
-
-      <BackgroundAudio src="/assets/audio/bgm.m4a" />
 
       <AkuAkuPopup
         open={showIntro && introDialogs.length > 0}

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { ADMIN_ID } from "@/lib/userStoreTypes";
 import { verifyUserPassword } from "@/server/userRepo";
+import { getSessionUser } from "@/server/sessionAuth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,6 +18,11 @@ export async function POST(req: Request) {
   }
 
   try {
+    const { user } = await getSessionUser();
+    if (!user?.isAdmin) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const ok = await verifyUserPassword(ADMIN_ID, body.password);
     return NextResponse.json({ ok });
   } catch (error: unknown) {

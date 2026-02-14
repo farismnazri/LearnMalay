@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
 import { authenticateUserAccount } from "@/server/userRepo";
+import { startSessionForUser } from "@/server/sessionAuth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-const COOKIE_NAME = "learnMalay.currentUserId";
-const COOKIE_MAX_AGE = 60 * 60 * 24 * 365 * 5; // 5 years
 
 function getErrorMessage(error: unknown, fallback: string) {
   if (error instanceof Error && error.message) return error.message;
@@ -25,10 +23,7 @@ export async function POST(req: Request) {
     }
 
     const res = NextResponse.json(profile);
-    res.headers.append(
-      "Set-Cookie",
-      `${COOKIE_NAME}=${encodeURIComponent(profile.id)}; Path=/; Max-Age=${COOKIE_MAX_AGE}; SameSite=Lax`
-    );
+    await startSessionForUser(res, profile.id);
     return res;
   } catch (error: unknown) {
     return NextResponse.json(

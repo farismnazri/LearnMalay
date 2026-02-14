@@ -1,12 +1,14 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { createUserAccount, deleteUser, getUser, listUsers } from "@/server/userRepo";
+import { createUserAccount, deleteUser, listUsers } from "@/server/userRepo";
+import {
+  clearSessionCookie,
+  getSessionUser,
+  startSessionForUser,
+} from "@/server/sessionAuth";
+import { deleteSession, deleteSessionsForUser } from "@/server/sessionRepo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-const COOKIE_NAME = "learnMalay.currentUserId";
-const COOKIE_MAX_AGE = 60 * 60 * 24 * 365 * 5; // 5 years
-
 function getErrorMessage(error: unknown, fallback: string) {
   if (error instanceof Error && error.message) return error.message;
   return fallback;
@@ -29,10 +31,7 @@ export async function POST(req: Request) {
       avatarId: body.avatarId,
     });
     const res = NextResponse.json(profile);
-    res.headers.append(
-      "Set-Cookie",
-      `${COOKIE_NAME}=${encodeURIComponent(profile.id)}; Path=/; Max-Age=${COOKIE_MAX_AGE}; SameSite=Lax`
-    );
+    await startSessionForUser(res, profile.id);
     return res;
   } catch (error: unknown) {
     return NextResponse.json(
@@ -48,12 +47,7 @@ export async function DELETE(req: Request) {
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
 
   try {
-    const cookieStore = await cookies();
-    const rawCurrentId = cookieStore.get(COOKIE_NAME)?.value ?? null;
-    const currentId = rawCurrentId ? decodeURIComponent(rawCurrentId) : null;
-    if (!currentId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
-    const actor = await getUser(currentId);
+    const { sessionId, user: actor } = await getSessionUser();
     if (!actor) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const targetId = id.trim().toUpperCase();
@@ -64,12 +58,14 @@ export async function DELETE(req: Request) {
     }
 
     await deleteUser(id);
+    await deleteSessionsForUser(targetId);
+
     const res = NextResponse.json({ ok: true });
     if (actorId === targetId) {
-      res.headers.append(
-        "Set-Cookie",
-        `${COOKIE_NAME}=; Path=/; Max-Age=0; SameSite=Lax`
-      );
+      if (sessionId) {
+        await deleteSession(sessionId);
+      }
+      clearSessionCookie(res);
     }
     return res;
   } catch (error: unknown) {

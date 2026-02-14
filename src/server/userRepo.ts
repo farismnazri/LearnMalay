@@ -8,7 +8,19 @@ import {
   type ProfileAvatarId,
 } from "@/lib/profileAvatars";
 
-const ADMIN_DEFAULT_PASSWORD = process.env.LEARN_MALAY_ADMIN_PASSWORD ?? "admin";
+function resolveAdminBootstrapPassword(): string {
+  const fromEnv = process.env.LEARN_MALAY_ADMIN_PASSWORD?.trim();
+  if (fromEnv) return fromEnv;
+
+  if (process.env.NODE_ENV !== "development") {
+    throw new Error("LEARN_MALAY_ADMIN_PASSWORD must be set outside development.");
+  }
+
+  console.warn(
+    "LEARN_MALAY_ADMIN_PASSWORD is not set. Using development fallback password for ADMIN."
+  );
+  return "admin";
+}
 const AUTH_BOOTSTRAP_KEY = "users_auth_v1_bootstrap_done";
 
 let userDataStateReady = false;
@@ -91,9 +103,10 @@ function toProfile(row: UserDocument): UserProfile {
 async function ensureAdmin() {
   const { users } = await getCollections();
   const existing = await users.findOne({ id: ADMIN_ID });
+  const bootstrapPassword = resolveAdminBootstrapPassword();
 
   if (!existing) {
-    const pw = hashPassword(ADMIN_DEFAULT_PASSWORD);
+    const pw = hashPassword(bootstrapPassword);
     await users.insertOne({
       id: ADMIN_ID,
       name: ADMIN_ID,
@@ -112,7 +125,7 @@ async function ensureAdmin() {
   const updates: Partial<UserDocument> = {};
 
   if (!existing.password_hash || !existing.password_salt) {
-    const pw = hashPassword(ADMIN_DEFAULT_PASSWORD);
+    const pw = hashPassword(bootstrapPassword);
     updates.password_hash = pw.hash;
     updates.password_salt = pw.salt;
     updates.password_algo = pw.algo;

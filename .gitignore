@@ -42,12 +42,5 @@ next-env.d.ts
 
 # local database
 /var/learn-malay.db
-
-cd learn-malay
-git status
-git add -A
-git commit -m "message"
-git push
-
-var/*.db-shm
-var/*.db-wal
+/var/*.db-shm
+/var/*.db-wal
