@@ -63,12 +63,14 @@ export default function WordSearchCard({
   lang,
   onProgress,
   onComplete,
+  onWrong,
   showAllTrigger,
 }: {
   page: any; // keep flexible so ChapterPage union issues don’t explode
   lang: UiLang;
   onProgress?: (foundCount: number, total: number) => void;
   onComplete?: (foundCount: number, total: number) => void;
+  onWrong?: () => void;
   showAllTrigger?: number; // when this value changes, reveal all answers
 }) {
   const allowDiagonal = page.allowDiagonal ?? true;
@@ -269,6 +271,7 @@ export default function WordSearchCard({
     });
 
     if (!match) {
+      onWrong?.();
       setStart(null);
       return;
     }

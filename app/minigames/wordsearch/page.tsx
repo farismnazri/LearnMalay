@@ -2,14 +2,17 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import type { UiLang } from "@/lib/chapters";
 import WordSearchCard from "@/components/game/WordSearchCard";
+import IconActionLink from "@/components/navigation/IconActionLink";
 import { WORD_ITEMS, CATEGORY_LABELS, type WordCategory } from "@/lib/wordMatch/items";
 import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
+const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
 
 const DIFFICULTIES = {
   easy: { size: 10, count: 5, label: { ms: "Mudah", en: "Easy", es: "Fácil" } },
@@ -49,11 +52,14 @@ export default function WordSearchMiniGame() {
   const [tick, setTick] = useState(0);
   const [showAllSeq, setShowAllSeq] = useState(0);
   const [saved, setSaved] = useState(false);
+  const [wrongPopupVisible, setWrongPopupVisible] = useState(false);
+  const [wrongPopupFade, setWrongPopupFade] = useState(false);
   const [playerName, setPlayerName] = useState("Player");
   const [playerAvatarId, setPlayerAvatarId] = useState<ProfileAvatarId | undefined>(undefined);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
   const saveLock = useRef(false);
+  const wrongPopupTimers = useRef<number[]>([]);
 
   useEffect(() => {
     setLang(readUiLang());
@@ -68,6 +74,13 @@ export default function WordSearchMiniGame() {
   useEffect(() => {
     const id = window.setInterval(() => setTick((t) => t + 1), 500);
     return () => window.clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      wrongPopupTimers.current.forEach((timer) => window.clearTimeout(timer));
+      wrongPopupTimers.current = [];
+    };
   }, []);
 
   const pool = useMemo(() => {
@@ -151,6 +164,17 @@ export default function WordSearchMiniGame() {
     });
   }
 
+  function triggerWrongPopup() {
+    wrongPopupTimers.current.forEach((timer) => window.clearTimeout(timer));
+    wrongPopupTimers.current = [];
+    setWrongPopupVisible(true);
+    setWrongPopupFade(false);
+    wrongPopupTimers.current.push(
+      window.setTimeout(() => setWrongPopupFade(true), 900),
+      window.setTimeout(() => setWrongPopupVisible(false), 1200),
+    );
+  }
+
   const elapsedMs = finishedTs
     ? finishedTs - (startTs ?? finishedTs)
     : startTs
@@ -179,9 +203,7 @@ export default function WordSearchMiniGame() {
             <Link href="/user" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
               Go to Login
             </Link>
-            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
-              Back to Mini Games
-            </Link>
+            <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
           </div>
         </div>
       </main>
@@ -197,12 +219,8 @@ export default function WordSearchMiniGame() {
             Complete Chapter {requiredChapter} first to play Wordsearch.
           </p>
           <div className="mt-6 flex gap-3">
-            <Link href="/map" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
-              Go to Map
-            </Link>
-            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
-              Back to Mini Games
-            </Link>
+            <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
+            <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
           </div>
         </div>
       </main>
@@ -248,12 +266,8 @@ export default function WordSearchMiniGame() {
             </div>
 
             <div className="mt-3 flex flex-wrap gap-2">
-              <Link href="/minigames" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                Back to Mini Games
-              </Link>
-              <Link href="/map" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                Back to Map
-              </Link>
+              <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
+              <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
             </div>
           </div>
         </div>
@@ -333,9 +347,21 @@ export default function WordSearchMiniGame() {
           lang={lang}
           onProgress={(found) => handleProgress(found, selectedTargets.length)}
           onComplete={handleComplete}
+          onWrong={triggerWrongPopup}
           showAllTrigger={showAllSeq}
         />
       </div>
+
+      {wrongPopupVisible && (
+        <div
+          className={[
+            "pointer-events-none fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300",
+            wrongPopupFade ? "opacity-0" : "opacity-100",
+          ].join(" ")}
+        >
+          <Image src={AKU2_SALAH_SRC} alt="Wrong answer" width={180} height={180} className="animate-bounce drop-shadow-lg" priority />
+        </div>
+      )}
     </main>
   );
 }

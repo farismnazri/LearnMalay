@@ -8,12 +8,14 @@ import Image from "next/image";
 import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
+import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const NUMBERS_DIFF_KEY = "learnMalay.numbersDifficulty.v1";
 
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png"; // must match filename case in /public
 const AKU2_BETUL_SRC = "/assets/characters/Akuaku_Betul.webp";
+const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
 const AKU2_IDLE_POPUP_SIZE = 140;
 const AKU2_BETUL_POPUP_SIZE = 300;
 const MAX_LIVES = 5;
@@ -250,7 +252,7 @@ export default function NumbersPlayPage() {
   const [congratsFade, setCongratsFade] = useState(false);
   const popupIsPositive = isPositivePopupText(congratsText);
   const popupAvatarSrc = useMemo(
-    () => (isPositivePopupText(congratsText) ? AKU2_BETUL_SRC : AKU2_IDLE_SRC),
+    () => (isPositivePopupText(congratsText) ? AKU2_BETUL_SRC : AKU2_SALAH_SRC),
     [congratsText]
   );
   const popupAvatarSize = popupIsPositive ? AKU2_BETUL_POPUP_SIZE : AKU2_IDLE_POPUP_SIZE;
@@ -620,15 +622,13 @@ function restart() {
     return (
       <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
-          <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
+          <h1 className="crash-text crash-outline-fallback text-5xl font-black">NOMBOR</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
           <div className="mt-6 flex gap-3">
             <Link href="/user" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
               Go to Login
             </Link>
-            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
-              Back to Mini Games
-            </Link>
+            <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
           </div>
         </div>
       </main>
@@ -644,12 +644,8 @@ function restart() {
             Complete Chapter {requiredChapter} first to play Numbers.
           </p>
           <div className="mt-6 flex gap-3">
-            <Link href="/map" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
-              Go to Map
-            </Link>
-            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
-              Back to Mini Games
-            </Link>
+            <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
+            <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
           </div>
         </div>
       </main>
@@ -670,7 +666,7 @@ function restart() {
         {/* title row */}
         <div>
           <h1 className="crash-text crash-outline-fallback text-5xl font-black leading-none">
-            {lang === "ms" ? "MAIN NOMBOR" : lang === "en" ? "NUMBER GAME" : "JUEGO DE NÚMEROS"}
+            {lang === "ms" ? "NOMBOR" : lang === "en" ? "NUMBER GAME" : "JUEGO DE NÚMEROS"}
           </h1>
         </div>
 
@@ -785,9 +781,7 @@ function restart() {
     </div>
 
     <div className="mt-3 flex flex-wrap gap-2">
-      <Link href="/minigames" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-        Back to Mini Games
-      </Link>
+      <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
 
       <button
         type="button"
@@ -797,9 +791,7 @@ function restart() {
         Restart
       </button>
 
-      <Link href="/map" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-        Back to Map
-      </Link>
+      <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
     </div>
   </div>
 </div>

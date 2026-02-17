@@ -14,10 +14,12 @@ import {
 import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
+import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
 const AKU2_BETUL_SRC = "/assets/characters/Akuaku_Betul.webp";
+const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
 const AKU2_IDLE_POPUP_SIZE = 140;
 const AKU2_BETUL_POPUP_SIZE = 300;
 const MAX_LIVES = 5;
@@ -126,7 +128,7 @@ export default function WordMatchPlayPage() {
   const popupTimers = useRef<number[]>([]);
   const popupIsPositive = isPositivePopupText(popupText);
   const popupAvatarSrc = useMemo(
-    () => (isPositivePopupText(popupText) ? AKU2_BETUL_SRC : AKU2_IDLE_SRC),
+    () => (isPositivePopupText(popupText) ? AKU2_BETUL_SRC : AKU2_SALAH_SRC),
     [popupText]
   );
   const popupAvatarSize = popupIsPositive ? AKU2_BETUL_POPUP_SIZE : AKU2_IDLE_POPUP_SIZE;
@@ -399,9 +401,7 @@ export default function WordMatchPlayPage() {
             <Link href="/user" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
               Go to Login
             </Link>
-            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
-              Back to Mini Games
-            </Link>
+            <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
           </div>
         </div>
       </main>
@@ -417,12 +417,8 @@ export default function WordMatchPlayPage() {
             Complete Chapter {requiredChapter} first to play Word Match.
           </p>
           <div className="mt-6 flex gap-3">
-            <Link href="/map" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
-              Go to Map
-            </Link>
-            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
-              Back to Mini Games
-            </Link>
+            <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
+            <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
           </div>
         </div>
       </main>
@@ -515,15 +511,11 @@ export default function WordMatchPlayPage() {
               </div>
 
               <div className="mt-3 flex flex-wrap gap-2">
-                <Link href="/minigames" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                  Back to Mini Games
-                </Link>
+                <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
                 <button type="button" onClick={restart} className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
                   Restart
                 </button>
-                <Link href="/map" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                  Back to Map
-                </Link>
+                <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
               </div>
             </div>
           </div>
@@ -606,9 +598,7 @@ export default function WordMatchPlayPage() {
                 <button type="button" onClick={restart} className="rounded-xl bg-white px-4 py-2 text-sm font-black shadow">
                   {lang === "ms" ? "Main semula" : lang === "en" ? "Restart" : "Reiniciar"}
                 </button>
-                <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-black shadow">
-                  {lang === "ms" ? "Menu" : lang === "en" ? "Menu" : "Menú"}
-                </Link>
+                <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
               </div>
             </div>
           )}

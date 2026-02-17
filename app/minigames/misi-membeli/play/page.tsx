@@ -15,9 +15,11 @@ import {
 } from "@/lib/misiMembeli/items";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
+import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
+const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
 const MAX_LIVES = 5;
 
 const EASY_CONFIG = SHOPPING_DIFFICULTIES.easy;
@@ -301,10 +303,13 @@ export default function MisiMembeliPlayPage() {
   const [feedback, setFeedback] = useState<FeedbackState | null>(null);
   const [checkedRound, setCheckedRound] = useState(false);
   const [wrongSelectedIds, setWrongSelectedIds] = useState<string[]>([]);
+  const [wrongPopupVisible, setWrongPopupVisible] = useState(false);
+  const [wrongPopupFade, setWrongPopupFade] = useState(false);
 
   const startedAtRef = useRef<number>(0);
   const [elapsedMs, setElapsedMs] = useState(0);
   const recordedRef = useRef(false);
+  const wrongPopupTimers = useRef<number[]>([]);
 
   const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds]);
   const wrongSelectedSet = useMemo(() => new Set(wrongSelectedIds), [wrongSelectedIds]);
@@ -354,6 +359,13 @@ export default function MisiMembeliPlayPage() {
 
     return () => window.clearTimeout(timer);
   }, [feedback]);
+
+  useEffect(() => {
+    return () => {
+      wrongPopupTimers.current.forEach((timer) => window.clearTimeout(timer));
+      wrongPopupTimers.current = [];
+    };
+  }, []);
 
   function pickLang(next: UiLang) {
     setLang(next);
@@ -422,6 +434,17 @@ export default function MisiMembeliPlayPage() {
   function clearSelection() {
     if (gameOver) return;
     setSelectedIds([]);
+  }
+
+  function triggerWrongPopup() {
+    wrongPopupTimers.current.forEach((timer) => window.clearTimeout(timer));
+    wrongPopupTimers.current = [];
+    setWrongPopupVisible(true);
+    setWrongPopupFade(false);
+    wrongPopupTimers.current.push(
+      window.setTimeout(() => setWrongPopupFade(true), 900),
+      window.setTimeout(() => setWrongPopupVisible(false), 1200),
+    );
   }
 
   function recordScoreOnce(snapshot: {
@@ -506,6 +529,7 @@ export default function MisiMembeliPlayPage() {
     const nextWrongRounds = wrongRounds + 1;
     const nextLives = lives - 1;
 
+    triggerWrongPopup();
     setWrongRounds(nextWrongRounds);
     setLives(nextLives);
 
@@ -588,9 +612,7 @@ export default function MisiMembeliPlayPage() {
             <Link href="/user" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
               Go to Login
             </Link>
-            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
-              Back to Mini Games
-            </Link>
+            <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
           </div>
         </div>
       </main>
@@ -606,12 +628,8 @@ export default function MisiMembeliPlayPage() {
             Complete Chapter {requiredChapter} first to play Misi Membeli.
           </p>
           <div className="mt-6 flex gap-3">
-            <Link href="/map" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
-              Go to Map
-            </Link>
-            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
-              Back to Mini Games
-            </Link>
+            <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
+            <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
           </div>
         </div>
       </main>
@@ -689,9 +707,7 @@ export default function MisiMembeliPlayPage() {
               <Link href="/minigames/misi-membeli" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
                 Intro
               </Link>
-              <Link href="/minigames" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                Mini Games
-              </Link>
+              <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
               <button type="button" onClick={restartRun} className="rounded-xl bg-amber-300 px-3 py-2 text-xs font-black shadow">
                 {lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
               </button>
@@ -1015,9 +1031,7 @@ export default function MisiMembeliPlayPage() {
                       >
                         {lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
                       </button>
-                      <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-xs font-black shadow">
-                        {lang === "ms" ? "Menu" : lang === "en" ? "Menu" : "Menu"}
-                      </Link>
+                      <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
                     </div>
                   </div>
                 </div>
@@ -1061,6 +1075,17 @@ export default function MisiMembeliPlayPage() {
           </div>
         </section>
       </div>
+
+      {wrongPopupVisible && (
+        <div
+          className={[
+            "pointer-events-none fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300",
+            wrongPopupFade ? "opacity-0" : "opacity-100",
+          ].join(" ")}
+        >
+          <Image src={AKU2_SALAH_SRC} alt="Wrong answer" width={180} height={180} className="animate-bounce drop-shadow-lg" priority />
+        </div>
+      )}
     </main>
   );
 }
