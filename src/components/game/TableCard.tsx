@@ -69,6 +69,16 @@ export default function TableCard({ page, lang }: { page: ChapterTablePage; lang
       <div className="text-2xl font-extrabold">{page.title.ms}</div>
       {lang !== "ms" && <div className="text-sm font-semibold opacity-70">{titleSub}</div>}
 
+      {page.leadCard && (
+        <article className="mt-4 rounded-2xl bg-white/95 p-4 shadow">
+          <div className="text-sm font-black tracking-wide">{page.leadCard.heading.ms}</div>
+          {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{tr(lang, page.leadCard.heading)}</div>}
+
+          <p className="mt-2 whitespace-pre-line text-sm font-extrabold">{page.leadCard.body.ms}</p>
+          {lang !== "ms" && <p className="mt-1 whitespace-pre-line text-xs font-semibold opacity-70">{tr(lang, page.leadCard.body)}</p>}
+        </article>
+      )}
+
       <div className="mt-5 overflow-x-auto">
         <table className="w-full min-w-[760px] border-separate border-spacing-0 overflow-hidden rounded-2xl leading-tight">
           <thead>

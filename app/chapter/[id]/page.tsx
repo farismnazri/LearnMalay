@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import FigureCard from "@/components/game/FigureCard";
+import FoodIntroCard from "@/components/game/FoodIntroCard";
+import IconActionLink from "@/components/navigation/IconActionLink";
 
 import AkuAkuPopup from "@/components/game/AkuAkuPopup";
 
@@ -145,9 +147,7 @@ export default function ChapterPage() {
             <Link className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow" href="/user">
               Select User
             </Link>
-            <Link className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow" href="/map">
-              Back to Map
-            </Link>
+            <IconActionLink href="/map" kind="map" tooltip="Back to Map" iconClassName="brightness-0" />
           </div>
         </div>
       </main>
@@ -164,9 +164,9 @@ export default function ChapterPage() {
         <div className="mx-auto max-w-2xl rounded-2xl bg-white/90 p-6 shadow">
           <div className="text-xl font-extrabold">Chapter {chapterId}</div>
           <p className="mt-2 text-sm opacity-70">Content not wired yet.</p>
-          <Link className="mt-5 inline-block rounded-xl bg-white px-4 py-2 text-sm font-bold shadow" href="/map">
-            Back to Map
-          </Link>
+          <div className="mt-5">
+            <IconActionLink href="/map" kind="map" tooltip="Back to Map" iconClassName="brightness-0" />
+          </div>
         </div>
       </main>
     );
@@ -252,6 +252,8 @@ export default function ChapterPage() {
         return <TickCard page={page as any} lang={lang} />;
       case "figure":
         return <FigureCard page={page as any} lang={lang} />;
+      case "foodintro":
+        return <FoodIntroCard page={page as any} lang={lang} />;
       default:
         return null;
     }
@@ -290,6 +292,12 @@ export default function ChapterPage() {
                 ? "CHAPTER 7 - MAKANAN\n& KUIH-MUIH"
                 : content.id === 8
                 ? "CHAPTER 8 - PERAYAAN\nDI MALAYSIA"
+                : content.id === 9
+                ? "CHAPTER 9 - PEKERJAAN\nDI SEKITAR KITA"
+                : content.id === 10
+                ? "CHAPTER 10 - PERMAINAN\nTRADISIONAL"
+                : content.id === 11
+                ? "CHAPTER 11 - CUTI-CUTI\nUMUM DI MALAYSIA"
                 : `CHAPTER ${content.id} - ${titleMs}`}
             </div>
 
@@ -339,9 +347,7 @@ export default function ChapterPage() {
                 Replay Intro
               </button>
 
-              <Link href="/map" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                Back to Map
-              </Link>
+              <IconActionLink href="/map" kind="map" tooltip="Back to Map" iconClassName="brightness-0" />
             </div>
 
             {/* page navigation */}
@@ -426,9 +432,12 @@ export default function ChapterPage() {
                 {markingDone ? "..." : ""}
               </button>
 
-              <Link href="/map" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
-                {lang === "ms" ? "Kembali ke Peta" : lang === "en" ? "Back to Map" : "Volver al Mapa"}
-              </Link>
+              <IconActionLink
+                href="/map"
+                kind="map"
+                tooltip={lang === "ms" ? "Kembali ke Peta" : lang === "en" ? "Back to Map" : "Volver al Mapa"}
+                iconClassName="brightness-0"
+              />
             </div>
           </section>
         )}

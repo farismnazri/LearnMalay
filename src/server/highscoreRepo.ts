@@ -49,6 +49,7 @@ export async function listHighScores(): Promise<Record<GameId, ScoreEntry[]>> {
     "word-match": [],
     wordsearch: [],
     currency: [],
+    "makan-apa": [],
     "misi-membeli": [],
   };
 

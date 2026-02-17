@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import IconActionLink from "@/components/navigation/IconActionLink";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import {
   getCurrentUser,
@@ -141,20 +141,14 @@ export default function MapPage() {
           </div>
 
           {/* TOP RIGHT BUTTONS */}
-          <div className="flex gap-2 rounded-2xl border border-[#bfd9a0]/45 bg-[#173728]/70 p-2 shadow-xl backdrop-blur-md">
-            <Link
+          <div className="flex gap-3 pt-1">
+            <IconActionLink
               href="/minigames"
-              className="rounded-xl bg-gradient-to-r from-[#ffd447] to-[#ffbf3f] px-4 py-2 text-sm font-black text-[#3f2f00] shadow transition hover:brightness-105 active:scale-[0.98]"
-            >
-              Mini Games
-            </Link>
-
-            <Link
-              href="/"
-              className="rounded-xl border border-[#bcd7a1]/50 bg-[#24482f]/80 px-4 py-2 text-sm font-black text-[#f5f9e8] shadow transition hover:bg-[#2d5b3a] active:scale-[0.98]"
-            >
-              Back
-            </Link>
+              kind="minigames"
+              tooltip="Go to Mini Games"
+              iconClassName="brightness-0 invert"
+            />
+            <IconActionLink href="/" kind="home" tooltip="Back to Home" iconClassName="brightness-0 invert" />
           </div>
         </div>
 

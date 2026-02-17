@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { UiLang } from "@/lib/chapters";
+import IconActionLink from "@/components/navigation/IconActionLink";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 
@@ -153,18 +154,9 @@ export default function MisiMembeliIntroPage() {
             </div>
 
             <div className="mt-3 flex flex-wrap gap-2">
-              <Link
-                href="/minigames/misi-membeli/play"
-                className="rounded-xl bg-amber-300 px-3 py-2 text-xs font-black shadow hover:bg-amber-200"
-              >
-                Start Game
-              </Link>
-              <Link href="/minigames" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                Back to Mini Games
-              </Link>
-              <Link href="/map" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                Back to Map
-              </Link>
+              <IconActionLink href="/minigames/misi-membeli/play" kind="start-game" tooltip="Start Game" />
+              <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
+              <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
             </div>
           </div>
         </div>

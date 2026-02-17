@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import Image from "next/image";
+import IconActionLink from "@/components/navigation/IconActionLink";
 
 import AkuAkuPopup from "@/components/game/AkuAkuPopup";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
@@ -285,7 +286,7 @@ export default function MiniGamesPage() {
     return (
       <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
-          <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
+          <h1 className="crash-text crash-outline-fallback text-5xl font-black">NOMBOR</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
           <div className="mt-6 flex gap-3">
             <Link href="/user" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
@@ -340,7 +341,7 @@ export default function MiniGamesPage() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h1 className="crash-text crash-outline-fallback text-6xl font-black">
-              MINI GAMES
+              NOMBOR
             </h1>
             <p className="mt-2 text-sm font-semibold text-white/90">
               Kenali Nombor • {t(lang, activeSet.label)}
@@ -376,20 +377,9 @@ export default function MiniGamesPage() {
               </button>
             </div>
               <div className="mt-3 flex flex-wrap gap-2">
-              <Link
-                href="/minigames/numbers/play"
-                className="rounded-xl bg-amber-300 px-3 py-2 text-xs font-bold shadow hover:bg-amber-200"
-              >
-                Start Game
-              </Link>
-
-              <Link href="/minigames" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                Back to Mini Games
-              </Link>
-
-              <Link href="/map" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                Back to Map
-              </Link>
+                <IconActionLink href="/minigames/numbers/play" kind="start-game" tooltip="Start Game" />
+                <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
+                <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
               </div>
           </div>
         </div>

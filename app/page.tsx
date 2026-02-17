@@ -138,7 +138,7 @@ export default function TitleScreen() {
       </div>
 
       <footer className="absolute bottom-6 left-0 right-0 z-10 text-center">
-        <p className="text-xs font-black tracking-[0.22em] text-[#f8efcb]/88">By Faris, dedicated to my wife, Natth</p>
+        <p className="text-xs font-black tracking-[0.22em] text-[#f8efcb]/88">By FN for NF ❤︎</p>
       </footer>
     </main>
   );

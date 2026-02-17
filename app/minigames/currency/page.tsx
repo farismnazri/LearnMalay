@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { UiLang } from "@/lib/chapters";
+import IconActionLink from "@/components/navigation/IconActionLink";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 
@@ -177,18 +178,9 @@ export default function CurrencyIntroPage() {
             </div>
 
             <div className="mt-3 flex flex-wrap gap-2">
-              <Link
-                href="/minigames/currency/play"
-                className="rounded-xl bg-amber-300 px-3 py-2 text-xs font-black shadow hover:bg-amber-200"
-              >
-                Start Game
-              </Link>
-              <Link href="/minigames" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                Back to Mini Games
-              </Link>
-              <Link href="/map" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                Back to Map
-              </Link>
+              <IconActionLink href="/minigames/currency/play" kind="start-game" tooltip="Start Game" />
+              <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
+              <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
             </div>
           </div>
         </div>

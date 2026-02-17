@@ -9,12 +9,161 @@ export const chapter07: ChapterContent = {
   },
   pages: [
     {
+      id: "c7-p0-food-intro",
+      kind: "foodintro",
+      title: {
+        ms: "Pengenalan Tema Makanan",
+        en: "Food Theme Introduction",
+        es: "Introduccion al Tema de la Comida",
+      },
+      intro: {
+        ms: "Selamat datang ke tema makanan! Di sini kita akan belajar tentang makanan. Malaysia sangat kaya dengan pelbagai jenis makanan. Setiap negeri ada hidangan istimewa. Kami berbangga dengan masakan kami dan sangat gembira untuk berkongsi dengan anda.",
+        en: "Welcome to the food theme! Here we will learn about food. Malaysia is very rich in many kinds of food. Every state has special dishes. We are proud of our cuisine and very happy to share it with you.",
+        es: "Bienvenido al tema de la comida. Aqui aprenderemos sobre la comida. Malasia es muy rica en muchos tipos de comida. Cada estado tiene platos especiales. Estamos orgullosos de nuestra cocina y muy felices de compartirla contigo.",
+      },
+      sections: [],
+      galleryImages: [
+        {
+          src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Putih.webp",
+          alt: { ms: "Nasi Putih", en: "White Rice", es: "Arroz Blanco" },
+        },
+        {
+          src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Lemak.webp",
+          alt: { ms: "Nasi Lemak", en: "Nasi Lemak", es: "Nasi Lemak" },
+        },
+        {
+          src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Ayam.webp",
+          alt: { ms: "Nasi Ayam", en: "Chicken Rice", es: "Arroz Con Pollo" },
+        },
+        {
+          src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Kerabu.webp",
+          alt: { ms: "Nasi Kerabu", en: "Nasi Kerabu", es: "Nasi Kerabu" },
+        },
+        {
+          src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Dagang.webp",
+          alt: { ms: "Nasi Dagang", en: "Nasi Dagang", es: "Nasi Dagang" },
+        },
+        {
+          src: "/assets/chapters/ch7/Nasi/CH7_Bubur.webp",
+          alt: { ms: "Nasi Air / Bubur Nasi", en: "Rice Porridge", es: "Gachas De Arroz" },
+        },
+        {
+          src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Tomato.webp",
+          alt: { ms: "Nasi Tomato", en: "Tomato Rice", es: "Arroz Con Tomate" },
+        },
+        {
+          src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Minyak.webp",
+          alt: { ms: "Nasi Minyak", en: "Nasi Minyak", es: "Nasi Minyak" },
+        },
+        {
+          src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Goreng.webp",
+          alt: { ms: "Nasi Goreng", en: "Fried Rice", es: "Arroz Frito" },
+        },
+        {
+          src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Hujan_Panas.webp",
+          alt: { ms: "Nasi Hujan Panas", en: "Nasi Hujan Panas", es: "Nasi Hujan Panas" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ayam/Ayam_Kari.webp",
+          alt: { ms: "Kari Ayam", en: "Chicken Curry", es: "Curry De Pollo" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ayam/Ayam_Goreng.webp",
+          alt: { ms: "Ayam Goreng", en: "Fried Chicken", es: "Pollo Frito" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ayam/Ayam_Sup.webp",
+          alt: { ms: "Ayam Sup", en: "Chicken Soup", es: "Sopa De Pollo" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ayam/Ayam_Masak_Kicap.webp",
+          alt: { ms: "Ayam Masak Kicap", en: "Soy Sauce Chicken", es: "Pollo Con Salsa De Soya" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ayam/Ayam_Bakar.webp",
+          alt: { ms: "Ayam Bakar", en: "Grilled Chicken", es: "Pollo A La Parrilla" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ayam/Ayam_Tomyam.webp",
+          alt: { ms: "Ayam Tom Yam", en: "Tom Yam Chicken", es: "Pollo Tom Yam" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ayam/Ayam_Masak_Merah.webp",
+          alt: { ms: "Ayam Masak Merah", en: "Red Chili Chicken", es: "Pollo En Salsa Roja" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ayam/Ayam_Rendang.webp",
+          alt: { ms: "Ayam Rendang", en: "Chicken Rendang", es: "Rendang De Pollo" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ikan/Ikan_Goreng.webp",
+          alt: { ms: "Ikan Goreng", en: "Fried Fish", es: "Pescado Frito" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ikan/Ikan_Kukus.webp",
+          alt: { ms: "Ikan Kukus", en: "Steamed Fish", es: "Pescado Al Vapor" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ikan/Ikan_Rebus.webp",
+          alt: { ms: "Ikan Rebus", en: "Boiled Fish", es: "Pescado Hervido" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ikan/Ikan_Goreng_Sambal.webp",
+          alt: { ms: "Ikan Goreng Sambal", en: "Fried Fish With Sambal", es: "Pescado Frito Con Sambal" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ikan/Ikan_Kari_Ikan.webp",
+          alt: { ms: "Ikan Kari", en: "Fish Curry", es: "Curry De Pescado" },
+        },
+        {
+          src: "/assets/chapters/ch7/Ikan/Ikan_Bakar.webp",
+          alt: { ms: "Ikan Bakar", en: "Grilled Fish", es: "Pescado A La Parrilla" },
+        },
+        {
+          src: "/assets/chapters/ch7/Sotong/Sotong_Goreng.webp",
+          alt: { ms: "Sotong Goreng", en: "Fried Squid", es: "Calamar Frito" },
+        },
+        {
+          src: "/assets/chapters/ch7/Sotong/Sotong_Sambal.webp",
+          alt: { ms: "Sotong Sambal", en: "Sambal Squid", es: "Calamar Sambal" },
+        },
+        {
+          src: "/assets/chapters/ch7/Sotong/Sotong_Kari.webp",
+          alt: { ms: "Sotong Kari", en: "Squid Curry", es: "Curry De Calamar" },
+        },
+        {
+          src: "/assets/chapters/ch7/Sotong/Sotong_Masak_Lemak.webp",
+          alt: { ms: "Sotong Masak Lemak", en: "Squid In Coconut Gravy", es: "Calamar En Salsa De Coco" },
+        },
+        {
+          src: "/assets/chapters/ch7/Sotong/Sotong_Bakar.webp",
+          alt: { ms: "Sotong Bakar", en: "Grilled Squid", es: "Calamar A La Parrilla" },
+        },
+        {
+          src: "/assets/chapters/ch7/Sotong/Sotong_Celup_Tepung.webp",
+          alt: { ms: "Sotong Celup Tepung", en: "Battered Fried Squid", es: "Calamar Rebozado" },
+        },
+      ],
+    },
+    {
       id: "c7-p1-jenis-nasi",
       kind: "table",
       title: {
         ms: "Jenis Nasi",
         en: "Types of Rice Dishes",
         es: "Tipos de Platos de Arroz",
+      },
+      leadCard: {
+        heading: {
+          ms: "MAKANAN UTAMA",
+          en: "MAIN STAPLE FOOD",
+          es: "COMIDA PRINCIPAL",
+        },
+        body: {
+          ms: "Makanan ruji di Malaysia ialah nasi. Nasi dihidangkan dengan pelbagai jenis lauk-pauk.",
+          en: "The staple food in Malaysia is rice. Rice is served with many kinds of side dishes.",
+          es: "El alimento basico en Malasia es el arroz. El arroz se sirve con muchos tipos de guarniciones.",
+        },
       },
       columns: [
         {
@@ -33,14 +182,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-nasi.svg",
-                alt: { ms: "nasi putih", en: "white rice", es: "arroz blanco" },
+                src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Putih.webp",
+                alt: { ms: "Nasi Putih", en: "White Rice", es: "Arroz Blanco" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "nasi putih", en: "white rice", es: "arroz blanco" }],
+            nama: [{ ms: "Nasi Putih", en: "White Rice", es: "Arroz Blanco" }],
           },
         },
         {
@@ -49,14 +198,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-nasi.svg",
-                alt: { ms: "nasi lemak", en: "nasi lemak", es: "nasi lemak" },
+                src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Lemak.webp",
+                alt: { ms: "Nasi Lemak", en: "Nasi Lemak", es: "Nasi Lemak" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "nasi lemak", en: "nasi lemak", es: "nasi lemak" }],
+            nama: [{ ms: "Nasi Lemak", en: "Nasi Lemak", es: "Nasi Lemak" }],
           },
         },
         {
@@ -65,14 +214,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-nasi.svg",
-                alt: { ms: "nasi ayam", en: "chicken rice", es: "arroz con pollo" },
+                src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Ayam.webp",
+                alt: { ms: "Nasi Ayam", en: "Chicken Rice", es: "Arroz Con Pollo" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "nasi ayam", en: "chicken rice", es: "arroz con pollo" }],
+            nama: [{ ms: "Nasi Ayam", en: "Chicken Rice", es: "Arroz Con Pollo" }],
           },
         },
         {
@@ -81,14 +230,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-nasi.svg",
-                alt: { ms: "nasi kerabu", en: "nasi kerabu", es: "nasi kerabu" },
+                src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Kerabu.webp",
+                alt: { ms: "Nasi Kerabu", en: "Nasi Kerabu", es: "Nasi Kerabu" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "nasi kerabu", en: "nasi kerabu", es: "nasi kerabu" }],
+            nama: [{ ms: "Nasi Kerabu", en: "Nasi Kerabu", es: "Nasi Kerabu" }],
           },
         },
         {
@@ -97,14 +246,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-nasi.svg",
-                alt: { ms: "nasi dagang", en: "nasi dagang", es: "nasi dagang" },
+                src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Dagang.webp",
+                alt: { ms: "Nasi Dagang", en: "Nasi Dagang", es: "Nasi Dagang" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "nasi dagang", en: "nasi dagang", es: "nasi dagang" }],
+            nama: [{ ms: "Nasi Dagang", en: "Nasi Dagang", es: "Nasi Dagang" }],
           },
         },
         {
@@ -113,14 +262,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-nasi.svg",
-                alt: { ms: "nasi air / bubur nasi", en: "rice porridge", es: "gachas de arroz" },
+                src: "/assets/chapters/ch7/Nasi/CH7_Bubur.webp",
+                alt: { ms: "Nasi Air / Bubur Nasi", en: "Rice Porridge", es: "Gachas De Arroz" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "nasi air / bubur nasi", en: "rice porridge", es: "gachas de arroz" }],
+            nama: [{ ms: "Nasi Air / Bubur Nasi", en: "Rice Porridge", es: "Gachas De Arroz" }],
           },
         },
         {
@@ -129,14 +278,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-nasi.svg",
-                alt: { ms: "nasi tomato", en: "tomato rice", es: "arroz con tomate" },
+                src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Tomato.webp",
+                alt: { ms: "Nasi Tomato", en: "Tomato Rice", es: "Arroz Con Tomate" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "nasi tomato", en: "tomato rice", es: "arroz con tomate" }],
+            nama: [{ ms: "Nasi Tomato", en: "Tomato Rice", es: "Arroz Con Tomate" }],
           },
         },
         {
@@ -145,14 +294,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-nasi.svg",
-                alt: { ms: "nasi minyak", en: "nasi minyak", es: "nasi minyak" },
+                src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Minyak.webp",
+                alt: { ms: "Nasi Minyak", en: "Nasi Minyak", es: "Nasi Minyak" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "nasi minyak", en: "nasi minyak", es: "nasi minyak" }],
+            nama: [{ ms: "Nasi Minyak", en: "Nasi Minyak", es: "Nasi Minyak" }],
           },
         },
         {
@@ -161,14 +310,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-nasi.svg",
-                alt: { ms: "nasi goreng", en: "fried rice", es: "arroz frito" },
+                src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Goreng.webp",
+                alt: { ms: "Nasi Goreng", en: "Fried Rice", es: "Arroz Frito" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "nasi goreng", en: "fried rice", es: "arroz frito" }],
+            nama: [{ ms: "Nasi Goreng", en: "Fried Rice", es: "Arroz Frito" }],
           },
         },
         {
@@ -177,14 +326,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-nasi.svg",
-                alt: { ms: "nasi hujan panas", en: "nasi hujan panas", es: "nasi hujan panas" },
+                src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Hujan_Panas.webp",
+                alt: { ms: "Nasi Hujan Panas", en: "Nasi Hujan Panas", es: "Nasi Hujan Panas" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "nasi hujan panas", en: "nasi hujan panas", es: "nasi hujan panas" }],
+            nama: [{ ms: "Nasi Hujan Panas", en: "Nasi Hujan Panas", es: "Nasi Hujan Panas" }],
           },
         },
       ],
@@ -196,6 +345,18 @@ export const chapter07: ChapterContent = {
         ms: "Lauk Ayam",
         en: "Chicken Side Dishes",
         es: "Guarniciones de Pollo",
+      },
+      leadCard: {
+        heading: {
+          ms: "JENIS LAUK",
+          en: "TYPES OF SIDE DISHES",
+          es: "TIPOS DE GUARNICIONES",
+        },
+        body: {
+          ms: "Lauk ialah masakan ayam, ikan, daging, sotong, udang dan sebagainya yang dimakan bersama nasi.",
+          en: "Side dishes are chicken, fish, meat, squid, shrimp and other dishes eaten with rice.",
+          es: "Las guarniciones son platos de pollo, pescado, carne, calamar, camaron y otros que se comen con arroz.",
+        },
       },
       columns: [
         {
@@ -214,14 +375,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ayam.svg",
-                alt: { ms: "kari ayam", en: "chicken curry", es: "curry de pollo" },
+                src: "/assets/chapters/ch7/Ayam/Ayam_Kari.webp",
+                alt: { ms: "Kari Ayam", en: "Chicken Curry", es: "Curry De Pollo" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "kari ayam", en: "chicken curry", es: "curry de pollo" }],
+            nama: [{ ms: "Kari Ayam", en: "Chicken Curry", es: "Curry De Pollo" }],
           },
         },
         {
@@ -230,14 +391,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ayam.svg",
-                alt: { ms: "ayam goreng", en: "fried chicken", es: "pollo frito" },
+                src: "/assets/chapters/ch7/Ayam/Ayam_Goreng.webp",
+                alt: { ms: "Ayam Goreng", en: "Fried Chicken", es: "Pollo Frito" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ayam goreng", en: "fried chicken", es: "pollo frito" }],
+            nama: [{ ms: "Ayam Goreng", en: "Fried Chicken", es: "Pollo Frito" }],
           },
         },
         {
@@ -246,14 +407,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ayam.svg",
-                alt: { ms: "ayam sup", en: "chicken soup", es: "sopa de pollo" },
+                src: "/assets/chapters/ch7/Ayam/Ayam_Sup.webp",
+                alt: { ms: "Ayam Sup", en: "Chicken Soup", es: "Sopa De Pollo" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ayam sup", en: "chicken soup", es: "sopa de pollo" }],
+            nama: [{ ms: "Ayam Sup", en: "Chicken Soup", es: "Sopa De Pollo" }],
           },
         },
         {
@@ -262,14 +423,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ayam.svg",
-                alt: { ms: "ayam masak kicap", en: "soy sauce chicken", es: "pollo con salsa de soya" },
+                src: "/assets/chapters/ch7/Ayam/Ayam_Masak_Kicap.webp",
+                alt: { ms: "Ayam Masak Kicap", en: "Soy Sauce Chicken", es: "Pollo Con Salsa De Soya" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ayam masak kicap", en: "soy sauce chicken", es: "pollo con salsa de soya" }],
+            nama: [{ ms: "Ayam Masak Kicap", en: "Soy Sauce Chicken", es: "Pollo Con Salsa De Soya" }],
           },
         },
         {
@@ -278,14 +439,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ayam.svg",
-                alt: { ms: "ayam bakar", en: "grilled chicken", es: "pollo a la parrilla" },
+                src: "/assets/chapters/ch7/Ayam/Ayam_Bakar.webp",
+                alt: { ms: "Ayam Bakar", en: "Grilled Chicken", es: "Pollo A La Parrilla" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ayam bakar", en: "grilled chicken", es: "pollo a la parrilla" }],
+            nama: [{ ms: "Ayam Bakar", en: "Grilled Chicken", es: "Pollo A La Parrilla" }],
           },
         },
         {
@@ -294,14 +455,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ayam.svg",
-                alt: { ms: "ayam tom yam", en: "tom yam chicken", es: "pollo tom yam" },
+                src: "/assets/chapters/ch7/Ayam/Ayam_Tomyam.webp",
+                alt: { ms: "Ayam Tom Yam", en: "Tom Yam Chicken", es: "Pollo Tom Yam" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ayam tom yam", en: "tom yam chicken", es: "pollo tom yam" }],
+            nama: [{ ms: "Ayam Tom Yam", en: "Tom Yam Chicken", es: "Pollo Tom Yam" }],
           },
         },
         {
@@ -310,14 +471,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ayam.svg",
-                alt: { ms: "ayam masak merah", en: "red chili chicken", es: "pollo en salsa roja" },
+                src: "/assets/chapters/ch7/Ayam/Ayam_Masak_Merah.webp",
+                alt: { ms: "Ayam Masak Merah", en: "Red Chili Chicken", es: "Pollo En Salsa Roja" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ayam masak merah", en: "red chili chicken", es: "pollo en salsa roja" }],
+            nama: [{ ms: "Ayam Masak Merah", en: "Red Chili Chicken", es: "Pollo En Salsa Roja" }],
           },
         },
         {
@@ -326,14 +487,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ayam.svg",
-                alt: { ms: "ayam rendang", en: "chicken rendang", es: "rendang de pollo" },
+                src: "/assets/chapters/ch7/Ayam/Ayam_Rendang.webp",
+                alt: { ms: "Ayam Rendang", en: "Chicken Rendang", es: "Rendang De Pollo" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ayam rendang", en: "chicken rendang", es: "rendang de pollo" }],
+            nama: [{ ms: "Ayam Rendang", en: "Chicken Rendang", es: "Rendang De Pollo" }],
           },
         },
       ],
@@ -363,14 +524,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ikan.svg",
-                alt: { ms: "ikan goreng", en: "fried fish", es: "pescado frito" },
+                src: "/assets/chapters/ch7/Ikan/Ikan_Goreng.webp",
+                alt: { ms: "Ikan Goreng", en: "Fried Fish", es: "Pescado Frito" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ikan goreng", en: "fried fish", es: "pescado frito" }],
+            nama: [{ ms: "Ikan Goreng", en: "Fried Fish", es: "Pescado Frito" }],
           },
         },
         {
@@ -379,14 +540,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ikan.svg",
-                alt: { ms: "ikan kukus", en: "steamed fish", es: "pescado al vapor" },
+                src: "/assets/chapters/ch7/Ikan/Ikan_Kukus.webp",
+                alt: { ms: "Ikan Kukus", en: "Steamed Fish", es: "Pescado Al Vapor" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ikan kukus", en: "steamed fish", es: "pescado al vapor" }],
+            nama: [{ ms: "Ikan Kukus", en: "Steamed Fish", es: "Pescado Al Vapor" }],
           },
         },
         {
@@ -395,14 +556,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ikan.svg",
-                alt: { ms: "ikan rebus", en: "boiled fish", es: "pescado hervido" },
+                src: "/assets/chapters/ch7/Ikan/Ikan_Rebus.webp",
+                alt: { ms: "Ikan Rebus", en: "Boiled Fish", es: "Pescado Hervido" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ikan rebus", en: "boiled fish", es: "pescado hervido" }],
+            nama: [{ ms: "Ikan Rebus", en: "Boiled Fish", es: "Pescado Hervido" }],
           },
         },
         {
@@ -411,14 +572,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ikan.svg",
-                alt: { ms: "ikan goreng sambal", en: "fried fish with sambal", es: "pescado frito con sambal" },
+                src: "/assets/chapters/ch7/Ikan/Ikan_Goreng_Sambal.webp",
+                alt: { ms: "Ikan Goreng Sambal", en: "Fried Fish With Sambal", es: "Pescado Frito Con Sambal" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ikan goreng sambal", en: "fried fish with sambal", es: "pescado frito con sambal" }],
+            nama: [{ ms: "Ikan Goreng Sambal", en: "Fried Fish With Sambal", es: "Pescado Frito Con Sambal" }],
           },
         },
         {
@@ -427,14 +588,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ikan.svg",
-                alt: { ms: "ikan kari", en: "fish curry", es: "curry de pescado" },
+                src: "/assets/chapters/ch7/Ikan/Ikan_Kari_Ikan.webp",
+                alt: { ms: "Ikan Kari", en: "Fish Curry", es: "Curry De Pescado" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ikan kari", en: "fish curry", es: "curry de pescado" }],
+            nama: [{ ms: "Ikan Kari", en: "Fish Curry", es: "Curry De Pescado" }],
           },
         },
         {
@@ -443,14 +604,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-ikan.svg",
-                alt: { ms: "ikan bakar", en: "grilled fish", es: "pescado a la parrilla" },
+                src: "/assets/chapters/ch7/Ikan/Ikan_Bakar.webp",
+                alt: { ms: "Ikan Bakar", en: "Grilled Fish", es: "Pescado A La Parrilla" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "ikan bakar", en: "grilled fish", es: "pescado a la parrilla" }],
+            nama: [{ ms: "Ikan Bakar", en: "Grilled Fish", es: "Pescado A La Parrilla" }],
           },
         },
       ],
@@ -480,14 +641,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-sotong.svg",
-                alt: { ms: "sotong goreng", en: "fried squid", es: "calamar frito" },
+                src: "/assets/chapters/ch7/Sotong/Sotong_Goreng.webp",
+                alt: { ms: "Sotong Goreng", en: "Fried Squid", es: "Calamar Frito" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "sotong goreng", en: "fried squid", es: "calamar frito" }],
+            nama: [{ ms: "Sotong Goreng", en: "Fried Squid", es: "Calamar Frito" }],
           },
         },
         {
@@ -496,14 +657,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-sotong.svg",
-                alt: { ms: "sotong sambal", en: "sambal squid", es: "calamar sambal" },
+                src: "/assets/chapters/ch7/Sotong/Sotong_Sambal.webp",
+                alt: { ms: "Sotong Sambal", en: "Sambal Squid", es: "Calamar Sambal" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "sotong sambal", en: "sambal squid", es: "calamar sambal" }],
+            nama: [{ ms: "Sotong Sambal", en: "Sambal Squid", es: "Calamar Sambal" }],
           },
         },
         {
@@ -512,14 +673,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-sotong.svg",
-                alt: { ms: "sotong kari", en: "squid curry", es: "curry de calamar" },
+                src: "/assets/chapters/ch7/Sotong/Sotong_Kari.webp",
+                alt: { ms: "Sotong Kari", en: "Squid Curry", es: "Curry De Calamar" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "sotong kari", en: "squid curry", es: "curry de calamar" }],
+            nama: [{ ms: "Sotong Kari", en: "Squid Curry", es: "Curry De Calamar" }],
           },
         },
         {
@@ -528,14 +689,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-sotong.svg",
-                alt: { ms: "sotong masak lemak", en: "squid in coconut gravy", es: "calamar en salsa de coco" },
+                src: "/assets/chapters/ch7/Sotong/Sotong_Masak_Lemak.webp",
+                alt: { ms: "Sotong Masak Lemak", en: "Squid In Coconut Gravy", es: "Calamar En Salsa De Coco" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "sotong masak lemak", en: "squid in coconut gravy", es: "calamar en salsa de coco" }],
+            nama: [{ ms: "Sotong Masak Lemak", en: "Squid In Coconut Gravy", es: "Calamar En Salsa De Coco" }],
           },
         },
         {
@@ -544,14 +705,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-sotong.svg",
-                alt: { ms: "sotong bakar", en: "grilled squid", es: "calamar a la parrilla" },
+                src: "/assets/chapters/ch7/Sotong/Sotong_Bakar.webp",
+                alt: { ms: "Sotong Bakar", en: "Grilled Squid", es: "Calamar A La Parrilla" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "sotong bakar", en: "grilled squid", es: "calamar a la parrilla" }],
+            nama: [{ ms: "Sotong Bakar", en: "Grilled Squid", es: "Calamar A La Parrilla" }],
           },
         },
         {
@@ -560,14 +721,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-lauk-sotong.svg",
-                alt: { ms: "sotong celup tepung", en: "battered fried squid", es: "calamar rebozado" },
+                src: "/assets/chapters/ch7/Sotong/Sotong_Celup_Tepung.webp",
+                alt: { ms: "Sotong Celup Tepung", en: "Battered Fried Squid", es: "Calamar Rebozado" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "sotong celup tepung", en: "battered fried squid", es: "calamar rebozado" }],
+            nama: [{ ms: "Sotong Celup Tepung", en: "Battered Fried Squid", es: "Calamar Rebozado" }],
           },
         },
       ],
@@ -579,6 +740,18 @@ export const chapter07: ChapterContent = {
         ms: "Makanan Tradisional / Kuih - Jenis Kuih",
         en: "Traditional Food / Kuih - Types of Kuih",
         es: "Comida Tradicional / Kuih - Tipos de Kuih",
+      },
+      leadCard: {
+        heading: {
+          ms: "MAKANAN TRADISIONAL/KUIH",
+          en: "TRADITIONAL FOOD/KUIH",
+          es: "COMIDA TRADICIONAL/KUIH",
+        },
+        body: {
+          ms: "Kuih merupakan makanan tradisional rakyat Malaysia. Pelbagai jenis kuih terdapat di Malaysia.",
+          en: "Kuih are traditional foods of the Malaysian people. Many kinds of kuih are found in Malaysia.",
+          es: "Los kuih son comida tradicional del pueblo malasio. Hay muchos tipos de kuih en Malasia.",
+        },
       },
       columns: [
         {
@@ -597,14 +770,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-kuih.svg",
-                alt: { ms: "karipap", en: "curry puff", es: "empanadilla de curry" },
+                src: "/assets/chapters/ch7/Kuih_Muih/Kuih_Muih_Karipap.webp",
+                alt: { ms: "Karipap", en: "Curry Puff", es: "Empanadilla De Curry" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "karipap", en: "curry puff", es: "empanadilla de curry" }],
+            nama: [{ ms: "Karipap", en: "Curry Puff", es: "Empanadilla De Curry" }],
           },
         },
         {
@@ -613,14 +786,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-kuih.svg",
-                alt: { ms: "kuih lapis", en: "layer kuih", es: "kuih en capas" },
+                src: "/assets/chapters/ch7/Kuih_Muih/Kuih_Muih_Lapis.webp",
+                alt: { ms: "Kuih Lapis", en: "Layer Kuih", es: "Kuih En Capas" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "kuih lapis", en: "layer kuih", es: "kuih en capas" }],
+            nama: [{ ms: "Kuih Lapis", en: "Layer Kuih", es: "Kuih En Capas" }],
           },
         },
         {
@@ -629,14 +802,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-kuih.svg",
-                alt: { ms: "kuih sagu", en: "sago kuih", es: "kuih de sagu" },
+                src: "/assets/chapters/ch7/Kuih_Muih/Kuih_Muih_Sagu.webp",
+                alt: { ms: "Kuih Sagu", en: "Sago Kuih", es: "Kuih De Sagu" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "kuih sagu", en: "sago kuih", es: "kuih de sagu" }],
+            nama: [{ ms: "Kuih Sagu", en: "Sago Kuih", es: "Kuih De Sagu" }],
           },
         },
         {
@@ -645,14 +818,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-kuih.svg",
-                alt: { ms: "kuih pelita", en: "kuih pelita", es: "kuih pelita" },
+                src: "/assets/chapters/ch7/Kuih_Muih/Kuih_Muih_Pelita.webp",
+                alt: { ms: "Kuih Pelita", en: "Kuih Pelita", es: "Kuih Pelita" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "kuih pelita", en: "kuih pelita", es: "kuih pelita" }],
+            nama: [{ ms: "Kuih Pelita", en: "Kuih Pelita", es: "Kuih Pelita" }],
           },
         },
         {
@@ -661,14 +834,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-kuih.svg",
-                alt: { ms: "onde-onde", en: "onde-onde", es: "onde-onde" },
+                src: "/assets/chapters/ch7/Kuih_Muih/Kuih_Muih_Onde_Onde.webp",
+                alt: { ms: "Onde-Onde", en: "Onde-Onde", es: "Onde-Onde" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "onde-onde", en: "onde-onde", es: "onde-onde" }],
+            nama: [{ ms: "Onde-Onde", en: "Onde-Onde", es: "Onde-Onde" }],
           },
         },
         {
@@ -677,14 +850,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-kuih.svg",
-                alt: { ms: "apam", en: "apam", es: "apam" },
+                src: "/assets/chapters/ch7/Kuih_Muih/Kuih_Muih_Apam.webp",
+                alt: { ms: "Apam", en: "Apam", es: "Apam" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "apam", en: "apam", es: "apam" }],
+            nama: [{ ms: "Apam", en: "Apam", es: "Apam" }],
           },
         },
         {
@@ -693,14 +866,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-kuih.svg",
-                alt: { ms: "roti jala", en: "net crepe", es: "crepa de red" },
+                src: "/assets/chapters/ch7/Kuih_Muih/Kuih_Muih_Roti_Jala.webp",
+                alt: { ms: "Roti Jala", en: "Net Crepe", es: "Crepa De Red" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "roti jala", en: "net crepe", es: "crepa de red" }],
+            nama: [{ ms: "Roti Jala", en: "Net Crepe", es: "Crepa De Red" }],
           },
         },
         {
@@ -709,14 +882,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-kuih.svg",
-                alt: { ms: "seri muka", en: "seri muka", es: "seri muka" },
+                src: "/assets/chapters/ch7/Kuih_Muih/Kuih_Muih_Seri_Muka.webp",
+                alt: { ms: "Seri Muka", en: "Seri Muka", es: "Seri Muka" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "seri muka", en: "seri muka", es: "seri muka" }],
+            nama: [{ ms: "Seri Muka", en: "Seri Muka", es: "Seri Muka" }],
           },
         },
         {
@@ -725,14 +898,14 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-kuih.svg",
-                alt: { ms: "bingka", en: "bingka", es: "bingka" },
+                src: "/assets/chapters/ch7/Kuih_Muih/Kuih_Muih_Bingka.webp",
+                alt: { ms: "Bingka", en: "Bingka", es: "Bingka" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "bingka", en: "bingka", es: "bingka" }],
+            nama: [{ ms: "Bingka", en: "Bingka", es: "Bingka" }],
           },
         },
         {
@@ -741,14 +914,30 @@ export const chapter07: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch7/placeholder-kuih.svg",
-                alt: { ms: "nasi manis", en: "sweet sticky rice dessert", es: "postre de arroz dulce" },
+                src: "/assets/chapters/ch7/Kuih_Muih/Kuih_Muih_Nasi_Manis.webp",
+                alt: { ms: "Nasi Manis", en: "Sweet Sticky Rice Dessert", es: "Postre De Arroz Dulce" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "nasi manis", en: "sweet sticky rice dessert", es: "postre de arroz dulce" }],
+            nama: [{ ms: "Nasi Manis", en: "Sweet Sticky Rice Dessert", es: "Postre De Arroz Dulce" }],
+          },
+        },
+        {
+          id: "c7-kuih-lopes",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/Kuih_Muih/Kuih_Muih_Lopes.webp",
+                alt: { ms: "Lopes", en: "Lopes", es: "Lopes" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Lopes", en: "Lopes", es: "Lopes" }],
           },
         },
       ],

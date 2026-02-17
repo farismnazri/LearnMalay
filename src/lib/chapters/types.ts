@@ -65,6 +65,10 @@ export type ChapterTablePage = {
   id: string;
   kind: "table";
   title: Translated;
+  leadCard?: {
+    heading: Translated;
+    body: Translated;
+  };
   columns: Array<{ key: string; label: Translated }>;
   rows: Array<{
     id: string;
@@ -257,6 +261,27 @@ export type CrosswordPage = {
   rows?: number; // optional fixed board height
   cols?: number; // optional fixed board width
 };
+
+export type FoodIntroSection = {
+  id: string;
+  heading: Translated;
+  body: Translated;
+};
+
+export type FoodIntroGalleryImage = {
+  src: string;
+  alt: Translated;
+};
+
+export type FoodIntroPage = {
+  id: string;
+  kind: "foodintro";
+  title: Translated;
+  intro: Translated;
+  sections: FoodIntroSection[];
+  galleryImages: FoodIntroGalleryImage[];
+};
+
 export type FigurePage = {
   id: string;
   kind: "figure";
@@ -272,7 +297,18 @@ export type FigurePage = {
 // -------------------------
 export type ChapterPage =
   | { id: string; kind: "intro"; sections: ChapterSection[] }
-  | { id: string; kind: "table"; title: Translated; columns: any[]; rows: any[] }
+  | FoodIntroPage
+  | {
+      id: string;
+      kind: "table";
+      title: Translated;
+      leadCard?: {
+        heading: Translated;
+        body: Translated;
+      };
+      columns: any[];
+      rows: any[];
+    }
   | {
       id: string;
       kind: "chat";

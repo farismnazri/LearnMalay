@@ -5,10 +5,17 @@ import type { Metadata } from "next";
 import BackgroundAudio from "@/components/game/BackgroundAudio";
 
 export const metadata: Metadata = {
+  applicationName: "Learn Malay",
   title: "Learn Malay",
   description: "Crash-inspired Malay learning app",
+  appleWebApp: {
+    capable: true,
+    title: "Learn Malay",
+    statusBarStyle: "black-translucent",
+  },
   icons: {
     icon: "/icon.png",
+    apple: "/apple-icon.png",
   },
 };
 

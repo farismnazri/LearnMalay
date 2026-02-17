@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import IconActionLink from "@/components/navigation/IconActionLink";
 import { getProfileAvatarSrc, PROFILE_AVATARS } from "@/lib/profileAvatars";
 import {
   ADMIN_ID,
@@ -325,12 +326,7 @@ export default function UserSelectPage() {
             </p>
           </div>
 
-          <Link
-            href="/"
-            className="rounded-xl border border-[#d4e4b7]/45 bg-[#35592d]/65 px-4 py-2 text-sm font-bold text-[#fdf8dd] backdrop-blur transition hover:bg-[#457239]/80"
-          >
-            Back
-          </Link>
+          <IconActionLink href="/" kind="home" tooltip="Back to Home" iconClassName="brightness-0 invert" />
         </div>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[1.12fr_0.88fr]">

@@ -2,13 +2,14 @@ import type { UserProfile } from "./userStoreTypes";
 
 const FINAL_CHAPTER = 11;
 
-export type UnlockableMinigameId = "numbers" | "word-match" | "wordsearch" | "currency" | "misi-membeli";
+export type UnlockableMinigameId = "numbers" | "word-match" | "wordsearch" | "currency" | "makan-apa" | "misi-membeli";
 
 export const MINIGAME_PREREQUISITES: Record<UnlockableMinigameId, number> = {
   numbers: 1,
   "word-match": 2,
   wordsearch: 3,
   currency: 5,
+  "makan-apa": 7,
   "misi-membeli": 11,
 };
 
@@ -17,6 +18,7 @@ export const MINIGAME_UNLOCK_ORDER: UnlockableMinigameId[] = [
   "word-match",
   "wordsearch",
   "currency",
+  "makan-apa",
   "misi-membeli",
 ];
 

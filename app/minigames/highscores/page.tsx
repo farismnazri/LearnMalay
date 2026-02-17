@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import type { GameId, ScoreEntry } from "@/lib/highscores";
 import { clearHighScores, loadHighScores } from "@/lib/highscores";
+import IconActionLink from "@/components/navigation/IconActionLink";
 import { getProfileAvatarSrc, type ProfileAvatarId } from "@/lib/profileAvatars";
 import { ADMIN_ID, getCurrentUser, listUsers, verifyAdminPassword } from "@/lib/userStore";
 
@@ -77,6 +77,7 @@ export default function HighScoresPage() {
     "word-match": [],
     wordsearch: [],
     currency: [],
+    "makan-apa": [],
     "misi-membeli": [],
   });
   const [users, setUsers] = useState<Awaited<ReturnType<typeof listUsers>>>([]);
@@ -235,12 +236,12 @@ export default function HighScoresPage() {
           </div>
 
           <div className="flex flex-wrap gap-2 rounded-2xl border border-[#bfd9a0]/45 bg-[#173728]/70 p-2 shadow-xl backdrop-blur-md">
-            <Link
+            <IconActionLink
               href="/minigames"
-              className="rounded-xl border border-[#bcd7a1]/55 bg-[#274d32]/85 px-4 py-2 text-xs font-black text-[#f2fae1] shadow hover:bg-[#315f3d]"
-            >
-              Back to Mini Games
-            </Link>
+              kind="minigames"
+              tooltip="Back to Mini Games"
+              iconClassName="brightness-0 invert"
+            />
 
             {isAdmin && (
               <button
@@ -310,6 +311,19 @@ export default function HighScoresPage() {
                 ].join(" ")}
               >
                 Currency
+              </button>
+
+              <button
+                type="button"
+                onClick={() => pickGame("makan-apa")}
+                className={[
+                  "rounded-full border px-4 py-2 text-xs font-black shadow transition",
+                  gameId === "makan-apa"
+                    ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
+                    : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
+                ].join(" ")}
+              >
+                Makan Apa
               </button>
 
               <button

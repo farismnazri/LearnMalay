@@ -1,6 +1,6 @@
 import type { ProfileAvatarId } from "./profileAvatars";
 
-export type GameId = "numbers" | "word-match" | "wordsearch" | "currency" | "misi-membeli";
+export type GameId = "numbers" | "word-match" | "wordsearch" | "currency" | "makan-apa" | "misi-membeli";
 
 export type ScoreEntry = {
   id: string;

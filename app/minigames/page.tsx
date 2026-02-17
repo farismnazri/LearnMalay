@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import type { UiLang } from "@/lib/chapters";
+import IconActionLink from "@/components/navigation/IconActionLink";
 import {
   getLatestUnlockedMinigameId,
   hasCompletedChapter,
@@ -30,7 +31,7 @@ function pick(tr: Translated, lang: UiLang) {
 }
 
 type MiniGame = {
-  id: "numbers" | "word-match" | "wordsearch" | "currency" | "misi-membeli";
+  id: "numbers" | "word-match" | "wordsearch" | "currency" | "makan-apa" | "misi-membeli";
   title: Translated;
   desc: Translated;
   href: string;
@@ -86,6 +87,18 @@ const GAMES: MiniGame[] = [
     href: "/minigames/currency",
     requiredChapter: 5,
     backgroundSrc: "/assets/backgrounds/WangMalaysia.webp",
+  },
+  {
+    id: "makan-apa",
+    title: { ms: "Makan Apa?", en: "What to Eat?", es: "¿Que Comer?" },
+    desc: {
+      ms: "Teka nama makanan berdasarkan gambar. 5 nyawa, pilih jawapan yang betul.",
+      en: "Guess the food name from images. 5 lives, choose the correct answer.",
+      es: "Adivina el nombre de la comida por imagenes. 5 vidas, elige la respuesta correcta.",
+    },
+    href: "/minigames/makan-apa",
+    requiredChapter: 7,
+    backgroundSrc: "/assets/backgrounds/MakanApa.webp",
   },
   {
     id: "misi-membeli",
@@ -154,7 +167,7 @@ function GameCard({
   const inner = (
     <div
       className={[
-        "relative aspect-square overflow-hidden rounded-3xl border shadow-xl transition-all duration-200",
+        "relative aspect-square overflow-hidden rounded-2xl border shadow-xl transition-all duration-200",
         "border-[#d6c992]/80 text-[#22341b]",
         isDisabled
           ? "cursor-not-allowed opacity-90"
@@ -171,19 +184,19 @@ function GameCard({
       {isDisabled && <div className="absolute inset-0 bg-[#10210f]/55" />}
       <div className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-white/20 blur-2xl" />
       {badgeText && (
-        <div className="absolute right-4 top-4 z-20">
+        <div className="absolute right-2.5 top-2.5 z-20">
           <Badge text={badgeText} tone={isLatestNew ? "new" : "locked"} />
         </div>
       )}
 
       <div
         className={[
-          "absolute inset-x-0 bottom-0 z-10 p-4",
+          "absolute inset-x-0 bottom-0 z-10 p-2.5",
           isDisabled ? "bg-[#203521] text-[#e9f6d7]" : "bg-[#f6eed3] text-[#22341b]",
         ].join(" ")}
       >
-        <div className="text-2xl font-black leading-tight">{pick(g.title, lang)}</div>
-        <div className="mt-2 inline-flex rounded-full border border-black/15 bg-black/10 px-3 py-1 text-xs font-black">
+        <div className="text-sm font-black leading-tight sm:text-base">{pick(g.title, lang)}</div>
+        <div className="mt-1.5 inline-flex rounded-full border border-black/15 bg-black/10 px-2 py-1 text-[10px] font-black">
           {lang === "ms"
             ? `Prasyarat: Bab ${g.requiredChapter}`
             : lang === "en"
@@ -191,7 +204,7 @@ function GameCard({
             : `Requisito: Capítulo ${g.requiredChapter}`}
         </div>
         {isDisabled && (
-          <div className="mt-2 text-xs font-black text-[#d4e7be]">
+          <div className="mt-1 text-[10px] font-black leading-tight text-[#d4e7be]">
             {lockMessage(lang, g.requiredChapter, hasUser)}
           </div>
         )}
@@ -254,10 +267,10 @@ export default function MiniGamesHubPage() {
       </div>
       <div className="pointer-events-none absolute inset-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.18)_0px,rgba(0,0,0,0.18)_1px,transparent_2px,transparent_4px)]" />
 
-      <div className="relative z-10 mx-auto max-w-5xl space-y-6">
+      <div className="relative z-10 mx-auto max-w-4xl space-y-6">
         {/* header row */}
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="w-full max-w-2xl rounded-3xl border border-[#c7deaa]/45 bg-[#153525]/75 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.45)] backdrop-blur-md">
+        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <div className="min-w-0 rounded-3xl border border-[#c7deaa]/45 bg-[#153525]/75 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.45)] backdrop-blur-md md:flex-1">
             <div className="flex items-center gap-4">
               <Image
                 src={getProfileAvatarSrc(user?.avatarId)}
@@ -289,7 +302,7 @@ export default function MiniGamesHubPage() {
             )}
           </div>
 
-          <div className="rounded-3xl border border-[#c6dca8]/45 bg-[#163726]/75 p-4 shadow-xl backdrop-blur-md">
+          <div className="w-full rounded-3xl border border-[#c6dca8]/45 bg-[#163726]/75 p-4 shadow-xl backdrop-blur-md md:w-auto md:shrink-0">
             <div className="text-xs font-black tracking-wide text-[#eff8db]/85">LANGUAGE</div>
             <div className="mt-2 flex gap-2">
               <button
@@ -313,24 +326,24 @@ export default function MiniGamesHubPage() {
             </div>
 
             <div className="mt-3 flex flex-wrap gap-2">
-              <Link
+              <IconActionLink
                 href="/map"
-                className="rounded-xl border border-[#bcd7a1]/55 bg-[#274d32]/85 px-3 py-2 text-xs font-black text-[#f2fae1] shadow hover:bg-[#315f3d]"
-              >
-                Back to Map
-              </Link>
-              <Link
+                kind="map"
+                tooltip="Back to Map"
+                iconClassName="brightness-0 invert"
+              />
+              <IconActionLink
                 href="/minigames/highscores"
-                className="rounded-xl bg-gradient-to-r from-[#ffd447] to-[#ffbf3f] px-3 py-2 text-xs font-black text-[#3f2e00] shadow hover:brightness-105"
-              >
-                High Scores
-              </Link>
+                kind="highscores"
+                tooltip="High Scores"
+                iconClassName="brightness-0 invert"
+              />
             </div>
           </div>
         </div>
 
         {/* game grid */}
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+        <section className="grid grid-cols-2 gap-3 md:grid-cols-3">
           {GAMES.map((g) => (
             <GameCard key={g.id} g={g} lang={lang} user={user} latestUnlockedId={latestUnlockedId} />
           ))}
