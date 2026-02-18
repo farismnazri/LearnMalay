@@ -85,7 +85,7 @@ export const chapter07: ChapterContent = {
         },
         {
           src: "/assets/chapters/ch7/Ayam/Ayam_Tomyam.webp",
-          alt: { ms: "Ayam Tom Yam", en: "Tom Yam Chicken", es: "Pollo Tom Yam" },
+          alt: { ms: "Tom Yam Ayam", en: "Tom Yam Chicken", es: "Pollo Tom Yam" },
         },
         {
           src: "/assets/chapters/ch7/Ayam/Ayam_Masak_Merah.webp",
@@ -113,7 +113,7 @@ export const chapter07: ChapterContent = {
         },
         {
           src: "/assets/chapters/ch7/Ikan/Ikan_Kari_Ikan.webp",
-          alt: { ms: "Ikan Kari", en: "Fish Curry", es: "Curry De Pescado" },
+          alt: { ms: "Kari Ikan", en: "Fish Curry", es: "Curry De Pescado" },
         },
         {
           src: "/assets/chapters/ch7/Ikan/Ikan_Bakar.webp",
@@ -125,11 +125,11 @@ export const chapter07: ChapterContent = {
         },
         {
           src: "/assets/chapters/ch7/Sotong/Sotong_Sambal.webp",
-          alt: { ms: "Sotong Sambal", en: "Sambal Squid", es: "Calamar Sambal" },
+          alt: { ms: "sambal sotong", en: "Sambal Squid", es: "Calamar Sambal" },
         },
         {
           src: "/assets/chapters/ch7/Sotong/Sotong_Kari.webp",
-          alt: { ms: "Sotong Kari", en: "Squid Curry", es: "Curry De Calamar" },
+          alt: { ms: "kari sotong", en: "Squid Curry", es: "Curry De Calamar" },
         },
         {
           src: "/assets/chapters/ch7/Sotong/Sotong_Masak_Lemak.webp",
@@ -456,13 +456,13 @@ export const chapter07: ChapterContent = {
               {
                 kind: "image",
                 src: "/assets/chapters/ch7/Ayam/Ayam_Tomyam.webp",
-                alt: { ms: "Ayam Tom Yam", en: "Tom Yam Chicken", es: "Pollo Tom Yam" },
+                alt: { ms: "Tom Yam Ayam", en: "Tom Yam Chicken", es: "Pollo Tom Yam" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "Ayam Tom Yam", en: "Tom Yam Chicken", es: "Pollo Tom Yam" }],
+            nama: [{ ms: "Tom Yam Ayam", en: "Tom Yam Chicken", es: "Pollo Tom Yam" }],
           },
         },
         {
@@ -589,13 +589,13 @@ export const chapter07: ChapterContent = {
               {
                 kind: "image",
                 src: "/assets/chapters/ch7/Ikan/Ikan_Kari_Ikan.webp",
-                alt: { ms: "Ikan Kari", en: "Fish Curry", es: "Curry De Pescado" },
+                alt: { ms: "Kari Ikan", en: "Fish Curry", es: "Curry De Pescado" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "Ikan Kari", en: "Fish Curry", es: "Curry De Pescado" }],
+            nama: [{ ms: "Kari Ikan", en: "Fish Curry", es: "Curry De Pescado" }],
           },
         },
         {
@@ -658,13 +658,13 @@ export const chapter07: ChapterContent = {
               {
                 kind: "image",
                 src: "/assets/chapters/ch7/Sotong/Sotong_Sambal.webp",
-                alt: { ms: "Sotong Sambal", en: "Sambal Squid", es: "Calamar Sambal" },
+                alt: { ms: "sambal sotong", en: "Sambal Squid", es: "Calamar Sambal" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "Sotong Sambal", en: "Sambal Squid", es: "Calamar Sambal" }],
+            nama: [{ ms: "sambal sotong", en: "Sambal Squid", es: "Calamar Sambal" }],
           },
         },
         {
@@ -674,13 +674,13 @@ export const chapter07: ChapterContent = {
               {
                 kind: "image",
                 src: "/assets/chapters/ch7/Sotong/Sotong_Kari.webp",
-                alt: { ms: "Sotong Kari", en: "Squid Curry", es: "Curry De Calamar" },
+                alt: { ms: "kari sotong", en: "Squid Curry", es: "Curry De Calamar" },
                 w: 720,
                 h: 420,
                 className: "w-full h-auto max-h-64 object-contain rounded-xl",
               },
             ],
-            nama: [{ ms: "Sotong Kari", en: "Squid Curry", es: "Curry De Calamar" }],
+            nama: [{ ms: "kari sotong", en: "Squid Curry", es: "Curry De Calamar" }],
           },
         },
         {
@@ -1197,6 +1197,79 @@ export const chapter07: ChapterContent = {
           id: "c7-72-m10",
           from: "ahmad",
           text: { ms: "Betul tu.", en: "Thats true.", es: "Es cierto." },
+        },
+      ],
+    },
+    {
+      id: "c7-p8-aktiviti-makan-apa",
+      kind: "typein",
+      title: {
+        ms: "Aktiviti: Makan Apa?",
+        en: "Activity: What to Eat?",
+        es: "Actividad: ¿Que Comer?",
+      },
+      instructions: {
+        ms: "Lihat gambar dan taip nama makanan yang betul. Ada 4 soalan dalam satu halaman.",
+        en: "Look at each image and type the correct food name. There are 4 questions on this page.",
+        es: "Mira cada imagen y escribe el nombre correcto de la comida. Hay 4 preguntas en esta pagina.",
+      },
+      caseSensitive: false,
+      items: [
+        {
+          id: "c7-activity-nasi-lemak",
+          n: 1,
+          scrambled: "",
+          answer: "nasi lemak",
+          meaning: { ms: "Nasi Lemak", en: "Nasi Lemak", es: "Nasi Lemak" },
+          image: {
+            src: "/assets/chapters/ch7/Nasi/CH7_Nasi_Lemak.webp",
+            alt: "Nasi Lemak",
+            w: 720,
+            h: 420,
+            className: "w-full h-auto max-h-52 object-contain rounded-xl",
+          },
+        },
+        {
+          id: "c7-activity-ayam-goreng",
+          n: 2,
+          scrambled: "",
+          answer: "ayam goreng",
+          meaning: { ms: "Ayam Goreng", en: "Fried Chicken", es: "Pollo Frito" },
+          image: {
+            src: "/assets/chapters/ch7/Ayam/Ayam_Goreng.webp",
+            alt: "Ayam Goreng",
+            w: 720,
+            h: 420,
+            className: "w-full h-auto max-h-52 object-contain rounded-xl",
+          },
+        },
+        {
+          id: "c7-activity-ikan-bakar",
+          n: 3,
+          scrambled: "",
+          answer: "ikan bakar",
+          meaning: { ms: "Ikan Bakar", en: "Grilled Fish", es: "Pescado A La Parrilla" },
+          image: {
+            src: "/assets/chapters/ch7/Ikan/Ikan_Bakar.webp",
+            alt: "Ikan Bakar",
+            w: 720,
+            h: 420,
+            className: "w-full h-auto max-h-52 object-contain rounded-xl",
+          },
+        },
+        {
+          id: "c7-activity-kuih-lapis",
+          n: 4,
+          scrambled: "",
+          answer: "kuih lapis",
+          meaning: { ms: "Kuih Lapis", en: "Layered Kuih", es: "Kuih En Capas" },
+          image: {
+            src: "/assets/chapters/ch7/Kuih_Muih/Kuih_Muih_Lapis.webp",
+            alt: "Kuih Lapis",
+            w: 720,
+            h: 420,
+            className: "w-full h-auto max-h-52 object-contain rounded-xl",
+          },
         },
       ],
     },

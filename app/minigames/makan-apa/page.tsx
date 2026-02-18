@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { UiLang } from "@/lib/chapters";
+import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
@@ -136,6 +137,10 @@ export default function MakanApaIntroPage() {
           </div>
 
           <div className="rounded-2xl bg-white/85 p-4 shadow">
+            <div className="mb-3">
+              <BackgroundAudioControls />
+            </div>
+
             <div className="text-xs font-black opacity-70">LANGUAGE</div>
             <div className="mt-2 flex gap-2">
               <button

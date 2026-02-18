@@ -8,6 +8,7 @@ import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { MAKAN_APA_ITEMS, type MakanApaItem } from "@/lib/makanApa/items";
 import { addHighScore } from "@/lib/highscores";
+import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
@@ -421,88 +422,101 @@ export default function MakanApaPlayPage() {
           </div>
 
           <div className="rounded-2xl bg-white/90 p-4 shadow">
-            <div className="text-xs font-black opacity-70">{pick(labels.mode, lang)}</div>
-            <div className="mt-1 flex gap-2">
-              <button
-                onClick={() => pickDifficulty("easy")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${difficulty === "easy" ? "bg-amber-300" : "bg-white"}`}
-              >
-                {pick(labels.easy, lang)}
-              </button>
-              <button
-                onClick={() => pickDifficulty("hard")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${difficulty === "hard" ? "bg-amber-300" : "bg-white"}`}
-              >
-                {pick(labels.hard, lang)}
-              </button>
+            <div className="mb-3">
+              <BackgroundAudioControls />
             </div>
 
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              <div>
-                <div className="text-[11px] font-black opacity-70">{pick(labels.question, lang)}</div>
-                <div className="text-lg font-extrabold">
-                  {Math.min(currentIndex + 1, deck.length)} / {deck.length || 0}
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="sm:border-r sm:border-black/10 sm:pr-4">
+                <div className="text-xs font-black opacity-70">{pick(labels.mode, lang)}</div>
+                <div className="mt-1 flex gap-2">
+                  <button
+                    onClick={() => pickDifficulty("easy")}
+                    className={`rounded-full px-3 py-1 text-xs font-black shadow ${difficulty === "easy" ? "bg-amber-300" : "bg-white"}`}
+                  >
+                    {pick(labels.easy, lang)}
+                  </button>
+                  <button
+                    onClick={() => pickDifficulty("hard")}
+                    className={`rounded-full px-3 py-1 text-xs font-black shadow ${difficulty === "hard" ? "bg-amber-300" : "bg-white"}`}
+                  >
+                    {pick(labels.hard, lang)}
+                  </button>
+                </div>
+
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  <div>
+                    <div className="text-[11px] font-black opacity-70">{pick(labels.question, lang)}</div>
+                    <div className="text-4xl font-black leading-none sm:text-3xl">
+                      {Math.min(currentIndex + 1, deck.length)} / {deck.length || 0}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-black opacity-70">{pick(labels.answered, lang)}</div>
+                    <div className="text-4xl font-black leading-none sm:text-3xl">
+                      {solvedCount} / {deck.length || 0}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-3">
+                  <div className="text-[11px] font-black opacity-70">{pick(labels.time, lang)}</div>
+                  <div className="text-4xl font-black leading-none sm:text-3xl">{formatDuration(elapsedMs)}</div>
                 </div>
               </div>
-              <div>
-                <div className="text-[11px] font-black opacity-70">{pick(labels.answered, lang)}</div>
-                <div className="text-lg font-extrabold">
-                  {solvedCount} / {deck.length || 0}
+
+              <div className="sm:pl-4">
+                <div className="text-xs font-black opacity-70">{pick(labels.lives, lang)}</div>
+                <div className="mt-1 flex items-center gap-1">
+                  {Array.from({ length: MAX_LIVES }).map((_, i) => (
+                    <Image
+                      key={`life-${i}`}
+                      src={AKU2_IDLE_SRC}
+                      alt="life"
+                      width={36}
+                      height={36}
+                      className={[
+                        "h-10 w-10 drop-shadow",
+                        i < lives ? "opacity-100" : "opacity-25 grayscale",
+                      ].join(" ")}
+                      priority
+                    />
+                  ))}
+                </div>
+
+                <div className="mt-3 flex gap-2">
+                  <button
+                    onClick={() => pickLang("ms")}
+                    className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
+                  >
+                    BM
+                  </button>
+                  <button
+                    onClick={() => pickLang("en")}
+                    className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
+                  >
+                    EN
+                  </button>
+                  <button
+                    onClick={() => pickLang("es")}
+                    className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
+                  >
+                    ES
+                  </button>
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <IconActionLink
+                    onClick={startNewGame}
+                    kind="restart"
+                    tooltip={lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
+                  />
+                  <Link href="/minigames/makan-apa" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
+                    {lang === "ms" ? "Info Game" : lang === "en" ? "Game Info" : "Info del Juego"}
+                  </Link>
+                  <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
                 </div>
               </div>
-              <div>
-                <div className="text-[11px] font-black opacity-70">{pick(labels.time, lang)}</div>
-                <div className="text-lg font-extrabold">{formatDuration(elapsedMs)}</div>
-              </div>
-            </div>
-
-            <div className="mt-2 text-xs font-black opacity-70">{pick(labels.lives, lang)}</div>
-            <div className="mt-1 flex items-center gap-1">
-              {Array.from({ length: MAX_LIVES }).map((_, i) => (
-                <Image
-                  key={`life-${i}`}
-                  src={AKU2_IDLE_SRC}
-                  alt="life"
-                  width={36}
-                  height={36}
-                  className={[
-                    "h-10 w-10 drop-shadow",
-                    i < lives ? "opacity-100" : "opacity-25 grayscale",
-                  ].join(" ")}
-                  priority
-                />
-              ))}
-            </div>
-
-            <div className="mt-3 flex gap-2">
-              <button
-                onClick={() => pickLang("ms")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
-              >
-                BM
-              </button>
-              <button
-                onClick={() => pickLang("en")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
-              >
-                EN
-              </button>
-              <button
-                onClick={() => pickLang("es")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
-              >
-                ES
-              </button>
-            </div>
-
-            <div className="mt-3 flex flex-wrap gap-2">
-              <button onClick={startNewGame} className="rounded-xl bg-amber-300 px-3 py-2 text-xs font-black shadow hover:bg-amber-200">
-                {lang === "ms" ? "Mula Semula" : lang === "en" ? "Restart" : "Reiniciar"}
-              </button>
-              <Link href="/minigames/makan-apa" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
-                {lang === "ms" ? "Info Game" : lang === "en" ? "Game Info" : "Info del Juego"}
-              </Link>
-              <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
             </div>
           </div>
         </div>

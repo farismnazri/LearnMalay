@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import FigureCard from "@/components/game/FigureCard";
 import FoodIntroCard from "@/components/game/FoodIntroCard";
+import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 import AkuAkuPopup from "@/components/game/AkuAkuPopup";
@@ -312,6 +313,10 @@ export default function ChapterPage() {
 
           {/* user card */}
           <div className="rounded-2xl bg-white/85 p-4 shadow">
+            <div className="mb-3">
+              <BackgroundAudioControls />
+            </div>
+
             <div className="text-xs font-black opacity-70">PLAYER</div>
             <div className="text-lg font-extrabold">{user.name}</div>
             <div className="mt-1 text-xs font-semibold opacity-80">World: {world}</div>

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { UiLang } from "@/lib/chapters";
+import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import WordSearchCard from "@/components/game/WordSearchCard";
 import IconActionLink from "@/components/navigation/IconActionLink";
 import { WORD_ITEMS, CATEGORY_LABELS, type WordCategory } from "@/lib/wordMatch/items";
@@ -252,6 +253,10 @@ export default function WordSearchMiniGame() {
           </div>
 
           <div className="rounded-2xl bg-white/85 p-4 shadow">
+            <div className="mb-3">
+              <BackgroundAudioControls />
+            </div>
+
             <div className="text-xs font-black opacity-70">LANGUAGE</div>
             <div className="mt-2 flex gap-2">
               {(["ms", "en", "es"] as UiLang[]).map((l) => (
@@ -318,12 +323,11 @@ export default function WordSearchMiniGame() {
             </div>
 
             <div className="flex items-end gap-2">
-              <button
+              <IconActionLink
                 onClick={regen}
-                className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-black text-white shadow hover:bg-emerald-500"
-              >
-                Regenerate Grid
-              </button>
+                kind="restart"
+                tooltip={lang === "ms" ? "Jana Semula Grid" : lang === "en" ? "Regenerate Grid" : "Regenerar Cuadricula"}
+              />
               <button
                 onClick={() => {
                   setShowAllSeq((s) => s + 1);

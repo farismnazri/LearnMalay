@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import {
@@ -140,15 +141,21 @@ export default function MapPage() {
             </div>
           </div>
 
-          {/* TOP RIGHT BUTTONS */}
-          <div className="flex gap-3 pt-1">
-            <IconActionLink
-              href="/minigames"
-              kind="minigames"
-              tooltip="Go to Mini Games"
-              iconClassName="brightness-0 invert"
-            />
-            <IconActionLink href="/" kind="home" tooltip="Back to Home" iconClassName="brightness-0 invert" />
+          {/* TOP RIGHT CONTROLS */}
+          <div className="w-full rounded-2xl border border-[#c6dca8]/45 bg-[#163726]/75 p-4 shadow-xl backdrop-blur-md md:w-auto md:shrink-0">
+            <div className="mb-3">
+              <BackgroundAudioControls />
+            </div>
+
+            <div className="flex gap-3 pt-1">
+              <IconActionLink
+                href="/minigames"
+                kind="minigames"
+                tooltip="Go to Mini Games"
+                iconClassName="brightness-0 invert"
+              />
+              <IconActionLink href="/" kind="home" tooltip="Back to Home" iconClassName="brightness-0 invert" />
+            </div>
           </div>
         </div>
 

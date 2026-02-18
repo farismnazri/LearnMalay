@@ -8,6 +8,7 @@ import Image from "next/image";
 import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
+import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
@@ -16,7 +17,7 @@ const NUMBERS_DIFF_KEY = "learnMalay.numbersDifficulty.v1";
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png"; // must match filename case in /public
 const AKU2_BETUL_SRC = "/assets/characters/Akuaku_Betul.webp";
 const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
-const AKU2_IDLE_POPUP_SIZE = 140;
+const AKU2_SALAH_POPUP_SIZE = 300;
 const AKU2_BETUL_POPUP_SIZE = 300;
 const MAX_LIVES = 5;
 
@@ -255,7 +256,7 @@ export default function NumbersPlayPage() {
     () => (isPositivePopupText(congratsText) ? AKU2_BETUL_SRC : AKU2_SALAH_SRC),
     [congratsText]
   );
-  const popupAvatarSize = popupIsPositive ? AKU2_BETUL_POPUP_SIZE : AKU2_IDLE_POPUP_SIZE;
+  const popupAvatarSize = popupIsPositive ? AKU2_BETUL_POPUP_SIZE : AKU2_SALAH_POPUP_SIZE;
 
   const [lang, setLang] = useState<UiLang>("ms");
   const [difficulty, setDifficulty] = useState<NumberDifficulty>("easy");
@@ -594,14 +595,18 @@ function submit() {
   }
 
   // still alive → show answer, keep same number
+  triggerCongrats(
+    lang === "ms" ? "Salah!" : lang === "en" ? "Wrong!" : "¡Incorrecto!"
+  );
+
   setFeedback({
     ok: false,
     msg:
       lang === "ms"
-        ? `Belum. Jawapan: ${isTextToNumberMode ? n : expected}`
+        ? `Salah. Jawapan: ${isTextToNumberMode ? n : expected}`
         : lang === "en"
-        ? `Not yet. Answer: ${isTextToNumberMode ? n : expected}`
-        : `Aún no. Respuesta: ${isTextToNumberMode ? n : expected}`,
+        ? `Wrong. Answer: ${isTextToNumberMode ? n : expected}`
+        : `Incorrecto. Respuesta: ${isTextToNumberMode ? n : expected}`,
   });
 
   queueMicrotask(() => inputRef.current?.select());
@@ -732,6 +737,10 @@ function restart() {
 
   {/* RIGHT COLUMN: LANG */}
   <div className="rounded-2xl bg-white/85 p-4 shadow">
+    <div className="mb-3">
+      <BackgroundAudioControls />
+    </div>
+
     <div className="text-xs font-black opacity-70">LANG</div>
 
     <div className="mt-2 flex gap-2">
@@ -783,13 +792,11 @@ function restart() {
     <div className="mt-3 flex flex-wrap gap-2">
       <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
 
-      <button
-        type="button"
+      <IconActionLink
         onClick={restart}
-        className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow"
-      >
-        Restart
-      </button>
+        kind="restart"
+        tooltip={lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
+      />
 
       <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
     </div>

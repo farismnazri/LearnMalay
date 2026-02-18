@@ -15,6 +15,7 @@ import {
 } from "@/lib/misiMembeli/items";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
+import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
@@ -681,6 +682,10 @@ export default function MisiMembeliPlayPage() {
           </div>
 
           <div className="rounded-2xl bg-white/90 p-4 shadow-xl">
+            <div className="mb-3">
+              <BackgroundAudioControls />
+            </div>
+
             <div className="text-xs font-black opacity-70">LANGUAGE</div>
             <div className="mt-2 flex gap-2">
               <button
@@ -708,9 +713,11 @@ export default function MisiMembeliPlayPage() {
                 Intro
               </Link>
               <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
-              <button type="button" onClick={restartRun} className="rounded-xl bg-amber-300 px-3 py-2 text-xs font-black shadow">
-                {lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
-              </button>
+              <IconActionLink
+                onClick={restartRun}
+                kind="restart"
+                tooltip={lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
+              />
             </div>
           </div>
         </div>
@@ -1024,13 +1031,11 @@ export default function MisiMembeliPlayPage() {
                         : `Puntuacion final: ${score} | Precision: ${accuracy}% | Tiempo: ${formatDuration(elapsedMs)}`}
                     </div>
                     <div className="mt-4 flex justify-center gap-2">
-                      <button
-                        type="button"
+                      <IconActionLink
                         onClick={restartRun}
-                        className="rounded-xl bg-amber-300 px-4 py-2 text-xs font-black shadow"
-                      >
-                        {lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
-                      </button>
+                        kind="restart"
+                        tooltip={lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
+                      />
                       <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
                     </div>
                   </div>

@@ -14,13 +14,14 @@ import {
 import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
+import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
 const AKU2_BETUL_SRC = "/assets/characters/Akuaku_Betul.webp";
 const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
-const AKU2_IDLE_POPUP_SIZE = 140;
+const AKU2_SALAH_POPUP_SIZE = 400;
 const AKU2_BETUL_POPUP_SIZE = 400;
 const MAX_LIVES = 5;
 
@@ -466,7 +467,7 @@ export default function CurrencyPlayPage() {
     () => (isPositivePopupText(popupText) ? AKU2_BETUL_SRC : AKU2_SALAH_SRC),
     [popupText]
   );
-  const popupAvatarSize = popupIsPositive ? AKU2_BETUL_POPUP_SIZE : AKU2_IDLE_POPUP_SIZE;
+  const popupAvatarSize = popupIsPositive ? AKU2_BETUL_POPUP_SIZE : AKU2_SALAH_POPUP_SIZE;
 
   useEffect(() => {
     let alive = true;
@@ -1051,6 +1052,10 @@ export default function CurrencyPlayPage() {
 
             {/* Controls */}
             <div className="rounded-2xl bg-white/85 p-4 shadow">
+              <div className="mb-3">
+                <BackgroundAudioControls />
+              </div>
+
               <div className="text-xs font-black opacity-70">LANG</div>
 
               <div className="mt-2 flex gap-2">
@@ -1066,13 +1071,11 @@ export default function CurrencyPlayPage() {
               </div>
 
               <div className="mt-3 flex flex-wrap gap-2">
-                <button
-                  type="button"
+                <IconActionLink
                   onClick={restart}
-                  className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow"
-                >
-                  Restart
-                </button>
+                  kind="restart"
+                  tooltip={lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
+                />
                 <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
                 <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
               </div>
@@ -1465,13 +1468,11 @@ export default function CurrencyPlayPage() {
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2">
-              <button
-                type="button"
+              <IconActionLink
                 onClick={restart}
-                className="rounded-xl bg-white px-4 py-2 text-sm font-black shadow"
-              >
-                {lang === "ms" ? "Main semula" : lang === "en" ? "Restart" : "Reiniciar"}
-              </button>
+                kind="restart"
+                tooltip={lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
+              />
               <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
             </div>
           </section>

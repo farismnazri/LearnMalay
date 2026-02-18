@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import type { UiLang } from "@/lib/chapters";
+import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
 import {
   getLatestUnlockedMinigameId,
@@ -303,6 +304,10 @@ export default function MiniGamesHubPage() {
           </div>
 
           <div className="w-full rounded-3xl border border-[#c6dca8]/45 bg-[#163726]/75 p-4 shadow-xl backdrop-blur-md md:w-auto md:shrink-0">
+            <div className="mb-3">
+              <BackgroundAudioControls />
+            </div>
+
             <div className="text-xs font-black tracking-wide text-[#eff8db]/85">LANGUAGE</div>
             <div className="mt-2 flex gap-2">
               <button

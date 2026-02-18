@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import Image from "next/image";
+import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 import AkuAkuPopup from "@/components/game/AkuAkuPopup";
@@ -349,6 +350,10 @@ export default function MiniGamesPage() {
           </div>
 
           <div className="rounded-2xl bg-white/85 p-4 shadow">
+            <div className="mb-3">
+              <BackgroundAudioControls />
+            </div>
+
             <div className="text-xs font-black opacity-70">LANG</div>
             <div className="mt-2 flex gap-2">
               <button

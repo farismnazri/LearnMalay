@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 
@@ -55,6 +56,10 @@ export default function TitleScreen() {
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(255,221,111,0.2)_0%,rgba(255,221,111,0.06)_35%,transparent_58%),linear-gradient(180deg,rgba(6,20,14,0.24)_0%,rgba(8,24,17,0.55)_45%,rgba(9,23,18,0.76)_100%)]" />
       <div className="pointer-events-none absolute inset-0 z-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.18)_0px,rgba(0,0,0,0.18)_1px,transparent_2px,transparent_4px)]" />
+
+      <div className="absolute right-4 top-4 z-20 rounded-2xl bg-white/85 p-3 shadow backdrop-blur">
+        <BackgroundAudioControls />
+      </div>
 
       <div
         className="relative z-10 mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center px-6 text-center"
