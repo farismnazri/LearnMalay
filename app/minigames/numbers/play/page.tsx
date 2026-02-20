@@ -283,7 +283,7 @@ export default function NumbersPlayPage() {
   const isTextToNumberMode = difficulty === "easy";
   const isUltraHardMode = difficulty === "ultrahard";
   const popupPositionClass = isUltraHardMode
-    ? "top-[22%] sm:top-[18%] -translate-y-0"
+    ? "top-[14%] phone-lg:top-[16%] tablet:top-[18%] -translate-y-0"
     : "top-1/2 -translate-y-1/2";
 
   useEffect(() => {
@@ -612,6 +612,52 @@ function submit() {
   queueMicrotask(() => inputRef.current?.select());
 }
 
+function skipQuestion() {
+  if (gameOver || gameWon) return;
+
+  const nextAttempts = attempts + 1;
+  const nextTotalWrong = totalWrong + 1;
+  const nextLives = lives - 1;
+
+  setAttempts(nextAttempts);
+  setTotalWrong(nextTotalWrong);
+  setLives(nextLives);
+
+  if (nextLives <= 0) {
+    setGameOver(true);
+
+    recordScoreOnce("gameover", {
+      attempts: nextAttempts,
+      totalCorrect,
+      totalWrong: nextTotalWrong,
+      lives: 0,
+      level: levelIdx + 1,
+      timeMs: elapsedMs,
+    });
+
+    triggerCongrats(
+      lang === "ms"
+        ? "Aduh… nyawa habis."
+        : lang === "en"
+        ? "Oh no… out of lives."
+        : "Oh no… te quedaste sin vidas."
+    );
+
+    setFeedback(null);
+    return;
+  }
+
+  triggerCongrats(
+    lang === "ms"
+      ? "Langkau! -1 nyawa."
+      : lang === "en"
+      ? "Skipped! -1 life."
+      : "¡Saltado! -1 vida."
+  );
+
+  nextNumber();
+}
+
 
 
 function restart() {
@@ -625,7 +671,7 @@ function restart() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">NOMBOR</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
@@ -642,7 +688,7 @@ function restart() {
 
   if (!unlocked) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">
@@ -659,25 +705,25 @@ function restart() {
 
 
   return (
-    <main className="relative min-h-screen bg-cover bg-center px-6 py-10">
+    <main className="relative min-h-screen bg-cover bg-center app-page-pad">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
       />
       <div className="absolute inset-0 bg-black/25" />
 
-      <div className="relative mx-auto max-w-3xl">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="relative mx-auto max-w-3xl space-y-4 phone-lg:space-y-5">
+        <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between">
         {/* title row */}
         <div>
-          <h1 className="crash-text crash-outline-fallback text-5xl font-black leading-none">
+          <h1 className="crash-text crash-outline-fallback text-4xl font-black leading-none phone-lg:text-5xl">
             {lang === "ms" ? "NOMBOR" : lang === "en" ? "NUMBER GAME" : "JUEGO DE NÚMEROS"}
           </h1>
         </div>
 
-<div className="grid w-full gap-4 sm:grid-cols-2">
+<div className="grid w-full gap-3 phone-lg:gap-4 tablet:grid-cols-2">
   {/* LEFT COLUMN: STATS */}
-  <div className="rounded-2xl bg-white/85 p-4 shadow">
+  <div className="rounded-2xl bg-white/85 p-3 shadow phone-lg:p-4">
     {/* <div className="text-xs font-black opacity-70">
       {lang === "ms" ? "STATUS" : lang === "en" ? "STATUS" : "ESTADO"}
     </div> */}
@@ -692,12 +738,12 @@ function restart() {
           {Array.from({ length: MAX_LIVES }).map((_, i) => (
             <Image
               key={i}
-              src={AKU2_IDLE_SRC}
-              alt="life"
-              width={100}
-              height={100}
-              className={[
-                "h-15.5 w-15.5 drop-shadow",
+                src={AKU2_IDLE_SRC}
+                alt="life"
+                width={100}
+                height={100}
+                className={[
+                "h-10 w-10 drop-shadow phone-lg:h-12 phone-lg:w-12 tablet:h-14 tablet:w-14",
                 i < lives ? "opacity-100" : "opacity-25 grayscale",
               ].join(" ")}
               priority
@@ -711,7 +757,7 @@ function restart() {
         <div className="text-[11px] font-black opacity-60">
           {lang === "ms" ? "TAHAP" : lang === "en" ? "LEVEL" : "NIVEL"}
         </div>
-        <div className="mt-1 font-extrabold">{pick(level.rangeLabel, lang)}
+        <div className="mt-1 text-sm font-extrabold phone-lg:text-base">{pick(level.rangeLabel, lang)}
         </div>
         <div className="mt-1 text-xs font-black opacity-70">
           {lang === "ms" ? "Kesukaran" : lang === "en" ? "Difficulty" : "Dificultad"}: {pick(difficultyLabel[difficulty], lang)}
@@ -736,17 +782,17 @@ function restart() {
   </div>
 
   {/* RIGHT COLUMN: LANG */}
-  <div className="rounded-2xl bg-white/85 p-4 shadow">
+  <div className="rounded-2xl bg-white/85 p-3 shadow phone-lg:p-4">
     <div className="mb-3">
       <BackgroundAudioControls />
     </div>
 
     <div className="text-xs font-black opacity-70">LANG</div>
 
-    <div className="mt-2 flex gap-2">
+    <div className="mt-2 grid grid-cols-3 gap-2">
       <button
         onClick={() => pickLang("ms")}
-        className={`rounded-full px-3 py-1 text-xs font-black shadow ${
+        className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${
           lang === "ms" ? "bg-amber-300" : "bg-white"
         }`}
       >
@@ -755,7 +801,7 @@ function restart() {
 
       <button
         onClick={() => pickLang("en")}
-        className={`rounded-full px-3 py-1 text-xs font-black shadow ${
+        className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${
           lang === "en" ? "bg-amber-300" : "bg-white"
         }`}
       >
@@ -764,7 +810,7 @@ function restart() {
 
       <button
         onClick={() => pickLang("es")}
-        className={`rounded-full px-3 py-1 text-xs font-black shadow ${
+        className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${
           lang === "es" ? "bg-amber-300" : "bg-white"
         }`}
       >
@@ -780,7 +826,7 @@ function restart() {
         <button
           key={d}
           onClick={() => pickDifficulty(d)}
-          className={`rounded-xl px-3 py-2 text-xs font-black shadow ${
+          className={`touch-target rounded-xl px-3 py-2 text-xs font-black shadow ${
             difficulty === d ? "bg-amber-300" : "bg-white"
           }`}
         >
@@ -806,18 +852,18 @@ function restart() {
 
         </div>
 
-        <section className="mt-8 rounded-3xl bg-white/90 p-6 shadow-xl">
+        <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-5 sm:p-6">
           <div className="text-xs font-black opacity-60">
             {pick(promptTitle, lang)}
           </div>
 
-          <div className="mt-4 rounded-2xl bg-black/5 p-6 text-center">
+          <div className="mt-3 rounded-2xl bg-black/5 p-4 text-center phone-lg:mt-4 phone-lg:p-6">
             {isTextToNumberMode ? (
-              <div className="text-3xl font-black sm:text-4xl">{expected}</div>
+              <div className="text-2xl font-black phone-lg:text-3xl sm:text-4xl">{expected}</div>
             ) : promptHidden ? (
               <div className="text-3xl font-black tracking-[0.3em] text-black/35">••••</div>
             ) : (
-              <div className="text-6xl font-black">{n}</div>
+              <div className="text-5xl font-black phone-lg:text-6xl">{n}</div>
             )}
           </div>
 
@@ -861,13 +907,13 @@ function restart() {
               spellCheck={false}
             />
 
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-3 flex flex-col gap-2 phone-lg:flex-row phone-lg:flex-wrap">
               <button
                 type="button"
                 onClick={submit}
                 disabled={gameOver || gameWon}
                 className={[
-                  "rounded-2xl bg-amber-300 px-4 py-3 text-sm font-black shadow",
+                  "touch-target rounded-2xl bg-amber-300 px-4 py-3 text-sm font-black shadow",
                   gameOver ? "opacity-60" : "hover:bg-amber-200",
                 ].join(" ")}
               >
@@ -876,10 +922,10 @@ function restart() {
 
               <button
                 type="button"
-                onClick={nextNumber}
+                onClick={skipQuestion}
                 disabled={gameOver || gameWon}
                 className={[
-                  "rounded-2xl bg-white px-4 py-3 text-sm font-black shadow",
+                  "touch-target rounded-2xl bg-white px-4 py-3 text-sm font-black shadow",
                   gameOver ? "opacity-60" : "",
                 ].join(" ")}
               >
@@ -904,7 +950,7 @@ function restart() {
 {congratsText && (
 <div
   className={[
-    "fixed left-1/2 z-50 -translate-x-1/2 pointer-events-none transition-opacity duration-300",
+    "fixed left-1/2 z-50 max-w-[92vw] -translate-x-1/2 pointer-events-none transition-opacity duration-300",
     popupPositionClass,
     congratsFade ? "opacity-0" : "opacity-100",
   ].join(" ")}
@@ -915,7 +961,7 @@ function restart() {
     alt="AkuAku"
     width={popupAvatarSize}
     height={popupAvatarSize}
-    className="animate-bounce drop-shadow-lg"
+    className="h-[180px] w-[180px] animate-bounce drop-shadow-lg phone-lg:h-[220px] phone-lg:w-[220px] tablet:h-[280px] tablet:w-[280px]"
     priority
   />
 

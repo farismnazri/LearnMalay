@@ -140,7 +140,7 @@ export default function ChapterPage() {
 
   if (!user && !loadingUser) {
     return (
-      <main className="min-h-screen px-6 py-10">
+      <main className="min-h-screen app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/90 p-6 shadow">
           <div className="text-xl font-extrabold">No user selected</div>
           <p className="mt-2 text-sm opacity-70">Select a user to continue.</p>
@@ -161,7 +161,7 @@ export default function ChapterPage() {
 
   if (!content) {
     return (
-      <main className="min-h-screen px-6 py-10">
+      <main className="min-h-screen app-page-pad">
         <div className="mx-auto max-w-2xl rounded-2xl bg-white/90 p-6 shadow">
           <div className="text-xl font-extrabold">Chapter {chapterId}</div>
           <p className="mt-2 text-sm opacity-70">Content not wired yet.</p>
@@ -261,7 +261,7 @@ export default function ChapterPage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-[#0a2014] px-6 py-10">
+    <main className="relative min-h-screen overflow-x-hidden bg-[#0a2014] app-page-pad">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[100svh]">
         <div
           className="absolute inset-0 bg-top bg-no-repeat"
@@ -608,10 +608,12 @@ function ChatCard({
 function DragFillCard({ page, lang }: { page: any; lang: UiLang }) {
   const [placed, setPlaced] = useState<Record<string, string>>({});
   const [checked, setChecked] = useState(false);
+  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
 
   useEffect(() => {
     setPlaced({});
     setChecked(false);
+    setSelectedOptionId(null);
   }, [page.id]);
 
   const L = {
@@ -638,7 +640,20 @@ function DragFillCard({ page, lang }: { page: any; lang: UiLang }) {
     e.preventDefault();
     const optionId = e.dataTransfer.getData("text/plain");
     if (!optionId) return;
+    placeOption(blankId, optionId);
+  }
+
+  function placeOption(blankId: string, optionId: string) {
     setPlaced((prev) => ({ ...prev, [blankId]: optionId }));
+    setSelectedOptionId(null);
+  }
+
+  function onTapBlank(blankId: string) {
+    if (selectedOptionId) {
+      placeOption(blankId, selectedOptionId);
+      return;
+    }
+    clearBlank(blankId);
   }
 
   function clearBlank(blankId: string) {
@@ -675,26 +690,40 @@ function DragFillCard({ page, lang }: { page: any; lang: UiLang }) {
       <div className="whitespace-pre-line text-sm font-extrabold">
         <span>{x.before.ms}</span>
 
-        <span
+        <button
+          type="button"
           onDragOver={allowDrop}
           onDrop={(e) => onDrop(e, blankId)}
-          onClick={() => clearBlank(blankId)}
+          onClick={() => onTapBlank(blankId)}
           className={[
-            "mx-2 inline-flex min-w-[160px] cursor-pointer items-center justify-center rounded-xl border-2 px-3 py-2 align-middle",
+            "touch-target mx-1 my-1 inline-flex min-w-[120px] cursor-pointer items-center justify-center rounded-xl border-2 px-3 py-2 align-middle phone-lg:min-w-[140px] sm:min-w-[160px]",
             chosen ? "bg-amber-100" : "bg-white",
+            selectedOptionId ? "ring-2 ring-amber-300/80" : "",
             ok === null ? "border-black/20" : ok ? "border-emerald-500" : "border-red-500",
           ].join(" ")}
-          title="Drop here (click to clear)"
+          title={
+            selectedOptionId
+              ? lang === "ms"
+                ? "Letak pilihan pada tempat ini"
+                : lang === "en"
+                ? "Place selected option here"
+                : "Colocar la opción seleccionada aquí"
+              : lang === "ms"
+              ? "Ketik untuk kosongkan"
+              : lang === "en"
+              ? "Tap to clear"
+              : "Pulsa para borrar"
+          }
         >
           {chosen ? chosen.ms : "—"}
-        </span>
+        </button>
 
         <span>{x.after.ms}</span>
 
         {lang !== "ms" && (
           <div className="mt-2 text-xs font-semibold opacity-70">
             {tr(x.before)}
-            <span className="mx-2 inline-block min-w-[160px] rounded-lg bg-black/5 px-2 py-1 text-center">
+            <span className="mx-2 inline-block min-w-[120px] rounded-lg bg-black/5 px-2 py-1 text-center phone-lg:min-w-[140px] sm:min-w-[160px]">
               {chosen ? tr(chosen) : "—"}
             </span>
             {tr(x.after)}
@@ -705,8 +734,8 @@ function DragFillCard({ page, lang }: { page: any; lang: UiLang }) {
   }
 
   return (
-    <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
-      <div className="text-2xl font-extrabold">{page.title.ms}</div>
+    <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-5 sm:p-6">
+      <div className="text-xl font-extrabold phone-lg:text-2xl">{page.title.ms}</div>
       {lang !== "ms" && <div className="text-sm font-semibold opacity-70">{titleTrans}</div>}
 
       <div className="mt-3 text-sm font-semibold opacity-70">
@@ -716,18 +745,39 @@ function DragFillCard({ page, lang }: { page: any; lang: UiLang }) {
 
       <div className="mt-5 flex flex-wrap gap-2">
         {page.options.map((o: any) => (
-          <div
+          <button
+            type="button"
             key={o.id}
             draggable
             onDragStart={(e) => onDragStart(e, o.id)}
-            className="cursor-grab rounded-2xl bg-white px-4 py-2 text-sm font-black shadow active:cursor-grabbing"
-            title="Drag me"
+            onClick={() => setSelectedOptionId((prev) => (prev === o.id ? null : o.id))}
+            className={[
+              "touch-target cursor-grab rounded-2xl bg-white px-4 py-2 text-sm font-black shadow active:cursor-grabbing",
+              selectedOptionId === o.id ? "ring-2 ring-amber-400" : "",
+            ].join(" ")}
+            title={
+              lang === "ms"
+                ? "Seret atau ketik untuk pilih"
+                : lang === "en"
+                ? "Drag or tap to select"
+                : "Arrastra o toca para seleccionar"
+            }
           >
             <div>{o.ms}</div>
             {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{tr(o)}</div>}
-          </div>
+          </button>
         ))}
       </div>
+
+      {selectedOptionId && (
+        <div className="mt-3 rounded-xl bg-amber-100 px-3 py-2 text-xs font-semibold text-amber-900">
+          {lang === "ms"
+            ? "Pilihan dipilih. Ketik kotak kosong untuk letak perkataan."
+            : lang === "en"
+            ? "Option selected. Tap a blank slot to place it."
+            : "Opción seleccionada. Pulsa un espacio en blanco para colocarla."}
+        </div>
+      )}
 
       <div className="mt-6 space-y-4">
         {page.items.map((it: any) => {
@@ -765,15 +815,16 @@ function DragFillCard({ page, lang }: { page: any; lang: UiLang }) {
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
-        <button onClick={() => setChecked(true)} className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow">
+        <button onClick={() => setChecked(true)} className="touch-target rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow">
           Check Answers
         </button>
         <button
           onClick={() => {
             setPlaced({});
             setChecked(false);
+            setSelectedOptionId(null);
           }}
-          className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow"
+          className="touch-target rounded-xl bg-white px-4 py-2 text-sm font-bold shadow"
         >
           Reset
         </button>
@@ -961,10 +1012,12 @@ function TypeInCard({ page, lang }: { page: any; lang: UiLang }) {
 function BoxDragCard({ page, lang }: { page: any; lang: UiLang }) {
   const [placed, setPlaced] = useState<Record<string, string>>({});
   const [checked, setChecked] = useState(false);
+  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
 
   useEffect(() => {
     setPlaced({});
     setChecked(false);
+    setSelectedOptionId(null);
   }, [page.id]);
 
   const titleTrans = lang === "ms" ? "" : lang === "en" ? page.title.en : page.title.es;
@@ -986,7 +1039,20 @@ function BoxDragCard({ page, lang }: { page: any; lang: UiLang }) {
     e.preventDefault();
     const optionId = e.dataTransfer.getData("text/plain");
     if (!optionId) return;
+    placeOption(nodeId, optionId);
+  }
+
+  function placeOption(nodeId: string, optionId: string) {
     setPlaced((prev) => ({ ...prev, [nodeId]: optionId }));
+    setSelectedOptionId(null);
+  }
+
+  function onTapNode(nodeId: string) {
+    if (selectedOptionId) {
+      placeOption(nodeId, selectedOptionId);
+      return;
+    }
+    clear(nodeId);
   }
 
   function clear(nodeId: string) {
@@ -1025,13 +1091,13 @@ function BoxDragCard({ page, lang }: { page: any; lang: UiLang }) {
 
   function nodeClass(shape: "rect" | "oval", ok: boolean | null, hasValue: boolean) {
     const base =
-      "absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center text-center shadow font-extrabold text-sm sm:text-base";
+      "absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center text-center shadow font-extrabold text-xs phone-lg:text-sm sm:text-base";
     const shapeCls = shape === "oval" ? "rounded-full" : "rounded-2xl";
     const fill = hasValue ? "bg-amber-100" : "bg-white";
     const border = ok === null ? "border-2 border-black/20" : ok ? "border-2 border-emerald-500" : "border-2 border-red-500";
     const size = page.compact
-      ? "w-[125px] h-[56px] sm:w-[145px] sm:h-[60px] px-3"
-      : "w-[220px] h-[72px] sm:w-[260px] sm:h-[80px] px-4";
+      ? "w-[96px] h-[48px] phone-lg:w-[118px] phone-lg:h-[56px] sm:w-[145px] sm:h-[60px] px-2 phone-lg:px-3"
+      : "w-[150px] h-[58px] phone-lg:w-[190px] phone-lg:h-[68px] sm:w-[260px] sm:h-[80px] px-2 phone-lg:px-4";
 
     return [base, shapeCls, fill, border, size].join(" ");
   }
@@ -1047,8 +1113,8 @@ function BoxDragCard({ page, lang }: { page: any; lang: UiLang }) {
   }
 
   return (
-    <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
-      <div className="text-2xl font-extrabold">{page.title.ms}</div>
+    <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-5 sm:p-6">
+      <div className="text-xl font-extrabold phone-lg:text-2xl">{page.title.ms}</div>
       {lang !== "ms" && <div className="text-sm font-semibold opacity-70">{titleTrans}</div>}
 
       <div className="mt-3 text-sm font-semibold opacity-70">
@@ -1058,25 +1124,50 @@ function BoxDragCard({ page, lang }: { page: any; lang: UiLang }) {
 
       <div className="mt-5 flex flex-wrap gap-2">
         {page.options.map((o: any) => (
-          <div
+          <button
+            type="button"
             key={o.id}
             draggable
             onDragStart={(e) => onDragStart(e, o.id)}
-            className="cursor-grab rounded-2xl bg-white px-4 py-2 text-sm font-black shadow active:cursor-grabbing"
-            title="Drag me"
+            onClick={() => setSelectedOptionId((prev) => (prev === o.id ? null : o.id))}
+            className={[
+              "touch-target cursor-grab rounded-2xl bg-white px-4 py-2 text-sm font-black shadow active:cursor-grabbing",
+              selectedOptionId === o.id ? "ring-2 ring-amber-400" : "",
+            ].join(" ")}
+            title={
+              lang === "ms"
+                ? "Seret atau ketik untuk pilih"
+                : lang === "en"
+                ? "Drag or tap to select"
+                : "Arrastra o toca para seleccionar"
+            }
           >
             <div>{o.ms}</div>
             {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{tr(o)}</div>}
-          </div>
+          </button>
         ))}
       </div>
 
+      {selectedOptionId && (
+        <div className="mt-3 rounded-xl bg-amber-100 px-3 py-2 text-xs font-semibold text-amber-900">
+          {lang === "ms"
+            ? "Pilihan dipilih. Ketik kotak sasaran untuk meletakkan jawapan."
+            : lang === "en"
+            ? "Option selected. Tap a target box to place the answer."
+            : "Opción seleccionada. Pulsa una casilla objetivo para colocar la respuesta."}
+        </div>
+      )}
+
       <div className="mt-2 sm:mt-5">
-        <div className="relative mx-auto w-full max-w-7xl rounded-3xl bg-white/70 p-6 shadow">
+        <div className="relative mx-auto w-full max-w-7xl rounded-3xl bg-white/70 p-3 shadow phone-lg:p-4 sm:p-6">
           <div className="relative w-full overflow-x-auto">
             <div
-              className={`relative ${page.compact ? "min-w-[1100px]" : "min-w-[900px]"}`}
-              style={{ aspectRatio: page.compact ? "21 / 9" : "16 / 9" }}
+              className={[
+                "relative",
+                page.compact
+                  ? "min-w-[720px] aspect-[16/10] phone-lg:min-w-[860px] sm:min-w-[1100px] sm:aspect-[21/9]"
+                  : "min-w-[640px] aspect-[4/3] phone-lg:min-w-[760px] sm:min-w-[900px] sm:aspect-video",
+              ].join(" ")}
             >
               <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1000 600" preserveAspectRatio="none">
                 <defs>
@@ -1117,7 +1208,7 @@ function BoxDragCard({ page, lang }: { page: any; lang: UiLang }) {
                   return (
                     <div key={node.id} style={style} className={nodeClass(node.shape, null, true)}>
                       <div>
-                        <div className="text-base sm:text-lg">{node.fixedText.ms}</div>
+                        <div className="text-sm phone-lg:text-base sm:text-lg">{node.fixedText.ms}</div>
                         {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{tr(node.fixedText)}</div>}
                       </div>
                     </div>
@@ -1134,12 +1225,24 @@ function BoxDragCard({ page, lang }: { page: any; lang: UiLang }) {
                     style={style}
                     onDragOver={allowDrop}
                     onDrop={(e) => onDrop(e, node.id)}
-                    onClick={() => clear(node.id)}
+                    onClick={() => onTapNode(node.id)}
                     className={nodeClass(node.shape, ok, !!chosen)}
-                    title="Drop here (click to clear)"
+                    title={
+                      selectedOptionId
+                        ? lang === "ms"
+                          ? "Letak pilihan pada tempat ini"
+                          : lang === "en"
+                          ? "Place selected option here"
+                          : "Colocar la opción seleccionada aquí"
+                        : lang === "ms"
+                        ? "Ketik untuk kosongkan"
+                        : lang === "en"
+                        ? "Tap to clear"
+                        : "Pulsa para borrar"
+                    }
                   >
                     <div>
-                      <div className="text-base sm:text-lg">{chosen ? chosen.ms : "—"}</div>
+                      <div className="text-sm phone-lg:text-base sm:text-lg">{chosen ? chosen.ms : "—"}</div>
                       {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{chosen ? tr(chosen) : "—"}</div>}
                     </div>
                   </div>
@@ -1150,22 +1253,23 @@ function BoxDragCard({ page, lang }: { page: any; lang: UiLang }) {
 
           <div className="mt-4 text-xs font-semibold opacity-70">
             {lang === "ms"
-              ? "Seret perkataan ke tempat yang betul. Klik pada kotak untuk kosongkan."
+              ? "Seret atau ketik pilihan ke tempat yang betul. Ketik pada kotak untuk kosongkan."
               : lang === "en"
-              ? "Drag the words into the correct places. Click a box to clear it."
-              : "Arrastra las palabras al lugar correcto. Haz clic en una casilla para borrarla."}
+              ? "Drag or tap options into the correct places. Tap a box to clear it."
+              : "Arrastra o toca las opciones en el lugar correcto. Pulsa una casilla para borrarla."}
           </div>
 
           <div className="mt-4 flex flex-wrap gap-2">
-            <button onClick={() => setChecked(true)} className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow">
+            <button onClick={() => setChecked(true)} className="touch-target rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow">
               Check Answers
             </button>
             <button
               onClick={() => {
                 setPlaced({});
                 setChecked(false);
+                setSelectedOptionId(null);
               }}
-              className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow"
+              className="touch-target rounded-xl bg-white px-4 py-2 text-sm font-bold shadow"
             >
               Reset
             </button>

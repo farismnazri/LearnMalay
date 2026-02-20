@@ -54,7 +54,7 @@ export default function IconActionLink({
   const icon = ICONS[kind];
 
   const rootClassName = [
-    "group relative inline-flex items-center justify-center transition hover:-translate-y-0.5 focus-visible:outline-none",
+    "group touch-target relative inline-flex items-center justify-center transition hover:-translate-y-0.5 focus-visible:outline-none",
     className,
   ].join(" ");
 

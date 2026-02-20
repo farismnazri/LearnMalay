@@ -955,7 +955,7 @@ export default function CurrencyPlayPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
@@ -972,7 +972,7 @@ export default function CurrencyPlayPage() {
 
   if (!unlocked) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">
@@ -988,24 +988,24 @@ export default function CurrencyPlayPage() {
   }
 
   return (
-    <main className="relative min-h-screen bg-cover bg-center px-6 py-10">
+    <main className="relative min-h-screen bg-cover bg-center app-page-pad">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
       />
       <div className="absolute inset-0 bg-black/25" />
 
-      <div className="relative mx-auto max-w-6xl">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="relative mx-auto max-w-6xl space-y-4 phone-lg:space-y-6">
+        <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between tablet:gap-4">
           <div>
-            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-6xl font-black leading-none">
+            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-5xl font-black leading-none phone-lg:text-6xl">
               {title}
             </h1>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid w-full gap-3 phone-lg:gap-4 tablet:grid-cols-2">
             {/* Stats */}
-            <div className="rounded-2xl bg-white/85 p-4 shadow">
+            <div className="rounded-2xl bg-white/85 p-3 shadow phone-lg:p-4">
               <div className="text-xs font-black opacity-70">
                 {pick({ ms: "STATUS", en: "STATUS", es: "ESTADO" }, lang)}
               </div>
@@ -1024,7 +1024,7 @@ export default function CurrencyPlayPage() {
                         width={40}
                         height={40}
                         className={[
-                          "h-14 w-14 drop-shadow",
+                          "h-10 w-10 drop-shadow phone-lg:h-12 phone-lg:w-12 tablet:h-14 tablet:w-14",
                           i < lives ? "opacity-100" : "opacity-25 grayscale",
                         ].join(" ")}
                         priority
@@ -1051,19 +1051,19 @@ export default function CurrencyPlayPage() {
             </div>
 
             {/* Controls */}
-            <div className="rounded-2xl bg-white/85 p-4 shadow">
+            <div className="rounded-2xl bg-white/85 p-3 shadow phone-lg:p-4">
               <div className="mb-3">
                 <BackgroundAudioControls />
               </div>
 
               <div className="text-xs font-black opacity-70">LANG</div>
 
-              <div className="mt-2 flex gap-2">
+              <div className="mt-2 grid grid-cols-3 gap-2">
                 {(["ms", "en", "es"] as UiLang[]).map((l) => (
                   <button
                     key={l}
                     onClick={() => pickLang(l)}
-                    className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === l ? "bg-amber-300" : "bg-white"}`}
+                    className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === l ? "bg-amber-300" : "bg-white"}`}
                   >
                     {l.toUpperCase()}
                   </button>
@@ -1084,14 +1084,14 @@ export default function CurrencyPlayPage() {
         </div>
 
         {/* Difficulty & Mode Selection */}
-        <section className="mt-6 rounded-3xl bg-white/90 p-4 shadow-xl">
-          <div className="flex flex-wrap items-center gap-6">
+        <section className="rounded-3xl bg-white/90 p-3 shadow-xl phone-lg:p-4">
+          <div className="grid gap-4 tablet:grid-cols-2">
             {/* Difficulty */}
             <div>
               <div className="text-xs font-black opacity-60">
                 {lang === "ms" ? "TAHAP" : lang === "en" ? "DIFFICULTY" : "DIFICULTAD"}
               </div>
-              <div className="mt-2 flex gap-2">
+              <div className="mt-2 flex flex-wrap gap-2">
                 {(Object.keys(DIFFICULTIES) as DifficultyKey[]).map((d) => (
                   <button
                     key={d}
@@ -1101,7 +1101,7 @@ export default function CurrencyPlayPage() {
                       restart();
                     }}
                     className={[
-                      "rounded-full px-3 py-1 text-xs font-black shadow",
+                      "touch-target rounded-full px-3 py-1 text-xs font-black shadow",
                       difficulty === d ? "bg-amber-300" : "bg-white",
                     ].join(" ")}
                   >
@@ -1116,7 +1116,7 @@ export default function CurrencyPlayPage() {
               <div className="text-xs font-black opacity-60">
                 {lang === "ms" ? "MOD" : lang === "en" ? "MODE" : "MODO"}
               </div>
-              <div className="mt-2 flex gap-2">
+              <div className="mt-2 flex flex-wrap gap-2">
                 <button
                   onClick={() => {
                     if (isUltra) return;
@@ -1125,7 +1125,7 @@ export default function CurrencyPlayPage() {
                   }}
                   disabled={isUltra}
                   className={[
-                    "rounded-full px-3 py-1 text-xs font-black shadow",
+                    "touch-target rounded-full px-3 py-1 text-xs font-black shadow",
                     effectiveMode === "buyer" ? "bg-emerald-300" : "bg-white",
                     isUltra ? "opacity-40 cursor-not-allowed" : "",
                   ].join(" ")}
@@ -1138,7 +1138,7 @@ export default function CurrencyPlayPage() {
                     restart();
                   }}
                   className={[
-                    "rounded-full px-3 py-1 text-xs font-black shadow",
+                    "touch-target rounded-full px-3 py-1 text-xs font-black shadow",
                     effectiveMode === "cashier" ? "bg-emerald-300" : "bg-white",
                   ].join(" ")}
                 >
@@ -1159,10 +1159,10 @@ export default function CurrencyPlayPage() {
         </section>
 
         {/* Game Area */}
-        <div className="mt-6 grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-4 phone-lg:gap-6 lg:grid-cols-2">
           {/* Left: Scenario */}
-          <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
-            <div className="text-xl font-extrabold">
+          <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-5 sm:p-6">
+            <div className="text-lg font-extrabold phone-lg:text-xl">
               {effectiveMode === "buyer"
                 ? lang === "ms"
                   ? "Anda Membeli"
@@ -1178,14 +1178,14 @@ export default function CurrencyPlayPage() {
 
             <div className="mt-4 rounded-2xl bg-black/5 p-4">
               <div className="text-sm font-black">{pick(itemName, lang)}</div>
-              <div className="mt-2 text-3xl font-extrabold">{formatRM(targetPrice)}</div>
+              <div className="mt-2 text-2xl font-extrabold phone-lg:text-3xl">{formatRM(targetPrice)}</div>
 
               {effectiveMode === "cashier" && (
                 <div className="mt-3 rounded-xl bg-amber-100/70 p-3">
                   <div className="text-xs font-black opacity-60">
                     {lang === "ms" ? "PELANGGAN BAYAR" : lang === "en" ? "CUSTOMER PAYS" : "CLIENTE PAGA"}
                   </div>
-                  <div className="mt-1 text-2xl font-extrabold">{formatRM(customerPayment)}</div>
+                  <div className="mt-1 text-xl font-extrabold phone-lg:text-2xl">{formatRM(customerPayment)}</div>
                   <div className="mt-2 text-xs font-semibold opacity-70">
                     {lang === "ms"
                       ? "Kira baki yang perlu dipulangkan."
@@ -1239,7 +1239,7 @@ export default function CurrencyPlayPage() {
               </div>
               {isUltra ? (
                 <>
-                  <div className="mt-1 text-2xl font-extrabold">{formatRM(ultraExpectedSen ?? Math.max(0, customerPayment - targetPrice))}</div>
+                  <div className="mt-1 text-xl font-extrabold phone-lg:text-2xl">{formatRM(ultraExpectedSen ?? Math.max(0, customerPayment - targetPrice))}</div>
                   <div className="mt-2 text-xs font-semibold opacity-70">
                     {lang === "ms"
                       ? "Tulis baki dalam Bahasa Melayu. Contoh: sepuluh ringgit dua puluh sen."
@@ -1255,18 +1255,18 @@ export default function CurrencyPlayPage() {
                     placeholder={lang === "ms" ? "contoh: sepuluh ringgit dua puluh sen" : "e.g. sepuluh ringgit dua puluh sen"}
                     className="mt-3 w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold outline-none focus:border-emerald-400 disabled:opacity-60"
                   />
-                  <div className="mt-3 flex gap-2">
+                  <div className="mt-3 flex flex-col gap-2 phone-lg:flex-row">
                     <button
                       onClick={submit}
                       disabled={gameOver || gameWon}
-                      className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow hover:bg-emerald-500 disabled:opacity-50"
+                      className="touch-target rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow hover:bg-emerald-500 disabled:opacity-50"
                     >
                       {lang === "ms" ? "Semak" : lang === "en" ? "Check" : "Comprobar"}
                     </button>
                     <button
                       onClick={() => setUltraAnswer("")}
                       disabled={gameOver || gameWon}
-                      className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow hover:bg-rose-100 disabled:opacity-50"
+                      className="touch-target rounded-xl bg-white px-4 py-2 text-sm font-bold shadow hover:bg-rose-100 disabled:opacity-50"
                     >
                       {lang === "ms" ? "Kosongkan" : lang === "en" ? "Clear" : "Limpiar"}
                     </button>
@@ -1300,7 +1300,7 @@ export default function CurrencyPlayPage() {
                           key={sel.itemId}
                           onClick={() => removeCurrency(sel.itemId)}
                           disabled={isLockedForInput}
-                          className="rounded-xl bg-white px-3 py-2 text-xs font-black shadow hover:bg-rose-100 disabled:opacity-50"
+                          className="touch-target rounded-xl bg-white px-3 py-2 text-xs font-black shadow hover:bg-rose-100 disabled:opacity-50"
                           title="Click to remove"
                         >
                           {pick(item.label, lang)} x{sel.count}
@@ -1314,41 +1314,41 @@ export default function CurrencyPlayPage() {
                       <button
                         onClick={() => verifyHardChange(true)}
                         disabled={gameOver || gameWon}
-                        className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow hover:bg-emerald-500 disabled:opacity-50"
+                        className="touch-target rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow hover:bg-emerald-500 disabled:opacity-50"
                       >
                         {lang === "ms" ? "Baki Betul" : lang === "en" ? "Change Correct" : "Cambio Correcto"}
                       </button>
                       <button
                         onClick={() => verifyHardChange(false)}
                         disabled={gameOver || gameWon}
-                        className="rounded-xl bg-rose-600 px-4 py-2 text-sm font-black text-white shadow hover:bg-rose-500 disabled:opacity-50"
+                        className="touch-target rounded-xl bg-rose-600 px-4 py-2 text-sm font-black text-white shadow hover:bg-rose-500 disabled:opacity-50"
                       >
                         {lang === "ms" ? "Baki Salah" : lang === "en" ? "Change Wrong" : "Cambio Incorrecto"}
                       </button>
                     </div>
                   ) : isHardBuyer && hardBuyerPhase === "resolved" ? (
-                    <div className="mt-3 flex gap-2">
+                    <div className="mt-3 flex flex-col gap-2 phone-lg:flex-row">
                       <button
                         onClick={nextHardRound}
                         disabled={gameOver || gameWon}
-                        className="rounded-xl bg-amber-500 px-4 py-2 text-sm font-black text-white shadow hover:bg-amber-400 disabled:opacity-50"
+                        className="touch-target rounded-xl bg-amber-500 px-4 py-2 text-sm font-black text-white shadow hover:bg-amber-400 disabled:opacity-50"
                       >
                         {lang === "ms" ? "Soalan Seterusnya" : lang === "en" ? "Next Question" : "Siguiente Pregunta"}
                       </button>
                     </div>
                   ) : (
-                    <div className="mt-3 flex gap-2">
+                    <div className="mt-3 flex flex-col gap-2 phone-lg:flex-row">
                       <button
                         onClick={submit}
                         disabled={gameOver || gameWon}
-                        className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow hover:bg-emerald-500 disabled:opacity-50"
+                        className="touch-target rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow hover:bg-emerald-500 disabled:opacity-50"
                       >
                         {lang === "ms" ? "Semak" : lang === "en" ? "Check" : "Comprobar"}
                       </button>
                       <button
                         onClick={clearSelection}
                         disabled={isLockedForInput}
-                        className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow hover:bg-rose-100 disabled:opacity-50"
+                        className="touch-target rounded-xl bg-white px-4 py-2 text-sm font-bold shadow hover:bg-rose-100 disabled:opacity-50"
                       >
                         {lang === "ms" ? "Kosongkan" : lang === "en" ? "Clear" : "Limpiar"}
                       </button>
@@ -1380,8 +1380,8 @@ export default function CurrencyPlayPage() {
           </section>
 
           {/* Right: Available Currency */}
-          <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
-            <div className="text-xl font-extrabold">
+          <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-5 sm:p-6">
+            <div className="text-lg font-extrabold phone-lg:text-xl">
               {isUltra
                 ? lang === "ms"
                   ? "Ultra: Tulis Baki"
@@ -1413,13 +1413,13 @@ export default function CurrencyPlayPage() {
                 </div>
               </div>
             ) : (
-              <div className="mt-4 grid grid-cols-2 gap-3">
+              <div className="mt-4 grid grid-cols-2 gap-2 phone-lg:gap-3">
                 {availableCurrency.map((item) => (
                   <button
                     key={item.id}
                     onClick={() => addCurrency(item.id)}
                     disabled={isLockedForInput}
-                    className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-50 to-white p-3 shadow transition hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] disabled:opacity-50"
+                    className="touch-target group relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-50 to-white p-2 shadow transition hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] disabled:opacity-50 phone-lg:p-3"
                   >
                     <Image
                       src={item.imagePath}
@@ -1444,7 +1444,7 @@ export default function CurrencyPlayPage() {
         {(gameOver || gameWon) && (
           <section
             className={[
-              "mt-6 rounded-3xl p-6 shadow-xl",
+              "rounded-3xl p-4 shadow-xl phone-lg:p-6",
               gameWon ? "bg-emerald-100/90" : "bg-rose-100/90",
             ].join(" ")}
           >
@@ -1483,7 +1483,7 @@ export default function CurrencyPlayPage() {
       {popupText && (
         <div
           className={[
-            "pointer-events-none fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300",
+            "pointer-events-none fixed left-1/2 top-1/2 z-50 max-w-[92vw] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300",
             popupFade ? "opacity-0" : "opacity-100",
           ].join(" ")}
         >
@@ -1493,7 +1493,7 @@ export default function CurrencyPlayPage() {
               alt="AkuAku"
               width={popupAvatarSize}
               height={popupAvatarSize}
-              className="animate-bounce drop-shadow-lg"
+              className="h-[180px] w-[180px] animate-bounce drop-shadow-lg phone-lg:h-[240px] phone-lg:w-[240px] tablet:h-[320px] tablet:w-[320px]"
               priority
             />
             {!popupIsPositive && (

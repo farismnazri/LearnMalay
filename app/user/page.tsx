@@ -305,7 +305,7 @@ export default function UserSelectPage() {
 
   return (
     <main
-      className="relative min-h-screen overflow-hidden bg-cover bg-center px-6 py-10 text-[#fbf7e8]"
+      className="relative min-h-screen overflow-hidden bg-cover bg-center app-page-pad text-[#fbf7e8]"
       style={{ backgroundImage: "url('/assets/backgrounds/mainpagebackground.jpg')" }}
     >
       <div className="absolute inset-0 bg-[linear-gradient(160deg,rgba(13,54,27,0.88)_0%,rgba(22,71,33,0.84)_58%,rgba(57,92,39,0.8)_100%)]" />
@@ -315,10 +315,10 @@ export default function UserSelectPage() {
       <div className="pointer-events-none absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-[#8ac25a]/20 blur-3xl" />
 
       <div className="relative z-10 mx-auto max-w-4xl">
-        <div className="flex items-start justify-between gap-4">
-          <div>
+        <div className="flex flex-col items-start justify-between gap-3 phone-lg:flex-row phone-lg:gap-4">
+          <div className="min-w-0">
             <p className="text-xs font-black uppercase tracking-[0.3em] text-[#f6f3d8]/75">Learn Malay</p>
-            <h1 className="crash-text crash-outline-fallback mt-2 text-5xl font-black leading-none md:text-6xl">
+            <h1 className="crash-text crash-outline-fallback mt-2 text-4xl font-black leading-none phone-lg:text-5xl md:text-6xl">
               PLAYER LOGIN
             </h1>
             <p className="mt-3 max-w-xl text-sm font-semibold text-[#f2edd4]/90">
@@ -329,13 +329,13 @@ export default function UserSelectPage() {
           <IconActionLink href="/" kind="home" tooltip="Back to Home" iconClassName="brightness-0 invert" />
         </div>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1.12fr_0.88fr]">
+        <div className="mt-6 grid gap-4 phone-lg:gap-6 lg:grid-cols-[1.12fr_0.88fr]">
           <section className="text-[#2a1708]">
             <div
               className="mx-auto w-full bg-[length:100%_100%] bg-center bg-no-repeat px-0 py-6"
               style={semiWidePlankStyle}
             >
-              <div className="mx-auto w-[86%] px-2 pb-4 sm:w-[82%] sm:px-3">
+              <div className="mx-auto w-[92%] px-1 pb-4 phone-lg:w-[86%] phone-lg:px-2 sm:w-[82%] sm:px-3">
                 <div className="flex justify-center">
                   <div className="inline-flex rounded-2xl border border-[#8f5e31]/45 bg-[#f4d6a1]/90 p-1">
                     <button
@@ -345,7 +345,7 @@ export default function UserSelectPage() {
                         setErr(null);
                       }}
                       className={[
-                        "rounded-xl px-4 py-2 text-sm font-black transition",
+                        "touch-target rounded-xl px-4 py-2 text-sm font-black transition",
                         mode === "login"
                           ? "bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] text-[#f3ffe9] shadow-[0_4px_10px_rgba(22,91,42,0.35)]"
                           : "text-[#4a2f15]/85 hover:text-[#2f1909]",
@@ -360,7 +360,7 @@ export default function UserSelectPage() {
                         setErr(null);
                       }}
                       className={[
-                        "rounded-xl px-4 py-2 text-sm font-black transition",
+                        "touch-target rounded-xl px-4 py-2 text-sm font-black transition",
                         mode === "create"
                           ? "bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] text-[#f3ffe9] shadow-[0_4px_10px_rgba(22,91,42,0.35)]"
                           : "text-[#4a2f15]/85 hover:text-[#2f1909]",
@@ -448,7 +448,7 @@ export default function UserSelectPage() {
                   type="button"
                   onClick={handleAuthSubmit}
                   disabled={isActionDisabled}
-                  className="mt-4 w-full rounded-2xl bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] px-5 py-3 text-sm font-black text-[#f3ffe9] shadow-lg transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="touch-target mt-4 w-full rounded-2xl bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] px-5 py-3 text-sm font-black text-[#f3ffe9] shadow-lg transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {submitting ? "Please wait..." : mode === "login" ? "Login" : "Create Account"}
                 </button>
@@ -456,13 +456,13 @@ export default function UserSelectPage() {
             </div>
           </section>
 
-          <section className="space-y-3">
+          <section className="space-y-3 phone-lg:space-y-4">
             <div
               className="relative overflow-hidden rounded-2xl bg-[length:105%_100%] bg-center bg-no-repeat px-4 py-4 text-[#2a1708] shadow-lg"
               style={longPlankStyle}
             >
-              <div className="flex items-center gap-4">
-                <div className="h-[76px] w-[76px] rounded-full bg-[#fff8e8]/95 p-[10px] shadow-[inset_0_0_0_2px_rgba(255,255,255,0.65),0_6px_14px_rgba(0,0,0,0.2)]">
+              <div className="flex flex-col items-start gap-3 phone-lg:flex-row phone-lg:items-center">
+                <div className="h-[68px] w-[68px] shrink-0 rounded-full bg-[#fff8e8]/95 p-[10px] shadow-[inset_0_0_0_2px_rgba(255,255,255,0.65),0_6px_14px_rgba(0,0,0,0.2)] phone-lg:h-[76px] phone-lg:w-[76px]">
                   <Image
                     src={getProfileAvatarSrc(me?.avatarId ?? DEFAULT_USER_AVATAR_ID)}
                     alt={me ? `${me.name} avatar` : "Default avatar"}
@@ -473,7 +473,7 @@ export default function UserSelectPage() {
                 </div>
                 <div className="min-w-0">
                   <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#633f1f]/80">Active User</div>
-                  <div className="mt-0.5 truncate text-2xl font-black text-[#2c1808]">
+                  <div className="mt-0.5 truncate text-xl font-black text-[#2c1808] phone-lg:text-2xl">
                     {me ? me.name : "NO ACTIVE USER"}
                     {me?.isAdmin ? <span className="ml-2 text-sm text-[#7c2f1d]">ADMIN</span> : null}
                   </div>
@@ -481,19 +481,19 @@ export default function UserSelectPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-[1fr_auto] gap-3">
+            <div className="grid grid-cols-1 gap-3 phone-lg:grid-cols-[1fr_auto]">
               <div
                 className="relative overflow-hidden rounded-xl bg-[length:100%_108%] bg-center bg-no-repeat px-3 py-2 text-[#2a1708] shadow-lg"
                 style={shortPlankStyle}
               >
-                <div className="flex h-[110px] items-center justify-evenly gap-3">
+                <div className="flex min-h-[110px] flex-wrap items-center justify-evenly gap-3">
                   <div className="text-center">
                     <div className="text-[15px] font-black uppercase tracking-[0.16em] text-[#633f1f]/80">World</div>
-                    <div className="text-4xl font-black leading-none text-[#2c1808]">{worldLevel.world}</div>
+                    <div className="text-3xl font-black leading-none text-[#2c1808] phone-lg:text-4xl">{worldLevel.world}</div>
                   </div>
                   <div className="text-center">
                     <div className="text-[15px] font-black uppercase tracking-[0.16em] text-[#633f1f]/80">Level</div>
-                    <div className="text-4xl font-black leading-none text-[#2c1808]">{worldLevel.level}</div>
+                    <div className="text-3xl font-black leading-none text-[#2c1808] phone-lg:text-4xl">{worldLevel.level}</div>
                   </div>
                 </div>
               </div>
@@ -501,27 +501,25 @@ export default function UserSelectPage() {
                 className="relative overflow-hidden rounded-xl bg-[length:100%_100%] bg-center bg-no-repeat px-2 py-2 text-[#2a1708] shadow-lg"
                 style={squarePlankStyle}
               >
-                <div className="flex h-[110px] w-[110px] flex-col items-center justify-center text-center sm:h-[120px] sm:w-[120px]">
-                  <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#7a4d27]/85">
-                  <div className="text-4xl font-black leading-none text-[#2c1808]">{progressPct}%</div>
-                    Progress
-                  </div>
+                <div className="flex min-h-[110px] w-full flex-col items-center justify-center text-center phone-lg:w-[110px] sm:min-h-[120px] sm:w-[120px]">
+                  <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#7a4d27]/85">Progress</div>
+                  <div className="mt-1 text-4xl font-black leading-none text-[#2c1808]">{progressPct}%</div>
                 </div>
               </div>
             </div>
 
             {me ? (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-col gap-2 phone-lg:flex-row phone-lg:flex-wrap">
                 <Link
                   href="/map"
-                  className="rounded-xl bg-[#f3b14f] px-4 py-2 text-sm font-black text-[#3f230a]"
+                  className="touch-target w-full rounded-xl bg-[#f3b14f] px-4 py-2 text-sm font-black text-[#3f230a] phone-lg:w-auto"
                 >
                   Continue
                 </Link>
                 <button
                   type="button"
                   onClick={handleSwitchUser}
-                  className="rounded-xl border border-[#d1b48d]/65 bg-[#4b3220] px-4 py-2 text-sm font-black text-[#f9edd7]"
+                  className="touch-target w-full rounded-xl border border-[#d1b48d]/65 bg-[#4b3220] px-4 py-2 text-sm font-black text-[#f9edd7] phone-lg:w-auto"
                 >
                   Switch User
                 </button>
@@ -529,7 +527,7 @@ export default function UserSelectPage() {
                   type="button"
                   onClick={handleDeleteMyAccount}
                   disabled={submitting || Boolean(me.isAdmin)}
-                  className="rounded-xl border border-rose-300/60 bg-rose-100 px-4 py-2 text-sm font-black text-rose-900 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="touch-target w-full rounded-xl border border-rose-300/60 bg-rose-100 px-4 py-2 text-sm font-black text-rose-900 disabled:cursor-not-allowed disabled:opacity-50 phone-lg:w-auto"
                 >
                   Delete My Account
                 </button>
@@ -571,7 +569,7 @@ export default function UserSelectPage() {
                       return (
                         <div
                           key={u.id}
-                          className="flex items-center justify-between gap-3 rounded-xl border border-[#c39a6d]/55 bg-[#4a321f] px-3 py-3"
+                          className="flex flex-col items-stretch justify-between gap-3 rounded-xl border border-[#c39a6d]/55 bg-[#4a321f] px-3 py-3 phone-lg:flex-row phone-lg:items-center"
                         >
                           <div className="flex min-w-0 items-center gap-3">
                             <Image
@@ -599,7 +597,7 @@ export default function UserSelectPage() {
                             type="button"
                             onClick={() => openDeleteUserModal(u)}
                             disabled={isAccountAdmin || deleteSubmitting}
-                            className="rounded-lg border border-rose-300/60 bg-rose-100 px-3 py-1.5 text-xs font-black text-rose-900 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="touch-target w-full rounded-lg border border-rose-300/60 bg-rose-100 px-3 py-1.5 text-xs font-black text-rose-900 disabled:cursor-not-allowed disabled:opacity-50 phone-lg:w-auto"
                           >
                             Delete
                           </button>

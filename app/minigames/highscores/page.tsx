@@ -186,7 +186,7 @@ export default function HighScoresPage() {
   const showDifficultyColumn = gameId === "numbers";
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#081d14] px-6 py-10">
+    <main className="relative min-h-screen overflow-hidden bg-[#081d14] app-page-pad">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
@@ -195,8 +195,8 @@ export default function HighScoresPage() {
       <div className="pointer-events-none absolute inset-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.18)_0px,rgba(0,0,0,0.18)_1px,transparent_2px,transparent_4px)]" />
 
       <div className="relative z-10 mx-auto max-w-6xl">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="w-full max-w-3xl rounded-3xl border border-[#c7deaa]/45 bg-[#153525]/75 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.45)] backdrop-blur-md">
+        <div className="flex flex-col gap-4 tablet:flex-row tablet:items-start tablet:justify-between">
+          <div className="w-full max-w-3xl rounded-3xl border border-[#c7deaa]/45 bg-[#153525]/75 p-4 shadow-[0_20px_55px_rgba(0,0,0,0.45)] backdrop-blur-md phone-lg:p-5">
             <div className="flex items-center gap-4">
               <Image
                 src={getProfileAvatarSrc(me?.avatarId)}
@@ -206,7 +206,7 @@ export default function HighScoresPage() {
                 className="h-14 w-14 rounded-full border-2 border-[#f8da72]/75 bg-white/95 object-cover shadow-lg"
               />
               <div>
-                <h1 className="crash-text crash-outline-fallback text-6xl font-black leading-none text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)]">
+                <h1 className="crash-text crash-outline-fallback text-5xl font-black leading-none text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)] phone-lg:text-6xl">
                   HIGH SCORES
                 </h1>
                 <p className="mt-1 text-sm font-semibold text-[#eaf6d8]/95">
@@ -247,7 +247,7 @@ export default function HighScoresPage() {
               <button
                 type="button"
                 onClick={requestClear}
-                className="rounded-xl border border-rose-300/65 bg-rose-100 px-4 py-2 text-xs font-black text-rose-900 shadow hover:bg-rose-200"
+                className="touch-target rounded-xl border border-rose-300/65 bg-rose-100 px-4 py-2 text-xs font-black text-rose-900 shadow hover:bg-rose-200"
               >
                 Clear this game
               </button>
@@ -255,17 +255,19 @@ export default function HighScoresPage() {
           </div>
         </div>
 
-        <section className="mt-8 rounded-3xl border border-[#d2c68f]/55 bg-[#fff5d8]/93 p-6 shadow-[0_16px_36px_rgba(0,0,0,0.25)]">
+        <section className="mt-4 rounded-3xl border border-[#d2c68f]/55 bg-[#fff5d8]/93 p-4 shadow-[0_16px_36px_rgba(0,0,0,0.25)] phone-lg:mt-8 phone-lg:p-6">
           {/* Controls row */}
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="mr-2 text-xs font-black tracking-wide opacity-65">GAME</div>
+          <div className="space-y-4">
+            <div>
+              <div className="mb-2 text-xs font-black tracking-wide opacity-65">GAME</div>
+              <div className="overflow-x-auto pb-1">
+                <div className="flex min-w-max items-center gap-2 pr-1">
 
               <button
                 type="button"
                 onClick={() => pickGame("numbers")}
                 className={[
-                  "rounded-full border px-4 py-2 text-xs font-black shadow transition",
+                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
                   gameId === "numbers"
                     ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
                     : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
@@ -278,7 +280,7 @@ export default function HighScoresPage() {
                 type="button"
                 onClick={() => pickGame("word-match")}
                 className={[
-                  "rounded-full border px-4 py-2 text-xs font-black shadow transition",
+                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
                   gameId === "word-match"
                     ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
                     : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
@@ -291,7 +293,7 @@ export default function HighScoresPage() {
                 type="button"
                 onClick={() => pickGame("wordsearch")}
                 className={[
-                  "rounded-full border px-4 py-2 text-xs font-black shadow transition",
+                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
                   gameId === "wordsearch"
                     ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
                     : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
@@ -304,7 +306,7 @@ export default function HighScoresPage() {
                 type="button"
                 onClick={() => pickGame("currency")}
                 className={[
-                  "rounded-full border px-4 py-2 text-xs font-black shadow transition",
+                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
                   gameId === "currency"
                     ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
                     : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
@@ -317,7 +319,7 @@ export default function HighScoresPage() {
                 type="button"
                 onClick={() => pickGame("makan-apa")}
                 className={[
-                  "rounded-full border px-4 py-2 text-xs font-black shadow transition",
+                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
                   gameId === "makan-apa"
                     ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
                     : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
@@ -330,7 +332,7 @@ export default function HighScoresPage() {
                 type="button"
                 onClick={() => pickGame("misi-membeli")}
                 className={[
-                  "rounded-full border px-4 py-2 text-xs font-black shadow transition",
+                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
                   gameId === "misi-membeli"
                     ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
                     : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
@@ -338,6 +340,8 @@ export default function HighScoresPage() {
               >
                 Misi Membeli
               </button>
+                </div>
+              </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
@@ -346,7 +350,7 @@ export default function HighScoresPage() {
               <select
                 value={userFilter}
                 onChange={(e) => setUserFilter(e.target.value)}
-                className="rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
+                className="touch-target rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
               >
                 <option value={ALL_USERS}>All users</option>
                 {userOptions.map((name) => (
@@ -359,7 +363,7 @@ export default function HighScoresPage() {
               <button
                 type="button"
                 onClick={showMine}
-                className="rounded-xl border border-[#d8cc95]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#273d1e] shadow hover:bg-[#ffefbf]"
+                className="touch-target rounded-xl border border-[#d8cc95]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#273d1e] shadow hover:bg-[#ffefbf]"
               >
                 My scores
               </button>
@@ -371,7 +375,7 @@ export default function HighScoresPage() {
                 <select
                   value={difficultyFilter}
                   onChange={(e) => setDifficultyFilter(e.target.value as NumbersDifficultyFilter)}
-                  className="rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
+                  className="touch-target rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
                 >
                   <option value={ALL_DIFFICULTIES}>All difficulties</option>
                   <option value="ultrahard">Ultra Hard</option>
@@ -390,8 +394,47 @@ export default function HighScoresPage() {
               : "Ranked by activities, then accuracy, then time."}
           </div>
 
-          <div className="mt-5 overflow-x-auto rounded-2xl border border-[#d7cb98]/70 shadow">
-            <table className="w-full min-w-[860px] border-separate border-spacing-0 overflow-hidden">
+          <div className="mt-5 space-y-3 tablet:hidden">
+            {sortedRows.length === 0 ? (
+              <div className="rounded-2xl border border-[#d7cb98]/70 bg-white/95 p-4 text-sm font-semibold text-[#2d431e]/70 shadow">
+                No scores for this filter yet.
+              </div>
+            ) : (
+              sortedRows.map((r, idx) => (
+                <article
+                  key={r.id}
+                  className="rounded-2xl border border-[#d7cb98]/70 bg-white/95 p-3 shadow"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={getProfileAvatarSrc(r.avatarId ?? avatarByName.get(r.name.toUpperCase()))}
+                        alt={`${r.name} avatar`}
+                        width={34}
+                        height={34}
+                        className="h-[34px] w-[34px] rounded-full border border-black/10 bg-white object-cover shadow"
+                      />
+                      <div className="text-sm font-black text-[#273d1e]">{r.name}</div>
+                    </div>
+                    <div className="rounded-full bg-[#ffe9a8] px-2 py-1 text-[11px] font-black text-[#4f3a00]">
+                      #{idx + 1}
+                    </div>
+                  </div>
+
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-bold text-[#2f421f]">
+                    <div>Activities: {activityCount(r)}</div>
+                    <div>Accuracy: {Math.round(r.accuracy)}%</div>
+                    <div>Time: {formatDuration(r.timeMs)}</div>
+                    {showDifficultyColumn && <div>Difficulty: {difficultyLabel(scoreDifficulty(r))}</div>}
+                  </div>
+                  <div className="mt-2 text-xs font-semibold text-[#2d431e]/80">{formatDate(r.dateISO)}</div>
+                </article>
+              ))
+            )}
+          </div>
+
+          <div className="mt-5 hidden overflow-x-auto rounded-2xl border border-[#d7cb98]/70 shadow tablet:block">
+            <table className="w-full min-w-[760px] border-separate border-spacing-0 overflow-hidden">
               <thead>
                 <tr className="bg-gradient-to-r from-[#f4ce63] via-[#ffd95b] to-[#f4c94e]">
                   <th className="border border-black/10 p-4 text-left align-top">

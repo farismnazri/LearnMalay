@@ -334,7 +334,7 @@ export default function MakanApaPlayPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
@@ -351,7 +351,7 @@ export default function MakanApaPlayPage() {
 
   if (!unlocked) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">
@@ -407,21 +407,21 @@ export default function MakanApaPlayPage() {
   const wrongFeedback = difficulty === "easy" ? labels.wrongEasy : labels.wrongHard;
 
   return (
-    <main className="relative min-h-screen bg-cover bg-center px-6 py-10">
+    <main className="relative min-h-screen bg-cover bg-center app-page-pad">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
       />
       <div className="absolute inset-0 bg-black/25" />
 
-      <div className="relative mx-auto max-w-5xl space-y-6">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="relative mx-auto max-w-5xl space-y-4 phone-lg:space-y-6">
+        <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between tablet:gap-4">
           <div>
-            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-6xl font-black leading-none">{title}</h1>
+            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-5xl font-black leading-none phone-lg:text-6xl">{title}</h1>
             <p className="mt-2 text-sm font-semibold text-white/90">{pick(instruction, lang)}</p>
           </div>
 
-          <div className="rounded-2xl bg-white/90 p-4 shadow">
+          <div className="w-full rounded-2xl bg-white/90 p-3 shadow phone-lg:p-4 tablet:w-auto">
             <div className="mb-3">
               <BackgroundAudioControls />
             </div>
@@ -432,13 +432,13 @@ export default function MakanApaPlayPage() {
                 <div className="mt-1 flex gap-2">
                   <button
                     onClick={() => pickDifficulty("easy")}
-                    className={`rounded-full px-3 py-1 text-xs font-black shadow ${difficulty === "easy" ? "bg-amber-300" : "bg-white"}`}
+                    className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${difficulty === "easy" ? "bg-amber-300" : "bg-white"}`}
                   >
                     {pick(labels.easy, lang)}
                   </button>
                   <button
                     onClick={() => pickDifficulty("hard")}
-                    className={`rounded-full px-3 py-1 text-xs font-black shadow ${difficulty === "hard" ? "bg-amber-300" : "bg-white"}`}
+                    className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${difficulty === "hard" ? "bg-amber-300" : "bg-white"}`}
                   >
                     {pick(labels.hard, lang)}
                   </button>
@@ -447,13 +447,13 @@ export default function MakanApaPlayPage() {
                 <div className="mt-3 grid grid-cols-2 gap-3">
                   <div>
                     <div className="text-[11px] font-black opacity-70">{pick(labels.question, lang)}</div>
-                    <div className="text-4xl font-black leading-none sm:text-3xl">
+                    <div className="text-3xl font-black leading-none phone-lg:text-4xl sm:text-3xl">
                       {Math.min(currentIndex + 1, deck.length)} / {deck.length || 0}
                     </div>
                   </div>
                   <div>
                     <div className="text-[11px] font-black opacity-70">{pick(labels.answered, lang)}</div>
-                    <div className="text-4xl font-black leading-none sm:text-3xl">
+                    <div className="text-3xl font-black leading-none phone-lg:text-4xl sm:text-3xl">
                       {solvedCount} / {deck.length || 0}
                     </div>
                   </div>
@@ -461,7 +461,7 @@ export default function MakanApaPlayPage() {
 
                 <div className="mt-3">
                   <div className="text-[11px] font-black opacity-70">{pick(labels.time, lang)}</div>
-                  <div className="text-4xl font-black leading-none sm:text-3xl">{formatDuration(elapsedMs)}</div>
+                  <div className="text-3xl font-black leading-none phone-lg:text-4xl sm:text-3xl">{formatDuration(elapsedMs)}</div>
                 </div>
               </div>
 
@@ -487,19 +487,19 @@ export default function MakanApaPlayPage() {
                 <div className="mt-3 flex gap-2">
                   <button
                     onClick={() => pickLang("ms")}
-                    className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
+                    className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
                   >
                     BM
                   </button>
                   <button
                     onClick={() => pickLang("en")}
-                    className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
+                    className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
                   >
                     EN
                   </button>
                   <button
                     onClick={() => pickLang("es")}
-                    className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
+                    className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
                   >
                     ES
                   </button>
@@ -522,22 +522,22 @@ export default function MakanApaPlayPage() {
         </div>
 
         {current && (
-          <section className="rounded-3xl bg-white/92 p-6 shadow-xl">
-            <div className="mx-auto mb-5 flex max-w-3xl justify-center">
+          <section className="rounded-3xl bg-white/92 p-4 shadow-xl phone-lg:p-5 sm:p-6">
+            <div className="mx-auto mb-4 flex w-full max-w-4xl justify-center phone-lg:mb-5">
               <div className="overflow-hidden rounded-2xl border border-black/10 bg-white p-2 shadow">
                 <Image
                   src={current.imageSrc}
                   alt={pick(current.name, lang)}
                   width={820}
                   height={520}
-                  className="h-auto max-h-[48vh] w-auto object-contain rounded-xl"
+                  className="h-auto max-h-[44vh] w-full max-w-[820px] rounded-xl object-contain phone-lg:max-h-[48vh]"
                   priority
                 />
               </div>
             </div>
 
             {difficulty === "easy" ? (
-              <div className="mx-auto grid max-w-4xl gap-3 sm:grid-cols-2">
+              <div className="mx-auto grid max-w-4xl gap-2 phone-lg:gap-3 sm:grid-cols-2">
                 {optionIds.map((optionId) => {
                   const option = itemById.get(optionId);
                   if (!option) return null;
@@ -549,7 +549,7 @@ export default function MakanApaPlayPage() {
                       onClick={() => chooseOption(optionId)}
                       disabled={disabled || locked}
                       className={[
-                        "rounded-2xl border px-4 py-3 text-left text-lg font-black shadow transition",
+                        "touch-target min-h-[3rem] rounded-2xl border px-4 py-3 text-left text-base font-black shadow transition phone-lg:text-lg",
                         disabled
                           ? "cursor-not-allowed border-black/10 bg-gray-300 text-gray-500"
                           : "border-black/15 bg-amber-100 hover:bg-amber-200 active:scale-[0.99]",
@@ -575,12 +575,12 @@ export default function MakanApaPlayPage() {
                     onChange={(e) => setTypedAnswer(e.target.value)}
                     disabled={status === "gameover" || status === "win" || locked}
                     placeholder={pick(labels.answerHint, lang)}
-                    className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-lg font-bold outline-none focus:border-amber-400 disabled:opacity-60"
+                    className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-base font-bold outline-none focus:border-amber-400 disabled:opacity-60 phone-lg:text-lg"
                   />
                   <button
                     type="submit"
                     disabled={status === "gameover" || status === "win" || locked || !typedAnswer.trim()}
-                    className="rounded-xl bg-amber-300 px-4 py-3 text-sm font-black shadow hover:bg-amber-200 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="touch-target rounded-xl bg-amber-300 px-4 py-3 text-sm font-black shadow hover:bg-amber-200 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {pick(labels.submit, lang)}
                   </button>

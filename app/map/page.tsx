@@ -81,7 +81,7 @@ export default function MapPage() {
 
   return (
     <main
-      className="relative min-h-screen overflow-hidden bg-[#081d14] px-6 py-10"
+      className="relative min-h-screen overflow-hidden bg-[#081d14] app-page-pad"
     >
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -91,14 +91,14 @@ export default function MapPage() {
       <div className="pointer-events-none absolute inset-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.18)_0px,rgba(0,0,0,0.18)_1px,transparent_2px,transparent_4px)]" />
 
       <div className="relative z-10 mx-auto max-w-5xl">
-        <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="flex flex-wrap items-start justify-between gap-3 phone-lg:gap-4">
           <div
-            className="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-cover bg-center bg-no-repeat p-5 shadow-[0_20px_55px_rgba(0,0,0,0.45)]"
+            className="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-cover bg-center bg-no-repeat p-4 shadow-[0_20px_55px_rgba(0,0,0,0.45)] phone-lg:p-5"
             style={{ backgroundImage: "url('/assets/borders/Worldmap.png')" }}
           >
             <div className="absolute inset-0 bg-[#1b2f20]/38" />
-            <div className="relative z-10 pl-3 sm:pl-4">
-              <div className="flex items-center gap-4">
+            <div className="relative z-10 pl-1 phone-lg:pl-3 sm:pl-4">
+              <div className="flex flex-col items-start gap-3 phone-lg:flex-row phone-lg:items-center phone-lg:gap-4">
                 <Image
                   src={getProfileAvatarSrc(user.avatarId)}
                   alt={`${user.name} avatar`}
@@ -108,17 +108,17 @@ export default function MapPage() {
                 />
 
                 <div className="min-w-0">
-                  <h1 className="crash-text crash-outline-fallback text-5xl leading-none font-black text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)]">
+                  <h1 className="crash-text crash-outline-fallback text-4xl leading-none font-black text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)] phone-lg:text-5xl">
                     WORLD MAP
                   </h1>
-                  <p className="mt-1 text-sm font-bold text-[#eef8da]">
+                  <p className="mt-1 text-xs font-bold text-[#eef8da] phone-lg:text-sm">
                     Explorer: <span className="text-[#ffe98e]">{user.name}</span> • Current Chapter:{" "}
                     <span className="text-[#ffe98e]">{currentChapter}</span>
                   </p>
                 </div>
               </div>
 
-              <div className="mt-4 flex flex-wrap items-center gap-2">
+              <div className="mt-3 flex flex-wrap items-center gap-2 phone-lg:mt-4">
                 <span className="rounded-full border border-[#b8d98a]/60 bg-[#2f5f34]/70 px-3 py-1 text-[11px] font-black tracking-wide text-[#eff9dc]">
                   UNLOCKED {unlockedCount}/{totalChapters}
                 </span>
@@ -147,7 +147,7 @@ export default function MapPage() {
               <BackgroundAudioControls />
             </div>
 
-            <div className="flex gap-3 pt-1">
+            <div className="grid grid-cols-2 gap-2 pt-1 md:flex md:gap-3">
               <IconActionLink
                 href="/minigames"
                 kind="minigames"
@@ -163,9 +163,9 @@ export default function MapPage() {
           const worldChapters = chapters.filter((c) => c.world === w);
 
           return (
-            <section key={w} className="mt-10">
-              <div className="inline-flex items-center gap-2 rounded-2xl border border-[#d5e6ba]/50 bg-[#173728]/70 px-4 py-2 shadow-lg backdrop-blur-md">
-                <h2 className="crash-text crash-outline-fallback text-4xl font-black leading-none text-[#ffd65b]">
+            <section key={w} className="mt-8 phone-lg:mt-10">
+              <div className="inline-flex flex-wrap items-center gap-2 rounded-2xl border border-[#d5e6ba]/50 bg-[#173728]/70 px-3 py-2 shadow-lg backdrop-blur-md phone-lg:px-4">
+                <h2 className="crash-text crash-outline-fallback text-3xl font-black leading-none text-[#ffd65b] phone-lg:text-4xl">
                   WORLD {w}
                 </h2>
                 <span className="rounded-full border border-[#bdd89d]/60 bg-[#305f34]/80 px-3 py-1 text-[11px] font-black text-[#ecf6d9]">
@@ -174,7 +174,7 @@ export default function MapPage() {
                 </span>
               </div>
 
-              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="mt-4 grid grid-cols-1 gap-3 phone-lg:gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {worldChapters.map((c) => {
                   const unlocked = user.isAdmin || user.progress.chapter >= c.chapter;
                   const isCurrent = c.chapter === currentChapter;
@@ -186,7 +186,7 @@ export default function MapPage() {
                       disabled={!unlocked}
                       onClick={() => selectChapter(c.chapter)}
                       className={[
-                        "group relative overflow-hidden rounded-3xl border p-5 text-left shadow-xl transition-all duration-200",
+                        "group relative overflow-hidden rounded-3xl border p-4 text-left shadow-xl transition-all duration-200 phone-lg:p-5",
                         "active:scale-[0.98] focus:outline-none",
                         unlocked
                           ? "hover:-translate-y-0.5 hover:shadow-[0_18px_30px_rgba(0,0,0,0.28)]"

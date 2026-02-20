@@ -182,8 +182,8 @@ export default function CrosswordCard({
   const instTrans = lang === "ms" ? "" : lang === "en" ? page.instructions.en : page.instructions.es;
 
   return (
-    <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
-      <div className="text-2xl font-extrabold">{page.title.ms}</div>
+    <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-5 sm:p-6">
+      <div className="text-xl font-extrabold phone-lg:text-2xl">{page.title.ms}</div>
       {lang !== "ms" && <div className="text-sm font-semibold opacity-70">{titleTrans}</div>}
 
       <div className="mt-3 text-sm font-semibold opacity-70">
@@ -197,18 +197,18 @@ export default function CrosswordCard({
         </div>
       )}
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_360px]">
-        <div className="rounded-2xl bg-white/70 p-4 shadow">
+      <div className="mt-6 grid gap-4 phone-lg:gap-6 xl:grid-cols-[1fr_360px]">
+        <div className="rounded-2xl bg-white/70 p-3 shadow phone-lg:p-4">
           <div className="overflow-x-auto">
             <div
               className="inline-grid gap-0.5 rounded-xl bg-black/15 p-2"
-              style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 3rem))` }}
+              style={{ gridTemplateColumns: `repeat(${cols}, minmax(2.75rem, 2.75rem))` }}
             >
               {Array.from({ length: rows }).map((_, r) =>
                 Array.from({ length: cols }).map((_, c) => {
                   const k = keyOf(r, c);
                   const cell = cells.get(k);
-                  if (!cell) return <div key={k} className="h-12 w-12" />;
+                  if (!cell) return <div key={k} className="h-11 w-11" />;
 
                   const value = values[k] ?? "";
                   const wrong = checked && value && value !== cell.solution;
@@ -218,7 +218,7 @@ export default function CrosswordCard({
                     return (
                       <div
                         key={k}
-                        className="relative flex h-12 w-12 items-center justify-center border border-black/60 bg-amber-100 text-lg font-black uppercase"
+                        className="relative flex h-11 w-11 items-center justify-center border border-black/60 bg-amber-100 text-base font-black uppercase phone-lg:text-lg"
                       >
                         {cell.n !== undefined && (
                           <span className="absolute left-1 top-0.5 text-[10px] font-black leading-none">
@@ -234,7 +234,7 @@ export default function CrosswordCard({
                     <div
                       key={k}
                       className={[
-                        "relative h-12 w-12 border border-black/60 bg-white",
+                        "relative h-11 w-11 border border-black/60 bg-white",
                         wrong ? "bg-rose-100" : solved ? "bg-emerald-100" : "",
                       ].join(" ")}
                     >
@@ -272,7 +272,7 @@ export default function CrosswordCard({
                             focusNextEditable(r, c, -1, 0);
                           }
                         }}
-                        className="h-full w-full bg-transparent text-center text-lg font-black uppercase outline-none"
+                        className="h-full w-full bg-transparent text-center text-base font-black uppercase outline-none phone-lg:text-lg"
                         aria-label={`Crossword cell row ${r + 1} col ${c + 1}`}
                       />
                     </div>
@@ -286,21 +286,21 @@ export default function CrosswordCard({
             <button
               type="button"
               onClick={() => setChecked(true)}
-              className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow"
+              className="touch-target rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow"
             >
               {lang === "ms" ? "Semak jawapan" : lang === "en" ? "Check answers" : "Comprobar respuestas"}
             </button>
             <button
               type="button"
               onClick={resetBoard}
-              className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow"
+              className="touch-target rounded-xl bg-white px-4 py-2 text-sm font-bold shadow"
             >
               {lang === "ms" ? "Reset" : lang === "en" ? "Reset" : "Reiniciar"}
             </button>
             <button
               type="button"
               onClick={revealBoard}
-              className="rounded-xl bg-amber-300 px-4 py-2 text-sm font-black shadow"
+              className="touch-target rounded-xl bg-amber-300 px-4 py-2 text-sm font-black shadow"
             >
               {lang === "ms" ? "Tunjuk jawapan" : lang === "en" ? "Show answers" : "Mostrar respuestas"}
             </button>
@@ -335,7 +335,7 @@ export default function CrosswordCard({
           )}
         </div>
 
-        <div className="rounded-2xl bg-white/70 p-4 shadow">
+        <div className="rounded-2xl bg-white/70 p-3 shadow phone-lg:p-4">
           <div className="text-xs font-black opacity-60">
             {lang === "ms" ? "PETUNJUK" : lang === "en" ? "CLUES" : "PISTAS"}
           </div>

@@ -285,15 +285,15 @@ export default function MiniGamesPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">NOMBOR</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
-          <div className="mt-6 flex gap-3">
-            <Link href="/user" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+          <div className="mt-6 flex flex-col gap-3 phone-lg:flex-row">
+            <Link href="/user" className="touch-target rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
               Go to Login
             </Link>
-            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+            <Link href="/minigames" className="touch-target rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
               Back to Mini Games
             </Link>
           </div>
@@ -304,17 +304,17 @@ export default function MiniGamesPage() {
 
   if (!unlocked) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">
             Complete Chapter {requiredChapter} first to play Numbers.
           </p>
-          <div className="mt-6 flex gap-3">
-            <Link href="/map" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+          <div className="mt-6 flex flex-col gap-3 phone-lg:flex-row">
+            <Link href="/map" className="touch-target rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
               Go to Map
             </Link>
-            <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+            <Link href="/minigames" className="touch-target rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
               Back to Mini Games
             </Link>
           </div>
@@ -324,7 +324,7 @@ export default function MiniGamesPage() {
   }
 
   return (
-    <main className="relative min-h-screen bg-cover bg-center px-6 py-10">
+    <main className="relative min-h-screen bg-cover bg-center app-page-pad">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
@@ -339,9 +339,9 @@ export default function MiniGamesPage() {
       <div className="absolute inset-0 bg-black/30" />
 
       <div className="relative mx-auto max-w-6xl">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between tablet:gap-4">
           <div>
-            <h1 className="crash-text crash-outline-fallback text-6xl font-black">
+            <h1 className="crash-text crash-outline-fallback text-5xl font-black phone-lg:text-6xl">
               NOMBOR
             </h1>
             <p className="mt-2 text-sm font-semibold text-white/90">
@@ -349,16 +349,16 @@ export default function MiniGamesPage() {
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white/85 p-4 shadow">
+          <div className="w-full rounded-2xl bg-white/85 p-4 shadow tablet:w-auto">
             <div className="mb-3">
               <BackgroundAudioControls />
             </div>
 
             <div className="text-xs font-black opacity-70">LANG</div>
-            <div className="mt-2 flex gap-2">
+            <div className="mt-2 grid grid-cols-3 gap-2">
               <button
                 onClick={() => pickLang("ms")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${
+                className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${
                   lang === "ms" ? "bg-amber-300" : "bg-white"
                 }`}
               >
@@ -366,7 +366,7 @@ export default function MiniGamesPage() {
               </button>
               <button
                 onClick={() => pickLang("en")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${
+                className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${
                   lang === "en" ? "bg-amber-300" : "bg-white"
                 }`}
               >
@@ -374,24 +374,24 @@ export default function MiniGamesPage() {
               </button>
               <button
                 onClick={() => pickLang("es")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${
+                className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${
                   lang === "es" ? "bg-amber-300" : "bg-white"
                 }`}
               >
                 ES
               </button>
             </div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                <IconActionLink href="/minigames/numbers/play" kind="start-game" tooltip="Start Game" />
-                <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
-                <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
-              </div>
+            <div className="mt-3 grid grid-cols-3 gap-2 tablet:flex tablet:flex-wrap">
+              <IconActionLink href="/minigames/numbers/play" kind="start-game" tooltip="Start Game" />
+              <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
+              <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
+            </div>
           </div>
         </div>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+        <div className="mt-6 grid gap-4 phone-lg:gap-6 tablet:grid-cols-[1fr_1.2fr]">
           {/* LEFT */}
-          <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
+          <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-6">
             <div className="text-2xl font-extrabold">Sistem Nombor</div>
             <div className="mt-2 text-sm font-semibold opacity-70">
               Click the pyramid to change the table.
@@ -472,7 +472,7 @@ export default function MiniGamesPage() {
           </section>
 
           {/* RIGHT */}
-          <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
+          <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-6">
             <div className="text-2xl font-extrabold">{activeSet.label.ms}</div>
             {lang !== "ms" && (
               <div className="text-sm font-semibold opacity-70">{t(lang, activeSet.label)}</div>

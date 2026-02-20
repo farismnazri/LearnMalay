@@ -605,7 +605,7 @@ export default function MisiMembeliPlayPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
@@ -622,7 +622,7 @@ export default function MisiMembeliPlayPage() {
 
   if (!unlocked) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">
@@ -645,19 +645,20 @@ export default function MisiMembeliPlayPage() {
       : "MISION\nDE COMPRAS";
 
   const accuracy = attempts > 0 ? Math.round((score / attempts) * 100) : 0;
+  const boardButtonMaxPx = difficulty === "hard" ? 62 : difficulty === "medium" ? 70 : 78;
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#081d14] px-6 py-8">
+    <main className="relative min-h-screen overflow-hidden bg-[#081d14] app-page-pad">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
       />
       <div className="absolute inset-0 bg-black/35" />
 
-      <div className="relative mx-auto max-w-7xl">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="relative mx-auto max-w-7xl space-y-4 phone-lg:space-y-6">
+        <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between tablet:gap-4">
           <div>
-            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-6xl font-black leading-none text-[#ffe070]">
+            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-5xl font-black leading-none text-[#ffe070] phone-lg:text-6xl">
               {title}
             </h1>
             <div className="mt-2 text-sm font-semibold text-white/85">
@@ -681,28 +682,28 @@ export default function MisiMembeliPlayPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl bg-white/90 p-4 shadow-xl">
+          <div className="w-full rounded-2xl bg-white/90 p-3 shadow-xl phone-lg:p-4 tablet:w-auto">
             <div className="mb-3">
               <BackgroundAudioControls />
             </div>
 
             <div className="text-xs font-black opacity-70">LANGUAGE</div>
-            <div className="mt-2 flex gap-2">
+            <div className="mt-2 grid grid-cols-3 gap-2">
               <button
                 onClick={() => pickLang("ms")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
+                className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
               >
                 BM
               </button>
               <button
                 onClick={() => pickLang("en")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
+                className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
               >
                 EN
               </button>
               <button
                 onClick={() => pickLang("es")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
+                className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
               >
                 ES
               </button>
@@ -722,15 +723,15 @@ export default function MisiMembeliPlayPage() {
           </div>
         </div>
 
-        <section className="mt-6 grid gap-5 lg:grid-cols-[340px_minmax(0,1fr)]">
-          <aside className="rounded-3xl border border-[#d8cb98]/65 bg-[#fff5d8]/92 p-5 shadow-xl">
+        <section className="grid gap-4 phone-lg:gap-5 lg:grid-cols-[340px_minmax(0,1fr)]">
+          <aside className="rounded-3xl border border-[#d8cb98]/65 bg-[#fff5d8]/92 p-4 shadow-xl phone-lg:p-5">
             <div className="text-[11px] font-black uppercase tracking-wide text-[#5a450d]/65">Difficulty</div>
             <div className="mt-2 flex flex-wrap gap-2">
               <button
                 type="button"
                 onClick={() => switchDifficulty("easy")}
                 className={[
-                  "rounded-full border px-3 py-1 text-xs font-black shadow",
+                  "touch-target rounded-full border px-3 py-1 text-xs font-black shadow",
                   difficulty === "easy"
                     ? "border-[#e4b94b] bg-[#ffd447] text-[#402f00]"
                     : "border-[#d8cc9a]/80 bg-white/90 text-[#6d5d2f] hover:bg-[#ffefbf]",
@@ -742,7 +743,7 @@ export default function MisiMembeliPlayPage() {
                 type="button"
                 onClick={() => switchDifficulty("medium")}
                 className={[
-                  "rounded-full border px-3 py-1 text-xs font-black shadow",
+                  "touch-target rounded-full border px-3 py-1 text-xs font-black shadow",
                   difficulty === "medium"
                     ? "border-[#e4b94b] bg-[#ffd447] text-[#402f00]"
                     : "border-[#d8cc9a]/80 bg-white/90 text-[#6d5d2f] hover:bg-[#ffefbf]",
@@ -754,7 +755,7 @@ export default function MisiMembeliPlayPage() {
                 type="button"
                 onClick={() => switchDifficulty("hard")}
                 className={[
-                  "rounded-full border px-3 py-1 text-xs font-black shadow",
+                  "touch-target rounded-full border px-3 py-1 text-xs font-black shadow",
                   difficulty === "hard"
                     ? "border-[#e4b94b] bg-[#ffd447] text-[#402f00]"
                     : "border-[#d8cc9a]/80 bg-white/90 text-[#6d5d2f] hover:bg-[#ffefbf]",
@@ -837,7 +838,7 @@ export default function MisiMembeliPlayPage() {
                     }}
                     disabled={!removableFromList}
                     className={[
-                      "flex w-full items-center gap-2 rounded-xl border px-3 py-2 text-left text-sm font-bold",
+                      "touch-target flex w-full items-center gap-2 rounded-xl border px-3 py-2 text-left text-sm font-bold",
                       removableFromList
                         ? "border-[#8fb8d8] bg-[#eaf4ff] text-[#1f3e59] hover:bg-[#dceeff]"
                         : "border-[#d8cc9a]/70 bg-white/80 text-[#314625]",
@@ -888,7 +889,7 @@ export default function MisiMembeliPlayPage() {
                 type="button"
                 onClick={clearSelection}
                 disabled={gameOver}
-                className="rounded-xl border border-[#d5ca98]/75 bg-white px-3 py-2 text-xs font-black text-[#2f451f] shadow disabled:opacity-60"
+                className="touch-target rounded-xl border border-[#d5ca98]/75 bg-white px-3 py-2 text-xs font-black text-[#2f451f] shadow disabled:opacity-60"
               >
                 {lang === "ms" ? "Kosongkan" : lang === "en" ? "Clear" : "Limpiar"}
               </button>
@@ -897,7 +898,7 @@ export default function MisiMembeliPlayPage() {
                 type="button"
                 onClick={onCheckout}
                 disabled={gameOver}
-                className="rounded-xl bg-emerald-600 px-3 py-2 text-xs font-black text-white shadow hover:bg-emerald-500 disabled:opacity-60"
+                className="touch-target rounded-xl bg-emerald-600 px-3 py-2 text-xs font-black text-white shadow hover:bg-emerald-500 disabled:opacity-60"
               >
                 {lang === "ms" ? "Bayar" : lang === "en" ? "Check Out" : "Pagar"}
               </button>
@@ -925,7 +926,7 @@ export default function MisiMembeliPlayPage() {
                 : `Todos los temas activos | Seleccionados: ${selectedIds.length}`}
             </div>
 
-            <section className="relative aspect-[16/9] overflow-hidden rounded-3xl border border-[#d8cb98]/70 bg-[#202014]/70 shadow-[0_20px_45px_rgba(0,0,0,0.35)]">
+            <section className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-[#d8cb98]/70 bg-[#202014]/70 shadow-[0_20px_45px_rgba(0,0,0,0.35)] phone-lg:aspect-[16/9]">
               {difficulty === "easy" ? (
                 <div
                   className="absolute inset-0 bg-cover bg-center"
@@ -993,15 +994,15 @@ export default function MisiMembeliPlayPage() {
                     style={{
                       left: `${entry.slot.x}%`,
                       top: `${entry.slot.y}%`,
-                      width: `${entry.slot.size}px`,
-                      height: `${entry.slot.size}px`,
+                      width: `clamp(44px, 15vw, ${Math.min(entry.slot.size, boardButtonMaxPx)}px)`,
+                      height: `clamp(44px, 15vw, ${Math.min(entry.slot.size, boardButtonMaxPx)}px)`,
                     }}
                     className={[
-                      "absolute -translate-x-1/2 -translate-y-1/2 rounded-2xl border bg-white/90 p-1 shadow-lg transition",
+                      "touch-target absolute -translate-x-1/2 -translate-y-1/2 rounded-2xl border bg-white/90 p-1 shadow-lg transition",
                       wrongSelected
-                        ? "border-rose-500 ring-4 ring-rose-300"
+                        ? "border-rose-500 ring-2 ring-rose-300 phone-lg:ring-4"
                         : selected
-                        ? "border-amber-500 ring-4 ring-amber-300"
+                        ? "border-amber-500 ring-2 ring-amber-300 phone-lg:ring-4"
                         : "border-white/70 hover:scale-105 hover:border-amber-300",
                       gameOver ? "opacity-60" : "",
                     ].join(" ")}

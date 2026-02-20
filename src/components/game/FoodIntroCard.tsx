@@ -20,9 +20,9 @@ export default function FoodIntroCard({ page, lang }: { page: FoodIntroPage; lan
   }));
 
   return (
-    <section className="space-y-5">
+    <section className="space-y-4 phone-lg:space-y-5">
       <div>
-        <p className="whitespace-pre-line text-base font-extrabold text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)] sm:text-lg">
+        <p className="whitespace-pre-line text-sm font-extrabold text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)] phone-lg:text-base sm:text-lg">
           {page.intro.ms}
         </p>
         {lang !== "ms" && (
@@ -33,7 +33,7 @@ export default function FoodIntroCard({ page, lang }: { page: FoodIntroPage; lan
       </div>
 
       {page.sections.length > 0 && (
-        <div className="grid gap-3 md:grid-cols-3">
+        <div className="grid gap-3 tablet:grid-cols-3">
           {page.sections.map((section) => (
             <article key={section.id} className="rounded-2xl bg-white/90 p-4 shadow-lg backdrop-blur-[2px]">
               <div className="text-sm font-black tracking-wide">{section.heading.ms}</div>
@@ -46,18 +46,20 @@ export default function FoodIntroCard({ page, lang }: { page: FoodIntroPage; lan
         </div>
       )}
 
-      <div className="h-[58vh] min-h-[460px] w-full sm:h-[64vh] md:h-[70vh]">
+      <div className="h-[46vh] min-h-[320px] max-h-[560px] w-full phone-lg:h-[52vh] sm:h-[58vh] md:h-[64vh]">
         <DomeGallery
           images={galleryImages}
-          fit={0.6}
-          minRadius={300}
-          maxVerticalRotationDeg={13}
-          segments={30}
+          fit={0.55}
+          minRadius={220}
+          maxVerticalRotationDeg={11}
+          segments={24}
           dragDampening={5}
           grayscale={false}
           showOverlayEffects={false}
           autoRotate
-          autoRotateSpeedDegPerSec={10}
+          autoRotateSpeedDegPerSec={8}
+          openedImageWidth="min(88vw, 380px)"
+          openedImageHeight="min(88vw, 380px)"
         />
       </div>
     </section>

@@ -1,0 +1,222 @@
+{
+  "startedAt": "2026-02-20T09:13:42.834Z",
+  "finishedAt": "2026-02-20T09:16:48.170Z",
+  "baseUrl": "http://127.0.0.1:3300",
+  "profileCount": 4,
+  "passCount": 4,
+  "failCount": 0,
+  "checks": {
+    "createAccount": true,
+    "login": true,
+    "mapProgression": true,
+    "chapterCompletionUnlock": true,
+    "minigames": true,
+    "performance": true
+  },
+  "results": [
+    {
+      "profile": {
+        "id": "ios_p",
+        "label": "iPhone 12 portrait",
+        "device": "iPhone 12",
+        "orientation": "portrait"
+      },
+      "user": "QA_ios_p_1771578822883_7864",
+      "checks": {
+        "createAccount": true,
+        "login": true,
+        "mapProgression": true,
+        "chapterCompletionUnlock": true,
+        "minigames": true,
+        "performance": true
+      },
+      "performance": [
+        {
+          "route": "http://127.0.0.1:3300/minigames/misi-membeli/play",
+          "durationMs": 3000,
+          "frames": 362,
+          "longFrames": 0,
+          "avgFps": 120.65,
+          "longFramePct": 0,
+          "clickLatencyMs": 6.3,
+          "pass": true
+        },
+        {
+          "route": "http://127.0.0.1:3300/minigames/wordsearch",
+          "durationMs": 3009,
+          "frames": 362,
+          "longFrames": 0,
+          "avgFps": 120.29,
+          "longFramePct": 0,
+          "clickLatencyMs": 5.8,
+          "pass": true
+        },
+        {
+          "route": "http://127.0.0.1:3300/chapter/7",
+          "durationMs": 3004,
+          "frames": 361,
+          "longFrames": 0,
+          "avgFps": 120.17,
+          "longFramePct": 0,
+          "clickLatencyMs": 7.3,
+          "pass": true
+        }
+      ],
+      "notes": [],
+      "pass": true
+    },
+    {
+      "profile": {
+        "id": "ios_l",
+        "label": "iPhone 12 landscape",
+        "device": "iPhone 12",
+        "orientation": "landscape"
+      },
+      "user": "QA_ios_l_1771578876815_7965",
+      "checks": {
+        "createAccount": true,
+        "login": true,
+        "mapProgression": true,
+        "chapterCompletionUnlock": true,
+        "minigames": true,
+        "performance": true
+      },
+      "performance": [
+        {
+          "route": "http://127.0.0.1:3300/minigames/misi-membeli/play",
+          "durationMs": 3002,
+          "frames": 361,
+          "longFrames": 0,
+          "avgFps": 120.26,
+          "longFramePct": 0,
+          "clickLatencyMs": 5.4,
+          "pass": true
+        },
+        {
+          "route": "http://127.0.0.1:3300/minigames/wordsearch",
+          "durationMs": 3002,
+          "frames": 361,
+          "longFrames": 0,
+          "avgFps": 120.25,
+          "longFramePct": 0,
+          "clickLatencyMs": 6.1,
+          "pass": true
+        },
+        {
+          "route": "http://127.0.0.1:3300/chapter/7",
+          "durationMs": 3006,
+          "frames": 361,
+          "longFrames": 0,
+          "avgFps": 120.08,
+          "longFramePct": 0,
+          "clickLatencyMs": 7.1,
+          "pass": true
+        }
+      ],
+      "notes": [],
+      "pass": true
+    },
+    {
+      "profile": {
+        "id": "android_p",
+        "label": "Pixel 5 portrait",
+        "device": "Pixel 5",
+        "orientation": "portrait"
+      },
+      "user": "QA_android_p_1771578915583_1689",
+      "checks": {
+        "createAccount": true,
+        "login": true,
+        "mapProgression": true,
+        "chapterCompletionUnlock": true,
+        "minigames": true,
+        "performance": true
+      },
+      "performance": [
+        {
+          "route": "http://127.0.0.1:3300/minigames/misi-membeli/play",
+          "durationMs": 3009,
+          "frames": 362,
+          "longFrames": 0,
+          "avgFps": 120.31,
+          "longFramePct": 0,
+          "clickLatencyMs": 5.9,
+          "pass": true
+        },
+        {
+          "route": "http://127.0.0.1:3300/minigames/wordsearch",
+          "durationMs": 3002,
+          "frames": 362,
+          "longFrames": 0,
+          "avgFps": 120.6,
+          "longFramePct": 0,
+          "clickLatencyMs": 6.5,
+          "pass": true
+        },
+        {
+          "route": "http://127.0.0.1:3300/chapter/7",
+          "durationMs": 3001,
+          "frames": 361,
+          "longFrames": 0,
+          "avgFps": 120.29,
+          "longFramePct": 0,
+          "clickLatencyMs": 6.9,
+          "pass": true
+        }
+      ],
+      "notes": [],
+      "pass": true
+    },
+    {
+      "profile": {
+        "id": "android_l",
+        "label": "Pixel 5 landscape",
+        "device": "Pixel 5",
+        "orientation": "landscape"
+      },
+      "user": "QA_android_l_1771578969380_1799",
+      "checks": {
+        "createAccount": true,
+        "login": true,
+        "mapProgression": true,
+        "chapterCompletionUnlock": true,
+        "minigames": true,
+        "performance": true
+      },
+      "performance": [
+        {
+          "route": "http://127.0.0.1:3300/minigames/misi-membeli/play",
+          "durationMs": 3004,
+          "frames": 362,
+          "longFrames": 0,
+          "avgFps": 120.49,
+          "longFramePct": 0,
+          "clickLatencyMs": 6.3,
+          "pass": true
+        },
+        {
+          "route": "http://127.0.0.1:3300/minigames/wordsearch",
+          "durationMs": 3007,
+          "frames": 362,
+          "longFrames": 0,
+          "avgFps": 120.37,
+          "longFramePct": 0,
+          "clickLatencyMs": 6.1,
+          "pass": true
+        },
+        {
+          "route": "http://127.0.0.1:3300/chapter/7",
+          "durationMs": 3004,
+          "frames": 361,
+          "longFrames": 0,
+          "avgFps": 120.19,
+          "longFramePct": 0,
+          "clickLatencyMs": 6.2,
+          "pass": true
+        }
+      ],
+      "notes": [],
+      "pass": true
+    }
+  ]
+}

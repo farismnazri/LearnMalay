@@ -196,12 +196,12 @@ export default function WordSearchMiniGame() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
-          <div className="mt-6 flex gap-3">
-            <Link href="/user" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+          <div className="mt-6 flex flex-col gap-3 phone-lg:flex-row">
+            <Link href="/user" className="touch-target rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
               Go to Login
             </Link>
             <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
@@ -213,13 +213,13 @@ export default function WordSearchMiniGame() {
 
   if (!unlocked) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">
             Complete Chapter {requiredChapter} first to play Wordsearch.
           </p>
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 flex flex-col gap-3 phone-lg:flex-row">
             <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
             <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
           </div>
@@ -229,18 +229,18 @@ export default function WordSearchMiniGame() {
   }
 
   return (
-    <main className="relative min-h-screen bg-cover bg-center px-6 py-10">
+    <main className="relative min-h-screen bg-cover bg-center app-page-pad">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
       />
       <div className="absolute inset-0 bg-black/25" />
 
-      <div className="relative mx-auto max-w-5xl space-y-6">
+      <div className="relative mx-auto max-w-5xl space-y-5 phone-lg:space-y-6">
         {/* header row */}
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between tablet:gap-4">
           <div>
-            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-6xl font-black leading-none">
+            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-5xl font-black leading-none phone-lg:text-6xl">
               {lang === "ms" ? "CARI\nPERKATAAN" : lang === "en" ? "WORD\nSEARCH" : "SOPA\nDE LETRAS"}
             </h1>
             <p className="mt-2 text-sm font-semibold text-white/90 drop-shadow">
@@ -252,25 +252,25 @@ export default function WordSearchMiniGame() {
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white/85 p-4 shadow">
+          <div className="w-full rounded-2xl bg-white/85 p-4 shadow tablet:w-auto">
             <div className="mb-3">
               <BackgroundAudioControls />
             </div>
 
             <div className="text-xs font-black opacity-70">LANGUAGE</div>
-            <div className="mt-2 flex gap-2">
+            <div className="mt-2 grid grid-cols-3 gap-2">
               {(["ms", "en", "es"] as UiLang[]).map((l) => (
                 <button
                   key={l}
                   onClick={() => pickLang(l)}
-                  className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === l ? "bg-amber-300" : "bg-white"}`}
+                  className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === l ? "bg-amber-300" : "bg-white"}`}
                 >
                   {l.toUpperCase()}
                 </button>
               ))}
             </div>
 
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-3 grid grid-cols-2 gap-2 tablet:flex tablet:flex-wrap">
               <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
               <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
             </div>
@@ -278,11 +278,11 @@ export default function WordSearchMiniGame() {
         </div>
 
         {/* controls */}
-        <section className="rounded-3xl bg-white/90 p-4 shadow-xl">
-          <div className="flex flex-wrap gap-4">
+        <section className="rounded-3xl bg-white/90 p-3 shadow-xl phone-lg:p-4">
+          <div className="grid gap-4 tablet:grid-cols-2">
             <div>
               <div className="text-xs font-black opacity-60">{lang === "ms" ? "TAHAP" : lang === "en" ? "DIFFICULTY" : "DIFICULTAD"}</div>
-              <div className="mt-2 flex gap-2">
+              <div className="mt-2 flex flex-wrap gap-2">
                 {(Object.keys(DIFFICULTIES) as DifficultyKey[]).map((d) => (
                   <button
                     key={d}
@@ -291,7 +291,7 @@ export default function WordSearchMiniGame() {
                       setSeed((s) => s + 1);
                     }}
                     className={[
-                      "rounded-full px-3 py-1 text-xs font-black shadow",
+                      "touch-target rounded-full px-3 py-1 text-xs font-black shadow",
                       difficulty === d ? "bg-amber-300" : "bg-white",
                     ].join(" ")}
                   >
@@ -312,7 +312,7 @@ export default function WordSearchMiniGame() {
                       setSeed((s) => s + 1);
                     }}
                     className={[
-                      "rounded-full px-3 py-1 text-xs font-black shadow",
+                      "touch-target rounded-full px-3 py-1 text-xs font-black shadow",
                       theme === t.id ? "bg-emerald-200" : "bg-white",
                     ].join(" ")}
                   >
@@ -322,7 +322,7 @@ export default function WordSearchMiniGame() {
               </div>
             </div>
 
-            <div className="flex items-end gap-2">
+            <div className="flex flex-wrap items-center gap-2 tablet:col-span-2">
               <IconActionLink
                 onClick={regen}
                 kind="restart"
@@ -334,11 +334,11 @@ export default function WordSearchMiniGame() {
                   setFinishedTs(Date.now());
                   setSaved(true); // do not save highscore when revealing
                 }}
-                className="rounded-xl bg-white px-4 py-2 text-xs font-bold shadow hover:bg-amber-100"
+                className="touch-target rounded-xl bg-white px-4 py-2 text-xs font-bold shadow hover:bg-amber-100"
               >
                 Show Answers
               </button>
-              <div className="ml-3 rounded-xl bg-black/5 px-3 py-2 text-xs font-black">
+              <div className="rounded-xl bg-black/5 px-3 py-2 text-xs font-black">
                 ⏱ {fmt(elapsedMs)} {finishedTs ? "(Done)" : ""}
               </div>
             </div>

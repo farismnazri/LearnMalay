@@ -394,7 +394,7 @@ export default function WordMatchPlayPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
@@ -411,7 +411,7 @@ export default function WordMatchPlayPage() {
 
   if (!unlocked) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">
@@ -427,24 +427,23 @@ export default function WordMatchPlayPage() {
   }
 
   return (
-    <main className="relative min-h-screen bg-cover bg-center px-6 py-10">
+    <main className="relative min-h-screen bg-cover bg-center app-page-pad">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
       />
       <div className="absolute inset-0 bg-black/25" />
 
-      <div className="relative mx-auto max-w-5xl">
-        
-        <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="relative mx-auto max-w-5xl space-y-4 phone-lg:space-y-6">
+        <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between">
           <div>
-            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-7xl font-black leading-none">
+            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-5xl font-black leading-none phone-lg:text-6xl tablet:text-7xl">
               {title}
             </h1>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl bg-white/85 p-4 shadow">
+          <div className="grid w-full gap-3 phone-lg:gap-4 tablet:grid-cols-2">
+            <div className="rounded-2xl bg-white/85 p-3 shadow phone-lg:p-4">
               <div className="text-xs font-black opacity-70">
                 {pick(levelLabel, lang)} • {lang === "ms" ? "Masa" : lang === "en" ? "Time" : "Tiempo"}:{" "}
                 {formatDuration(elapsedMs)}
@@ -463,7 +462,7 @@ export default function WordMatchPlayPage() {
                         alt="life"
                         width={40}
                         height={40}
-                        className={["h-14 w-14 drop-shadow", i < lives ? "opacity-100" : "opacity-25 grayscale"].join(" ")}
+                        className={["h-10 w-10 drop-shadow phone-lg:h-12 phone-lg:w-12 tablet:h-14 tablet:w-14", i < lives ? "opacity-100" : "opacity-25 grayscale"].join(" ")}
                         priority
                       />
                     ))}
@@ -487,29 +486,29 @@ export default function WordMatchPlayPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl bg-white/85 p-4 shadow">
+            <div className="rounded-2xl bg-white/85 p-3 shadow phone-lg:p-4">
               <div className="mb-3">
                 <BackgroundAudioControls />
               </div>
 
               <div className="text-xs font-black opacity-70">LANG</div>
 
-              <div className="mt-2 flex gap-2">
+              <div className="mt-2 grid grid-cols-3 gap-2">
                 <button
                   onClick={() => pickLang("ms")}
-                  className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
+                  className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
                 >
                   BM
                 </button>
                 <button
                   onClick={() => pickLang("en")}
-                  className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
+                  className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
                 >
                   EN
                 </button>
                 <button
                   onClick={() => pickLang("es")}
-                  className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
+                  className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
                 >
                   ES
                 </button>
@@ -528,8 +527,8 @@ export default function WordMatchPlayPage() {
           </div>
         </div>
 
-        <section className="mt-8 rounded-3xl bg-white/90 p-6 shadow-xl">
-          <div className="grid gap-6 md:grid-cols-2">
+        <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-5 sm:p-6">
+          <div className="grid gap-4 phone-lg:gap-6 tablet:grid-cols-2">
             <div className="space-y-3">
               <div className="text-center text-xs font-black opacity-60">BM</div>
               {roundItems.map((it) => {
@@ -543,14 +542,14 @@ export default function WordMatchPlayPage() {
                     onClick={() => onPickBm(it.id)}
                     disabled={!canPlay || locked || isMatched}
                     className={[
-                      "w-full rounded-2xl px-4 py-4 text-left shadow transition bg-white/80",
+                      "touch-target w-full rounded-2xl bg-white/80 px-3 py-3 text-left shadow transition phone-lg:px-4 phone-lg:py-4",
                       isSelected ? "ring-4 ring-amber-300" : "hover:bg-white",
                       isMatched ? "opacity-40 grayscale" : "",
                       !canPlay ? "opacity-60" : "active:scale-[0.99]",
                     ].join(" ")}
                   >
                     <div className="text-[11px] font-black opacity-60">BM</div>
-                    <div className="mt-1 text-lg font-extrabold">{it.bm}</div>
+                    <div className="mt-1 text-base font-extrabold phone-lg:text-lg">{it.bm}</div>
                   </button>
                 );
               })}
@@ -569,14 +568,14 @@ export default function WordMatchPlayPage() {
                     onClick={() => onPickRight(it.id)}
                     disabled={!canPlay || locked || isMatched}
                     className={[
-                      "w-full rounded-2xl px-4 py-4 text-left shadow transition bg-white/80",
+                      "touch-target w-full rounded-2xl bg-white/80 px-3 py-3 text-left shadow transition phone-lg:px-4 phone-lg:py-4",
                       isSelected ? "ring-4 ring-amber-300" : "hover:bg-white",
                       isMatched ? "opacity-40 grayscale" : "",
                       !canPlay ? "opacity-60" : "active:scale-[0.99]",
                     ].join(" ")}
                   >
                     <div className="text-[11px] font-black opacity-60">{trLang.toUpperCase()}</div>
-                    <div className="mt-1 text-lg font-extrabold">{rightText(it)}</div>
+                    <div className="mt-1 text-base font-extrabold phone-lg:text-lg">{rightText(it)}</div>
                   </button>
                 );
               })}
@@ -617,12 +616,19 @@ export default function WordMatchPlayPage() {
       {popupText && (
         <div
           className={[
-            "fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-300",
+            "fixed left-1/2 top-1/2 z-50 max-w-[92vw] -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-300",
             popupFade ? "opacity-0" : "opacity-100",
           ].join(" ")}
         >
           <div className="flex flex-col items-center gap-0">
-            <Image src={popupAvatarSrc} alt="AkuAku" width={popupAvatarSize} height={popupAvatarSize} className="animate-bounce drop-shadow-lg" priority />
+            <Image
+              src={popupAvatarSrc}
+              alt="AkuAku"
+              width={popupAvatarSize}
+              height={popupAvatarSize}
+              className="h-[180px] w-[180px] animate-bounce drop-shadow-lg phone-lg:h-[220px] phone-lg:w-[220px] tablet:h-[280px] tablet:w-[280px]"
+              priority
+            />
             {!popupIsPositive && (
               <div className="text-center text-lg font-black text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
                 {popupText}

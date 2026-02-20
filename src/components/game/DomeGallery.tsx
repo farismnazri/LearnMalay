@@ -195,15 +195,31 @@ export default function DomeGallery({
   const lastDragEndAt = useRef(0);
 
   const scrollLockedRef = useRef(false);
+  const bodyStyleSnapshotRef = useRef<{ overflow: string; touchAction: string } | null>(null);
   const lockScroll = useCallback(() => {
     if (scrollLockedRef.current) return;
     scrollLockedRef.current = true;
+    if (!bodyStyleSnapshotRef.current) {
+      bodyStyleSnapshotRef.current = {
+        overflow: document.body.style.overflow,
+        touchAction: document.body.style.touchAction,
+      };
+    }
+    document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
     document.body.classList.add("dg-scroll-lock");
   }, []);
   const unlockScroll = useCallback(() => {
     if (!scrollLockedRef.current) return;
     if (rootRef.current?.getAttribute("data-enlarging") === "true") return;
     scrollLockedRef.current = false;
+    if (bodyStyleSnapshotRef.current) {
+      document.body.style.overflow = bodyStyleSnapshotRef.current.overflow;
+      document.body.style.touchAction = bodyStyleSnapshotRef.current.touchAction;
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    }
     document.body.classList.remove("dg-scroll-lock");
   }, []);
 
@@ -587,16 +603,16 @@ export default function DomeGallery({
             el.style.transition = "opacity 300ms ease-out";
 
             requestAnimationFrame(() => {
-              el.style.opacity = "1";
-              setTimeout(() => {
-                el.style.transition = "";
-                el.style.opacity = "";
-                openingRef.current = false;
-                if (!draggingRef.current && rootRef.current?.getAttribute("data-enlarging") !== "true") {
-                  document.body.classList.remove("dg-scroll-lock");
-                }
-              }, 300);
-            });
+                el.style.opacity = "1";
+                setTimeout(() => {
+                  el.style.transition = "";
+                  el.style.opacity = "";
+                  openingRef.current = false;
+                  if (!draggingRef.current && rootRef.current?.getAttribute("data-enlarging") !== "true") {
+                    unlockScroll();
+                  }
+                }, 300);
+              });
           });
         });
       };
@@ -616,7 +632,7 @@ export default function DomeGallery({
       scrim.removeEventListener("click", close);
       window.removeEventListener("keydown", onKey);
     };
-  }, [enlargeTransitionMs, openedImageBorderRadius, grayscale]);
+  }, [enlargeTransitionMs, openedImageBorderRadius, grayscale, unlockScroll]);
 
   const openItemFromElement = (el: HTMLElement) => {
     if (openingRef.current) return;
@@ -731,6 +747,13 @@ export default function DomeGallery({
   useEffect(() => {
     return () => {
       document.body.classList.remove("dg-scroll-lock");
+      if (bodyStyleSnapshotRef.current) {
+        document.body.style.overflow = bodyStyleSnapshotRef.current.overflow;
+        document.body.style.touchAction = bodyStyleSnapshotRef.current.touchAction;
+      } else {
+        document.body.style.overflow = "";
+        document.body.style.touchAction = "";
+      }
     };
   }, []);
 
@@ -814,6 +837,13 @@ export default function DomeGallery({
       inset: 10px;
       pointer-events: none;
     }
+
+    @media (max-width: 48rem) {
+      .item__image,
+      .item__image--reference {
+        inset: 6px;
+      }
+    }
   `;
 
   return (
@@ -868,14 +898,6 @@ export default function DomeGallery({
                     tabIndex={0}
                     aria-label={it.alt || "Open image"}
                     onClick={(e) => {
-                      if (draggingRef.current) return;
-                      if (movedRef.current) return;
-                      if (performance.now() - lastDragEndAt.current < 80) return;
-                      if (openingRef.current) return;
-                      openItemFromElement(e.currentTarget as HTMLElement);
-                    }}
-                    onPointerUp={(e) => {
-                      if ((e.nativeEvent as PointerEvent).pointerType !== "touch") return;
                       if (draggingRef.current) return;
                       if (movedRef.current) return;
                       if (performance.now() - lastDragEndAt.current < 80) return;

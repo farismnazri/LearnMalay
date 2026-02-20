@@ -60,15 +60,15 @@ if (loadingUser) return null;
 
 if (!user) {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+    <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
       <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
         <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
         <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
-        <div className="mt-6 flex gap-3">
-          <Link href="/user" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+        <div className="mt-6 flex flex-col gap-3 phone-lg:flex-row">
+          <Link href="/user" className="touch-target rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
             Go to Login
           </Link>
-          <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+          <Link href="/minigames" className="touch-target rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
             Back to Mini Games
           </Link>
         </div>
@@ -79,17 +79,17 @@ if (!user) {
 
 if (!unlocked) {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 px-6 py-10">
+    <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
       <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
         <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
         <p className="mt-4 text-sm font-semibold text-black/70">
           Complete Chapter {requiredChapter} first to play Word Match.
         </p>
-        <div className="mt-6 flex gap-3">
-          <Link href="/map" className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+        <div className="mt-6 flex flex-col gap-3 phone-lg:flex-row">
+          <Link href="/map" className="touch-target rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
             Go to Map
           </Link>
-          <Link href="/minigames" className="rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
+          <Link href="/minigames" className="touch-target rounded-xl bg-white px-4 py-2 text-sm font-bold shadow">
             Back to Mini Games
           </Link>
         </div>
@@ -112,18 +112,18 @@ const subtitle: Translated = {
 };
 
 return (
-  <main className="relative min-h-screen bg-cover bg-center px-6 py-10">
+  <main className="relative min-h-screen bg-cover bg-center app-page-pad">
     <div
       className="absolute inset-0 bg-cover bg-center"
       style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
     />
     <div className="absolute inset-0 bg-black/25" />
 
-    <div className="relative mx-auto max-w-4xl space-y-6">
+    <div className="relative mx-auto max-w-4xl space-y-5 phone-lg:space-y-6">
       {/* header row */}
-      <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between tablet:gap-4">
         <div>
-          <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-6xl font-black leading-none">
+          <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-5xl font-black leading-none phone-lg:text-6xl">
             {title}
           </h1>
 
@@ -134,34 +134,34 @@ return (
         </div>
 
 
-          <div className="rounded-2xl bg-white/85 p-4 shadow">
+          <div className="w-full rounded-2xl bg-white/85 p-4 shadow tablet:w-auto">
             <div className="mb-3">
               <BackgroundAudioControls />
             </div>
 
             <div className="text-xs font-black opacity-70">LANGUAGE</div>
-            <div className="mt-2 flex gap-2">
+            <div className="mt-2 grid grid-cols-3 gap-2">
               <button
                 onClick={() => pickLang("ms")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
+                className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
               >
                 BM
               </button>
               <button
                 onClick={() => pickLang("en")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
+                className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
               >
                 EN
               </button>
               <button
                 onClick={() => pickLang("es")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
+                className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
               >
                 ES
               </button>
             </div>
 
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-3 grid grid-cols-3 gap-2 tablet:flex tablet:flex-wrap">
               <IconActionLink href="/minigames/word-match/play" kind="start-game" tooltip="Start Game" />
               <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
               <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
@@ -169,7 +169,7 @@ return (
           </div>
         </div>
 
-        <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
+        <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-6">
           <div className="flex flex-col items-center gap-2 text-center">
             <Image src={AKU2_IDLE_SRC} alt="AkuAku" width={120} height={120} className="drop-shadow" priority />
             <div className="text-xl font-extrabold">

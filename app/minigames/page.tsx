@@ -255,7 +255,7 @@ export default function MiniGamesHubPage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#081d14] px-6 py-10">
+    <main className="relative min-h-screen overflow-hidden bg-[#081d14] app-page-pad">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[100svh]">
         <div
           className="absolute inset-0 bg-top bg-no-repeat"
@@ -268,9 +268,9 @@ export default function MiniGamesHubPage() {
       </div>
       <div className="pointer-events-none absolute inset-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.18)_0px,rgba(0,0,0,0.18)_1px,transparent_2px,transparent_4px)]" />
 
-      <div className="relative z-10 mx-auto max-w-4xl space-y-6">
+      <div className="relative z-10 mx-auto max-w-4xl space-y-5 phone-lg:space-y-6">
         {/* header row */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div className="flex flex-col gap-3 tablet:flex-row tablet:items-start tablet:justify-between tablet:gap-4">
           <div className="min-w-0 rounded-3xl border border-[#c7deaa]/45 bg-[#153525]/75 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.45)] backdrop-blur-md md:flex-1">
             <div className="flex items-center gap-4">
               <Image
@@ -281,7 +281,7 @@ export default function MiniGamesHubPage() {
                 className="h-14 w-14 rounded-full border-2 border-[#f8da72]/75 bg-white/95 object-cover shadow-lg"
               />
               <div>
-                <h1 className="crash-text crash-outline-fallback text-6xl font-black leading-none text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)]">
+                <h1 className="crash-text crash-outline-fallback text-5xl font-black leading-none text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)] phone-lg:text-6xl">
                   {title.ms.toUpperCase()}
                 </h1>
                 {lang !== "ms" && <div className="mt-1 text-lg font-black text-[#f3f7e8]">{pick(title, lang)}</div>}
@@ -303,34 +303,34 @@ export default function MiniGamesHubPage() {
             )}
           </div>
 
-          <div className="w-full rounded-3xl border border-[#c6dca8]/45 bg-[#163726]/75 p-4 shadow-xl backdrop-blur-md md:w-auto md:shrink-0">
+          <div className="w-full rounded-3xl border border-[#c6dca8]/45 bg-[#163726]/75 p-4 shadow-xl backdrop-blur-md tablet:w-auto tablet:shrink-0">
             <div className="mb-3">
               <BackgroundAudioControls />
             </div>
 
             <div className="text-xs font-black tracking-wide text-[#eff8db]/85">LANGUAGE</div>
-            <div className="mt-2 flex gap-2">
+            <div className="mt-2 grid grid-cols-3 gap-2">
               <button
                 onClick={() => pickLang("ms")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-[#ffd447] text-[#3f2f00]" : "bg-[#f7f2dc] text-[#1f3519]"}`}
+                className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-[#ffd447] text-[#3f2f00]" : "bg-[#f7f2dc] text-[#1f3519]"}`}
               >
                 BM
               </button>
               <button
                 onClick={() => pickLang("en")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-[#ffd447] text-[#3f2f00]" : "bg-[#f7f2dc] text-[#1f3519]"}`}
+                className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-[#ffd447] text-[#3f2f00]" : "bg-[#f7f2dc] text-[#1f3519]"}`}
               >
                 EN
               </button>
               <button
                 onClick={() => pickLang("es")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-[#ffd447] text-[#3f2f00]" : "bg-[#f7f2dc] text-[#1f3519]"}`}
+                className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-[#ffd447] text-[#3f2f00]" : "bg-[#f7f2dc] text-[#1f3519]"}`}
               >
                 ES
               </button>
             </div>
 
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-3 grid grid-cols-2 gap-2 tablet:flex tablet:flex-wrap">
               <IconActionLink
                 href="/map"
                 kind="map"
@@ -348,7 +348,7 @@ export default function MiniGamesHubPage() {
         </div>
 
         {/* game grid */}
-        <section className="grid grid-cols-2 gap-3 md:grid-cols-3">
+        <section className="grid grid-cols-1 gap-3 phone-lg:grid-cols-2 tablet:grid-cols-3">
           {GAMES.map((g) => (
             <GameCard key={g.id} g={g} lang={lang} user={user} latestUnlockedId={latestUnlockedId} />
           ))}
