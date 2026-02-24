@@ -609,27 +609,27 @@ pages: [
     {
       id: "perpustakaan",
       words: ["PERPUSTAKAAN"],
-      label: { ms: "Kaunter perpustakaan", en: "Library counter", es: "Mostrador de biblioteca" },
+      label: { ms: "Perpustakaan", en: "Library counter", es: "Mostrador de biblioteca" },
     },
     {
       id: "farmasi",
       words: ["FARMASI"],
-      label: { ms: "Kaunter farmasi", en: "Pharmacy counter", es: "Mostrador de farmacia" },
+      label: { ms: "Farmasi", en: "Pharmacy counter", es: "Mostrador de farmacia" },
     },
     {
       id: "bank",
       words: ["BANK"],
-      label: { ms: "Kaunter bank", en: "Bank counter", es: "Mostrador de banco" },
+      label: { ms: "Bank", en: "Bank counter", es: "Mostrador de banco" },
     },
     {
       id: "pos",
       words: ["POS"],
-      label: { ms: "Kaunter pos", en: "Post office counter", es: "Mostrador de correos" },
+      label: { ms: "Pos", en: "Post office counter", es: "Mostrador de correos" },
     },
     {
       id: "tiket-bas",
       words: ["TIKET", "BAS"], // user must find BOTH to complete this target
-      label: { ms: "Kaunter tiket bas", en: "Bus ticket counter", es: "Mostrador de boletos de bus" },
+      label: { ms: "Tiket bas", en: "Bus ticket counter", es: "Mostrador de boletos de bus" },
     },
   ],
   allowDiagonal: true,

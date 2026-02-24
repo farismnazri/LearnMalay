@@ -140,7 +140,6 @@ export default function WordSearchMiniGame() {
     setStartTs(Date.now());
     setFinishedTs(null);
     setSaved(false);
-    setShowAllSeq((s) => s + 1); // clear highlights
     saveLock.current = false;
   }
 

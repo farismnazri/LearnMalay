@@ -9,6 +9,7 @@ import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
+import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
@@ -17,8 +18,6 @@ const NUMBERS_DIFF_KEY = "learnMalay.numbersDifficulty.v1";
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png"; // must match filename case in /public
 const AKU2_BETUL_SRC = "/assets/characters/Akuaku_Betul.webp";
 const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
-const AKU2_SALAH_POPUP_SIZE = 300;
-const AKU2_BETUL_POPUP_SIZE = 300;
 const MAX_LIVES = 5;
 
 function formatDuration(ms: number) {
@@ -256,7 +255,6 @@ export default function NumbersPlayPage() {
     () => (isPositivePopupText(congratsText) ? AKU2_BETUL_SRC : AKU2_SALAH_SRC),
     [congratsText]
   );
-  const popupAvatarSize = popupIsPositive ? AKU2_BETUL_POPUP_SIZE : AKU2_SALAH_POPUP_SIZE;
 
   const [lang, setLang] = useState<UiLang>("ms");
   const [difficulty, setDifficulty] = useState<NumberDifficulty>("easy");
@@ -734,16 +732,16 @@ function restart() {
         <div className="text-[11px] font-black opacity-60">
           {lang === "ms" ? "NYAWA" : lang === "en" ? "LIVES" : "VIDAS"}
         </div>
-        <div className="mt-1 flex items-center gap-1">
+        <div className="mt-1 flex flex-wrap items-center gap-1">
           {Array.from({ length: MAX_LIVES }).map((_, i) => (
             <Image
               key={i}
-                src={AKU2_IDLE_SRC}
-                alt="life"
-                width={100}
-                height={100}
-                className={[
-                "h-10 w-10 drop-shadow phone-lg:h-12 phone-lg:w-12 tablet:h-14 tablet:w-14",
+              src={AKU2_IDLE_SRC}
+              alt="life"
+              width={100}
+              height={100}
+              className={[
+                "h-10 w-10 shrink-0 drop-shadow phone-lg:h-12 phone-lg:w-12 tablet:h-9 tablet:w-9",
                 i < lives ? "opacity-100" : "opacity-25 grayscale",
               ].join(" ")}
               priority
@@ -947,32 +945,21 @@ function restart() {
           </div>
         </section>
       </div>
-{congratsText && (
-<div
-  className={[
-    "fixed left-1/2 z-50 max-w-[92vw] -translate-x-1/2 pointer-events-none transition-opacity duration-300",
-    popupPositionClass,
-    congratsFade ? "opacity-0" : "opacity-100",
-  ].join(" ")}
+<AkuAkuFeedbackPopup
+  open={!!congratsText}
+  fade={congratsFade}
+  src={popupAvatarSrc}
+  alt="AkuAku"
+  wrapperClassName={popupPositionClass}
+  widthClassName="w-[180px] phone-lg:w-[220px] tablet:w-[280px]"
+  animation="bounce"
 >
-<div className="flex flex-col items-center gap-0">
-  <Image
-    src={popupAvatarSrc}
-    alt="AkuAku"
-    width={popupAvatarSize}
-    height={popupAvatarSize}
-    className="h-[180px] w-[180px] animate-bounce drop-shadow-lg phone-lg:h-[220px] phone-lg:w-[220px] tablet:h-[280px] tablet:w-[280px]"
-    priority
-  />
-
-  {!popupIsPositive && (
+  {!popupIsPositive && congratsText && (
     <div className="text-center text-lg font-black text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
       {congratsText}
     </div>
   )}
-</div>
-  </div>
-)}
+</AkuAkuFeedbackPopup>
 
 
     </main>

@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter04: ChapterContent = {
   id: 4,
-  title: { ms: "Masa & Arah", en: "Time & Directions", es: "Tiempo y Direcciones" },
+  title: { ms: "Masa\n& Arah", en: "Time & Directions", es: "Tiempo y Direcciones" },
 
   pages: [
 
@@ -421,7 +421,7 @@ export const chapter04: ChapterContent = {
         img: [
           {
             kind: "image",
-            src: "/assets/chapters/ch4/kanan.png",
+            src: "/assets/chapters/ch4/kanan.webp",
             alt: { ms: "kanan", en: "right", es: "derecha" },
             w: 420,
             h: 420,
@@ -437,7 +437,7 @@ export const chapter04: ChapterContent = {
         img: [
           {
             kind: "image",
-            src: "/assets/chapters/ch4/kiri.png",
+            src: "/assets/chapters/ch4/kiri.webp",
             alt: { ms: "kiri", en: "left", es: "izquierda" },
             w: 420,
             h: 420,
@@ -453,7 +453,7 @@ export const chapter04: ChapterContent = {
         img: [
           {
             kind: "image",
-            src: "/assets/chapters/ch4/sini.png",
+            src: "/assets/chapters/ch4/sini.webp",
             alt: { ms: "sini", en: "here", es: "aquí" },
             w: 420,
             h: 420,
@@ -469,7 +469,7 @@ export const chapter04: ChapterContent = {
         img: [
           {
             kind: "image",
-            src: "/assets/chapters/ch4/sana.png",
+            src: "/assets/chapters/ch4/sana.webp",
             alt: { ms: "sana", en: "there", es: "allá" },
             w: 640,
             h: 360,
@@ -494,7 +494,7 @@ export const chapter04: ChapterContent = {
     en: "Compass Directions",
     es: "Direcciones de la brújula",
   },
-  imageSrc: "/assets/chapters/ch4/kompas.png",
+  imageSrc: "/assets/chapters/ch4/kompas.webp",
   alt: {
     ms: "Gambar kompas arah: utara, selatan, timur, barat",
     en: "Compass diagram: north, south, east, west",
@@ -598,7 +598,7 @@ export const chapter04: ChapterContent = {
             pagi: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch4/pagi.png",
+                src: "/assets/chapters/ch4/pagi.webp",
                 alt: { ms: "Pagi", en: "Morning", es: "Mañana" },
                 w: 320,
                 h: 200,
@@ -608,7 +608,7 @@ export const chapter04: ChapterContent = {
             tengahari: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch4/tengahhari.png",
+                src: "/assets/chapters/ch4/tengahhari.webp",
                 alt: { ms: "Tengah hari", en: "Midday", es: "Mediodía" },
                 w: 320,
                 h: 200,
@@ -618,7 +618,7 @@ export const chapter04: ChapterContent = {
             petang: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch4/petang.png",
+                src: "/assets/chapters/ch4/petang.webp",
                 alt: { ms: "Petang", en: "Evening", es: "Tarde" },
                 w: 320,
                 h: 200,
@@ -628,7 +628,7 @@ export const chapter04: ChapterContent = {
             malam: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch4/malam.png",
+                src: "/assets/chapters/ch4/malam.webp",
                 alt: { ms: "Malam", en: "Night", es: "Noche" },
                 w: 320,
                 h: 200,

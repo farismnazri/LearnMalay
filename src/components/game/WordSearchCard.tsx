@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
 import type { UiLang, WordSearchPage, WordSearchTarget, Translated } from "@/lib/chapters/types";
 
 type Cell = { r: number; c: number };
@@ -58,6 +58,64 @@ function keyOf(cell: Cell) {
   return `${cell.r}:${cell.c}`;
 }
 
+function isWordSeparatorChar(ch: string) {
+  return /[\s\-_–—/]/.test(ch);
+}
+
+function findWordPathInGrid(grid: string[][], rawWord: string, allowDiagonal: boolean): Cell[] | null {
+  const target = normWord(rawWord);
+  if (!target) return null;
+
+  const rows = grid.length;
+  const cols = grid[0]?.length ?? 0;
+  if (!rows || !cols) return null;
+
+  const dirs: Array<[number, number]> = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+  if (allowDiagonal) {
+    dirs.push(
+      [1, 1],
+      [1, -1],
+      [-1, 1],
+      [-1, -1]
+    );
+  }
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      for (const [dr, dc] of dirs) {
+        let idx = 0;
+        const cells: Cell[] = [];
+
+        let rr = r;
+        let cc = c;
+        while (rr >= 0 && rr < rows && cc >= 0 && cc < cols) {
+          const ch = String(grid[rr]?.[cc] ?? "").toUpperCase();
+          cells.push({ r: rr, c: cc });
+
+          if (isWordSeparatorChar(ch)) {
+            // Don't allow reveal paths that start with a separator.
+            if (idx === 0) break;
+          } else {
+            if (ch !== target[idx]) break;
+            idx += 1;
+            if (idx === target.length) return cells;
+          }
+
+          rr += dr;
+          cc += dc;
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
 export default function WordSearchCard({
   page,
   lang,
@@ -78,7 +136,7 @@ export default function WordSearchCard({
   const alphabet = (page.alphabet ?? "ABCDEFGHIJKLMNOPQRSTUVWXYZ").toUpperCase();
 
   // Generate or parse grid
-  const { grid, placements } = useMemo(() => {
+  const { grid } = useMemo(() => {
     const g = page.grid;
     const size = Math.max(6, Math.min(18, page.size ?? 12));
 
@@ -99,9 +157,8 @@ export default function WordSearchCard({
       return [];
     }
 
-    function tryGenerate(words: string[]): { grid: string[][]; placements: Record<string, Cell[]> } {
+    function tryGenerate(words: string[]): { grid: string[][] } {
       const gridArr = Array.from({ length: size }, () => Array.from({ length: size }, () => ""));
-      const placements: Record<string, Cell[]> = {};
       const dirs = [
         [1, 0],
         [-1, 0],
@@ -153,7 +210,7 @@ export default function WordSearchCard({
         const word = allowReverse && Math.random() < 0.5 ? w.split("").reverse().join("") : w;
         const ok = placeWord(`w${idx}`, word);
         if (ok) {
-          // placement already recorded by placeWord
+          // Reveal paths are derived from the final grid when needed.
         }
       });
 
@@ -166,16 +223,16 @@ export default function WordSearchCard({
         }
       }
 
-      return { grid: gridArr, placements };
+      return { grid: gridArr };
     }
 
     // If grid provided, parse; else auto-generate
     const parsed = parseGrid(g);
-    if (parsed.length > 0 && parsed[0].length > 0) return { grid: parsed, placements: {} };
+    if (parsed.length > 0 && parsed[0].length > 0) return { grid: parsed };
 
     const words = (page.targets ?? [])
       .flatMap((t: any) => ("words" in t ? t.words : [t.word]))
-      .map((w: string) => w.toUpperCase().replace(/\s+/g, ""))
+      .map((w: string) => normWord(w))
       .filter((w: string) => w.length <= size);
     return tryGenerate(words);
   }, [page.grid, page.size, page.targets, allowDiagonal, allowReverse, alphabet]);
@@ -204,22 +261,45 @@ export default function WordSearchCard({
 
   const [start, setStart] = useState<Cell | null>(null);
   const [found, setFound] = useState<Record<string, Cell[]>>({});
+  const [revealedCellKeys, setRevealedCellKeys] = useState<Set<string>>(() => new Set());
   const [showFoundOverlay, setShowFoundOverlay] = useState(false);
-  const [lastShowAll, setLastShowAll] = useState<number | undefined>(undefined);
+  const [lastShowAll, setLastShowAll] = useState<number | undefined>(() => showAllTrigger);
+
+  const revealSolutions = useMemo(() => {
+    const byTarget: Record<string, Cell[]> = {};
+    const allCellKeys = new Set<string>();
+
+    for (const t of targets) {
+      let firstPath: Cell[] | null = null;
+
+      for (const rawWord of t.words) {
+        const path = findWordPathInGrid(grid, rawWord, allowDiagonal);
+        if (!path) continue;
+        if (!firstPath) firstPath = path;
+        path.forEach((cell) => allCellKeys.add(keyOf(cell)));
+      }
+
+      if (firstPath) byTarget[t.id] = firstPath;
+    }
+
+    return { byTarget, allCellKeys };
+  }, [grid, targets, allowDiagonal]);
 
   // reset state when page changes (e.g., regenerate)
   useEffect(() => {
     setStart(null);
     setFound({});
+    setRevealedCellKeys(new Set());
     setShowFoundOverlay(false);
-    setLastShowAll(undefined);
-  }, [page.id, page.grid, page.targets]);
+    setLastShowAll(showAllTrigger);
+  }, [page.id, page.grid, page.targets, showAllTrigger]);
 
   const locked = useMemo(() => {
     const s = new Set<string>();
     Object.values(found).forEach((cells) => cells.forEach((c) => s.add(keyOf(c))));
+    revealedCellKeys.forEach((k) => s.add(k));
     return s;
-  }, [found]);
+  }, [found, revealedCellKeys]);
 
   function pulseFound() {
     setShowFoundOverlay(true);
@@ -297,10 +377,15 @@ export default function WordSearchCard({
     if (showAllTrigger === undefined) return;
     if (lastShowAll === showAllTrigger) return;
     setLastShowAll(showAllTrigger);
-    setFound(placements);
-    onProgress?.(Object.keys(placements).length, targets.length);
+    setStart(null);
+    setRevealedCellKeys(new Set(revealSolutions.allCellKeys));
+    setFound((prev) => {
+      const next = { ...prev, ...revealSolutions.byTarget };
+      onProgress?.(Object.keys(next).length, targets.length);
+      return next;
+    });
     // showing answers should not call onComplete that saves highscores; gate it by a prop
-  }, [showAllTrigger, lastShowAll, placements, targets.length, onProgress]);
+  }, [showAllTrigger, lastShowAll, revealSolutions, targets.length, onProgress]);
 
   // fire initial progress on mount/update
   useEffect(() => {
@@ -379,6 +464,7 @@ export default function WordSearchCard({
               onClick={() => {
                 setStart(null);
                 setFound({});
+                setRevealedCellKeys(new Set());
               }}
               className="touch-target rounded-xl bg-white px-4 py-2 text-sm font-bold shadow"
             >
@@ -431,23 +517,15 @@ export default function WordSearchCard({
       </div>
 
       {/* success overlay */}
-      {showFoundOverlay && (
-        <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center">
-          <div className="flex flex-col items-center gap-2 animate-pulse">
-            <Image
-              src="/assets/characters/Akuaku_idle.png"
-              alt="Aku Aku"
-              width={140}
-              height={140}
-              className="drop-shadow-xl"
-              priority
-            />
-            <div className="rounded-full bg-emerald-600 px-4 py-1 text-sm font-black text-white shadow-lg">
-              {lang === "ms" ? "Jumpa!" : lang === "en" ? "Found!" : "¡Encontrado!"}
-            </div>
-          </div>
-        </div>
-      )}
+      <AkuAkuFeedbackPopup
+        open={showFoundOverlay}
+        variant="fullscreen"
+        src="/assets/characters/Akuaku_Betul.webp"
+        alt="Aku Aku"
+        animation="pulse"
+        widthClassName="w-[240px] phone-lg:w-[280px] tablet:w-[300px]"
+        imageClassName="drop-shadow-xl"
+      />
     </section>
   );
 }

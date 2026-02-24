@@ -15,14 +15,13 @@ import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
+import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
 const AKU2_BETUL_SRC = "/assets/characters/Akuaku_Betul.webp";
 const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
-const AKU2_SALAH_POPUP_SIZE = 400;
-const AKU2_BETUL_POPUP_SIZE = 400;
 const MAX_LIVES = 5;
 
 function readUiLang(): UiLang {
@@ -467,7 +466,6 @@ export default function CurrencyPlayPage() {
     () => (isPositivePopupText(popupText) ? AKU2_BETUL_SRC : AKU2_SALAH_SRC),
     [popupText]
   );
-  const popupAvatarSize = popupIsPositive ? AKU2_BETUL_POPUP_SIZE : AKU2_SALAH_POPUP_SIZE;
 
   useEffect(() => {
     let alive = true;
@@ -1480,30 +1478,20 @@ export default function CurrencyPlayPage() {
       </div>
 
       {/* Popup */}
-      {popupText && (
-        <div
-          className={[
-            "pointer-events-none fixed left-1/2 top-1/2 z-50 max-w-[92vw] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300",
-            popupFade ? "opacity-0" : "opacity-100",
-          ].join(" ")}
-        >
-          <div className="flex flex-col items-center gap-0">
-            <Image
-              src={popupAvatarSrc}
-              alt="AkuAku"
-              width={popupAvatarSize}
-              height={popupAvatarSize}
-              className="h-[180px] w-[180px] animate-bounce drop-shadow-lg phone-lg:h-[240px] phone-lg:w-[240px] tablet:h-[320px] tablet:w-[320px]"
-              priority
-            />
-            {!popupIsPositive && (
-              <div className="text-center text-lg font-black text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
-                {popupText}
-              </div>
-            )}
+      <AkuAkuFeedbackPopup
+        open={!!popupText}
+        fade={popupFade}
+        src={popupAvatarSrc}
+        alt="AkuAku"
+        widthClassName="w-[180px] phone-lg:w-[240px] tablet:w-[320px]"
+        animation="bounce"
+      >
+        {!popupIsPositive && popupText && (
+          <div className="text-center text-lg font-black text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
+            {popupText}
           </div>
-        </div>
-      )}
+        )}
+      </AkuAkuFeedbackPopup>
     </main>
   );
 }

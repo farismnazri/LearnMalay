@@ -286,7 +286,7 @@ export type FigurePage = {
   id: string;
   kind: "figure";
   title: Translated;
-  imageSrc: string;     // e.g. "/assets/chapters/ch4/kompas.png"
+  imageSrc: string;     // e.g. "/assets/chapters/ch4/kompas.webp"
   alt: Translated;
   caption?: Translated;
   maxWidthPx?: number;  // optional, for nicer layout

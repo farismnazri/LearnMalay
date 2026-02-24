@@ -50,8 +50,6 @@ export function setBackgroundAudioSettings(settings: AudioSettings) {
 
 export function BackgroundAudioControls({ className = "" }: { className?: string }) {
   const [settings, setSettings] = useState<AudioSettings>({ muted: true, vol: 0.5 });
-  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
-  const [showVolumeSlider, setShowVolumeSlider] = useState(false);
 
   useEffect(() => {
     setSettings(readSettings());
@@ -71,41 +69,11 @@ export function BackgroundAudioControls({ className = "" }: { className?: string
     };
   }, []);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(hover: none), (pointer: coarse)");
-    const sync = () => {
-      const coarse = mq.matches;
-      setIsCoarsePointer(coarse);
-      setShowVolumeSlider(coarse);
-    };
-
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
-
   function setMuted(nextMuted: boolean) {
     const next = { muted: nextMuted, vol: settings.vol };
     setSettings(next);
     setBackgroundAudioSettings(next);
   }
-
-  function setVol(nextVol: number) {
-    const next = { muted: settings.muted, vol: clampVolume(nextVol) };
-    setSettings(next);
-    setBackgroundAudioSettings(next);
-  }
-
-  function toggleVolumeSlider() {
-    if (isCoarsePointer) {
-      setShowVolumeSlider(true);
-      return;
-    }
-    setShowVolumeSlider((prev) => !prev);
-  }
-
-  const sliderVisible = isCoarsePointer || showVolumeSlider;
 
   return (
     <div className={["flex items-center gap-2", className].join(" ")}>
@@ -116,11 +84,10 @@ export function BackgroundAudioControls({ className = "" }: { className?: string
         aria-label={settings.muted ? "Unmute music" : "Mute music"}
         className={[
           "touch-target inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow transition active:scale-[0.98]",
-          settings.muted ? "opacity-60 grayscale" : "",
         ].join(" ")}
       >
         <Image
-          src="/assets/borders/IconsButtons_Mute.svg"
+          src={settings.muted ? "/assets/borders/IconsButtons_Mute.svg" : "/assets/borders/IconsButtons_Volume.svg"}
           alt=""
           aria-hidden="true"
           width={28}
@@ -128,43 +95,6 @@ export function BackgroundAudioControls({ className = "" }: { className?: string
           className="h-7 w-7 object-contain"
         />
       </button>
-
-      <div className="flex items-center">
-        <button
-          type="button"
-          onClick={toggleVolumeSlider}
-          title="Volume"
-          aria-label="Volume"
-          className="touch-target inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow transition active:scale-[0.98]"
-        >
-          <Image
-            src="/assets/borders/IconsButtons_Volume.svg"
-            alt=""
-            aria-hidden="true"
-            width={28}
-            height={28}
-            className="h-7 w-7 object-contain"
-          />
-        </button>
-
-        <div
-          className={[
-            "overflow-hidden transition-all duration-200",
-            sliderVisible ? "ml-2 w-28 opacity-100 phone-lg:w-32" : "ml-0 w-0 opacity-0",
-          ].join(" ")}
-        >
-          <input
-            type="range"
-            min={0}
-            max={1}
-            step={0.01}
-            value={settings.vol}
-            onChange={(e) => setVol(Number(e.target.value))}
-            className="touch-target h-10 w-28 accent-amber-400 phone-lg:w-32"
-            aria-label="Volume slider"
-          />
-        </div>
-      </div>
     </div>
   );
 }
