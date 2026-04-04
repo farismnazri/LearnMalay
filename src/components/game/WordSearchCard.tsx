@@ -537,7 +537,7 @@ export default function WordSearchCard({
               type="button"
               onClick={() => {
                 setStart(null);
-                setFound({});
+                setFoundWords({});
                 setRevealedCellKeys(new Set());
               }}
               className="touch-target rounded-xl bg-white px-4 py-2 text-sm font-bold shadow"

@@ -179,7 +179,7 @@ export default function WordSearchMiniGame() {
     saveLock.current = false;
   }
 
-  function handleProgress(found: number) {
+  function handleProgress(found: number, _total: number) {
     if (found === 0) setStartTs((prev) => prev ?? Date.now());
   }
 
@@ -384,7 +384,7 @@ export default function WordSearchMiniGame() {
         <WordSearchCard
           page={pageData}
           lang={lang}
-          onProgress={(found) => handleProgress(found, selectedTargets.length)}
+          onProgress={handleProgress}
           onComplete={handleComplete}
           onWrong={triggerWrongPopup}
           showAllTrigger={showAllSeq}
