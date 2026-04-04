@@ -3,18 +3,20 @@
 import { useEffect, useMemo, useState } from "react";
 import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
 import type { UiLang, WordSearchPage, WordSearchTarget, Translated } from "@/lib/chapters/types";
+import { normalizeWordSearchWord, targetWords } from "@/lib/wordSearch";
 
 type Cell = { r: number; c: number };
+type FoundWordsByTarget = Record<string, Record<string, Cell[]>>;
+type ResolvedTarget = {
+  id: string;
+  words: string[];
+  normalizedWords: string[];
+  display: Translated;
+  meaning?: Translated;
+};
 
 function tr(lang: UiLang, t: Translated) {
   return lang === "ms" ? t.ms : lang === "en" ? t.en : t.es;
-}
-
-function normWord(s: string) {
-  return s
-    .trim()
-    .toUpperCase()
-    .replace(/[\s\-_–—/]+/g, ""); // remove spaces, hyphens, slashes etc.
 }
 
 function sign(n: number) {
@@ -63,7 +65,7 @@ function isWordSeparatorChar(ch: string) {
 }
 
 function findWordPathInGrid(grid: string[][], rawWord: string, allowDiagonal: boolean): Cell[] | null {
-  const target = normWord(rawWord);
+  const target = normalizeWordSearchWord(rawWord);
   if (!target) return null;
 
   const rows = grid.length;
@@ -116,6 +118,25 @@ function findWordPathInGrid(grid: string[][], rawWord: string, allowDiagonal: bo
   return null;
 }
 
+function shuffle<T>(items: T[]) {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function isTargetComplete(target: ResolvedTarget, foundWords: FoundWordsByTarget) {
+  if (target.normalizedWords.length === 0) return false;
+  const foundForTarget = foundWords[target.id] ?? {};
+  return target.normalizedWords.every((word) => Boolean(foundForTarget[word]));
+}
+
+function countCompletedTargets(targets: ResolvedTarget[], foundWords: FoundWordsByTarget) {
+  return targets.filter((target) => isTargetComplete(target, foundWords)).length;
+}
+
 export default function WordSearchCard({
   page,
   lang,
@@ -124,7 +145,7 @@ export default function WordSearchCard({
   onWrong,
   showAllTrigger,
 }: {
-  page: any; // keep flexible so ChapterPage union issues don’t explode
+  page: WordSearchPage;
   lang: UiLang;
   onProgress?: (foundCount: number, total: number) => void;
   onComplete?: (foundCount: number, total: number) => void;
@@ -135,14 +156,43 @@ export default function WordSearchCard({
   const allowReverse = page.allowReverse ?? true;
   const alphabet = (page.alphabet ?? "ABCDEFGHIJKLMNOPQRSTUVWXYZ").toUpperCase();
 
+  const targets = useMemo(() => {
+    const raw: WordSearchTarget[] = (page.targets ?? []) as WordSearchTarget[];
+
+    return raw
+      .map((t) => {
+        const words = targetWords(t);
+        const withMeta = t as WordSearchTarget & { label?: Translated; meaning?: Translated };
+        const label = withMeta.label;
+        const meaning = withMeta.meaning;
+        const normalizedWords = Array.from(
+          new Set(words.map((word) => normalizeWordSearchWord(word)).filter(Boolean))
+        );
+
+        // display: prefer label, else show the first word
+        const displayMs = label?.ms ?? words[0] ?? "";
+        const displayEn = label?.en ?? words[0] ?? "";
+        const displayEs = label?.es ?? words[0] ?? "";
+
+        return {
+          id: t.id,
+          words,
+          normalizedWords,
+          display: { ms: displayMs, en: displayEn, es: displayEs } as Translated,
+          meaning,
+        };
+      })
+      .filter((target) => target.normalizedWords.length > 0);
+  }, [page.targets]);
+
   // Generate or parse grid
   const { grid } = useMemo(() => {
     const g = page.grid;
     const size = Math.max(6, Math.min(18, page.size ?? 12));
 
-    function parseGrid(input: any): string[][] {
+    function parseGrid(input: unknown): string[][] {
       if (Array.isArray(input) && Array.isArray(input[0])) {
-        return (input as any[]).map((row) => row.map((ch: string) => String(ch).toUpperCase()));
+        return (input as unknown[][]).map((row) => row.map((ch) => String(ch).toUpperCase()));
       }
       if (Array.isArray(input) && typeof input[0] === "string") {
         return (input as string[]).map((row) => row.split("").map((ch) => ch.toUpperCase()));
@@ -157,8 +207,25 @@ export default function WordSearchCard({
       return [];
     }
 
+    function buildEmptyGrid() {
+      return Array.from({ length: size }, () => Array.from({ length: size }, () => ""));
+    }
+
+    function cloneGrid(gridArr: string[][]) {
+      return gridArr.map((row) => [...row]);
+    }
+
+    function fillBlanks(gridArr: string[][]) {
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          if (!gridArr[r][c]) {
+            gridArr[r][c] = alphabet[Math.floor(Math.random() * alphabet.length)];
+          }
+        }
+      }
+    }
+
     function tryGenerate(words: string[]): { grid: string[][] } {
-      const gridArr = Array.from({ length: size }, () => Array.from({ length: size }, () => ""));
       const dirs = [
         [1, 0],
         [-1, 0],
@@ -174,7 +241,7 @@ export default function WordSearchCard({
         );
       }
 
-      function canPlace(r: number, c: number, dr: number, dc: number, w: string) {
+      function canPlace(gridArr: string[][], r: number, c: number, dr: number, dc: number, w: string) {
         const endR = r + dr * (w.length - 1);
         const endC = c + dc * (w.length - 1);
         if (endR < 0 || endR >= size || endC < 0 || endC >= size) return false;
@@ -187,15 +254,15 @@ export default function WordSearchCard({
         return true;
       }
 
-      function placeWord(id: string, w: string) {
-        const attempts = 200;
+      function placeWord(gridArr: string[][], w: string) {
+        const attempts = Math.max(250, size * size * 3);
         for (let t = 0; t < attempts; t++) {
-          const dir = dirs[Math.floor(Math.random() * dirs.length)];
+          const dir = shuffle(dirs)[0];
           const dr = dir[0];
           const dc = dir[1];
           const r = Math.floor(Math.random() * size);
           const c = Math.floor(Math.random() * size);
-          if (!canPlace(r, c, dr, dc, w)) continue;
+          if (!canPlace(gridArr, r, c, dr, dc, w)) continue;
           for (let i = 0; i < w.length; i++) {
             const rr = r + dr * i;
             const cc = c + dc * i;
@@ -206,80 +273,73 @@ export default function WordSearchCard({
         return false;
       }
 
-      words.forEach((w, idx) => {
-        const word = allowReverse && Math.random() < 0.5 ? w.split("").reverse().join("") : w;
-        const ok = placeWord(`w${idx}`, word);
-        if (ok) {
-          // Reveal paths are derived from the final grid when needed.
-        }
-      });
+      let bestGrid = buildEmptyGrid();
+      let maxPlaced = -1;
 
-      // fill blanks
-      for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-          if (!gridArr[r][c]) {
-            gridArr[r][c] = alphabet[Math.floor(Math.random() * alphabet.length)];
+      for (let boardAttempt = 0; boardAttempt < 80; boardAttempt++) {
+        const gridArr = buildEmptyGrid();
+        const orderedWords = shuffle(words).sort((a, b) => b.length - a.length || a.localeCompare(b));
+        let placedCount = 0;
+        let failed = false;
+
+        for (const word of orderedWords) {
+          const candidate = allowReverse && Math.random() < 0.5 ? word.split("").reverse().join("") : word;
+          const ok = placeWord(gridArr, candidate);
+          if (!ok) {
+            failed = true;
+            break;
           }
+          placedCount += 1;
+        }
+
+        if (placedCount > maxPlaced) {
+          bestGrid = cloneGrid(gridArr);
+          maxPlaced = placedCount;
+        }
+
+        if (!failed && placedCount === words.length) {
+          fillBlanks(gridArr);
+          return { grid: gridArr };
         }
       }
 
-      return { grid: gridArr };
+      fillBlanks(bestGrid);
+      return { grid: bestGrid };
     }
 
     // If grid provided, parse; else auto-generate
     const parsed = parseGrid(g);
     if (parsed.length > 0 && parsed[0].length > 0) return { grid: parsed };
 
-    const words = (page.targets ?? [])
-      .flatMap((t: any) => ("words" in t ? t.words : [t.word]))
-      .map((w: string) => normWord(w))
-      .filter((w: string) => w.length <= size);
+    const words = Array.from(
+      new Set(targets.flatMap((target) => target.normalizedWords).filter((word) => word.length <= size))
+    );
+    if (words.length === 0) return { grid: [] };
+
     return tryGenerate(words);
-  }, [page.grid, page.size, page.targets, allowDiagonal, allowReverse, alphabet]);
-
-  const targets = useMemo(() => {
-    const raw: WordSearchTarget[] = (page.targets ?? []) as WordSearchTarget[];
-
-    return raw.map((t) => {
-      const words = "words" in t ? t.words : [t.word];
-      const label = (t as any).label as Translated | undefined;
-      const meaning = (t as any).meaning as Translated | undefined;
-
-      // display: prefer label, else show the first word
-      const displayMs = label?.ms ?? words[0] ?? "";
-      const displayEn = label?.en ?? words[0] ?? "";
-      const displayEs = label?.es ?? words[0] ?? "";
-
-      return {
-        id: t.id,
-        words,
-        display: { ms: displayMs, en: displayEn, es: displayEs } as Translated,
-        meaning,
-      };
-    });
-  }, [page.targets]);
+  }, [page.grid, page.size, targets, allowDiagonal, allowReverse, alphabet]);
 
   const [start, setStart] = useState<Cell | null>(null);
-  const [found, setFound] = useState<Record<string, Cell[]>>({});
+  const [foundWords, setFoundWords] = useState<FoundWordsByTarget>({});
   const [revealedCellKeys, setRevealedCellKeys] = useState<Set<string>>(() => new Set());
   const [showFoundOverlay, setShowFoundOverlay] = useState(false);
   const [lastShowAll, setLastShowAll] = useState<number | undefined>(() => showAllTrigger);
 
   const revealSolutions = useMemo(() => {
-    const byTarget: Record<string, Cell[]> = {};
+    const byTarget: FoundWordsByTarget = {};
     const allCellKeys = new Set<string>();
 
     for (const t of targets) {
-      let firstPath: Cell[] | null = null;
+      const foundForTarget: Record<string, Cell[]> = {};
 
-      for (const rawWord of t.words) {
-        const path = findWordPathInGrid(grid, rawWord, allowDiagonal);
+      for (const word of t.normalizedWords) {
+        const path = findWordPathInGrid(grid, word, allowDiagonal);
         if (!path) continue;
-        if (!firstPath) firstPath = path;
+        foundForTarget[word] = path;
         path.forEach((cell) => allCellKeys.add(keyOf(cell)));
       }
 
-      if (firstPath) byTarget[t.id] = firstPath;
+      if (Object.keys(foundForTarget).length > 0) byTarget[t.id] = foundForTarget;
     }
 
     return { byTarget, allCellKeys };
@@ -288,18 +348,25 @@ export default function WordSearchCard({
   // reset state when page changes (e.g., regenerate)
   useEffect(() => {
     setStart(null);
-    setFound({});
+    setFoundWords({});
     setRevealedCellKeys(new Set());
     setShowFoundOverlay(false);
     setLastShowAll(showAllTrigger);
-  }, [page.id, page.grid, page.targets, showAllTrigger]);
+  }, [page.id, page.grid, targets, showAllTrigger]);
 
   const locked = useMemo(() => {
     const s = new Set<string>();
-    Object.values(found).forEach((cells) => cells.forEach((c) => s.add(keyOf(c))));
+    Object.values(foundWords).forEach((targetMatches) =>
+      Object.values(targetMatches).forEach((cells) => cells.forEach((cell) => s.add(keyOf(cell))))
+    );
     revealedCellKeys.forEach((k) => s.add(k));
     return s;
-  }, [found, revealedCellKeys]);
+  }, [foundWords, revealedCellKeys]);
+
+  const completedTargetCount = useMemo(
+    () => countCompletedTargets(targets, foundWords),
+    [targets, foundWords]
+  );
 
   function pulseFound() {
     setShowFoundOverlay(true);
@@ -336,19 +403,22 @@ export default function WordSearchCard({
 
     const cells = pathCells(a, b);
     const w = formedWord(cells);
-    const wNorm = normWord(w);
-    const wRevNorm = normWord(w.split("").reverse().join(""));
+    const wNorm = normalizeWordSearchWord(w);
+    const wRevNorm = normalizeWordSearchWord(w.split("").reverse().join(""));
 
-    // try match any target not yet found
-    const match = targets.find((t) => {
-      if (found[t.id]) return false;
-      return t.words.some((cand) => {
-        const cNorm = normWord(cand);
-        if (cNorm === wNorm) return true;
-        if (allowReverse && cNorm === wRevNorm) return true;
-        return false;
-      });
-    });
+    let match: { targetId: string; word: string } | null = null;
+
+    for (const target of targets) {
+      const foundForTarget = foundWords[target.id] ?? {};
+      for (const candidate of target.normalizedWords) {
+        if (foundForTarget[candidate]) continue;
+        if (candidate === wNorm || (allowReverse && candidate === wRevNorm)) {
+          match = { targetId: target.id, word: candidate };
+          break;
+        }
+      }
+      if (match) break;
+    }
 
     if (!match) {
       onWrong?.();
@@ -356,11 +426,18 @@ export default function WordSearchCard({
       return;
     }
 
-    setFound((prev) => {
-      const next = { ...prev, [match.id]: cells };
+    setFoundWords((prev) => {
+      const next = {
+        ...prev,
+        [match.targetId]: {
+          ...(prev[match.targetId] ?? {}),
+          [match.word]: cells,
+        },
+      };
       const total = targets.length;
-      onProgress?.(Object.keys(next).length, total);
-      if (Object.keys(next).length === total) {
+      const completed = countCompletedTargets(targets, next);
+      onProgress?.(completed, total);
+      if (completed === total) {
         onComplete?.(total, total);
       }
       return next;
@@ -379,18 +456,15 @@ export default function WordSearchCard({
     setLastShowAll(showAllTrigger);
     setStart(null);
     setRevealedCellKeys(new Set(revealSolutions.allCellKeys));
-    setFound((prev) => {
-      const next = { ...prev, ...revealSolutions.byTarget };
-      onProgress?.(Object.keys(next).length, targets.length);
-      return next;
-    });
+    setFoundWords(revealSolutions.byTarget);
+    onProgress?.(countCompletedTargets(targets, revealSolutions.byTarget), targets.length);
     // showing answers should not call onComplete that saves highscores; gate it by a prop
-  }, [showAllTrigger, lastShowAll, revealSolutions, targets.length, onProgress]);
+  }, [showAllTrigger, lastShowAll, revealSolutions, targets, onProgress]);
 
   // fire initial progress on mount/update
   useEffect(() => {
-    onProgress?.(Object.keys(found).length, targets.length);
-  }, [found, targets.length, onProgress]);
+    onProgress?.(completedTargetCount, targets.length);
+  }, [completedTargetCount, targets.length, onProgress]);
 
   const gridCols = grid[0]?.length ?? 0;
   const cellRem =
@@ -485,7 +559,9 @@ export default function WordSearchCard({
 
           <div className="mt-3 grid gap-2 phone-lg:grid-cols-2 lg:grid-cols-1">
             {targets.map((t) => {
-              const done = !!found[t.id];
+              const foundForTarget = foundWords[t.id] ?? {};
+              const foundWordCount = Object.keys(foundForTarget).length;
+              const done = isTargetComplete(t, foundWords);
               return (
                 <div
                   key={t.id}
@@ -503,7 +579,9 @@ export default function WordSearchCard({
                       )}
                     </div>
 
-                    <div className="text-xs font-black opacity-70">{done ? "✓" : ""}</div>
+                    <div className="text-xs font-black opacity-70">
+                      {done ? "✓" : t.normalizedWords.length > 1 && foundWordCount > 0 ? `${foundWordCount}/${t.normalizedWords.length}` : ""}
+                    </div>
                   </div>
                 </div>
               );
@@ -511,7 +589,7 @@ export default function WordSearchCard({
           </div>
 
           <div className="mt-3 text-xs font-semibold opacity-70">
-            {Object.keys(found).length} / {targets.length}
+            {completedTargetCount} / {targets.length}
           </div>
         </div>
       </div>

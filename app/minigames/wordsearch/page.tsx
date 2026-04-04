@@ -11,6 +11,7 @@ import { WORD_ITEMS, CATEGORY_LABELS, type WordCategory } from "@/lib/wordMatch/
 import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
+import { isSingleWordSearchEntry, isValidWordSearchWord, normalizeWordSearchWord } from "@/lib/wordSearch";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
@@ -20,6 +21,7 @@ const DIFFICULTIES = {
   medium: { size: 15, count: 7, label: { ms: "Sederhana", en: "Medium", es: "Media" } },
   hard: { size: 30, count: 10, label: { ms: "Sukar", en: "Hard", es: "Difícil" } },
 } as const;
+const MIN_THEME_VARIATIONS = DIFFICULTIES.hard.count;
 
 type DifficultyKey = keyof typeof DIFFICULTIES;
 
@@ -50,7 +52,6 @@ export default function WordSearchMiniGame() {
   const [seed, setSeed] = useState(0);
   const [startTs, setStartTs] = useState<number | null>(null);
   const [finishedTs, setFinishedTs] = useState<number | null>(null);
-  const [tick, setTick] = useState(0);
   const [showAllSeq, setShowAllSeq] = useState(0);
   const [saved, setSaved] = useState(false);
   const [wrongPopupVisible, setWrongPopupVisible] = useState(false);
@@ -73,16 +74,35 @@ export default function WordSearchMiniGame() {
     });
   }, []);
   useEffect(() => {
-    const id = window.setInterval(() => setTick((t) => t + 1), 500);
-    return () => window.clearInterval(id);
-  }, []);
-
-  useEffect(() => {
     return () => {
       wrongPopupTimers.current.forEach((timer) => window.clearTimeout(timer));
       wrongPopupTimers.current = [];
     };
   }, []);
+
+  const validThemeCounts = useMemo(() => {
+    const counts = {} as Record<WordCategory, number>;
+
+    (Object.keys(CATEGORY_LABELS) as WordCategory[]).forEach((category) => {
+      const seen = new Set<string>();
+      WORD_ITEMS.forEach((item) => {
+        if (item.category !== category) return;
+        if (!isSingleWordSearchEntry(item.bm)) return;
+        if (!isValidWordSearchWord(item.bm, DIFFICULTIES.hard.size, { singleWordOnly: true })) return;
+        seen.add(normalizeWordSearchWord(item.bm));
+      });
+      counts[category] = seen.size;
+    });
+
+    return counts;
+  }, []);
+
+  useEffect(() => {
+    if (theme === "all") return;
+    if ((validThemeCounts[theme] ?? 0) >= MIN_THEME_VARIATIONS) return;
+    setTheme("all");
+    setSeed((s) => s + 1);
+  }, [theme, validThemeCounts]);
 
   const pool = useMemo(() => {
     const list = theme === "all" ? WORD_ITEMS : WORD_ITEMS.filter((w) => w.category === theme);
@@ -90,11 +110,25 @@ export default function WordSearchMiniGame() {
   }, [theme]);
 
   const selectedTargets = useMemo(() => {
-    const { count } = DIFFICULTIES[difficulty];
-    const picks = shuffle(pool).slice(0, Math.min(count, pool.length));
+    const { count, size } = DIFFICULTIES[difficulty];
+    const seen = new Set<string>();
+    const shuffledPool = shuffle(pool);
+    const offset = shuffledPool.length === 0 ? 0 : seed % shuffledPool.length;
+    const rotatedPool = [...shuffledPool.slice(offset), ...shuffledPool.slice(0, offset)];
+    const validPool = rotatedPool.filter((item) => {
+      if (!isSingleWordSearchEntry(item.bm)) return false;
+      if (!isValidWordSearchWord(item.bm, size, { singleWordOnly: true })) return false;
+
+      const normalized = normalizeWordSearchWord(item.bm);
+      if (seen.has(normalized)) return false;
+      seen.add(normalized);
+      return true;
+    });
+    const picks = validPool.slice(0, Math.min(count, validPool.length));
+
     return picks.map((w) => ({
       id: w.id,
-      word: w.bm.toUpperCase().replace(/\s+/g, ""),
+      word: normalizeWordSearchWord(w.bm),
       label: { ms: w.bm, en: w.en, es: w.es },
     }));
   }, [pool, difficulty, seed]);
@@ -124,10 +158,12 @@ export default function WordSearchMiniGame() {
 
   const themeOptions: Array<{ id: WordCategory | "all"; label: string }> = [
     { id: "all", label: lang === "ms" ? "Semua" : lang === "en" ? "All" : "Todos" },
-    ...Object.entries(CATEGORY_LABELS).map(([id, t]) => ({
-      id: id as WordCategory,
-      label: t[lang],
-    })),
+    ...Object.entries(CATEGORY_LABELS)
+      .filter(([id]) => (validThemeCounts[id as WordCategory] ?? 0) >= MIN_THEME_VARIATIONS)
+      .map(([id, t]) => ({
+        id: id as WordCategory,
+        label: t[lang],
+      })),
   ];
 
   function pickLang(next: UiLang) {
@@ -143,7 +179,7 @@ export default function WordSearchMiniGame() {
     saveLock.current = false;
   }
 
-  function handleProgress(found: number, total: number) {
+  function handleProgress(found: number) {
     if (found === 0) setStartTs((prev) => prev ?? Date.now());
   }
 
@@ -307,7 +343,7 @@ export default function WordSearchMiniGame() {
                   <button
                     key={t.id}
                     onClick={() => {
-                      setTheme(t.id as any);
+                      setTheme(t.id);
                       setSeed((s) => s + 1);
                     }}
                     className={[
@@ -346,7 +382,7 @@ export default function WordSearchMiniGame() {
 
         {/* game */}
         <WordSearchCard
-          page={pageData as any}
+          page={pageData}
           lang={lang}
           onProgress={(found) => handleProgress(found, selectedTargets.length)}
           onComplete={handleComplete}

@@ -729,8 +729,8 @@ export const chapter02: ChapterContent = {
 
 
     // Layer 3
-    { id: "n-anak-abang", shape: "oval", xPct: 20, yPct: 85, correctOptionId: "anak-perempuan-abang" },
-    { id: "n-anak-kakak", shape: "rect", xPct: 80, yPct: 85, correctOptionId: "anak-lelaki-kakak" },
+    { id: "n-anak-abang", shape: "oval", xPct: 18, yPct: 85, correctOptionId: "anak-perempuan-abang" },
+    { id: "n-anak-kakak", shape: "rect", xPct: 82, yPct: 85, correctOptionId: "anak-lelaki-kakak" },
   ],
 
   // Connector lines (percent coords, rendered into SVG viewBox)
@@ -745,7 +745,7 @@ export const chapter02: ChapterContent = {
     // arrows to children (abang, adik, saya, kakak) — NOT to spouses
     { x1: 26, y1: 30, x2: 26, y2: 45, arrow: true },
     { x1: 42, y1: 30, x2: 42, y2: 45, arrow: true },
-    { x1: 56, y1: 30, x2: 56, y2: 45, arrow: true },
+    { x1: 58, y1: 30, x2: 58, y2: 45, arrow: true },
     { x1: 74, y1: 30, x2: 74, y2: 45, arrow: true },
 
     { x1: 10, y1: 54, x2: 26, y2: 54 }, // kakak ipar — abang

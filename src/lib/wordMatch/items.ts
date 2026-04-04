@@ -57,7 +57,7 @@ export const WORD_ITEMS: WordItem[] = [
   { id: "ver-9", category: "verbs", bm: "bagi", en: "give", es: "dar" },
   { id: "ver-10", category: "verbs", bm: "buat", en: "do / make", es: "hacer" },
 
-  // Greetings (10)
+  // Greetings & social phrases
   { id: "gre-1", category: "greetings", bm: "hai", en: "hi", es: "hola" },
   { id: "gre-2", category: "greetings", bm: "selamat pagi", en: "good morning", es: "buenos días" },
   { id: "gre-3", category: "greetings", bm: "selamat petang", en: "good afternoon", es: "buenas tardes" },
@@ -68,6 +68,11 @@ export const WORD_ITEMS: WordItem[] = [
   { id: "gre-8", category: "greetings", bm: "tolong", en: "please / help", es: "por favor / ayuda" },
   { id: "gre-9", category: "greetings", bm: "jumpa lagi", en: "see you", es: "nos vemos" },
   { id: "gre-10", category: "greetings", bm: "apa khabar", en: "how are you", es: "¿cómo estás?" },
+  { id: "gre-11", category: "greetings", bm: "assalamualaikum", en: "peace be upon you", es: "la paz sea contigo" },
+  { id: "gre-12", category: "greetings", bm: "waalaikumussalam", en: "and peace be upon you", es: "y la paz sea contigo" },
+  { id: "gre-13", category: "greetings", bm: "sihat", en: "well / healthy", es: "bien / sano" },
+  { id: "gre-14", category: "greetings", bm: "khabar", en: "news / condition", es: "noticias / estado" },
+  { id: "gre-15", category: "greetings", bm: "salam", en: "greeting / peace", es: "saludo / paz" },
 ];
 
 export const CATEGORY_LABELS: Record<WordCategory, { ms: string; en: string; es: string }> = {

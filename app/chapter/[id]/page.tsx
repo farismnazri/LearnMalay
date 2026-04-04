@@ -1091,13 +1091,13 @@ function BoxDragCard({ page, lang }: { page: any; lang: UiLang }) {
 
   function nodeClass(shape: "rect" | "oval", ok: boolean | null, hasValue: boolean) {
     const base =
-      "absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center text-center shadow font-extrabold text-xs phone-lg:text-sm sm:text-base";
+      "absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center text-center shadow font-extrabold text-xs phone-lg:text-sm tablet:text-[15px] xl:text-base";
     const shapeCls = shape === "oval" ? "rounded-full" : "rounded-2xl";
     const fill = hasValue ? "bg-amber-100" : "bg-white";
     const border = ok === null ? "border-2 border-black/20" : ok ? "border-2 border-emerald-500" : "border-2 border-red-500";
     const size = page.compact
-      ? "w-[96px] h-[48px] phone-lg:w-[118px] phone-lg:h-[56px] sm:w-[145px] sm:h-[60px] px-2 phone-lg:px-3"
-      : "w-[150px] h-[58px] phone-lg:w-[190px] phone-lg:h-[68px] sm:w-[260px] sm:h-[80px] px-2 phone-lg:px-4";
+      ? "w-[88px] h-[46px] phone-lg:w-[106px] phone-lg:h-[52px] tablet:w-[118px] tablet:h-[56px] xl:w-[145px] xl:h-[60px] px-2 phone-lg:px-3"
+      : "w-[136px] h-[54px] phone-lg:w-[170px] phone-lg:h-[62px] tablet:w-[210px] tablet:h-[72px] xl:w-[260px] xl:h-[80px] px-2 phone-lg:px-4";
 
     return [base, shapeCls, fill, border, size].join(" ");
   }
@@ -1113,7 +1113,7 @@ function BoxDragCard({ page, lang }: { page: any; lang: UiLang }) {
   }
 
   return (
-    <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-5 sm:p-6">
+    <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-5 tablet:p-6">
       <div className="text-xl font-extrabold phone-lg:text-2xl">{page.title.ms}</div>
       {lang !== "ms" && <div className="text-sm font-semibold opacity-70">{titleTrans}</div>}
 
@@ -1158,15 +1158,15 @@ function BoxDragCard({ page, lang }: { page: any; lang: UiLang }) {
         </div>
       )}
 
-      <div className="mt-2 sm:mt-5">
-        <div className="relative mx-auto w-full max-w-7xl rounded-3xl bg-white/70 p-3 shadow phone-lg:p-4 sm:p-6">
+      <div className="mt-2 tablet:mt-5">
+        <div className="relative mx-auto w-full max-w-7xl rounded-3xl bg-white/70 p-3 shadow phone-lg:p-4 tablet:p-5 xl:p-6">
           <div className="relative w-full overflow-x-auto">
             <div
               className={[
                 "relative",
                 page.compact
-                  ? "min-w-[720px] aspect-[16/10] phone-lg:min-w-[860px] sm:min-w-[1100px] sm:aspect-[21/9]"
-                  : "min-w-[640px] aspect-[4/3] phone-lg:min-w-[760px] sm:min-w-[900px] sm:aspect-video",
+                  ? "min-w-[700px] aspect-[5/4] phone-lg:min-w-[740px] phone-lg:aspect-[16/11] tablet:min-w-[740px] tablet:aspect-[16/10] xl:min-w-[1100px] xl:aspect-[21/9]"
+                  : "min-w-[620px] aspect-[4/3] phone-lg:min-w-[720px] tablet:min-w-[820px] tablet:aspect-[7/5] xl:min-w-[900px] xl:aspect-video",
               ].join(" ")}
             >
               <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1000 600" preserveAspectRatio="none">

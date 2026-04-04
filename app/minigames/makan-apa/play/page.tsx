@@ -9,11 +9,13 @@ import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlock
 import { MAKAN_APA_ITEMS, type MakanApaItem } from "@/lib/makanApa/items";
 import { addHighScore } from "@/lib/highscores";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
+import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const MAKAN_APA_DIFFICULTY_KEY = "learnMalay.makanApa.difficulty.v1";
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
+const AKU2_BETUL_SRC = "/assets/characters/Akuaku_Betul.webp";
 const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
 const MAX_LIVES = 5;
 
@@ -21,6 +23,7 @@ type Translated = { ms: string; en: string; es: string };
 
 type GameStatus = "idle" | "wrong" | "correct" | "gameover" | "win";
 type MakanApaDifficulty = "easy" | "hard";
+type PopupVariant = "correct" | "wrong";
 
 function readUiLang(): UiLang {
   if (typeof window === "undefined") return "ms";
@@ -107,13 +110,13 @@ export default function MakanApaPlayPage() {
   const [status, setStatus] = useState<GameStatus>("idle");
   const [locked, setLocked] = useState(false);
   const [elapsedMs, setElapsedMs] = useState(0);
-  const [wrongPopupVisible, setWrongPopupVisible] = useState(false);
-  const [wrongPopupFade, setWrongPopupFade] = useState(false);
+  const [popupVariant, setPopupVariant] = useState<PopupVariant | null>(null);
+  const [popupFade, setPopupFade] = useState(false);
 
   const itemById = useMemo(() => new Map(MAKAN_APA_ITEMS.map((i) => [i.id, i])), []);
   const startedAtRef = useRef<number>(Date.now());
   const recordedRef = useRef(false);
-  const wrongPopupTimers = useRef<number[]>([]);
+  const popupTimers = useRef<number[]>([]);
 
   useEffect(() => {
     let alive = true;
@@ -136,8 +139,8 @@ export default function MakanApaPlayPage() {
   const unlocked = isMinigameUnlocked(user, "makan-apa");
 
   function startNewGame() {
-    wrongPopupTimers.current.forEach((timer) => window.clearTimeout(timer));
-    wrongPopupTimers.current = [];
+    popupTimers.current.forEach((timer) => window.clearTimeout(timer));
+    popupTimers.current = [];
     const nextDeck = shuffle(MAKAN_APA_ITEMS);
     setDeck(nextDeck);
     setCurrentIndex(0);
@@ -148,8 +151,8 @@ export default function MakanApaPlayPage() {
     setStatus("idle");
     setLocked(false);
     setElapsedMs(0);
-    setWrongPopupVisible(false);
-    setWrongPopupFade(false);
+    setPopupVariant(null);
+    setPopupFade(false);
     startedAtRef.current = Date.now();
     recordedRef.current = false;
     setEliminatedOptionIds([]);
@@ -192,8 +195,8 @@ export default function MakanApaPlayPage() {
 
   useEffect(() => {
     return () => {
-      wrongPopupTimers.current.forEach((timer) => window.clearTimeout(timer));
-      wrongPopupTimers.current = [];
+      popupTimers.current.forEach((timer) => window.clearTimeout(timer));
+      popupTimers.current = [];
     };
   }, []);
 
@@ -243,14 +246,14 @@ export default function MakanApaPlayPage() {
     setLocked(false);
   }
 
-  function triggerWrongPopup() {
-    wrongPopupTimers.current.forEach((timer) => window.clearTimeout(timer));
-    wrongPopupTimers.current = [];
-    setWrongPopupVisible(true);
-    setWrongPopupFade(false);
-    wrongPopupTimers.current.push(
-      window.setTimeout(() => setWrongPopupFade(true), 900),
-      window.setTimeout(() => setWrongPopupVisible(false), 1200),
+  function triggerPopup(variant: PopupVariant) {
+    popupTimers.current.forEach((timer) => window.clearTimeout(timer));
+    popupTimers.current = [];
+    setPopupVariant(variant);
+    setPopupFade(false);
+    popupTimers.current.push(
+      window.setTimeout(() => setPopupFade(true), 900),
+      window.setTimeout(() => setPopupVariant(null), 1200),
     );
   }
 
@@ -265,12 +268,13 @@ export default function MakanApaPlayPage() {
       setSolvedCount((prev) => prev + 1);
       setStatus("correct");
       setLocked(true);
+      triggerPopup("correct");
       window.setTimeout(nextQuestion, 350);
       return;
     }
 
     setEliminatedOptionIds((prev) => [...prev, optionId]);
-    triggerWrongPopup();
+    triggerPopup("wrong");
 
     setLives((prev) => {
       const next = prev - 1;
@@ -304,12 +308,13 @@ export default function MakanApaPlayPage() {
       setTypedAnswer("");
       setStatus("correct");
       setLocked(true);
+      triggerPopup("correct");
       window.setTimeout(nextQuestion, 350);
       return;
     }
 
     setTypedAnswer("");
-    triggerWrongPopup();
+    triggerPopup("wrong");
     setLives((prev) => {
       const next = prev - 1;
       if (next <= 0) {
@@ -598,16 +603,12 @@ export default function MakanApaPlayPage() {
         )}
       </div>
 
-      {wrongPopupVisible && (
-        <div
-          className={[
-            "pointer-events-none fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300",
-            wrongPopupFade ? "opacity-0" : "opacity-100",
-          ].join(" ")}
-        >
-          <Image src={AKU2_SALAH_SRC} alt="Wrong answer" width={180} height={180} className="animate-bounce drop-shadow-lg" priority />
-        </div>
-      )}
+      <AkuAkuFeedbackPopup
+        open={popupVariant !== null}
+        fade={popupFade}
+        src={popupVariant === "correct" ? AKU2_BETUL_SRC : AKU2_SALAH_SRC}
+        alt={popupVariant === "correct" ? "Correct answer" : "Wrong answer"}
+      />
     </main>
   );
 }

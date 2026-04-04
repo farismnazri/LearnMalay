@@ -208,6 +208,16 @@ function findClosestPayableAtOrAbove(target: number, denominationValues: number[
   return target;
 }
 
+function buildCashierCustomerPayment(price: number, denominationValues: number[]): number {
+  const preferredPayment = Math.ceil((price + 100) / 100) * 100;
+  const preferredChange = Math.max(0, preferredPayment - price);
+
+  if (preferredChange === 0) return preferredPayment;
+
+  const reachableChange = findClosestPayableAtOrAbove(preferredChange, denominationValues);
+  return price + reachableChange;
+}
+
 function getHardCoinMultiplier(target: number): number {
   const raw = HARD_COIN_MULTIPLIER_BASE / Math.max(target, 1);
   return Math.min(HARD_COIN_MULTIPLIER_MAX, Math.max(HARD_COIN_MULTIPLIER_MIN, raw));
@@ -703,8 +713,7 @@ export default function CurrencyPlayPage() {
 
     // For cashier mode: generate customer payment (overpay by small amount)
     if (effectiveMode === "cashier") {
-      const overpay = Math.ceil((price + 100) / 100) * 100; // round up to nearest ringgit + extra
-      setCustomerPayment(overpay);
+      setCustomerPayment(buildCashierCustomerPayment(price, denominationValues));
     } else {
       setCustomerPayment(0);
     }
