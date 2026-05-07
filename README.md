@@ -1,35 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Learn Malay
 
-## Getting Started
+Crash/PS1-inspired web game for learning spoken Malaysian Malay through chapter-based lessons, helper dialogs, profile progress, and minigames.
 
-First, run the development server:
+The actual app root is:
 
-cd ~/Documents/LearnMalay/learn-malay
+```bash
+/Users/FarisNazri/Documents/LearnMalay/learn-malay
+```
+
+## Tech Stack
+
+- Next.js 16 App Router
+- React 19 + TypeScript
+- Tailwind CSS v4 via `@tailwindcss/postcss`
+- MongoDB for persistent server storage when configured
+- In-memory server storage fallback for local development
+- SWR for client-side API data fetching
+- `next/image`, local font assets, and static assets under `public/`
+
+## Main Structure
+
+- `app/` - App Router pages, layout, global CSS, manifest, and API routes.
+- `app/page.tsx` - title screen.
+- `app/user/page.tsx` - user login, signup, avatar selection, and admin user management.
+- `app/map/page.tsx` - chapter/world map and progress display.
+- `app/chapter/[id]/page.tsx` - main renderer for chapter lesson pages.
+- `app/minigames/` - minigame hub, intro pages, play pages, and highscores.
+- `app/api/` - users, current session, progress, admin verification, and highscores endpoints.
+- `src/lib/` - client helpers, shared types, chapter content, minigame data, unlock rules, fonts, and avatars.
+- `src/lib/chapters/` - TypeScript-backed lesson content for chapters 1-11.
+- `src/lib/akuAku/` - Aku-Aku helper dialog content.
+- `src/components/` - shared game UI and navigation components.
+- `src/server/` - MongoDB/in-memory storage adapter, user repo, session repo, highscore repo, and session cookie helpers.
+- `public/assets/` - game backgrounds, characters, icons, borders, chapter assets, and audio.
+- `scripts/` - utility scripts for PWA icons, mobile QA, and PDF summary generation.
+
+## App Flows
+
+- Title screen: `/` shows the main Learn Malay landing screen and routes the player to the map or user selection.
+- User/profile selection: `/user` supports creating accounts, logging in, choosing avatars, switching users, and admin actions.
+- Map: `/map` shows chapter/world progress and locks chapters until the user reaches them.
+- Chapter pages: `/chapter/[id]` renders the typed chapter content and activity kinds such as tables, chats, drag-fill, type-in, box-drag, wordsearch, crossword, tick, figure, and food intro pages.
+- Minigames: `/minigames` lists unlockable games. Current games include numbers, word match, wordsearch, currency, makan apa, and misi membeli.
+- Highscores: `/minigames/highscores` displays score tables and supports admin-only clearing through the API.
+
+## Storage And Environment
+
+Server storage uses MongoDB when `MONGODB_URI` is set. Without `MONGODB_URI`, local development falls back to an in-memory store. The in-memory fallback resets when the server restarts and is not safe for production or real user data.
+
+Environment variables:
+
+- `MONGODB_URI` - recommended for development and required for reliable persistent storage in production.
+- `LEARN_MALAY_ADMIN_PASSWORD` - required outside development. In development, the server falls back to a temporary admin password if this is not set.
+
+## Commands
+
+Run commands from the app root.
+
+```bash
 npm run dev
+npm run build
+npm run start
+npm run lint
+npm run generate:pwa-icons
+```
 
-Environment notes:
-- `MONGODB_URI` (recommended): enables persistent storage.
-- Without `MONGODB_URI`, local development uses an in-memory store (data resets on server restart).
-- `LEARN_MALAY_ADMIN_PASSWORD` is required in non-development environments (`npm run build` / `npm run start` deployments).
+## Files To Avoid Editing
 
+Do not edit or inspect generated/local files deeply unless a task specifically requires it:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- `node_modules/`
+- `.next/`
+- `out/`
+- `build/`
+- `coverage/`
+- `.env*`
+- `output/`
+- `tmp/`
+- `reports/`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Manual QA Checklist
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Before shipping meaningful app changes, do a short browser pass:
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Create a new user and log in.
+- Open the map and confirm the active profile/progress appears.
+- Open at least one chapter page.
+- Complete a chapter/progress action and confirm the next chapter unlocks.
+- Open the minigames hub and at least one minigame.
+- Submit and view a highscore.
+- Briefly check mobile layout at phone and tablet widths.

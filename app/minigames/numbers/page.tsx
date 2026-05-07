@@ -8,6 +8,7 @@ import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 import AkuAkuPopup from "@/components/game/AkuAkuPopup";
+import type { AkuAkuDialog } from "@/lib/akuAku/types";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 
@@ -198,7 +199,7 @@ export default function MiniGamesPage() {
   const [activeKey, setActiveKey] = useState<string>("sa");
 
   const [akuOpen, setAkuOpen] = useState(false);
-  const [akuDialogs, setAkuDialogs] = useState<any[]>([]);
+  const [akuDialogs, setAkuDialogs] = useState<AkuAkuDialog[]>([]);
 
   function openAkuAkuPuluh() {
     setAkuDialogs([

@@ -14,7 +14,7 @@ function tr(lang: UiLang, t: Translated) {
 }
 
 function isImageCell(item: TableCellItem): item is TableImageCell {
-  return typeof item === "object" && item !== null && "kind" in item && (item as any).kind === "image";
+  return typeof item === "object" && item !== null && (item as Record<string, unknown>).kind === "image";
 }
 
 export default function TableCard({ page, lang }: { page: ChapterTablePage; lang: UiLang }) {

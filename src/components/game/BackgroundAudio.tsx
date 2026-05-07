@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const KEY_MUTED = "learnMalay.audioMuted.v1";
 const KEY_VOL = "learnMalay.audioVol.v1";
@@ -107,52 +107,71 @@ export default function BackgroundAudio({
   showControls?: boolean;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const settingsRef = useRef<AudioSettings>({ muted: true, vol: 0.5 });
   const [settings, setSettings] = useState<AudioSettings>({ muted: true, vol: 0.5 });
 
-  useEffect(() => {
-    setSettings(readSettings());
-  }, []);
-
-  useEffect(() => {
+  const applyAudioSettings = useCallback((nextSettings: AudioSettings) => {
     const a = audioRef.current;
     if (!a) return;
     a.loop = true;
-    a.volume = settings.vol;
-    a.muted = settings.muted;
+    a.volume = nextSettings.vol;
+    a.muted = nextSettings.muted;
+  }, []);
 
+  const playIfEnabled = useCallback(
+    async (nextSettings = settingsRef.current) => {
+      if (nextSettings.muted) return;
+
+      const a = audioRef.current;
+      if (!a) return;
+
+      applyAudioSettings(nextSettings);
+
+      try {
+        await a.play();
+      } catch {
+        // ignored (autoplay restrictions)
+      }
+    },
+    [applyAudioSettings]
+  );
+
+  useEffect(() => {
+    const nextSettings = readSettings();
+    settingsRef.current = nextSettings;
+    setSettings(nextSettings);
+    applyAudioSettings(nextSettings);
+  }, [applyAudioSettings]);
+
+  useEffect(() => {
+    settingsRef.current = settings;
+    applyAudioSettings(settings);
     writeSettings(settings);
-  }, [settings]);
+  }, [applyAudioSettings, settings]);
 
   useEffect(() => {
     const onSettings = (event: Event) => {
       const detail = (event as CustomEvent<AudioSettings>).detail;
-      if (!detail) {
-        setSettings(readSettings());
-        return;
-      }
-      setSettings({ muted: !!detail.muted, vol: clampVolume(detail.vol) });
+      const nextSettings = detail
+        ? { muted: !!detail.muted, vol: clampVolume(detail.vol) }
+        : readSettings();
+
+      settingsRef.current = nextSettings;
+      setSettings(nextSettings);
+      applyAudioSettings(nextSettings);
+      void playIfEnabled(nextSettings);
     };
 
     window.addEventListener(AUDIO_SETTINGS_EVENT, onSettings as EventListener);
     return () => {
       window.removeEventListener(AUDIO_SETTINGS_EVENT, onSettings as EventListener);
     };
-  }, []);
+  }, [applyAudioSettings, playIfEnabled]);
 
-  // Autoplay is blocked until user interacts; this starts playback on first click/tap.
+  // Autoplay is blocked until user interacts; only start loading if music is enabled.
   useEffect(() => {
-    const tryPlay = async () => {
-      const a = audioRef.current;
-      if (!a) return;
-      try {
-        await a.play();
-      } catch {
-        // ignored (autoplay restrictions)
-      }
-    };
-
     const onFirstInteraction = () => {
-      tryPlay();
+      void playIfEnabled(settingsRef.current);
       window.removeEventListener("pointerdown", onFirstInteraction);
       window.removeEventListener("keydown", onFirstInteraction);
     };
@@ -164,11 +183,11 @@ export default function BackgroundAudio({
       window.removeEventListener("pointerdown", onFirstInteraction);
       window.removeEventListener("keydown", onFirstInteraction);
     };
-  }, []);
+  }, [playIfEnabled]);
 
   return (
     <>
-      <audio ref={audioRef} src={src} preload="auto" />
+      <audio ref={audioRef} src={src} preload="none" />
       {showControls ? (
         <div className="safe-corner-bottom-left fixed z-[60] rounded-2xl bg-white/85 p-3 shadow backdrop-blur">
           <BackgroundAudioControls />

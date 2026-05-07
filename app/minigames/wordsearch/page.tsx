@@ -179,7 +179,7 @@ export default function WordSearchMiniGame() {
     saveLock.current = false;
   }
 
-  function handleProgress(found: number, _total: number) {
+  function handleProgress(found: number) {
     if (found === 0) setStartTs((prev) => prev ?? Date.now());
   }
 

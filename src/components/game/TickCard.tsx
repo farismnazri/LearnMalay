@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import AkuAkuPopup from "@/components/game/AkuAkuPopup";
+import type { AkuAkuDialog } from "@/lib/akuAku/types";
 import type { ChapterPage, UiLang } from "@/lib/chapters";
 
 type TickPage = Extract<ChapterPage, { kind: "tick" }>;
@@ -18,7 +19,7 @@ export default function TickCard({
 
   // Aku-Aku "Why" popup state
   const [whyOpen, setWhyOpen] = useState(false);
-  const [whyDialogs, setWhyDialogs] = useState<any[]>([]);
+  const [whyDialogs, setWhyDialogs] = useState<AkuAkuDialog[]>([]);
 
   const L = useMemo(
     () => ({

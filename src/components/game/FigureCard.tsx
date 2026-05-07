@@ -1,7 +1,14 @@
 // src/components/game/FigureCard.tsx
 "use client";
 
+import Image from "next/image";
 import type { FigurePage, UiLang } from "@/lib/chapters/types";
+
+const FIGURE_IMAGE_DIMENSIONS: Record<string, { width: number; height: number }> = {
+  "/assets/chapters/ch4/kompas.webp": { width: 1536, height: 1024 },
+  "/assets/chapters/ch10/placeholder-permainan-tradisional.svg": { width: 1280, height: 720 },
+  "/assets/chapters/ch11/calendar-2026.svg": { width: 1500, height: 2100 },
+};
 
 
 function t(lang: UiLang, tr: { ms: string; en: string; es: string }) {
@@ -16,6 +23,7 @@ export default function FigureCard({ page, lang }: { page: FigurePage; lang: UiL
   const caption = page.caption ? t(lang, page.caption) : "";
 
   const maxW = page.maxWidthPx ? `${page.maxWidthPx}px` : "980px";
+  const dimensions = FIGURE_IMAGE_DIMENSIONS[page.imageSrc] ?? { width: 980, height: 552 };
 
   return (
     <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
@@ -24,9 +32,11 @@ export default function FigureCard({ page, lang }: { page: FigurePage; lang: UiL
 
       <div className="mt-4">
         <div className="mx-auto w-full" style={{ maxWidth: maxW }}>
-          <img
+          <Image
             src={page.imageSrc}
             alt={alt}
+            width={dimensions.width}
+            height={dimensions.height}
             className="w-full rounded-2xl border border-black/10 bg-white object-contain shadow"
             draggable={false}
           />
