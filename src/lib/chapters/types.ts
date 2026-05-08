@@ -124,15 +124,22 @@ export type DragFillPage = {
 // -------------------------
 // TypeIn (unscramble/type) types
 // -------------------------
+export type TypeInImage = {
+  src: string;
+  alt?: string;
+  w?: number;
+  h?: number;
+  className?: string;
+};
+
 export type TypeInItem = {
   id: string;
   n: number;
   scrambled: string; // what user sees (e.g., "bnaag")
   answer: string; // correct Malay word (e.g., "abang")
   meaning?: Translated; // optional translation/explanation shown after checking
-  image?: { src: string; alt?: string; w?: number; h?: number; className?: string };
-  images?: Array<{ src: string; alt?: string; w?: number; h?: number; className?: string }>;
-  [key: string]: any; // allow optional UI metadata (e.g., images)
+  image?: TypeInImage;
+  images?: TypeInImage[];
 };
 
 export type TypeInPage = {
@@ -296,47 +303,16 @@ export type FigurePage = {
 // The ONE ChapterPage union
 // -------------------------
 export type ChapterPage =
-  | { id: string; kind: "intro"; sections: ChapterSection[] }
-  | FoodIntroPage
-  | {
-      id: string;
-      kind: "table";
-      title: Translated;
-      leadCard?: {
-        heading: Translated;
-        body: Translated;
-      };
-      columns: any[];
-      rows: any[];
-    }
-  | {
-      id: string;
-      kind: "chat";
-      title: Translated;
-      context?: Translated;
-      youId?: string;
-      participants: any[];
-      messages: any[];
-    }
-  | { id: string; kind: "dragfill"; title: Translated; instructions: Translated; options: any[]; items: any[] }
-  | {
-      id: string;
-      kind: "tick";
-      title: Translated;
-      instructions: Translated;
-      items: Array<{ id: string; correct: boolean; text: Translated; why: Translated }>;
-    }
-  | {
-      id: string;
-      kind: "typein";
-      title: Translated;
-      instructions: Translated;
-      caseSensitive?: boolean;
-      items: TypeInItem[];
-    }
+  | ChapterIntroPage
+  | ChapterTablePage
+  | ChapterChatPage
+  | DragFillPage
+  | TypeInPage
+  | TickPage
   | BoxDragPage
   | WordSearchPage
   | CrosswordPage
+  | FoodIntroPage
   | FigurePage;
 
 
