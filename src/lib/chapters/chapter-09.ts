@@ -25,12 +25,12 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-guru",
           cells: {
-            perkara: [{ ms: "Saya seorang guru.", en: "I am a teacher.", es: "Soy maestro." }],
+            perkara: [{ ms: "Pekerjaan saya ialah guru.", en: "My profession is teacher.", es: "Mi profesion es maestra." }],
             butiran: [
               {
-                ms: "Tugas saya adalah mengajar.",
-                en: "My job is to teach.",
-                es: "Mi trabajo es enseñar.",
+                ms: "Saya mengajar murid di sekolah.",
+                en: "I teach students at school.",
+                es: "Enseno a los alumnos en la escuela.",
               },
             ],
             gambar: [
@@ -48,12 +48,12 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-pelakon",
           cells: {
-            perkara: [{ ms: "Saya seorang pelakon.", en: "I am an actor.", es: "Soy actor." }],
+            perkara: [{ ms: "Dia bekerja sebagai pelakon.", en: "He works as an actor.", es: "El trabaja como actor." }],
             butiran: [
               {
-                ms: "Tugas saya adalah berlakon.",
-                en: "My job is to act.",
-                es: "Mi trabajo es actuar.",
+                ms: "Dia berlakon dalam drama.",
+                en: "He acts in dramas.",
+                es: "El actua en dramas.",
               },
             ],
             gambar: [
@@ -71,7 +71,7 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-arkitek",
           cells: {
-            perkara: [{ ms: "Saya seorang arkitek.", en: "I am an architect.", es: "Soy arquitecto." }],
+            perkara: [{ ms: "Saya bekerja sebagai arkitek.", en: "I work as an architect.", es: "Trabajo como arquitecto." }],
             butiran: [
               {
                 ms: "Saya mereka bangunan.",
@@ -94,7 +94,7 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-doktor",
           cells: {
-            perkara: [{ ms: "Saya seorang doktor.", en: "I am a doctor.", es: "Soy doctor." }],
+            perkara: [{ ms: "Kerja saya doktor.", en: "My job is doctor.", es: "Mi trabajo es doctor." }],
             butiran: [
               {
                 ms: "Saya merawat pesakit.",
@@ -117,7 +117,7 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-penyanyi",
           cells: {
-            perkara: [{ ms: "Saya seorang penyanyi.", en: "I am a singer.", es: "Soy cantante." }],
+            perkara: [{ ms: "Profesion saya penyanyi.", en: "My profession is singer.", es: "Mi profesion es cantante." }],
             butiran: [
               {
                 ms: "Saya menyanyi sebuah lagu di atas pentas.",
@@ -140,7 +140,7 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-bomba",
           cells: {
-            perkara: [{ ms: "Saya seorang bomba.", en: "I am a firefighter.", es: "Soy bombero." }],
+            perkara: [{ ms: "Abang saya seorang bomba.", en: "My brother is a firefighter.", es: "Mi hermano es bombero." }],
             butiran: [
               {
                 ms: "Saya memadamkan api.",
@@ -163,7 +163,7 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-polis",
           cells: {
-            perkara: [{ ms: "Saya seorang polis.", en: "I am a police officer.", es: "Soy policía." }],
+            perkara: [{ ms: "Dia anggota polis.", en: "He is a police officer.", es: "El es policia." }],
             butiran: [
               {
                 ms: "Saya menangkap pencuri.",
@@ -186,7 +186,7 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-askar",
           cells: {
-            perkara: [{ ms: "Saya seorang askar.", en: "I am a soldier.", es: "Soy soldado." }],
+            perkara: [{ ms: "Saya berkhidmat sebagai askar.", en: "I serve as a soldier.", es: "Sirvo como soldado." }],
             butiran: [
               {
                 ms: "Saya menjaga keamanan negara.",
@@ -209,7 +209,7 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-nelayan",
           cells: {
-            perkara: [{ ms: "Saya seorang nelayan.", en: "I am a fisherman.", es: "Soy pescador." }],
+            perkara: [{ ms: "Pak cik itu nelayan.", en: "That uncle is a fisherman.", es: "Ese tio es pescador." }],
             butiran: [
               {
                 ms: "Saya menangkap ikan di laut.",
@@ -232,7 +232,7 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-petani",
           cells: {
-            perkara: [{ ms: "Saya seorang petani.", en: "I am a farmer.", es: "Soy agricultor." }],
+            perkara: [{ ms: "Mereka petani di kampung.", en: "They are farmers in the village.", es: "Ellos son agricultores en el pueblo." }],
             butiran: [
               {
                 ms: "Saya menanam sayur di kebun.",
@@ -255,7 +255,7 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-penjual",
           cells: {
-            perkara: [{ ms: "Saya seorang penjual.", en: "I am a seller.", es: "Soy vendedor." }],
+            perkara: [{ ms: "Ibu saya penjual.", en: "My mother is a seller.", es: "Mi madre es vendedora." }],
             butiran: [
               {
                 ms: "Saya menjual nasi.",
@@ -278,7 +278,7 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-tukang-masak",
           cells: {
-            perkara: [{ ms: "Saya seorang tukang masak.", en: "I am a cook.", es: "Soy cocinero." }],
+            perkara: [{ ms: "Saya tukang masak di kedai makan.", en: "I am a cook at an eatery.", es: "Soy cocinero en un restaurante." }],
             butiran: [
               {
                 ms: "Saya masak kari ayam di kedai makan.",
@@ -450,6 +450,7 @@ export const chapter09: ChapterContent = {
         { id: "finah", name: { ms: "Finah", en: "Finah", es: "Finah" } },
       ],
       messages: [
+        { id: "c9-chat2-m1", from: "ketua", text: { ms: "Selamat pagi, cikgu.", en: "Good morning, teacher.", es: "Buenos dias, profesora." } },
         { id: "c9-chat2-m2", from: "murid", text: { ms: "Selamat pagi, cikgu.", en: "Good morning, teacher.", es: "Buenos dias, profesora." } },
         {
           id: "c9-chat2-m3",

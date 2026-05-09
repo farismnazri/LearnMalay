@@ -884,9 +884,9 @@ export const chapter04: ChapterContent = {
         es: "Situación 4.2 Hora de cine",
       },
       context: {
-        ms: "Latar tempat: Kaunter perkhidmatan azman di sebuah panggung wayang.",
-        en: "Setting: Customer service counter at a cinema.",
-        es: "Lugar: Mostrador de atención al cliente en un cine.",
+        ms: "Latar tempat: Kaunter tiket di sebuah panggung wayang.",
+        en: "Setting: Ticket counter at a cinema.",
+        es: "Lugar: Taquilla en un cine.",
       },
       participants: [
         { id: "azman", name: { ms: "Azman", en: "Azman", es: "Azman" } },
