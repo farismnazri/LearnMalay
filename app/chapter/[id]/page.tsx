@@ -9,6 +9,7 @@ import DragFillCard from "@/components/game/DragFillCard";
 import FigureCard from "@/components/game/FigureCard";
 import FoodIntroCard from "@/components/game/FoodIntroCard";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
+import ChapterTitleHeader from "@/components/game/ChapterTitleHeader";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 import AkuAkuPopup from "@/components/game/AkuAkuPopup";
@@ -283,25 +284,9 @@ export default function ChapterPage() {
 
       <div className="relative z-10 mx-auto max-w-5xl">
         {/* top bar */}
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="crash-text crash-outline-chapter text-7xl font-black leading-none whitespace-pre-line">
-              {content.id === 5
-                ? `CHAPTER 5 -\nNOMBOR,\nANGKA &\nALAMAT`
-                : content.id === 6
-                ? `CHAPTER 6 -\nALAM\nSEKITAR &\nCUACA`
-                : content.id === 7
-                ? "CHAPTER 7 - MAKANAN\n& KUIH-MUIH"
-                : content.id === 8
-                ? "CHAPTER 8 - PERAYAAN\nDI MALAYSIA"
-                : content.id === 9
-                ? "CHAPTER 9 - PEKERJAAN\nDI SEKITAR KITA"
-                : content.id === 10
-                ? "CHAPTER 10 - PERMAINAN\nTRADISIONAL"
-                : content.id === 11
-                ? "CHAPTER 11 - CUTI-CUTI\nUMUM DI MALAYSIA"
-                : `CHAPTER ${content.id} - ${titleMs}`}
-            </div>
+        <div className="grid items-start gap-4 md:grid-cols-[minmax(0,1fr)_16rem] md:gap-5 lg:grid-cols-[minmax(0,1fr)_16.5rem]">
+          <div className="min-w-0 md:pr-1">
+            <ChapterTitleHeader chapterId={content.id} title={titleMs} />
 
             {lang !== "ms" && <div className="mt-1 text-lg font-extrabold text-white/90">{titleTrans}</div>}
 
@@ -313,63 +298,69 @@ export default function ChapterPage() {
           </div>
 
           {/* user card */}
-          <div className="rounded-2xl bg-white/85 p-4 shadow">
-            <div className="mb-3">
-              <BackgroundAudioControls />
+          <div className="w-full max-w-sm rounded-2xl bg-white/85 p-4 shadow md:w-64 md:max-w-none md:justify-self-end">
+            <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3 gap-y-1">
+              <BackgroundAudioControls className="[&>button]:h-11 [&>button]:w-11 [&>button]:rounded-xl" />
+              <div className="min-w-0 self-center text-3xl font-extrabold leading-none tracking-tight">{user.name}</div>
+              <div className="text-right text-sm font-semibold leading-tight opacity-80">
+                <div>World: {world}</div>
+                <div className="mt-1">Level: {level}</div>
+              </div>
             </div>
 
-            <div className="text-xs font-black opacity-70">PLAYER</div>
-            <div className="text-lg font-extrabold">{user.name}</div>
-            <div className="mt-1 text-xs font-semibold opacity-80">World: {world}</div>
-            <div className="text-xs font-semibold opacity-80">Level: {level}</div>
-
-            <div className="mt-3 flex gap-2">
+            <div className="mt-3 grid grid-cols-3 gap-2">
               <button
                 onClick={() => pickLang("ms")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
+                className={`touch-target rounded-full px-3 py-1 text-sm font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
               >
                 BM
               </button>
               <button
                 onClick={() => pickLang("en")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
+                className={`touch-target rounded-full px-3 py-1 text-sm font-black shadow ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
               >
                 EN
               </button>
               <button
                 onClick={() => pickLang("es")}
-                className={`rounded-full px-3 py-1 text-xs font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
+                className={`touch-target rounded-full px-3 py-1 text-sm font-black shadow ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
               >
                 ES
               </button>
             </div>
 
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
               <button
                 onClick={() => setShowIntro(true)}
-                className="rounded-xl bg-amber-300 px-3 py-2 text-xs font-black shadow"
+                className="touch-target rounded-xl bg-amber-300 px-3 py-2 text-sm font-black shadow"
                 title="Show Aku-Aku intro again"
               >
                 Replay Intro
               </button>
 
-              <IconActionLink href="/map" kind="map" tooltip="Back to Map" iconClassName="brightness-0" />
+              <IconActionLink
+                href="/map"
+                kind="map"
+                tooltip="Back to Map"
+                className="justify-self-end"
+                iconClassName="brightness-0"
+              />
             </div>
 
             {/* page navigation */}
             {totalPages > 0 && (
-              <div className="mt-3 flex gap-2">
+              <div className="mt-3 grid grid-cols-2 gap-2">
                 <button
                   onClick={prevPage}
                   disabled={safeIdx === 0}
-                  className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow disabled:opacity-50"
+                  className="touch-target rounded-xl bg-white px-3 py-2 text-sm font-bold shadow disabled:opacity-50"
                 >
                   Prev
                 </button>
                 <button
                   onClick={nextPage}
                   disabled={safeIdx >= totalPages - 1}
-                  className="rounded-xl bg-emerald-600 px-3 py-2 text-xs font-black text-white shadow disabled:opacity-50"
+                  className="touch-target rounded-xl bg-emerald-600 px-3 py-2 text-sm font-black text-white shadow disabled:opacity-50"
                 >
                   Next
                 </button>

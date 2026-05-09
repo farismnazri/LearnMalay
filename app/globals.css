@@ -152,6 +152,138 @@ body {
     -2px 0px 0 #000;
 }
 
+.crash-chapter-header {
+  width: 100%;
+  max-width: 100%;
+}
+
+.crash-chapter-title {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  width: fit-content;
+  max-width: 100%;
+  font-family: var(--font-crash), system-ui, Arial, sans-serif;
+  font-size: 2.9rem;
+  font-weight: 900;
+  line-height: 0.82;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.crash-chapter-title--short {
+  font-size: 3.35rem;
+}
+
+.crash-chapter-title--medium {
+  font-size: 3rem;
+}
+
+.crash-chapter-title--long {
+  font-size: 2.7rem;
+}
+
+.crash-chapter-title--very-long {
+  font-size: 2.45rem;
+}
+
+.crash-chapter-title-line {
+  position: relative;
+  isolation: isolate;
+  display: inline-grid;
+  width: fit-content;
+  max-width: 100%;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+.crash-chapter-title-line::before,
+.crash-chapter-title-line::after {
+  content: attr(data-text);
+  grid-area: 1 / 1;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  pointer-events: none;
+  user-select: none;
+}
+
+.crash-chapter-title-line::before {
+  color: #000;
+  -webkit-text-stroke: 4px #000;
+  transform: translate(2px, 2px);
+  text-shadow: 3px 3px 0 #000, -3px 3px 0 #000, 3px -3px 0 #000, -3px -3px 0 #000, 4px 0 0 #000,
+    -4px 0 0 #000, 0 4px 0 #000, 0 -4px 0 #000, 2px 4px 0 #000, -2px 4px 0 #000, 4px 2px 0 #000,
+    -4px 2px 0 #000;
+  z-index: 0;
+}
+
+.crash-chapter-title-line::after {
+  color: transparent;
+  transform: none;
+  text-shadow: none;
+  z-index: 1;
+}
+
+.crash-chapter-title-fill {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 2;
+  color: #ff8a12;
+  background-image: linear-gradient(180deg, #fff13a 0%, #ffc526 34%, #ff8a12 67%, #c94a00 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+@media (max-width: 26.874rem) {
+  .crash-chapter-title {
+    line-height: 0.84;
+    letter-spacing: 0;
+  }
+
+  .crash-chapter-title--short {
+    font-size: 2.9rem;
+  }
+
+  .crash-chapter-title--medium {
+    font-size: 2.55rem;
+  }
+
+  .crash-chapter-title--long {
+    font-size: 2.3rem;
+  }
+
+  .crash-chapter-title--very-long {
+    font-size: 2.1rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  .crash-chapter-title--short {
+    font-size: 4.85rem;
+  }
+
+  .crash-chapter-title--medium {
+    font-size: 4.2rem;
+  }
+
+  .crash-chapter-title--long {
+    font-size: 3.65rem;
+  }
+
+  .crash-chapter-title--very-long {
+    font-size: 3.25rem;
+  }
+}
+
 .crash-hover-white {
   transition:
     color 140ms ease;
