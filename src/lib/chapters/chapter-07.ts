@@ -971,129 +971,109 @@ export const chapter07: ChapterContent = {
         {
           id: "c7-71-m1",
           from: "azman",
-          text: { ms: "Ahmad...", en: "Ahmad...", es: "Ahmad..." },
+          text: {
+            ms: "Ahmad, gerai kuih ini nampak meriah.",
+            en: "Ahmad, this kuih stall looks lively.",
+            es: "Ahmad, este puesto de kuih se ve animado.",
+          },
         },
         {
           id: "c7-71-m2",
           from: "ahmad",
-          text: { ms: "Sampai pun.", en: "You finally arrived.", es: "Por fin llegaste." },
+          text: {
+            ms: "Betul. Kita pilih kuih untuk kawan-kawan di kolej.",
+            en: "True. Let's choose kuih for our friends at the college.",
+            es: "Es verdad. Escojamos kuih para nuestros amigos de la residencia.",
+          },
         },
         {
           id: "c7-71-m3",
           from: "azman",
           text: {
-            ms: "Cuba awak tengok kuih-kuih ni. Saya beli di pasar malam tadi. Semuanya nampak sedap.",
-            en: "Try looking at these kuih. I bought them at the night market earlier. They all look delicious.",
-            es: "Mira estos kuih. Los compre en el mercado nocturno. Todos se ven deliciosos.",
+            ms: "Mereka suka kuih manis atau kuih masin?",
+            en: "Do they like sweet kuih or savory kuih?",
+            es: "Les gusta el kuih dulce o salado?",
           },
         },
         {
           id: "c7-71-m4",
           from: "ahmad",
-          text: { ms: "Yalah, banyaknya kuih.", en: "Wow, so many kuih.", es: "Vaya, hay muchisimos kuih." },
+          text: {
+            ms: "Aina suka onde-onde. Ravi suka karipap.",
+            en: "Aina likes onde-onde. Ravi likes karipap.",
+            es: "A Aina le gusta el onde-onde. A Ravi le gusta el karipap.",
+          },
         },
         {
           id: "c7-71-m5",
           from: "azman",
-          text: { ms: "Banyak kan? Saya beli khas untuk awak.", en: "A lot, right? I bought them specially for you.", es: "Muchos, verdad? Los compre especialmente para ti." },
+          text: {
+            ms: "Baik. Kita ambil enam onde-onde dan empat karipap.",
+            en: "Alright. Let's take six onde-onde and four karipap.",
+            es: "Bien. Tomemos seis onde-onde y cuatro karipap.",
+          },
         },
         {
           id: "c7-71-m6",
           from: "ahmad",
-          text: { ms: "Wah!", en: "Wow!", es: "Guau!" },
+          text: {
+            ms: "Berapa harga satu karipap?",
+            en: "How much is one karipap?",
+            es: "Cuanto cuesta un karipap?",
+          },
         },
         {
           id: "c7-71-m7",
           from: "azman",
-          text: { ms: "Awak suka makan kuih apa?", en: "What kuih do you like to eat?", es: "Que kuih te gusta comer?" },
+          text: {
+            ms: "Pada papan tanda ini, satu karipap satu ringgit.",
+            en: "On this signboard, one karipap is one ringgit.",
+            es: "En este letrero, un karipap cuesta un ringgit.",
+          },
         },
         {
           id: "c7-71-m8",
           from: "ahmad",
           text: {
-            ms: "Saya suka makan kuih lapis dan tepung pelita.",
-            en: "I like kuih lapis and tepung pelita.",
-            es: "Me gustan el kuih lapis y el tepung pelita.",
+            ms: "Onde-onde pula tiga biji dua ringgit.",
+            en: "As for onde-onde, three pieces are two ringgit.",
+            es: "El onde-onde cuesta dos ringgit por tres piezas.",
           },
         },
         {
           id: "c7-71-m9",
           from: "azman",
           text: {
-            ms: "Tepung pelita. Saya ada beli untuk awak.",
-            en: "Tepung pelita. I bought it for you.",
-            es: "Tepung pelita. Compre para ti.",
+            ms: "Jadi jumlahnya lapan ringgit.",
+            en: "So the total is eight ringgit.",
+            es: "Entonces el total es ocho ringgit.",
           },
         },
         {
           id: "c7-71-m10",
           from: "ahmad",
-          text: { ms: "Sedap ni.", en: "This is tasty.", es: "Esto esta rico." },
+          text: {
+            ms: "Boleh. Saya bayar dahulu.",
+            en: "Alright. I will pay first.",
+            es: "Bien. Yo pago primero.",
+          },
         },
         {
           id: "c7-71-m11",
           from: "azman",
-          text: { ms: "Saya beli karipap.", en: "I bought karipap.", es: "Compre karipap." },
+          text: {
+            ms: "Cuba satu onde-onde. Rasanya manis dan lembut.",
+            en: "Try one onde-onde. It tastes sweet and soft.",
+            es: "Prueba un onde-onde. Sabe dulce y suave.",
+          },
         },
         {
           id: "c7-71-m12",
           from: "ahmad",
-          text: { ms: "Wah!", en: "Wow!", es: "Guau!" },
-        },
-        {
-          id: "c7-71-m13",
-          from: "azman",
-          text: { ms: "Saya beli kuih sagu.", en: "I bought kuih sagu.", es: "Compre kuih sagu." },
-        },
-        {
-          id: "c7-71-m14",
-          from: "ahmad",
-          text: { ms: "Wah!", en: "Wow!", es: "Guau!" },
-        },
-        {
-          id: "c7-71-m15",
-          from: "azman",
-          text: { ms: "Nasi manis.", en: "Sweet rice dessert.", es: "Postre de arroz dulce." },
-        },
-        {
-          id: "c7-71-m16",
-          from: "ahmad",
-          text: { ms: "Wah!", en: "Wow!", es: "Guau!" },
-        },
-        {
-          id: "c7-71-m17",
-          from: "azman",
           text: {
-            ms: "Selain tepung pelita, awak suka makan kuih apa?",
-            en: "Other than tepung pelita, what kuih do you like?",
-            es: "Ademas de tepung pelita, que kuih te gusta?",
-          },
-        },
-        {
-          id: "c7-71-m18",
-          from: "ahmad",
-          text: {
-            ms: "Saya suka makan kuih apam dan roti jala.",
-            en: "I like apam and roti jala.",
-            es: "Me gustan el apam y el roti jala.",
-          },
-        },
-        {
-          id: "c7-71-m19",
-          from: "azman",
-          text: {
-            ms: "Kalau saya pula, saya suka makan kuih onde-onde. Lepas itu, lepat pisang. Tetapi, tadi tidak jumpalah.",
-            en: "As for me, I like onde-onde. After that, lepat pisang. But I could not find it earlier.",
-            es: "En mi caso, me gusta el onde-onde. Despues, el lepat pisang. Pero no lo encontre antes.",
-          },
-        },
-        {
-          id: "c7-71-m20",
-          from: "ahmad",
-          text: {
-            ms: "Tidak mengapa. Kita makan dulu ni. Nanti kita pergi beli lain kali.",
-            en: "Its okay. Lets eat these first. Next time we can go buy more.",
-            es: "No pasa nada. Comamos esto primero. La proxima vez iremos a comprar mas.",
+            ms: "Sedap! Jom bawa kepada kawan-kawan.",
+            en: "Delicious! Let's bring them to our friends.",
+            es: "Rico! Llevemoslos a nuestros amigos.",
           },
         },
       ],

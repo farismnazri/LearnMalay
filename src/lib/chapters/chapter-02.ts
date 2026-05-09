@@ -159,110 +159,107 @@ export const chapter02: ChapterContent = {
       avatarSrc: "/assets/characters/Bandicoot_Profile.png",
     },
   ],
-  messages: [
-    {
-      id: "s21-m1",
-      from: "ayub",
-      text: {
-        ms: "Assalamualaikum.",
-        en: "Assalamualaikum.",
-        es: "Assalamualaikum.",
-      },
+messages: [
+  {
+    id: "s21-m1",
+    from: "ayub",
+    text: {
+      ms: "Assalamualaikum.",
+      en: "Assalamualaikum.",
+      es: "Assalamualaikum.",
     },
-    {
-      id: "s21-m2",
-      from: "azman",
-      text: {
-        ms: "Waalaikumussalam, Mad.",
-        en: "Waalaikumussalam, Mad.",
-        es: "Waalaikumussalam, Mad.",
-      },
+  },
+  {
+    id: "s21-m2",
+    from: "azman",
+    text: {
+      ms: "Waalaikumussalam, Mad.",
+      en: "Waalaikumussalam, Mad.",
+      es: "Waalaikumussalam, Mad.",
     },
-    {
-      id: "s21-m3",
-      from: "ayub",
-      text: {
-        ms: "Daripada mana ni?",
-        en: "Where have you been?",
-        es: "¿De dónde vienes?",
-      },
+  },
+  {
+    id: "s21-m3",
+    from: "ayub",
+    text: {
+      ms: "Awak dari mana, Man?",
+      en: "Where are you coming from, Man?",
+      es: "¿De dónde vienes, Man?",
     },
-    {
-      id: "s21-m4",
-      from: "azman",
-      text: {
-        ms: "Baru balik dari kampung.",
-        en: "I just came back from my hometown (kampung).",
-        es: "Acabo de volver del pueblo (kampung).",
-      },
+  },
+  {
+    id: "s21-m4",
+    from: "azman",
+    text: {
+      ms: "Saya baru pulang dari kampung.",
+      en: "I just came back from my hometown.",
+      es: "Acabo de volver de mi pueblo.",
     },
-    {
-      id: "s21-m5",
-      from: "ayub",
-      text: {
-        ms: "Oh, baru balik dari kampung. Bagaimana keadaan keluarga awak di kampung?",
-        en: "Oh, you just came back from your hometown. How is your family there?",
-        es: "Ah, acabas de volver del pueblo. ¿Cómo está tu familia allá?",
-      },
+  },
+  {
+    id: "s21-m5",
+    from: "ayub",
+    text: {
+      ms: "Oh, bagaimana keadaan keluarga awak di kampung?",
+      en: "Oh, how is your family in your hometown?",
+      es: "Ah, ¿cómo está tu familia en tu pueblo?",
     },
-    {
-      id: "s21-m6",
-      from: "azman",
-      text: {
-        ms: "Dekat kampung, alhamdulillah. Semua sihat.",
-        en: "Back home, alhamdulillah. Everyone is well.",
-        es: "Allá en casa, alhamdulillah. Todos están bien.",
-      },
+  },
+  {
+    id: "s21-m6",
+    from: "azman",
+    text: {
+      ms: "Alhamdulillah, semuanya sihat.",
+      en: "Alhamdulillah, everyone is well.",
+      es: "Alhamdulillah, todos están bien.",
     },
-    {
-      id: "s21-m7",
-      from: "ayub",
-      text: {
-        ms: "Siapa keluarga awak yang tinggal di kampung?",
-        en: "Which of your family members live in the village?",
-        es: "¿Qué familiares tuyos viven en el pueblo?",
-      },
+  },
+  {
+    id: "s21-m7",
+    from: "ayub",
+    text: {
+      ms: "Siapakah yang tinggal di kampung?",
+      en: "Who lives in your hometown?",
+      es: "¿Quién vive en tu pueblo?",
     },
-    {
-      id: "s21-m8",
-      from: "azman",
-      text: {
-        ms: "Oh, yang tinggal di kampung ada atuk saya, nenek, mak ayah saya, dan adik beradik sayalah.",
-        en: "In the village, my atuk (grandfather), nenek (grandmother), my parents, and my siblings live there.",
-        es: "En el pueblo viven mi atuk (abuelo), mi nenek (abuela), mis padres y mis hermanos.",
-      },
+  },
+  {
+    id: "s21-m8",
+    from: "azman",
+    text: {
+      ms: "Di kampung, ada atuk dan nenek saya. Ibu bapa saya juga tinggal di sana bersama adik-beradik saya.",
+      en: "In my hometown, my grandfather and grandmother are there. My parents also live there with my siblings.",
+      es: "En mi pueblo están mi abuelo y mi abuela. Mis padres también viven allí con mis hermanos.",
     },
-    {
-      id: "s21-m9",
-      from: "ayub",
-      text: {
-        ms: "Berapa orang adik-beradik awak?",
-        en: "How many siblings do you have?",
-        es: "¿Cuántos hermanos tienes?",
-      },
+  },
+  {
+    id: "s21-m9",
+    from: "ayub",
+    text: {
+      ms: "Berapa orang adik-beradik awak?",
+      en: "How many siblings do you have?",
+      es: "¿Cuántos hermanos tienes?",
     },
-    {
-      id: "s21-m10",
-      from: "azman",
-      text: {
-        ms:
-          "Oh, adik-beradik saya ada lima orang. Saya, abang, kakak, dua orang lagi adik lelaki dan adik perempuan.",
-        en:
-          "I have five siblings: me, an older brother, an older sister, and two more younger siblings (a younger brother and a younger sister).",
-        es:
-          "Somos cinco hermanos: yo, un hermano mayor, una hermana mayor y dos hermanos menores (un hermano menor y una hermana menor).",
-      },
+  },
+  {
+    id: "s21-m10",
+    from: "azman",
+    text: {
+      ms: "Kami lima beradik. Saya ada seorang abang, seorang kakak, seorang adik lelaki, dan seorang adik perempuan.",
+      en: "There are five of us siblings. I have an older brother, an older sister, a younger brother, and a younger sister.",
+      es: "Somos cinco hermanos. Tengo un hermano mayor, una hermana mayor, un hermano menor y una hermana menor.",
     },
-    {
-      id: "s21-m11",
-      from: "ayub",
-      text: {
-        ms: "Wah! Ramainya adik-beradik awak.",
-        en: "Wow! You have so many siblings.",
-        es: "¡Wow! Tienes muchos hermanos.",
-      },
+  },
+  {
+    id: "s21-m11",
+    from: "ayub",
+    text: {
+      ms: "Wah, ramainya adik-beradik awak!",
+      en: "Wow, you have many siblings!",
+      es: "¡Wow, tienes muchos hermanos!",
     },
-  ],
+  },
+],
 },
 
 
@@ -284,184 +281,125 @@ export const chapter02: ChapterContent = {
   },
   participants: [
     {
+      id: "azman",
+      name: { ms: "Azman", en: "Azman", es: "Azman" },
+      avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+    },
+    {
       id: "ayub", // keep this id for your UI
       name: { ms: "Hassan", en: "Hassan", es: "Hassan" },
-      avatarSrc: "/assets/characters/Bandicoot_Profile.png",
     },
   ],
   messages: [
-    {
-      id: "s22-m1",
-      from: "azman",
-      text: {
-        ms: "Assalamualaikum, Hassan.",
-        en: "Assalamualaikum, Hassan.",
-        es: "Assalamualaikum, Hassan.",
-      },
+  {
+    id: "s22-m1",
+    from: "azman",
+    text: {
+      ms: "Assalamualaikum, Hassan. Saya datang nak buat kerja kumpulan.",
+      en: "Assalamualaikum, Hassan. I came to do the group assignment.",
+      es: "Assalamualaikum, Hassan. Vine para hacer el trabajo en grupo.",
     },
-    {
-      id: "s22-m2",
-      from: "ayub",
-      text: {
-        ms: "Ibu: Waalaikummussalam, Azman.",
-        en: "Mother: Waalaikummussalam, Azman.",
-        es: "Mamá: Waalaikummussalam, Azman.",
-      },
+  },
+  {
+    id: "s22-m2",
+    from: "ayub",
+    text: {
+      ms: "Waalaikumussalam, Azman. Jemput masuk.",
+      en: "Waalaikumussalam, Azman. Please come in.",
+      es: "Waalaikumussalam, Azman. Pasa, por favor.",
     },
-    {
-      id: "s22-m3",
-      from: "azman",
-      text: {
-        ms: "Silakan masuk.\nTerima kasihlah kerana sudi datang.",
-        en: "Please come in.\nThank you for coming.",
-        es: "Pasa, por favor.\nGracias por venir.",
-      },
+  },
+  {
+    id: "s22-m3",
+    from: "azman",
+    text: {
+      ms: "Terima kasih. Wah, rumah awak selesa.",
+      en: "Thank you. Wow, your house is comfortable.",
+      es: "Gracias. Vaya, tu casa es cómoda.",
     },
-    {
-      id: "s22-m4",
-      from: "ayub",
-      text: {
-        ms: "Ibu: Terima kasih juga kerana jemput saya.",
-        en: "Mother: Thank you too for inviting me.",
-        es: "Mamá: Gracias también por invitarme.",
-      },
+  },
+  {
+    id: "s22-m4",
+    from: "ayub",
+    text: {
+      ms: "Terima kasih. Itu ibu saya. Ibu, ini kawan saya, Azman.",
+      en: "Thank you. That is my mother. Mother, this is my friend, Azman.",
+      es: "Gracias. Esa es mi madre. Mamá, este es mi amigo, Azman.",
     },
-    {
-      id: "s22-m5",
-      from: "azman",
-      text: {
-        ms: "Kenalkan ini isteri saya, Fatimah.",
-        en: "Let me introduce my wife, Fatimah.",
-        es: "Te presento a mi esposa, Fátimah.",
-      },
+  },
+  {
+    id: "s22-m5",
+    from: "azman",
+    text: {
+      ms: "Selamat berkenalan, mak cik.",
+      en: "Nice to meet you, auntie.",
+      es: "Encantado de conocerla, tía.",
     },
-    {
-      id: "s22-m6",
-      from: "ayub",
-      text: {
-        ms: "Ibu: Oh, Fatimah.",
-        en: "Mother: Oh, Fatimah.",
-        es: "Mamá: Oh, Fátimah.",
-      },
+  },
+  {
+    id: "s22-m6",
+    from: "ayub",
+    text: {
+      ms: "Ibu saya sedang buat teh panas. Nanti kita minum sama-sama.",
+      en: "My mother is making hot tea. Later, we can drink it together.",
+      es: "Mi madre está preparando té caliente. Luego podemos tomarlo juntos.",
     },
-    {
-      id: "s22-m7",
-      from: "azman",
-      text: {
-        ms: "Ya, Fatimah.",
-        en: "Yes, Fatimah.",
-        es: "Sí, Fátimah.",
-      },
+  },
+  {
+    id: "s22-m7",
+    from: "azman",
+    text: {
+      ms: "Wah, patutlah bau teh sedap.",
+      en: "Wow, no wonder the tea smells good.",
+      es: "Vaya, con razón el té huele tan bien.",
     },
-    {
-      id: "s22-m8",
-      from: "ayub",
-      text: {
-        ms: "Ini kakak saya, kak Wati.",
-        en: "This is my older sister, Kak Wati.",
-        es: "Esta es mi hermana mayor, Kak Wati.",
-      },
+  },
+  {
+    id: "s22-m8",
+    from: "ayub",
+    text: {
+      ms: "Yang duduk di sebelah ibu saya itu adik saya, Lina.",
+      en: "The one sitting next to my mother is my younger sister, Lina.",
+      es: "La que está sentada al lado de mi madre es mi hermana menor, Lina.",
     },
-    {
-      id: "s22-m9",
-      from: "azman",
-      text: {
-        ms: "Oh, ini kakak.",
-        en: "Oh, this is your older sister.",
-        es: "Ah, esta es tu hermana mayor.",
-      },
+  },
+  {
+    id: "s22-m9",
+    from: "azman",
+    text: {
+      ms: "Hai, Lina. Kamu belajar di sekolah rendah?",
+      en: "Hi, Lina. Do you study in primary school?",
+      es: "Hola, Lina. ¿Estudias en la escuela primaria?",
     },
-    {
-      id: "s22-m10",
-      from: "ayub",
-      text: {
-        ms: "Ya, kakak saya. Silalah. Jemput duduk.\nIni adik saya, Syada.",
-        en: "Yes, my older sister. Please. Have a seat.\nThis is my younger sibling, Syada.",
-        es: "Sí, mi hermana mayor. Adelante. Siéntate, por favor.\nEste/a es mi hermano/a menor, Syada.",
-      },
+  },
+  {
+    id: "s22-m10",
+    from: "ayub",
+    text: {
+      ms: "Ya, Lina darjah lima. Abang saya, Amir, pula ada di dapur.",
+      en: "Yes, Lina is in Year Five. My older brother, Amir, is in the kitchen.",
+      es: "Sí, Lina está en quinto grado. Mi hermano mayor, Amir, está en la cocina.",
     },
-    {
-      id: "s22-m11",
-      from: "azman",
-      text: {
-        ms: "Oh, ini adik.",
-        en: "Oh, this is your younger sibling.",
-        es: "Ah, este/a es tu hermano/a menor.",
-      },
+  },
+  {
+    id: "s22-m11",
+    from: "azman",
+    text: {
+      ms: "Oh, ramai juga keluarga awak di rumah hari ini.",
+      en: "Oh, quite a few of your family members are at home today.",
+      es: "Ah, hay varios miembros de tu familia en casa hoy.",
     },
-    {
-      id: "s22-m12",
-      from: "ayub",
-      text: {
-        ms: "Ya, adik saya. Itu bapa saya.",
-        en: "Yes, my younger sibling. That is my father.",
-        es: "Sí, mi hermano/a menor. Ese es mi padre.",
-      },
+  },
+  {
+    id: "s22-m12",
+    from: "ayub",
+    text: {
+      ms: "Ya. Hari ini kami makan bersama. Jom duduk dulu.",
+      en: "Yes. Today we are eating together. Come, let’s sit down first.",
+      es: "Sí. Hoy vamos a comer juntos. Ven, sentémonos primero.",
     },
-    {
-      id: "s22-m13",
-      from: "azman",
-      text: {
-        ms: "Assalamualaikum, pak cik.",
-        en: "Assalamualaikum, Uncle.",
-        es: "Assalamualaikum, tío.",
-      },
-    },
-    {
-      id: "s22-m14",
-      from: "ayub",
-      text: {
-        ms: "Bapa Hassan: Waalaikumussalam, jemput makan.",
-        en: "Hassan’s father: Waalaikumussalam, please eat.",
-        es: "El papá de Hassan: Waalaikumussalam, pase a comer.",
-      },
-    },
-    {
-      id: "s22-m15",
-      from: "azman",
-      text: {
-        ms: "Baiklah.",
-        en: "Alright.",
-        es: "De acuerdo.",
-      },
-    },
-    {
-      id: "s22-m16",
-      from: "ayub",
-      text: {
-        ms: "Itu abang saya, abang Man.",
-        en: "That is my older brother, Abang Man.",
-        es: "Ese es mi hermano mayor, Abang Man.",
-      },
-    },
-    {
-      id: "s22-m17",
-      from: "azman",
-      text: {
-        ms: "Eh, bang.\nSaya tak nampak pula mak awak. Mak awak\ndekat mana?",
-        en: "Hey, bro.\nI don’t see your mum. Where is she?",
-        es: "Eh, bro.\nNo veo a tu mamá. ¿Dónde está?",
-      },
-    },
-    {
-      id: "s22-m18",
-      from: "ayub",
-      text: {
-        ms: "Oh, mak saya dekat dapur.\nJemputlah makan.",
-        en: "Oh, my mum is in the kitchen.\nPlease, eat.",
-        es: "Oh, mi mamá está en la cocina.\nPor favor, come.",
-      },
-    },
-    {
-      id: "s22-m19",
-      from: "azman",
-      text: {
-        ms: "Terima kasih.",
-        en: "Thank you.",
-        es: "Gracias.",
-      },
-    },
-  ],
+  },
+],
 },
 
 ///Situasi 2.3 Perbualan dengan ibu (Gelaran dalam Keluarga)
@@ -487,94 +425,88 @@ export const chapter02: ChapterContent = {
     },
   ],
   messages: [
-    {
-      id: "s23-m1",
-      from: "azman",
-      text: {
-        ms: "Mak masak apa hari ni?",
-        en: "Mum, what are you cooking today?",
-        es: "Mamá, ¿qué estás cocinando hoy?",
-      },
+  {
+    id: "s23-m1",
+    from: "azman",
+    text: {
+      ms: "Mak tengah masak apa hari ni?",
+      en: "Mum, what are you cooking today?",
+      es: "Mamá, ¿qué estás cocinando hoy?",
     },
-    {
-      id: "s23-m2",
-      from: "ayub",
-      text: {
-        ms: "Mak masak nasi goreng.",
-        en: "I’m cooking fried rice.",
-        es: "Estoy cocinando arroz frito.",
-      },
+  },
+  {
+    id: "s23-m2",
+    from: "ayub",
+    text: {
+      ms: "Mak tengah masak nasi goreng untuk sarapan.",
+      en: "I’m cooking fried rice for breakfast.",
+      es: "Estoy cocinando arroz frito para el desayuno.",
     },
-    {
-      id: "s23-m3",
-      from: "azman",
-      text: {
-        ms: "Nasi goreng? Banyaknya mak masak.",
-        en: "Fried rice? You’re making a lot, Mum.",
-        es: "¿Arroz frito? Estás cocinando muchísimo, mamá.",
-      },
+  },
+  {
+    id: "s23-m3",
+    from: "azman",
+    text: {
+      ms: "Nasi goreng? Banyaknya mak masak.",
+      en: "Fried rice? You’re cooking a lot, Mum.",
+      es: "¿Arroz frito? Estás cocinando bastante, mamá.",
     },
-    {
-      id: "s23-m4",
-      from: "ayub",
-      text: {
-        ms: "Hari ini, atuk dan nenek sarapan di rumah.\nAbang long dan kak ngah pun ada sekali.",
-        en: "Today, atuk and nenek are having breakfast at home.\nAbang Long and Kak Ngah are here too.",
-        es: "Hoy, atuk y nenek van a desayunar en casa.\nAbang Long y Kak Ngah también están aquí.",
-      },
+  },
+  {
+    id: "s23-m4",
+    from: "ayub",
+    text: {
+      ms: "Hari ini, atuk dan nenek sarapan di rumah. Abang Long dan Kak Ngah pun ada.",
+      en: "Today, Grandpa and Grandma are having breakfast at home. Abang Long and Kak Ngah are here too.",
+      es: "Hoy, el abuelo y la abuela van a desayunar en casa. Abang Long y Kak Ngah también están aquí.",
     },
-    {
-      id: "s23-m5",
-      from: "azman",
-      text: {
-        ms: "Oh, ye ke?",
-        en: "Oh, really?",
-        es: "¿Ah, sí?",
-      },
+  },
+  {
+    id: "s23-m5",
+    from: "azman",
+    text: {
+      ms: "Oh, patutlah banyak.",
+      en: "Oh, no wonder there’s a lot.",
+      es: "Ah, con razón hay bastante.",
     },
-    {
-      id: "s23-m6",
-      from: "ayub",
-      text: {
-        ms: "Man, tolong mak buatkan air teh.",
-        en: "Man, help Mum make some tea.",
-        es: "Man, ayúdale a mamá a preparar té.",
-      },
+  },
+  {
+    id: "s23-m6",
+    from: "ayub",
+    text: {
+      ms: "Man, tolong mak buatkan air teh, boleh?",
+      en: "Man, can you help Mum make some tea?",
+      es: "Man, ¿puedes ayudar a mamá a preparar té?",
     },
-    {
-      id: "s23-m7",
-      from: "azman",
-      text: {
-        ms: "Ya la mak, nanti Man buatkan.",
-        en: "Alright Mum, I’ll make it in a bit.",
-        es: "Sí, mamá, ahora lo hago en un momento.",
-      },
+  },
+  {
+    id: "s23-m7",
+    from: "azman",
+    text: {
+      ms: "Boleh, mak. Man buat sekarang.",
+      en: "Sure, Mum. I’ll make it now.",
+      es: "Claro, mamá. Lo preparo ahora.",
     },
-    {
-      id: "s23-m8",
-      from: "ayub",
-      text: {
-        ms: "Terima kasih, Man. Nanti Man panggil ayah,\n" +
-            "atuk, nenek, abang long dan kak ngah untuk\n" +
-            "sarapan sekali, ya.",
-        en: "Thank you, Man. Later, call Dad,\n" +
-            "atuk, nenek, Abang Long, and Kak Ngah\n" +
-            "to have breakfast together, okay?",
-        es: "Gracias, Man. Luego llama a Papá,\n" +
-            "a atuk, a nenek, a Abang Long y a Kak Ngah\n" +
-            "para desayunar juntos, ¿sí?",
-      },
+  },
+  {
+    id: "s23-m8",
+    from: "ayub",
+    text: {
+      ms: "Terima kasih, Man. Lepas itu, panggil ayah, atuk, nenek, Abang Long dan Kak Ngah untuk sarapan sekali, ya.",
+      en: "Thank you, Man. After that, call Dad, Grandpa, Grandma, Abang Long, and Kak Ngah to have breakfast together, okay?",
+      es: "Gracias, Man. Después de eso, llama a papá, al abuelo, a la abuela, a Abang Long y a Kak Ngah para desayunar juntos, ¿sí?",
     },
-    {
-      id: "s23-m9",
-      from: "azman",
-      text: {
-        ms: "Nantilah Man panggilkan. Man pergi buat air\ndulu.",
-        en: "I’ll call them. I’m going to make the tea first.",
-        es: "Ya los llamaré. Voy a preparar el té primero.",
-      },
+  },
+  {
+    id: "s23-m9",
+    from: "azman",
+    text: {
+      ms: "Baik, mak. Man buat air dulu, lepas itu Man panggil semua.",
+      en: "Okay, Mum. I’ll make the drinks first, then I’ll call everyone.",
+      es: "Está bien, mamá. Primero preparo las bebidas y después llamo a todos.",
     },
-  ],
+  },
+],
 },
 
 
