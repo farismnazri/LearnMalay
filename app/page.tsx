@@ -21,6 +21,7 @@ export default function TitleScreen() {
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [starting, setStarting] = useState(false);
+  const [ackOpen, setAckOpen] = useState(false);
 
   useEffect(() => {
     getCurrentUser().then((u) => setUser(u));
@@ -136,8 +137,51 @@ export default function TitleScreen() {
         </section>
       </div>
 
-      <footer className="absolute bottom-[max(1.25rem,var(--safe-area-bottom))] left-0 right-0 z-10 text-center">
+      <footer className="absolute bottom-[max(1.25rem,var(--safe-area-bottom))] left-0 right-0 z-10 px-4 text-center">
         <p className="text-xs font-black tracking-[0.22em] text-[#f8efcb]/88">By FN for NF ❤︎</p>
+
+        <div className="mx-auto mt-2 w-full max-w-[44rem]">
+          <div className="overflow-hidden rounded-[999px] bg-white/92 shadow-[0_10px_24px_rgba(0,0,0,0.16)] ring-1 ring-black/5 backdrop-blur-sm">
+            <button
+              type="button"
+              onClick={() => setAckOpen((open) => !open)}
+              aria-expanded={ackOpen}
+              aria-controls="title-screen-acknowledgement"
+              className="w-full px-4 py-2 text-center text-[11px] font-medium leading-[1.45] text-[#344033] transition duration-200 active:scale-[0.995]"
+            >
+              Acknowledgement: This app and its lesson flow were inspired by Bahasa Melayu untuk
+              Penutur Asing: Tahap Asas by Yusmaniza Mohd Yusoff.
+            </button>
+
+            <div
+              id="title-screen-acknowledgement"
+              className={[
+                "grid px-4 transition-[grid-template-rows,opacity,padding] duration-300 ease-out",
+                ackOpen ? "grid-rows-[1fr] pb-3 opacity-100" : "grid-rows-[0fr] pb-0 opacity-0",
+              ].join(" ")}
+            >
+              <div className="overflow-hidden">
+                <div className="border-t border-[#dfe7d9] pt-2 text-[11px] leading-[1.5] text-[#4a5547]">
+                  Acknowledgement: This app was developed independently as a supplementary practice
+                  tool for Malay learners. Its lesson flow was inspired by Bahasa Melayu untuk
+                  Penutur Asing: Tahap Asas by Yusmaniza Mohd Yusoff. All rights to the original
+                  book, its contents, and its teaching materials remain with the respective author
+                  and publisher. This app is not affiliated with, endorsed by, or published by
+                  them. Users are encouraged to refer to the original author and source material
+                  here:{" "}
+                  <a
+                    href="https://anyflip.com/qivri/smcl/basic"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-semibold text-[#1f4a33] underline decoration-[#ce9d2c] decoration-2 underline-offset-2"
+                  >
+                    View the original publication
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </footer>
     </main>
   );
