@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
+import StylizedTitle from "@/components/game/StylizedTitle";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import {
   chapter01,
@@ -137,30 +138,28 @@ export default function MapPage() {
             <div className="absolute inset-0 bg-[#1b2f20]/38" />
             <div className="relative z-10 pl-1 phone-lg:pl-2.5 sm:pl-3">
               <div className="mx-1 w-[calc(100%-2rem)]">
-                <div className="flex items-stretch justify-between gap-2.5 phone-lg:gap-3">
-                  <Image
-                    src={getProfileAvatarSrc(user.avatarId)}
-                    alt={`${user.name} avatar`}
-                    width={60}
-                    height={60}
-                    className="mt-1 h-14 w-14 rounded-full border-2 border-[#f8da72]/75 bg-white/95 object-cover shadow-lg"
-                  />
+                <div className="flex items-center justify-between gap-2.5 phone-lg:gap-3">
+                  <div className="flex min-w-0 flex-1 items-center gap-2.5 phone-lg:gap-3">
+                    <Image
+                      src={getProfileAvatarSrc(user.avatarId)}
+                      alt={`${user.name} avatar`}
+                      width={60}
+                      height={60}
+                      className="h-14 w-14 rounded-full border-2 border-[#f8da72]/75 bg-white/95 object-cover shadow-lg"
+                    />
 
-                  <div className="flex min-w-0 flex-1 items-stretch justify-between gap-2.5">
-                    <div className="min-w-0 flex-1">
-                      <h1 className="crash-text crash-outline-fallback text-4xl leading-none font-black text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)] phone-lg:text-5xl">
-                        WORLD MAP
-                      </h1>
+                    <div className="min-w-0">
+                      <StylizedTitle title="WORLD MAP" />
                       <p className="mt-1 text-xs font-bold text-[#eef8da] phone-lg:text-sm">
                         Explorer: <span className="text-[#ffe98e]">{user.name}</span> • Current Chapter:{" "}
                         <span className="text-[#ffe98e]">{currentChapter}</span>
                       </p>
                     </div>
-                    <div className="flex min-h-[66px] items-center justify-center rounded-xl border border-[#88a967]/80 bg-gradient-to-b from-[#4f733a]/95 via-[#345c34]/95 to-[#274a2d]/95 px-4 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_-2px_0_rgba(0,0,0,0.2)] phone-lg:min-h-[74px] phone-lg:px-5">
-                      <span className="whitespace-nowrap text-xl font-black leading-none tracking-wide text-[#fff7d6] phone-lg:text-2xl">
-                        {unlockedCount}/{totalChapters}
-                      </span>
-                    </div>
+                  </div>
+                  <div className="flex min-h-[66px] items-center justify-center rounded-xl border border-[#88a967]/80 bg-gradient-to-b from-[#4f733a]/95 via-[#345c34]/95 to-[#274a2d]/95 px-4 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_-2px_0_rgba(0,0,0,0.2)] phone-lg:min-h-[74px] phone-lg:px-5">
+                    <span className="whitespace-nowrap text-xl font-black leading-none tracking-wide text-[#fff7d6] phone-lg:text-2xl">
+                      {unlockedCount}/{totalChapters}
+                    </span>
                   </div>
                 </div>
 

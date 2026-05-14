@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { UiLang } from "@/lib/chapters";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
+import StylizedTitle from "@/components/game/StylizedTitle";
 import WordSearchCard from "@/components/game/WordSearchCard";
 import IconActionLink from "@/components/navigation/IconActionLink";
 import { WORD_ITEMS, CATEGORY_LABELS, type WordCategory } from "@/lib/wordMatch/items";
@@ -275,9 +276,9 @@ export default function WordSearchMiniGame() {
         {/* header row */}
         <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between tablet:gap-4">
           <div>
-            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-5xl font-black leading-none phone-lg:text-6xl">
-              {lang === "ms" ? "CARI\nPERKATAAN" : lang === "en" ? "WORD\nSEARCH" : "SOPA\nDE LETRAS"}
-            </h1>
+            <StylizedTitle
+              title={lang === "ms" ? "CARI PERKATAAN" : lang === "en" ? "WORD SEARCH" : "SOPA DE LETRAS"}
+            />
             <p className="mt-2 text-sm font-semibold text-white/90 drop-shadow">
               {lang === "ms"
                 ? "Pilih tahap, pilih tema, dan dapatkan grid baharu setiap kali."
@@ -287,11 +288,7 @@ export default function WordSearchMiniGame() {
             </p>
           </div>
 
-          <div className="w-full rounded-2xl bg-white/85 p-4 shadow tablet:w-auto">
-            <div className="mb-3">
-              <BackgroundAudioControls />
-            </div>
-
+          <div className="w-full rounded-2xl bg-white/85 p-4 shadow tablet:min-w-[16rem] tablet:w-auto">
             <div className="text-xs font-black opacity-70">LANGUAGE</div>
             <div className="mt-2 grid grid-cols-3 gap-2">
               {(["ms", "en", "es"] as UiLang[]).map((l) => (
@@ -305,9 +302,10 @@ export default function WordSearchMiniGame() {
               ))}
             </div>
 
-            <div className="mt-3 grid grid-cols-2 gap-2 tablet:flex tablet:flex-wrap">
-              <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
+            <div className="mt-3 flex items-center gap-2">
               <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
+              <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
+              <BackgroundAudioControls variant="icon" />
             </div>
           </div>
         </div>

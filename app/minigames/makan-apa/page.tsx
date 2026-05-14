@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { UiLang } from "@/lib/chapters";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
+import StylizedTitle from "@/components/game/StylizedTitle";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 
@@ -130,17 +131,13 @@ export default function MakanApaIntroPage() {
       <div className="relative mx-auto max-w-4xl space-y-5 phone-lg:space-y-6">
         <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between tablet:gap-4">
           <div>
-            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-5xl font-black leading-none phone-lg:text-6xl">{title}</h1>
+            <StylizedTitle title={title} />
             <p className="mt-2 max-w-xl text-sm font-semibold text-white/90 drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
               {pick(subtitle, lang)}
             </p>
           </div>
 
-          <div className="w-full rounded-2xl bg-white/85 p-4 shadow tablet:w-auto">
-            <div className="mb-3">
-              <BackgroundAudioControls />
-            </div>
-
+          <div className="w-full rounded-2xl bg-white/85 p-4 shadow tablet:min-w-[19rem] tablet:w-auto">
             <div className="text-xs font-black opacity-70">LANGUAGE</div>
             <div className="mt-2 grid grid-cols-3 gap-2">
               <button
@@ -163,10 +160,11 @@ export default function MakanApaIntroPage() {
               </button>
             </div>
 
-            <div className="mt-3 grid grid-cols-3 gap-2 tablet:flex tablet:flex-wrap">
+            <div className="mt-3 flex items-center gap-2">
               <IconActionLink href="/minigames/makan-apa/play" kind="start-game" tooltip="Start Game" />
-              <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
               <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
+              <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
+              <BackgroundAudioControls variant="icon" />
             </div>
           </div>
         </div>

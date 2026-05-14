@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
+import StylizedTitle from "@/components/game/StylizedTitle";
 
 import AkuAkuPopup from "@/components/game/AkuAkuPopup";
 import type { AkuAkuDialog } from "@/lib/akuAku/types";
@@ -342,19 +343,13 @@ export default function MiniGamesPage() {
       <div className="relative mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between tablet:gap-4">
           <div>
-            <h1 className="crash-text crash-outline-fallback text-5xl font-black phone-lg:text-6xl">
-              NOMBOR
-            </h1>
+            <StylizedTitle title="Nombor" />
             <p className="mt-2 text-sm font-semibold text-white/90">
               Kenali Nombor • {t(lang, activeSet.label)}
             </p>
           </div>
 
-          <div className="w-full rounded-2xl bg-white/85 p-4 shadow tablet:w-auto">
-            <div className="mb-3">
-              <BackgroundAudioControls />
-            </div>
-
+          <div className="w-full rounded-2xl bg-white/85 p-4 shadow tablet:min-w-[19rem] tablet:w-auto">
             <div className="text-xs font-black opacity-70">LANG</div>
             <div className="mt-2 grid grid-cols-3 gap-2">
               <button
@@ -382,10 +377,11 @@ export default function MiniGamesPage() {
                 ES
               </button>
             </div>
-            <div className="mt-3 grid grid-cols-3 gap-2 tablet:flex tablet:flex-wrap">
+            <div className="mt-3 flex items-center gap-2">
               <IconActionLink href="/minigames/numbers/play" kind="start-game" tooltip="Start Game" />
-              <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
               <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
+              <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
+              <BackgroundAudioControls variant="icon" />
             </div>
           </div>
         </div>

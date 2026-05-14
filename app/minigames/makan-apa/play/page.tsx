@@ -9,6 +9,7 @@ import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlock
 import { MAKAN_APA_ITEMS, type MakanApaItem } from "@/lib/makanApa/items";
 import { addHighScore } from "@/lib/highscores";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
+import StylizedTitle from "@/components/game/StylizedTitle";
 import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
@@ -422,15 +423,11 @@ export default function MakanApaPlayPage() {
       <div className="relative mx-auto max-w-5xl space-y-4 phone-lg:space-y-6">
         <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between tablet:gap-4">
           <div>
-            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-5xl font-black leading-none phone-lg:text-6xl">{title}</h1>
+            <StylizedTitle title={title} />
             <p className="mt-2 text-sm font-semibold text-white/90">{pick(instruction, lang)}</p>
           </div>
 
           <div className="w-full rounded-2xl bg-white/90 p-3 shadow phone-lg:p-4 tablet:w-auto">
-            <div className="mb-3">
-              <BackgroundAudioControls />
-            </div>
-
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="sm:border-r sm:border-black/10 sm:pr-4">
                 <div className="text-xs font-black opacity-70">{pick(labels.mode, lang)}</div>
@@ -510,7 +507,7 @@ export default function MakanApaPlayPage() {
                   </button>
                 </div>
 
-                <div className="mt-3 flex flex-wrap gap-2">
+                <div className="mt-3 flex items-center gap-2">
                   <IconActionLink
                     onClick={startNewGame}
                     kind="restart"
@@ -520,6 +517,7 @@ export default function MakanApaPlayPage() {
                     {lang === "ms" ? "Info Game" : lang === "en" ? "Game Info" : "Info del Juego"}
                   </Link>
                   <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
+                  <BackgroundAudioControls variant="icon" />
                 </div>
               </div>
             </div>

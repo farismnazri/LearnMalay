@@ -16,6 +16,7 @@ import {
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
+import StylizedTitle from "@/components/game/StylizedTitle";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
@@ -658,9 +659,7 @@ export default function MisiMembeliPlayPage() {
       <div className="relative mx-auto max-w-7xl space-y-4 phone-lg:space-y-6">
         <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between tablet:gap-4">
           <div>
-            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-5xl font-black leading-none text-[#ffe070] phone-lg:text-6xl">
-              {title}
-            </h1>
+            <StylizedTitle title={title} />
             <div className="mt-2 text-sm font-semibold text-white/85">
               {lang === "ms"
                 ? difficulty === "easy"
@@ -683,10 +682,6 @@ export default function MisiMembeliPlayPage() {
           </div>
 
           <div className="w-full rounded-2xl bg-white/90 p-3 shadow-xl phone-lg:p-4 tablet:w-auto">
-            <div className="mb-3">
-              <BackgroundAudioControls />
-            </div>
-
             <div className="text-xs font-black opacity-70">LANGUAGE</div>
             <div className="mt-2 grid grid-cols-3 gap-2">
               <button
@@ -709,7 +704,7 @@ export default function MisiMembeliPlayPage() {
               </button>
             </div>
 
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-3 flex items-center gap-2">
               <Link href="/minigames/misi-membeli" className="rounded-xl bg-white px-3 py-2 text-xs font-bold shadow">
                 Intro
               </Link>
@@ -719,6 +714,7 @@ export default function MisiMembeliPlayPage() {
                 kind="restart"
                 tooltip={lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
               />
+              <BackgroundAudioControls variant="icon" />
             </div>
           </div>
         </div>

@@ -15,6 +15,7 @@ import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
+import StylizedTitle from "@/components/game/StylizedTitle";
 import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
@@ -435,9 +436,7 @@ export default function WordMatchPlayPage() {
       <div className="relative mx-auto max-w-5xl space-y-4 phone-lg:space-y-6">
         <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between">
           <div>
-            <h1 className="crash-text crash-outline-fallback whitespace-pre-line text-5xl font-black leading-none phone-lg:text-6xl tablet:text-7xl">
-              {title}
-            </h1>
+            <StylizedTitle title={title} />
           </div>
 
           <div className="grid w-full gap-3 phone-lg:gap-4 tablet:grid-cols-2">
@@ -485,10 +484,6 @@ export default function WordMatchPlayPage() {
             </div>
 
             <div className="rounded-2xl bg-white/85 p-3 shadow phone-lg:p-4">
-              <div className="mb-3">
-                <BackgroundAudioControls />
-              </div>
-
               <div className="text-xs font-black opacity-70">LANG</div>
 
               <div className="mt-2 grid grid-cols-3 gap-2">
@@ -512,14 +507,15 @@ export default function WordMatchPlayPage() {
                 </button>
               </div>
 
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-3 flex items-center gap-2">
+                <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
                 <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
                 <IconActionLink
                   onClick={restart}
                   kind="restart"
                   tooltip={lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
                 />
-                <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
+                <BackgroundAudioControls variant="icon" />
               </div>
             </div>
           </div>

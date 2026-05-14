@@ -9,6 +9,7 @@ import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
+import StylizedTitle from "@/components/game/StylizedTitle";
 import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
@@ -714,9 +715,7 @@ function restart() {
         <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between">
         {/* title row */}
         <div>
-          <h1 className="crash-text crash-outline-fallback text-4xl font-black leading-none phone-lg:text-5xl">
-            {lang === "ms" ? "NOMBOR" : lang === "en" ? "NUMBER GAME" : "JUEGO DE NÚMEROS"}
-          </h1>
+          <StylizedTitle title={lang === "ms" ? "NOMBOR" : lang === "en" ? "NUMBER GAME" : "JUEGO DE NÚMEROS"} />
         </div>
 
 <div className="grid w-full gap-3 phone-lg:gap-4 tablet:grid-cols-2">
@@ -781,10 +780,6 @@ function restart() {
 
   {/* RIGHT COLUMN: LANG */}
   <div className="rounded-2xl bg-white/85 p-3 shadow phone-lg:p-4">
-    <div className="mb-3">
-      <BackgroundAudioControls />
-    </div>
-
     <div className="text-xs font-black opacity-70">LANG</div>
 
     <div className="mt-2 grid grid-cols-3 gap-2">
@@ -833,7 +828,8 @@ function restart() {
       ))}
     </div>
 
-    <div className="mt-3 flex flex-wrap gap-2">
+    <div className="mt-3 flex items-center gap-2">
+      <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
       <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
 
       <IconActionLink
@@ -841,8 +837,7 @@ function restart() {
         kind="restart"
         tooltip={lang === "ms" ? "Main Semula" : lang === "en" ? "Restart" : "Reiniciar"}
       />
-
-      <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
+      <BackgroundAudioControls variant="icon" />
     </div>
   </div>
 </div>

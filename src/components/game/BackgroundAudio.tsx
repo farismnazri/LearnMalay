@@ -48,7 +48,17 @@ export function setBackgroundAudioSettings(settings: AudioSettings) {
   dispatchSettings(normalized);
 }
 
-export function BackgroundAudioControls({ className = "" }: { className?: string }) {
+export function BackgroundAudioControls({
+  className = "",
+  buttonClassName = "",
+  iconClassName = "",
+  variant = "boxed",
+}: {
+  className?: string;
+  buttonClassName?: string;
+  iconClassName?: string;
+  variant?: "boxed" | "icon";
+}) {
   const [settings, setSettings] = useState<AudioSettings>({ muted: true, vol: 0.5 });
 
   useEffect(() => {
@@ -83,7 +93,10 @@ export function BackgroundAudioControls({ className = "" }: { className?: string
         title={settings.muted ? "Unmute music" : "Mute music"}
         aria-label={settings.muted ? "Unmute music" : "Mute music"}
         className={[
-          "touch-target inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow transition active:scale-[0.98]",
+          variant === "icon"
+            ? "group touch-target relative inline-flex h-9 w-9 items-center justify-center transition hover:-translate-y-0.5 focus-visible:outline-none active:scale-[0.98]"
+            : "touch-target inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow transition active:scale-[0.98]",
+          buttonClassName,
         ].join(" ")}
       >
         <Image
@@ -92,7 +105,12 @@ export function BackgroundAudioControls({ className = "" }: { className?: string
           aria-hidden="true"
           width={28}
           height={28}
-          className="h-7 w-7 object-contain"
+          className={[
+            variant === "icon"
+              ? "h-9 w-9 select-none object-contain drop-shadow-[0_2px_3px_rgba(0,0,0,0.35)]"
+              : "h-7 w-7 object-contain",
+            iconClassName,
+          ].join(" ")}
         />
       </button>
     </div>

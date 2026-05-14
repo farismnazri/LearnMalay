@@ -8,6 +8,7 @@ import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import type { UiLang } from "@/lib/chapters";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
+import StylizedTitle from "@/components/game/StylizedTitle";
 import {
   getLatestUnlockedMinigameId,
   hasCompletedChapter,
@@ -224,16 +225,12 @@ function GameCard({
 export default function MiniGamesHubPage() {
   const [lang, setLang] = useState<UiLang>(() => readUiLang());
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [loadingUser, setLoadingUser] = useState(true);
 
   useEffect(() => {
     let alive = true;
     getCurrentUser()
       .then((u) => {
         if (alive) setUser(u);
-      })
-      .finally(() => {
-        if (alive) setLoadingUser(false);
       });
     return () => {
       alive = false;
@@ -246,13 +243,6 @@ export default function MiniGamesHubPage() {
   }
 
   const latestUnlockedId = useMemo(() => getLatestUnlockedMinigameId(user), [user]);
-
-  const title: Translated = { ms: "Mini Games", en: "Mini Games", es: "Mini Juegos" };
-  const subtitle: Translated = {
-    ms: "Pilih permainan untuk latihan.",
-    en: "Choose a game to practice.",
-    es: "Elige un juego para practicar.",
-  };
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#081d14] app-page-pad">
@@ -280,36 +270,19 @@ export default function MiniGamesHubPage() {
                 height={60}
                 className="h-14 w-14 rounded-full border-2 border-[#f8da72]/75 bg-white/95 object-cover shadow-lg"
               />
-              <div>
-                <h1 className="crash-text crash-outline-fallback text-5xl font-black leading-none text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)] phone-lg:text-6xl">
-                  {title.ms.toUpperCase()}
-                </h1>
-                {lang !== "ms" && <div className="mt-1 text-lg font-black text-[#f3f7e8]">{pick(title, lang)}</div>}
+              <div className="flex min-w-0 flex-1 items-center justify-between gap-3">
+                <StylizedTitle title="Mini Games" />
+                <div className="flex min-h-[58px] items-center justify-center rounded-xl border border-[#88a967]/80 bg-gradient-to-b from-[#4f733a]/95 via-[#345c34]/95 to-[#274a2d]/95 px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_-2px_0_rgba(0,0,0,0.2)]">
+                  <span className="whitespace-nowrap text-base font-black leading-none tracking-wide text-[#fff7d6] phone-lg:text-lg">
+                    CHAPTER {user?.progress.chapter ?? "-"}
+                  </span>
+                </div>
               </div>
             </div>
-
-            <div className="mt-3 text-sm font-semibold text-[#eef8da]/90">
-              {subtitle.ms}
-              {lang !== "ms" && <span className="opacity-80"> • {pick(subtitle, lang)}</span>}
-            </div>
-            {!loadingUser && user && (
-              <div className="mt-3 inline-flex rounded-full border border-[#bdd89f]/60 bg-[#2f5f34]/75 px-3 py-1 text-xs font-black tracking-wide text-[#f2fbdc]">
-                {lang === "ms"
-                  ? `Kemajuan semasa: Bab ${user.progress.chapter}`
-                  : lang === "en"
-                  ? `Current progress: Chapter ${user.progress.chapter}`
-                  : `Progreso actual: Capítulo ${user.progress.chapter}`}
-              </div>
-            )}
           </div>
 
           <div className="w-full rounded-3xl border border-[#c6dca8]/45 bg-[#163726]/75 p-4 shadow-xl backdrop-blur-md tablet:w-auto tablet:shrink-0">
-            <div className="mb-3">
-              <BackgroundAudioControls />
-            </div>
-
-            <div className="text-xs font-black tracking-wide text-[#eff8db]/85">LANGUAGE</div>
-            <div className="mt-2 grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <button
                 onClick={() => pickLang("ms")}
                 className={`touch-target rounded-full px-3 py-1 text-xs font-black shadow ${lang === "ms" ? "bg-[#ffd447] text-[#3f2f00]" : "bg-[#f7f2dc] text-[#1f3519]"}`}
@@ -330,7 +303,7 @@ export default function MiniGamesHubPage() {
               </button>
             </div>
 
-            <div className="mt-3 grid grid-cols-2 gap-2 tablet:flex tablet:flex-wrap">
+            <div className="mt-3 flex items-center gap-2">
               <IconActionLink
                 href="/map"
                 kind="map"
@@ -341,6 +314,10 @@ export default function MiniGamesHubPage() {
                 href="/minigames/highscores"
                 kind="highscores"
                 tooltip="High Scores"
+                iconClassName="brightness-0 invert"
+              />
+              <BackgroundAudioControls
+                variant="icon"
                 iconClassName="brightness-0 invert"
               />
             </div>
