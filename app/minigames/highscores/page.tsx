@@ -13,6 +13,9 @@ const ALL_USERS = "__ALL__";
 const ALL_DIFFICULTIES = "__ALL_DIFFICULTIES__";
 type NumberDifficulty = "easy" | "medium" | "hard" | "ultrahard";
 type NumbersDifficultyFilter = typeof ALL_DIFFICULTIES | NumberDifficulty | "unknown";
+type WordsearchDifficulty = "easy" | "medium" | "hard";
+type WordsearchDifficultyFilter = typeof ALL_DIFFICULTIES | WordsearchDifficulty | "unknown";
+const WORDSEARCH_GAME_IDS = new Set(["wordsearch", "word-search"]);
 
 function activityCount(s: ScoreEntry) {
   const meta = (s.meta ?? {}) as Record<string, unknown>;
@@ -35,8 +38,21 @@ function scoreDifficulty(s: ScoreEntry): NumberDifficulty | "unknown" {
   return d === "easy" || d === "medium" || d === "hard" || d === "ultrahard" ? d : "unknown";
 }
 
+function wordsearchDifficulty(s: ScoreEntry): WordsearchDifficulty | "unknown" {
+  const meta = (s.meta ?? {}) as Record<string, unknown>;
+  const d = meta.difficulty;
+  return d === "easy" || d === "medium" || d === "hard" ? d : "unknown";
+}
+
 function difficultyRank(d: NumberDifficulty | "unknown") {
   if (d === "ultrahard") return 4;
+  if (d === "hard") return 3;
+  if (d === "medium") return 2;
+  if (d === "easy") return 1;
+  return 0;
+}
+
+function wordsearchDifficultyRank(d: WordsearchDifficulty | "unknown") {
   if (d === "hard") return 3;
   if (d === "medium") return 2;
   if (d === "easy") return 1;
@@ -50,6 +66,29 @@ function difficultyLabel(d: NumbersDifficultyFilter) {
   if (d === "medium") return "Medium";
   if (d === "easy") return "Easy";
   return "Unknown";
+}
+
+function wordsearchDifficultyLabel(d: WordsearchDifficultyFilter) {
+  if (d === ALL_DIFFICULTIES) return "All difficulties";
+  if (d === "hard") return "Hard";
+  if (d === "medium") return "Medium";
+  if (d === "easy") return "Easy";
+  return "Unknown";
+}
+
+function wordMatchResultRank(s: ScoreEntry) {
+  const meta = (s.meta ?? {}) as Record<string, unknown>;
+  return meta.result === "win" ? 1 : 0;
+}
+
+function wordMatchMatches(s: ScoreEntry) {
+  const meta = (s.meta ?? {}) as Record<string, unknown>;
+  return typeof meta.matches === "number" && Number.isFinite(meta.matches) ? meta.matches : 0;
+}
+
+function wordMatchLevel(s: ScoreEntry) {
+  const meta = (s.meta ?? {}) as Record<string, unknown>;
+  return typeof meta.level === "number" && Number.isFinite(meta.level) ? meta.level : 0;
 }
 
 function formatDuration(ms: number) {
@@ -69,6 +108,7 @@ function formatDate(iso: string) {
 
 export default function HighScoresPage() {
   const [gameId, setGameId] = useState<GameId>("numbers");
+  const isWordsearchGame = WORDSEARCH_GAME_IDS.has(gameId);
 
   const [me, setMe] = useState<Awaited<ReturnType<typeof getCurrentUser>>>(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -83,7 +123,8 @@ export default function HighScoresPage() {
   const [users, setUsers] = useState<Awaited<ReturnType<typeof listUsers>>>([]);
 
   const [userFilter, setUserFilter] = useState<string>(ALL_USERS);
-  const [difficultyFilter, setDifficultyFilter] = useState<NumbersDifficultyFilter>(ALL_DIFFICULTIES);
+  const [numbersDifficultyFilter, setNumbersDifficultyFilter] = useState<NumbersDifficultyFilter>(ALL_DIFFICULTIES);
+  const [wordsearchDifficultyFilter, setWordsearchDifficultyFilter] = useState<WordsearchDifficultyFilter>(ALL_DIFFICULTIES);
 
   useEffect(() => {
     async function load() {
@@ -124,17 +165,48 @@ export default function HighScoresPage() {
 
   const filteredRows = useMemo(() => {
     const byUser = userFilter === ALL_USERS ? baseRows : baseRows.filter((r) => r.name === userFilter);
-    if (gameId !== "numbers" || difficultyFilter === ALL_DIFFICULTIES) return byUser;
-    return byUser.filter((r) => scoreDifficulty(r) === difficultyFilter);
-  }, [baseRows, userFilter, gameId, difficultyFilter]);
+    if (gameId === "numbers" && numbersDifficultyFilter !== ALL_DIFFICULTIES) {
+      return byUser.filter((r) => scoreDifficulty(r) === numbersDifficultyFilter);
+    }
+    if (isWordsearchGame && wordsearchDifficultyFilter !== ALL_DIFFICULTIES) {
+      return byUser.filter((r) => wordsearchDifficulty(r) === wordsearchDifficultyFilter);
+    }
+    return byUser;
+  }, [baseRows, userFilter, gameId, isWordsearchGame, numbersDifficultyFilter, wordsearchDifficultyFilter]);
 
-  // Sort by Activities first, then Accuracy, then Time
   const sortedRows = useMemo(() => {
     return [...filteredRows].sort((a, b) => {
       if (gameId === "numbers") {
         const diff = difficultyRank(scoreDifficulty(b)) - difficultyRank(scoreDifficulty(a));
         if (diff !== 0) return diff;
       }
+      if (gameId === "word-match") {
+        const resultRank = wordMatchResultRank(b) - wordMatchResultRank(a);
+        if (resultRank !== 0) return resultRank;
+
+        const matchRank = wordMatchMatches(b) - wordMatchMatches(a);
+        if (matchRank !== 0) return matchRank;
+
+        const levelRank = wordMatchLevel(b) - wordMatchLevel(a);
+        if (levelRank !== 0) return levelRank;
+
+        if (b.accuracy !== a.accuracy) return b.accuracy - a.accuracy;
+        if (a.timeMs !== b.timeMs) return a.timeMs - b.timeMs;
+
+        const attemptRank = activityCount(a) - activityCount(b);
+        if (attemptRank !== 0) return attemptRank;
+
+        return b.dateISO.localeCompare(a.dateISO);
+      }
+      if (isWordsearchGame) {
+        if (wordsearchDifficultyFilter === ALL_DIFFICULTIES) {
+          const diff = wordsearchDifficultyRank(wordsearchDifficulty(b)) - wordsearchDifficultyRank(wordsearchDifficulty(a));
+          if (diff !== 0) return diff;
+        }
+        if (a.timeMs !== b.timeMs) return a.timeMs - b.timeMs;
+        return b.dateISO.localeCompare(a.dateISO);
+      }
+
       const act = activityCount(b) - activityCount(a);
       if (act !== 0) return act;
 
@@ -142,11 +214,12 @@ export default function HighScoresPage() {
       if (a.timeMs !== b.timeMs) return a.timeMs - b.timeMs;
       return b.dateISO.localeCompare(a.dateISO);
     });
-  }, [filteredRows, gameId]);
+  }, [filteredRows, gameId, isWordsearchGame, wordsearchDifficultyFilter]);
 
   function pickGame(next: GameId) {
     setGameId(next);
-    setDifficultyFilter(ALL_DIFFICULTIES);
+    setNumbersDifficultyFilter(ALL_DIFFICULTIES);
+    setWordsearchDifficultyFilter(ALL_DIFFICULTIES);
   }
 
   function showMine() {
@@ -182,8 +255,11 @@ export default function HighScoresPage() {
   }
 
   const activeUserLabel = userFilter === ALL_USERS ? "All users" : userFilter;
-  const showDifficultyFilter = gameId === "numbers";
+  const showNumbersDifficultyFilter = gameId === "numbers";
+  const showWordsearchDifficultyFilter = isWordsearchGame;
+  const showDifficultyFilter = showNumbersDifficultyFilter || showWordsearchDifficultyFilter;
   const showDifficultyColumn = gameId === "numbers";
+  const activityLabel = gameId === "word-match" ? "Attempts" : isWordsearchGame ? "Difficulty" : "Activities";
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#081d14] app-page-pad">
@@ -224,7 +300,7 @@ export default function HighScoresPage() {
               </span>
               {showDifficultyFilter && (
                 <span className="rounded-full border border-[#d6cb95]/70 bg-[#fff2c9] px-3 py-1 text-[11px] font-black tracking-wide text-[#4f3a00]">
-                  Difficulty: {difficultyLabel(difficultyFilter)}
+                  Difficulty: {showNumbersDifficultyFilter ? difficultyLabel(numbersDifficultyFilter) : wordsearchDifficultyLabel(wordsearchDifficultyFilter)}
                 </span>
               )}
               {isAdmin && (
@@ -369,12 +445,12 @@ export default function HighScoresPage() {
               </button>
             </div>
 
-            {showDifficultyFilter && (
+            {showNumbersDifficultyFilter && (
               <div className="flex flex-wrap items-center gap-2">
                 <div className="text-xs font-black tracking-wide opacity-65">DIFFICULTY</div>
                 <select
-                  value={difficultyFilter}
-                  onChange={(e) => setDifficultyFilter(e.target.value as NumbersDifficultyFilter)}
+                  value={numbersDifficultyFilter}
+                  onChange={(e) => setNumbersDifficultyFilter(e.target.value as NumbersDifficultyFilter)}
                   className="touch-target rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
                 >
                   <option value={ALL_DIFFICULTIES}>All difficulties</option>
@@ -386,11 +462,32 @@ export default function HighScoresPage() {
                 </select>
               </div>
             )}
+            {showWordsearchDifficultyFilter && (
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="text-xs font-black tracking-wide opacity-65">DIFFICULTY</div>
+                <select
+                  value={wordsearchDifficultyFilter}
+                  onChange={(e) => setWordsearchDifficultyFilter(e.target.value as WordsearchDifficultyFilter)}
+                  className="touch-target rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
+                >
+                  <option value={ALL_DIFFICULTIES}>All difficulties</option>
+                  <option value="hard">Hard</option>
+                  <option value="medium">Medium</option>
+                  <option value="easy">Easy</option>
+                </select>
+              </div>
+            )}
           </div>
 
           <div className="mt-3 text-xs font-semibold text-[#2c431f]/75">
-            {showDifficultyFilter
+            {showNumbersDifficultyFilter
               ? "Ranked by difficulty first (Ultra Hard > Hard > Medium > Easy), then activities, accuracy, and time."
+              : showWordsearchDifficultyFilter
+              ? wordsearchDifficultyFilter === ALL_DIFFICULTIES
+                ? "Ranked by difficulty for All difficulties, then faster time."
+                : "For a selected difficulty, ranked by faster time."
+              : gameId === "word-match"
+              ? "Ranked by result, progress, accuracy, time, then fewer attempts."
               : "Ranked by activities, then accuracy, then time."}
           </div>
 
@@ -422,7 +519,11 @@ export default function HighScoresPage() {
                   </div>
 
                   <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-bold text-[#2f421f]">
-                    <div>Activities: {activityCount(r)}</div>
+                    {isWordsearchGame ? (
+                      <div>Difficulty: {wordsearchDifficultyLabel(wordsearchDifficulty(r))}</div>
+                    ) : (
+                      <div>{activityLabel}: {activityCount(r)}</div>
+                    )}
                     <div>Accuracy: {Math.round(r.accuracy)}%</div>
                     <div>Time: {formatDuration(r.timeMs)}</div>
                     {showDifficultyColumn && <div>Difficulty: {difficultyLabel(scoreDifficulty(r))}</div>}
@@ -444,7 +545,7 @@ export default function HighScoresPage() {
                     <div className="text-xs font-black text-[#4f3a00]/80">NAME</div>
                   </th>
                   <th className="border border-black/10 p-4 text-left align-top">
-                    <div className="text-xs font-black text-[#4f3a00]/80">ACTIVITIES</div>
+                    <div className="text-xs font-black text-[#4f3a00]/80">{activityLabel.toUpperCase()}</div>
                   </th>
                   {showDifficultyColumn && (
                     <th className="border border-black/10 p-4 text-left align-top">
@@ -493,7 +594,9 @@ export default function HighScoresPage() {
                       </td>
 
                       <td className="border border-black/10 p-4 align-top">
-                        <div className="text-sm font-black text-[#273d1e]">{activityCount(r)}</div>
+                        <div className="text-sm font-black text-[#273d1e]">
+                          {isWordsearchGame ? wordsearchDifficultyLabel(wordsearchDifficulty(r)) : activityCount(r)}
+                        </div>
                       </td>
 
                       {showDifficultyColumn && (
@@ -523,8 +626,14 @@ export default function HighScoresPage() {
           <div className="mt-4 rounded-2xl border border-[#cfbf86]/60 bg-[#f8ecbf]/80 p-4">
             <div className="text-xs font-black tracking-wide text-[#5a450b]/70">SCORING</div>
             <div className="mt-1 text-sm font-semibold text-[#4a3a10]/75">
-              {showDifficultyFilter
+              {showNumbersDifficultyFilter
                 ? "Difficulty (higher) first, then activities (higher), accuracy (higher), and time (lower)."
+                : showWordsearchDifficultyFilter
+                ? wordsearchDifficultyFilter === ALL_DIFFICULTIES
+                ? "Difficulty (Hard > Medium > Easy), then time (lower)."
+                  : "For a selected difficulty, ranked by faster time."
+                : gameId === "word-match"
+                ? "Result (win first), then progress, accuracy (higher), time (lower), and attempts (lower)."
                 : "Ranked by activities (higher), then accuracy (higher), then time (lower)."}
             </div>
           </div>
