@@ -177,10 +177,6 @@ export default function ChapterPage() {
     );
   }
 
-  // helper: world/level mapping
-  const world = content.id <= 4 ? 1 : content.id <= 8 ? 2 : 3;
-  const level = content.id <= 4 ? content.id : content.id <= 8 ? content.id - 4 : content.id - 8;
-
   const titleMs = content.title.ms.toUpperCase();
   const titleTrans = lang === "ms" ? "" : lang === "en" ? content.title.en : content.title.es;
 
@@ -298,17 +294,9 @@ export default function ChapterPage() {
           </div>
 
           {/* user card */}
-          <div className="w-full max-w-sm rounded-2xl bg-white/85 p-4 shadow md:w-64 md:max-w-none md:justify-self-end">
-            <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-3 gap-y-1">
-              <BackgroundAudioControls className="[&>button]:h-11 [&>button]:w-11 [&>button]:rounded-xl" />
-              <div className="min-w-0 self-center text-3xl font-extrabold leading-none tracking-tight">{user.name}</div>
-              <div className="text-right text-sm font-semibold leading-tight opacity-80">
-                <div>World: {world}</div>
-                <div className="mt-1">Level: {level}</div>
-              </div>
-            </div>
+          <div className="w-full max-w-sm rounded-2xl bg-white/85 p-3 shadow md:w-64 md:max-w-none md:justify-self-end">
 
-            <div className="mt-3 grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <button
                 onClick={() => pickLang("ms")}
                 className={`touch-target rounded-full px-3 py-1 text-sm font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
@@ -329,21 +317,26 @@ export default function ChapterPage() {
               </button>
             </div>
 
-            <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+            <div className="mt-2 grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2">
               <button
                 onClick={() => setShowIntro(true)}
-                className="touch-target rounded-xl bg-amber-300 px-3 py-2 text-sm font-black shadow"
+                className="touch-target rounded-xl bg-amber-300 px-2.5 py-2 text-xs font-black shadow"
                 title="Show Aku-Aku intro again"
               >
                 Replay Intro
               </button>
+
+              <BackgroundAudioControls
+                className="[&>button]:h-9 [&>button]:w-9"
+                buttonClassName="rounded-none bg-transparent p-0 shadow-none"
+              />
 
               <IconActionLink
                 href="/map"
                 kind="map"
                 tooltip="Back to Map"
                 className="justify-self-end"
-                iconClassName="brightness-0"
+                iconClassName="h-9 w-9 brightness-0"
               />
             </div>
 
