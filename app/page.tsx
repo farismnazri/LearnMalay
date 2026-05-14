@@ -140,14 +140,14 @@ export default function TitleScreen() {
       <footer className="absolute bottom-[max(1.25rem,var(--safe-area-bottom))] left-0 right-0 z-10 px-4 text-center">
         <p className="text-xs font-black tracking-[0.22em] text-[#f8efcb]/88">By FN for NF ❤︎</p>
 
-        <div className="mx-auto mt-2 w-full max-w-[44rem]">
-          <div className="overflow-hidden rounded-[999px] bg-white/92 shadow-[0_10px_24px_rgba(0,0,0,0.16)] ring-1 ring-black/5 backdrop-blur-sm">
+        <div className="mx-auto mt-2 w-full max-w-[56rem]">
+          <div className="rounded-2xl bg-[#efe2bf]/82 shadow-[0_8px_20px_rgba(11,30,20,0.2)] ring-1 ring-[#203428]/30 backdrop-blur-sm">
             <button
               type="button"
               onClick={() => setAckOpen((open) => !open)}
               aria-expanded={ackOpen}
               aria-controls="title-screen-acknowledgement"
-              className="w-full px-4 py-2 text-center text-[11px] font-medium leading-[1.45] text-[#344033] transition duration-200 active:scale-[0.995]"
+              className="w-full px-2 py-2 text-center text-[10px] font-medium leading-[1.45] text-[#2c392f] transition duration-200 active:scale-[0.995] sm:px-3 sm:text-[10.5px] md:px-4 md:text-[11px] md:leading-[1.35] md:whitespace-nowrap"
             >
               Acknowledgement: This app and its lesson flow were inspired by Bahasa Melayu untuk
               Penutur Asing: Tahap Asas by Yusmaniza Mohd Yusoff.
@@ -161,7 +161,7 @@ export default function TitleScreen() {
               ].join(" ")}
             >
               <div className="overflow-hidden">
-                <div className="border-t border-[#dfe7d9] pt-2 text-[11px] leading-[1.5] text-[#4a5547]">
+                <div className="border-t border-[#7d8d75]/35 pt-2 text-[11px] leading-[1.5] text-[#2f3f34]/90">
                   Acknowledgement: This app was developed independently as a supplementary practice
                   tool for Malay learners. Its lesson flow was inspired by Bahasa Melayu untuk
                   Penutur Asing: Tahap Asas by Yusmaniza Mohd Yusoff. All rights to the original
@@ -173,7 +173,7 @@ export default function TitleScreen() {
                     href="https://anyflip.com/qivri/smcl/basic"
                     target="_blank"
                     rel="noreferrer"
-                    className="font-semibold text-[#1f4a33] underline decoration-[#ce9d2c] decoration-2 underline-offset-2"
+                    className="font-semibold text-[#214e37] underline decoration-[#b4882a] decoration-2 underline-offset-2"
                   >
                     View the original publication
                   </a>
