@@ -1,4 +1,13 @@
 import { NextResponse } from "next/server";
+import { ADMIN_ID } from "@/lib/userStoreTypes";
+import {
+  checkAuthRateLimit,
+  GENERIC_AUTH_FAILURE_MESSAGE,
+  GENERIC_RATE_LIMIT_MESSAGE,
+  logAdminAudit,
+  recordAuthFailure,
+  recordAuthSuccess,
+} from "@/server/authSecurity";
 import { getUser, initializeUserAuthState, verifyUserPassword } from "@/server/userRepo";
 import {
   clearSessionCookie,
@@ -39,17 +48,63 @@ export async function POST(req: Request) {
     if (!body?.id) return NextResponse.json({ error: "id required" }, { status: 400 });
 
     const userId = body.id.trim().toUpperCase();
+    const passwordInput = typeof body.password === "string" ? body.password : null;
     const { sessionId, user: currentUser } = await getSessionUser();
-    const allowByPassword =
-      typeof body.password === "string" && (await verifyUserPassword(userId, body.password));
+    const usesPassword = passwordInput !== null;
+    const rateLimit = usesPassword ? checkAuthRateLimit("users-current", req, userId) : null;
+    if (rateLimit?.limited) {
+      const res = NextResponse.json({ error: GENERIC_RATE_LIMIT_MESSAGE }, { status: 429 });
+      res.headers.set("Retry-After", String(rateLimit.retryAfterSeconds));
+      if (userId === ADMIN_ID) {
+        logAdminAudit({
+          action: "switch-user",
+          success: false,
+          req,
+          actorId: currentUser?.id ?? null,
+          targetUserId: userId,
+          reason: "rate_limited",
+        });
+      }
+      return res;
+    }
+
+    const allowByPassword = passwordInput ? await verifyUserPassword(userId, passwordInput) : false;
     const allowByExistingSession = currentUser?.id === userId;
 
     if (!allowByPassword && !allowByExistingSession) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      if (rateLimit) {
+        recordAuthFailure(rateLimit.key);
+      }
+      if (userId === ADMIN_ID) {
+        logAdminAudit({
+          action: "switch-user",
+          success: false,
+          req,
+          actorId: currentUser?.id ?? null,
+          targetUserId: userId,
+          reason: "invalid_credentials",
+        });
+      }
+      return NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
     }
 
     const user = await getUser(userId);
-    if (!user) return NextResponse.json({ error: "user not found" }, { status: 404 });
+    if (!user) {
+      return NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
+    }
+
+    if (rateLimit && allowByPassword) {
+      recordAuthSuccess(rateLimit.key);
+    }
+    if (user.isAdmin) {
+      logAdminAudit({
+        action: "switch-user",
+        success: true,
+        req,
+        actorId: currentUser?.id ?? user.id,
+        targetUserId: user.id,
+      });
+    }
 
     const res = NextResponse.json(user);
     await startSessionForUser(res, user.id);
@@ -59,10 +114,7 @@ export async function POST(req: Request) {
     return res;
   } catch (error: unknown) {
     console.error("POST /api/users/current failed", error);
-    return NextResponse.json(
-      { error: getErrorMessage(error, "server error") },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
   }
 }
 

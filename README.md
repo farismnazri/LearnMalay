@@ -53,6 +53,19 @@ Environment variables:
 - `MONGODB_URI` - recommended for development and required for reliable persistent storage in production.
 - `LEARN_MALAY_ADMIN_PASSWORD` - required outside development. In development, the server falls back to a temporary admin password if this is not set.
 
+### Admin Password Rotation
+
+Admin password hashes are stored in the database. Updating `LEARN_MALAY_ADMIN_PASSWORD` alone does not change the stored hash until rotation is triggered.
+
+Use the server-only route below while logged in as an admin:
+
+- `POST /api/users/admin/rotate-password` with JSON body `{ "currentPassword": "<current admin password>" }`
+
+Behavior:
+
+- The route verifies the current admin password, reads the new password from `LEARN_MALAY_ADMIN_PASSWORD`, rotates the stored hash/salt, and invalidates admin sessions.
+- The env value is never returned to the client.
+
 ## Commands
 
 Run commands from the app root.

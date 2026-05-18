@@ -21,6 +21,14 @@ function resolveAdminBootstrapPassword(): string {
   );
   return "admin";
 }
+
+function resolveAdminRotationPassword(): string {
+  const fromEnv = process.env.LEARN_MALAY_ADMIN_PASSWORD?.trim();
+  if (!fromEnv) {
+    throw new Error("LEARN_MALAY_ADMIN_PASSWORD must be set to rotate the admin password.");
+  }
+  return fromEnv;
+}
 const AUTH_BOOTSTRAP_KEY = "users_auth_v1_bootstrap_done";
 
 let userDataStateReady = false;
@@ -308,6 +316,45 @@ export async function authenticateUserAccount(input: {
   if (!ok) return null;
 
   return getUser(user.id);
+}
+
+export async function rotateAdminPasswordFromEnv(): Promise<{ rotated: boolean }> {
+  await ensureUserDataState();
+  const { users } = await getCollections();
+
+  const adminPassword = sanitizePassword(resolveAdminRotationPassword());
+  const row = await users.findOne(
+    { id: ADMIN_ID },
+    {
+      projection: {
+        password_hash: 1,
+        password_salt: 1,
+      },
+    }
+  );
+
+  if (!row) {
+    throw new Error("Admin account is not initialized.");
+  }
+
+  const alreadyMatches = verifyPassword(adminPassword, row.password_salt ?? null, row.password_hash ?? null);
+  if (alreadyMatches) {
+    return { rotated: false };
+  }
+
+  const pw = hashPassword(adminPassword);
+  await users.updateOne(
+    { id: ADMIN_ID },
+    {
+      $set: {
+        password_hash: pw.hash,
+        password_salt: pw.salt,
+        password_algo: pw.algo,
+      },
+    }
+  );
+
+  return { rotated: true };
 }
 
 export async function deleteUser(id: string): Promise<void> {

@@ -1,21 +1,28 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import type { UserProfile } from "@/lib/userStoreTypes";
+import { ADMIN_ID, type UserProfile } from "@/lib/userStoreTypes";
 import { getUser } from "./userRepo";
 import { createSession, deleteSession, getSession, touchSession } from "./sessionRepo";
 
 export const SESSION_COOKIE_NAME = "learnMalay.sessionId";
-export const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 30; // 30 days
+export const USER_SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 30; // 30 days
+export const ADMIN_SESSION_MAX_AGE_SECONDS = 60 * 60 * 8; // 8 hours
 const LEGACY_COOKIE_NAME = "learnMalay.currentUserId";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 
-export function applySessionCookie(res: NextResponse, sessionId: string) {
+function resolveSessionMaxAgeForUser(userId: string): number {
+  return userId.trim().toUpperCase() === ADMIN_ID
+    ? ADMIN_SESSION_MAX_AGE_SECONDS
+    : USER_SESSION_MAX_AGE_SECONDS;
+}
+
+export function applySessionCookie(res: NextResponse, sessionId: string, maxAgeSeconds: number) {
   res.cookies.set({
     name: SESSION_COOKIE_NAME,
     value: sessionId,
     path: "/",
-    maxAge: SESSION_MAX_AGE_SECONDS,
+    maxAge: maxAgeSeconds,
     sameSite: "lax",
     httpOnly: true,
     secure: IS_PROD,
@@ -77,7 +84,8 @@ export async function getSessionUser(): Promise<{
 }
 
 export async function startSessionForUser(res: NextResponse, userId: string): Promise<string> {
-  const session = await createSession(userId, SESSION_MAX_AGE_SECONDS);
-  applySessionCookie(res, session.id);
+  const maxAgeSeconds = resolveSessionMaxAgeForUser(userId);
+  const session = await createSession(userId, maxAgeSeconds);
+  applySessionCookie(res, session.id, maxAgeSeconds);
   return session.id;
 }

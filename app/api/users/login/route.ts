@@ -1,14 +1,18 @@
 import { NextResponse } from "next/server";
 import { authenticateUserAccount } from "@/server/userRepo";
+import {
+  checkAuthRateLimit,
+  GENERIC_AUTH_FAILURE_MESSAGE,
+  GENERIC_RATE_LIMIT_MESSAGE,
+  logAdminAudit,
+  recordAuthFailure,
+  recordAuthSuccess,
+} from "@/server/authSecurity";
 import { startSessionForUser } from "@/server/sessionAuth";
+import { ADMIN_ID } from "@/lib/userStoreTypes";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-function getErrorMessage(error: unknown, fallback: string) {
-  if (error instanceof Error && error.message) return error.message;
-  return fallback;
-}
 
 export async function POST(req: Request) {
   const body = (await req.json().catch(() => null)) as { name?: string; password?: string } | null;
@@ -16,19 +20,67 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "name and password required" }, { status: 400 });
   }
 
+  const userId = body.name.trim().toUpperCase();
+  const isAdminAttempt = userId === ADMIN_ID;
+  const rateLimit = checkAuthRateLimit("users-login", req, userId);
+  if (rateLimit.limited) {
+    const res = NextResponse.json({ error: GENERIC_RATE_LIMIT_MESSAGE }, { status: 429 });
+    res.headers.set("Retry-After", String(rateLimit.retryAfterSeconds));
+    if (isAdminAttempt) {
+      logAdminAudit({
+        action: "login",
+        success: false,
+        req,
+        actorId: userId,
+        targetUserId: userId,
+        reason: "rate_limited",
+      });
+    }
+    return res;
+  }
+
   try {
     const profile = await authenticateUserAccount({ name: body.name, password: body.password });
     if (!profile) {
-      return NextResponse.json({ error: "Invalid username or password." }, { status: 401 });
+      recordAuthFailure(rateLimit.key);
+      if (isAdminAttempt) {
+        logAdminAudit({
+          action: "login",
+          success: false,
+          req,
+          actorId: userId,
+          targetUserId: userId,
+          reason: "invalid_credentials",
+        });
+      }
+      return NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
     }
 
+    recordAuthSuccess(rateLimit.key);
+    if (profile.isAdmin) {
+      logAdminAudit({
+        action: "login",
+        success: true,
+        req,
+        actorId: profile.id,
+        targetUserId: profile.id,
+      });
+    }
     const res = NextResponse.json(profile);
     await startSessionForUser(res, profile.id);
     return res;
-  } catch (error: unknown) {
-    return NextResponse.json(
-      { error: getErrorMessage(error, "unable to login") },
-      { status: 400 }
-    );
+  } catch {
+    recordAuthFailure(rateLimit.key);
+    if (isAdminAttempt) {
+      logAdminAudit({
+        action: "login",
+        success: false,
+        req,
+        actorId: userId,
+        targetUserId: userId,
+        reason: "server_error",
+      });
+    }
+    return NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
   }
 }
