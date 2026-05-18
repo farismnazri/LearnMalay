@@ -7,7 +7,8 @@ import type { GameId, ScoreEntry } from "@/lib/highscores";
 import { clearHighScores, loadHighScores } from "@/lib/highscores";
 import IconActionLink from "@/components/navigation/IconActionLink";
 import { getProfileAvatarSrc, type ProfileAvatarId } from "@/lib/profileAvatars";
-import { ADMIN_ID, getCurrentUser, listUsers, verifyAdminPassword } from "@/lib/userStore";
+import { getCurrentUser, listUsers, verifyAdminPassword } from "@/lib/userStore";
+import { canManageUsers, canResetHighscores, isAdmin, isDemo } from "@/lib/userCapabilities";
 
 const ALL_USERS = "__ALL__";
 const ALL_DIFFICULTIES = "__ALL_DIFFICULTIES__";
@@ -111,7 +112,6 @@ export default function HighScoresPage() {
   const isWordsearchGame = WORDSEARCH_GAME_IDS.has(gameId);
 
   const [me, setMe] = useState<Awaited<ReturnType<typeof getCurrentUser>>>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [store, setStore] = useState<Record<GameId, ScoreEntry[]>>({
     numbers: [],
     "word-match": [],
@@ -128,11 +128,11 @@ export default function HighScoresPage() {
 
   useEffect(() => {
     async function load() {
-      const [u, s, cur] = await Promise.all([listUsers(), loadHighScores(), getCurrentUser()]);
+      const [s, cur] = await Promise.all([loadHighScores(), getCurrentUser()]);
+      const u = canManageUsers(cur) ? await listUsers().catch(() => []) : [];
       setUsers(u);
       setStore(s);
       setMe(cur);
-      setIsAdmin(Boolean(cur?.id === ADMIN_ID || cur?.isAdmin));
       setUserFilter(cur?.name ?? ALL_USERS);
     }
     void load();
@@ -157,11 +157,12 @@ export default function HighScoresPage() {
   const userOptions = useMemo(() => {
     const s = new Set<string>();
 
+    if (me?.name) s.add(me.name);
     for (const u of users) if (u.name) s.add(u.name);
     for (const r of baseRows) if (r.name) s.add(r.name);
 
     return Array.from(s).sort((a, b) => a.localeCompare(b));
-  }, [users, baseRows]);
+  }, [users, baseRows, me]);
 
   const filteredRows = useMemo(() => {
     const byUser = userFilter === ALL_USERS ? baseRows : baseRows.filter((r) => r.name === userFilter);
@@ -234,7 +235,7 @@ export default function HighScoresPage() {
   }
 
   async function confirmClear() {
-    if (!isAdmin) {
+    if (!canResetHighscores(me)) {
       setPwError("Admin only.");
       return;
     }
@@ -253,6 +254,8 @@ export default function HighScoresPage() {
     setPw("");
     setPwError(null);
   }
+
+  const canResetScores = canResetHighscores(me);
 
   const activeUserLabel = userFilter === ALL_USERS ? "All users" : userFilter;
   const showNumbersDifficultyFilter = gameId === "numbers";
@@ -303,9 +306,14 @@ export default function HighScoresPage() {
                   Difficulty: {showNumbersDifficultyFilter ? difficultyLabel(numbersDifficultyFilter) : wordsearchDifficultyLabel(wordsearchDifficultyFilter)}
                 </span>
               )}
-              {isAdmin && (
+              {isAdmin(me) && (
                 <span className="rounded-full border border-rose-300/70 bg-rose-100 px-3 py-1 text-[11px] font-black tracking-wide text-rose-900">
                   ADMIN
+                </span>
+              )}
+              {isDemo(me) && (
+                <span className="rounded-full border border-[#f7d87f]/80 bg-[#fff2c7] px-3 py-1 text-[11px] font-black tracking-wide text-[#5c4500]">
+                  DEMO
                 </span>
               )}
             </div>
@@ -319,7 +327,7 @@ export default function HighScoresPage() {
               iconClassName="brightness-0 invert"
             />
 
-            {isAdmin && (
+            {canResetScores && (
               <button
                 type="button"
                 onClick={requestClear}

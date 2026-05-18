@@ -14,6 +14,7 @@ import {
 import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
+import { canSaveHighscores } from "@/lib/userCapabilities";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import StylizedTitle from "@/components/game/StylizedTitle";
 import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
@@ -569,6 +570,7 @@ export default function CurrencyPlayPage() {
   ) {
     if (recordedRef.current) return;
     recordedRef.current = true;
+    if (!canSaveHighscores(user)) return;
 
     const acc = snapshot.attempts > 0 ? (snapshot.correctCount / snapshot.attempts) * 100 : 0;
 

@@ -25,6 +25,7 @@ import {
   type UserProfile,
 } from "@/lib/userStore";
 import { MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
+import { canUnlockEverything, isAdmin, isDemo } from "@/lib/userCapabilities";
 
 type ChapterCard = {
   chapter: number; // 1..11
@@ -111,9 +112,11 @@ export default function MapPage() {
 
   if (!user) return null;
 
-  const isAdmin = Boolean(user.isAdmin);
+  const hasFullUnlock = canUnlockEverything(user);
+  const isAdminMode = isAdmin(user);
+  const isDemoMode = isDemo(user);
   const totalChapters = chapters.length;
-  const unlockedCount = isAdmin
+  const unlockedCount = hasFullUnlock
     ? totalChapters
     : chapters.filter((c) => c.chapter <= currentChapter).length;
   const completionPct = Math.round((unlockedCount / totalChapters) * 100);
@@ -164,9 +167,14 @@ export default function MapPage() {
                 </div>
 
                 <div className="mt-2 flex justify-end">
-                  {isAdmin && (
+                  {isAdminMode && (
                     <span className="rounded-full border border-rose-300/70 bg-rose-100 px-3 py-0.5 text-[11px] font-black tracking-wide text-rose-900">
                       ADMIN MODE
+                    </span>
+                  )}
+                  {isDemoMode && (
+                    <span className="rounded-full border border-[#f7d87f]/80 bg-[#fff2c7] px-3 py-0.5 text-[11px] font-black tracking-wide text-[#5c4500]">
+                      DEMO MODE
                     </span>
                   )}
                 </div>
@@ -224,7 +232,7 @@ export default function MapPage() {
                       WORLD {w}
                     </h2>
                     <span className="rounded-full border border-[#bdd89d]/60 bg-[#305f34]/80 px-2 py-0.5 text-[10px] font-black text-[#ecf6d9] phone-lg:text-[11px]">
-                      {worldChapters.filter((c) => user.isAdmin || user.progress.chapter >= c.chapter).length}/
+                      {worldChapters.filter((c) => hasFullUnlock || user.progress.chapter >= c.chapter).length}/
                       {worldChapters.length} OPEN
                     </span>
                   </div>
@@ -232,7 +240,7 @@ export default function MapPage() {
 
                 <div className="grid flex-1 grid-cols-1 gap-2.5 phone-lg:gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:gap-4">
                 {worldChapters.map((c) => {
-                  const unlocked = user.isAdmin || user.progress.chapter >= c.chapter;
+                  const unlocked = hasFullUnlock || user.progress.chapter >= c.chapter;
                   const isCurrent = c.chapter === currentChapter;
                   const lockHint = c.chapter === 1 ? "Start here" : `Finish Chapter ${c.chapter - 1}`;
                   const unlocksMinigame = CHAPTERS_WITH_MINIGAME_UNLOCK.has(c.chapter);

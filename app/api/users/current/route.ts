@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { ADMIN_ID } from "@/lib/userStoreTypes";
+import { isAdmin } from "@/lib/userCapabilities";
 import {
   checkAuthRateLimit,
   GENERIC_AUTH_FAILURE_MESSAGE,
@@ -96,7 +97,7 @@ export async function POST(req: Request) {
     if (rateLimit && allowByPassword) {
       recordAuthSuccess(rateLimit.key);
     }
-    if (user.isAdmin) {
+    if (isAdmin(user)) {
       logAdminAudit({
         action: "switch-user",
         success: true,

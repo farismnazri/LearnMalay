@@ -5,12 +5,18 @@ export type UserProgress = {
   page: number; // current page within that chapter (1..N)
 };
 
+export type UserRole = "admin" | "demo" | "user";
+
 export type UserProfile = {
   id: string;
   name: string;
   avatarId: ProfileAvatarId;
+  role: UserRole;
   isAdmin?: boolean;
+  isDemo?: boolean;
   progress: UserProgress;
 };
 
 export const ADMIN_ID = "ADMIN";
+export const DEMO_ID = "DEMOMODE";
+export const DEMO_DISPLAY_NAME = "Demo Mode";

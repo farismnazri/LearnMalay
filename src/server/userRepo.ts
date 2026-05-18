@@ -1,6 +1,13 @@
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { getCollections, type UserDocument } from "./db";
-import { ADMIN_ID, type UserProfile, type UserProgress } from "@/lib/userStoreTypes";
+import {
+  ADMIN_ID,
+  DEMO_DISPLAY_NAME,
+  DEMO_ID,
+  type UserProfile,
+  type UserProgress,
+  type UserRole,
+} from "@/lib/userStoreTypes";
 import {
   ADMIN_AVATAR_ID,
   DEFAULT_USER_AVATAR_ID,
@@ -28,6 +35,12 @@ function resolveAdminRotationPassword(): string {
     throw new Error("LEARN_MALAY_ADMIN_PASSWORD must be set to rotate the admin password.");
   }
   return fromEnv;
+}
+
+function resolveDemoBootstrapPassword(): string {
+  const fromEnv = process.env.LEARN_MALAY_DEMO_PASSWORD?.trim();
+  if (fromEnv) return fromEnv;
+  return "demomode";
 }
 const AUTH_BOOTSTRAP_KEY = "users_auth_v1_bootstrap_done";
 
@@ -75,6 +88,12 @@ function avatarIdFromDb(rawAvatarId: string | null | undefined, isAdmin: boolean
   return isAdmin ? ADMIN_AVATAR_ID : DEFAULT_USER_AVATAR_ID;
 }
 
+function roleFromRow(row: UserDocument): UserRole {
+  if (Boolean(row.is_admin) || row.id === ADMIN_ID) return "admin";
+  if (row.id === DEMO_ID) return "demo";
+  return "user";
+}
+
 function hashPassword(password: string, saltHex?: string) {
   const salt = saltHex ?? randomBytes(16).toString("hex");
   const hash = scryptSync(password, Buffer.from(salt, "hex"), 64).toString("hex");
@@ -93,14 +112,18 @@ function verifyPassword(password: string, saltHex: string | null, hashHex: strin
 }
 
 function toProfile(row: UserDocument): UserProfile {
-  const isAdmin = Boolean(row.is_admin);
+  const role = roleFromRow(row);
+  const isAdmin = role === "admin";
+  const isDemo = role === "demo";
   const avatarId = avatarIdFromDb(row.avatar_id, isAdmin);
 
   return {
     id: row.id,
     name: row.name,
     avatarId,
+    role,
     isAdmin,
+    isDemo,
     progress: {
       chapter: Number(row.progress_chapter) || 1,
       page: Number(row.progress_page) || 1,
@@ -157,6 +180,59 @@ async function ensureAdmin() {
   }
 }
 
+async function ensureDemoAccount() {
+  const { users } = await getCollections();
+  const existing = await users.findOne({ id: DEMO_ID });
+  const demoPassword = resolveDemoBootstrapPassword();
+
+  if (!existing) {
+    const pw = hashPassword(demoPassword);
+    await users.insertOne({
+      id: DEMO_ID,
+      name: DEMO_DISPLAY_NAME,
+      avatar_id: DEFAULT_USER_AVATAR_ID,
+      is_admin: false,
+      progress_chapter: 11,
+      progress_page: 1,
+      password_hash: pw.hash,
+      password_salt: pw.salt,
+      password_algo: pw.algo,
+      created_at: new Date().toISOString(),
+    });
+    return;
+  }
+
+  const updates: Partial<UserDocument> = {};
+
+  if (!existing.password_hash || !existing.password_salt) {
+    const pw = hashPassword(demoPassword);
+    updates.password_hash = pw.hash;
+    updates.password_salt = pw.salt;
+    updates.password_algo = pw.algo;
+  }
+
+  if (existing.is_admin) {
+    updates.is_admin = false;
+  }
+
+  if (existing.name !== DEMO_DISPLAY_NAME) {
+    updates.name = DEMO_DISPLAY_NAME;
+  }
+
+  if (!existing.avatar_id || !isProfileAvatarId(existing.avatar_id)) {
+    updates.avatar_id = DEFAULT_USER_AVATAR_ID;
+  }
+
+  const currentChapter = Number(existing.progress_chapter) || 1;
+  const currentPage = Number(existing.progress_page) || 1;
+  if (currentChapter < 11) updates.progress_chapter = 11;
+  if (currentPage < 1) updates.progress_page = 1;
+
+  if (Object.keys(updates).length > 0) {
+    await users.updateOne({ id: DEMO_ID }, { $set: updates });
+  }
+}
+
 async function ensureAuthBootstrap() {
   const { appMeta } = await getCollections();
   const done = await appMeta.findOne({ key: AUTH_BOOTSTRAP_KEY });
@@ -201,6 +277,7 @@ async function ensureUserDataState() {
   if (!userDataStatePromise) {
     userDataStatePromise = (async () => {
       await ensureAdmin();
+      await ensureDemoAccount();
       await ensureAuthBootstrap();
       await ensureAvatarBackfill();
     })();
@@ -252,6 +329,9 @@ export async function createUserAccount(input: {
 
   if (user.id === ADMIN_ID) {
     throw new Error("Admin account already exists. Please log in.");
+  }
+  if (user.id === DEMO_ID) {
+    throw new Error("This account is reserved.");
   }
 
   const existing = await users.findOne({ id: user.id }, { projection: { id: 1 } });
@@ -363,6 +443,7 @@ export async function deleteUser(id: string): Promise<void> {
 
   const cleanId = normalizeUserId(id);
   if (cleanId === ADMIN_ID) throw new Error("Admin cannot be deleted.");
+  if (cleanId === DEMO_ID) throw new Error("Demo account cannot be deleted.");
 
   await users.deleteOne({ id: cleanId });
 }
@@ -372,6 +453,7 @@ export async function setCurrentChapter(id: string, progress: UserProgress): Pro
   const { users } = await getCollections();
 
   const cleanId = normalizeUserId(id);
+  if (cleanId === DEMO_ID) return;
 
   const chapter = Math.max(1, Math.min(11, Number(progress.chapter) || 1));
   const page = Math.max(1, Number(progress.page) || 1);

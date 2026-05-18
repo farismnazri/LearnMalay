@@ -6,6 +6,8 @@ import {
   startSessionForUser,
 } from "@/server/sessionAuth";
 import { deleteSession, deleteSessionsForUser } from "@/server/sessionRepo";
+import { ADMIN_ID, DEMO_ID } from "@/lib/userStoreTypes";
+import { canManageUsers } from "@/lib/userCapabilities";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,6 +17,8 @@ function getErrorMessage(error: unknown, fallback: string) {
 }
 
 export async function GET() {
+  const { user } = await getSessionUser();
+  if (!canManageUsers(user)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   return NextResponse.json(await listUsers());
 }
 
@@ -52,9 +56,15 @@ export async function DELETE(req: Request) {
 
     const targetId = id.trim().toUpperCase();
     const actorId = actor.id.trim().toUpperCase();
-    const canDelete = Boolean(actor.isAdmin) || actorId === targetId;
+    const canDelete = canManageUsers(actor) || actorId === targetId;
     if (!canDelete) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    if (targetId === ADMIN_ID) {
+      return NextResponse.json({ error: "Admin account cannot be deleted." }, { status: 403 });
+    }
+    if (targetId === DEMO_ID) {
+      return NextResponse.json({ error: "Demo account cannot be deleted." }, { status: 403 });
     }
 
     await deleteUser(id);

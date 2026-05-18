@@ -1,4 +1,5 @@
 import type { UserProfile } from "./userStoreTypes";
+import { canUnlockEverything } from "./userCapabilities";
 
 const FINAL_CHAPTER = 11;
 
@@ -24,7 +25,7 @@ export const MINIGAME_UNLOCK_ORDER: UnlockableMinigameId[] = [
 
 export function hasCompletedChapter(user: UserProfile | null, chapter: number) {
   if (!user) return false;
-  if (user.isAdmin) return true;
+  if (canUnlockEverything(user)) return true;
   // Chapter 11 is the final chapter today, so there is no "chapter 12" progress marker.
   if (chapter === FINAL_CHAPTER) return user.progress.chapter >= FINAL_CHAPTER;
   return user.progress.chapter > chapter;

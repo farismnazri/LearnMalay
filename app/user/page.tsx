@@ -8,6 +8,7 @@ import IconActionLink from "@/components/navigation/IconActionLink";
 import { getProfileAvatarSrc, PROFILE_AVATARS } from "@/lib/profileAvatars";
 import {
   ADMIN_ID,
+  DEMO_ID,
   DEFAULT_USER_AVATAR_ID,
   clearCurrentUserId,
   deleteUser,
@@ -20,6 +21,13 @@ import {
   type ProfileAvatarId,
   type UserProfile,
 } from "@/lib/userStore";
+import {
+  canManageUsers,
+  canUnlockEverything,
+  isAdmin,
+  isDemo,
+  isPrivilegedAccountId,
+} from "@/lib/userCapabilities";
 
 type AuthMode = "login" | "create";
 
@@ -78,7 +86,7 @@ export default function UserSelectPage() {
   }, []);
 
   useEffect(() => {
-    if (!me?.isAdmin) {
+    if (!canManageUsers(me)) {
       setAdminUsers([]);
       setAdminUsersError(null);
       setAdminUsersLoading(false);
@@ -103,7 +111,7 @@ export default function UserSelectPage() {
     return () => {
       alive = false;
     };
-  }, [me?.isAdmin]);
+  }, [me]);
 
   const cleanName = useMemo(() => normalizeUserNameInput(name).trim(), [name]);
   const cleanPassword = useMemo(() => normalizePasswordInput(password), [password]);
@@ -113,7 +121,7 @@ export default function UserSelectPage() {
   }, [me]);
   const progressPct = useMemo(() => {
     if (!me) return 0;
-    if (me.isAdmin) return 100;
+    if (canUnlockEverything(me)) return 100;
     const chapter = Math.max(1, Math.min(11, Number(me.progress.chapter) || 1));
     return Math.round((chapter / 11) * 100);
   }, [me]);
@@ -223,8 +231,8 @@ export default function UserSelectPage() {
 
   async function handleDeleteMyAccount() {
     if (!me) return;
-    if (me.isAdmin) {
-      setErr("Admin account cannot be deleted.");
+    if (isPrivilegedAccountId(me.id)) {
+      setErr(isDemo(me) ? "Demo account cannot be deleted." : "Admin account cannot be deleted.");
       return;
     }
 
@@ -249,7 +257,7 @@ export default function UserSelectPage() {
   }
 
   function openDeleteUserModal(user: UserProfile) {
-    if (!me?.isAdmin) return;
+    if (!canManageUsers(me)) return;
     setDeleteTarget(user);
     setDeleteConfirmName("");
     setDeleteError(null);
@@ -265,7 +273,7 @@ export default function UserSelectPage() {
   }
 
   async function handleAdminDeleteUser() {
-    if (!me?.isAdmin) {
+    if (!canManageUsers(me)) {
       setDeleteError("Admin only.");
       return;
     }
@@ -275,6 +283,10 @@ export default function UserSelectPage() {
     }
     if (deleteTarget.id === ADMIN_ID) {
       setDeleteError("Admin account cannot be deleted.");
+      return;
+    }
+    if (deleteTarget.id === DEMO_ID) {
+      setDeleteError("Demo account cannot be deleted.");
       return;
     }
 
@@ -475,7 +487,8 @@ export default function UserSelectPage() {
                   <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#633f1f]/80">Active User</div>
                   <div className="mt-0.5 truncate text-xl font-black text-[#2c1808] phone-lg:text-2xl">
                     {me ? me.name : "NO ACTIVE USER"}
-                    {me?.isAdmin ? <span className="ml-2 text-sm text-[#7c2f1d]">ADMIN</span> : null}
+                    {isAdmin(me) ? <span className="ml-2 text-sm text-[#7c2f1d]">ADMIN</span> : null}
+                    {isDemo(me) ? <span className="ml-2 text-sm text-[#7c5a1d]">DEMO</span> : null}
                   </div>
                 </div>
               </div>
@@ -526,26 +539,26 @@ export default function UserSelectPage() {
                 <button
                   type="button"
                   onClick={handleDeleteMyAccount}
-                  disabled={submitting || Boolean(me.isAdmin)}
+                  disabled={submitting || isPrivilegedAccountId(me.id)}
                   className="touch-target w-full rounded-xl border border-rose-300/60 bg-rose-100 px-4 py-2 text-sm font-black text-rose-900 disabled:cursor-not-allowed disabled:opacity-50 phone-lg:w-auto"
                 >
                   Delete My Account
                 </button>
-                {me.isAdmin && (
+                {isPrivilegedAccountId(me.id) && (
                   <div className="basis-full text-xs font-semibold text-[#f7ebd4]/95">
-                    Admin account cannot be deleted.
+                    {isDemo(me) ? "Demo account cannot be deleted." : "Admin account cannot be deleted."}
                   </div>
                 )}
               </div>
             ) : null}
 
-            {!me?.isAdmin && (
+            {!canManageUsers(me) && (
               <div className="text-xs font-semibold text-[#f2e3c8]">
                 Enter your username and password to login, or create a new account.
               </div>
             )}
 
-            {me?.isAdmin && (
+            {canManageUsers(me) && (
               <div className="pt-2">
                 <div className="text-xs font-black uppercase tracking-[0.25em] text-[#ffd59c]/90">Manage Users</div>
                 <p className="mt-1 text-xs font-semibold text-[#f2e3c8]/95">
@@ -565,7 +578,9 @@ export default function UserSelectPage() {
                 {!adminUsersLoading && !adminUsersError && (
                   <div className="mt-3 grid gap-2">
                     {adminUsers.map((u) => {
-                      const isAccountAdmin = u.id === ADMIN_ID || Boolean(u.isAdmin);
+                      const isAccountAdmin = isAdmin(u);
+                      const isAccountDemo = isDemo(u);
+                      const isProtectedAccount = isAccountAdmin || isAccountDemo;
                       return (
                         <div
                           key={u.id}
@@ -587,6 +602,11 @@ export default function UserSelectPage() {
                                     ADMIN
                                   </span>
                                 )}
+                                {isAccountDemo && (
+                                  <span className="ml-2 rounded-full bg-[#fff2c7] px-2 py-0.5 text-[10px] font-black text-[#5c4500]">
+                                    DEMO
+                                  </span>
+                                )}
                               </div>
                               <div className="text-[11px] font-semibold text-[#edd9ba]/85">
                                 Chapter {u.progress.chapter} • Password hidden
@@ -596,7 +616,7 @@ export default function UserSelectPage() {
                           <button
                             type="button"
                             onClick={() => openDeleteUserModal(u)}
-                            disabled={isAccountAdmin || deleteSubmitting}
+                            disabled={isProtectedAccount || deleteSubmitting}
                             className="touch-target w-full rounded-lg border border-rose-300/60 bg-rose-100 px-3 py-1.5 text-xs font-black text-rose-900 disabled:cursor-not-allowed disabled:opacity-50 phone-lg:w-auto"
                           >
                             Delete

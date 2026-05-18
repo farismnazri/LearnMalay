@@ -1,9 +1,8 @@
 "use client";
 
 import useSWR from "swr";
-import { ADMIN_ID, type UserProfile, type UserProgress } from "./userStoreTypes";
+import { ADMIN_ID, DEMO_ID, type UserProfile, type UserProgress, type UserRole } from "./userStoreTypes";
 import {
-  ADMIN_AVATAR_ID,
   DEFAULT_USER_AVATAR_ID,
   type ProfileAvatarId,
 } from "./profileAvatars";
@@ -77,15 +76,6 @@ export function useCurrentUser() {
 // ---- imperative helpers for convenience ----
 export async function listUsers(): Promise<UserProfile[]> {
   const users = (await fetchJson<UserProfile[] | null>("/api/users")) ?? [];
-  if (!users.find((u) => u.id === ADMIN_ID)) {
-    users.unshift({
-      id: ADMIN_ID,
-      name: ADMIN_ID,
-      avatarId: ADMIN_AVATAR_ID,
-      isAdmin: true,
-      progress: { chapter: 11, page: 1 },
-    });
-  }
   if (cachedUser) {
     const cached = cachedUser;
     const match = users.find((u) => u.id === cached.id);
@@ -178,5 +168,5 @@ export async function updateProgress(id: string, progress: UserProgress): Promis
   return profile;
 }
 
-export { ADMIN_ID, type UserProfile, type UserProgress };
+export { ADMIN_ID, DEMO_ID, type UserProfile, type UserProgress, type UserRole };
 export { DEFAULT_USER_AVATAR_ID, type ProfileAvatarId };

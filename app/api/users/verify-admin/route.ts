@@ -10,6 +10,7 @@ import {
 } from "@/server/authSecurity";
 import { verifyUserPassword } from "@/server/userRepo";
 import { getSessionUser } from "@/server/sessionAuth";
+import { isAdmin } from "@/lib/userCapabilities";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -37,7 +38,7 @@ export async function POST(req: Request) {
 
   try {
     const { user } = await getSessionUser();
-    if (!user?.isAdmin) {
+    if (!user || !isAdmin(user)) {
       recordAuthFailure(rateLimit.key);
       logAdminAudit({
         action: "verify-admin-password",

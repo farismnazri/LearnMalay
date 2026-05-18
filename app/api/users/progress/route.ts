@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { setCurrentChapter, getUser } from "@/server/userRepo";
 import { getSessionUser } from "@/server/sessionAuth";
+import { canPersistProgress, isAdmin, isDemo } from "@/lib/userCapabilities";
 
 export const runtime = "nodejs";
 
@@ -13,11 +14,12 @@ export async function POST(req: Request) {
 
   const targetId = body.id.trim().toUpperCase();
   const actorId = actor.id.trim().toUpperCase();
-  const canUpdate = Boolean(actor.isAdmin) || actorId === targetId;
+  const canUpdate = isAdmin(actor) || actorId === targetId;
   if (!canUpdate) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
   const user = await getUser(targetId);
   if (!user) return NextResponse.json({ error: "user not found" }, { status: 404 });
+  if (!canPersistProgress(actor) || isDemo(user)) return NextResponse.json(user);
 
   await setCurrentChapter(targetId, body.progress);
   const updatedUser = await getUser(targetId);

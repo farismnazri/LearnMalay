@@ -14,6 +14,7 @@ import {
 import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
+import { canSaveHighscores } from "@/lib/userCapabilities";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import StylizedTitle from "@/components/game/StylizedTitle";
 import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
@@ -175,6 +176,7 @@ export default function WordMatchPlayPage() {
   function recordScoreOnce(result: "win" | "gameover", snapshot: { attempts: number; matches: number; mistakes: number; lives: number; level: number; timeMs: number; category: WordCategory }) {
     if (recordedRef.current) return;
     recordedRef.current = true;
+    if (!canSaveHighscores(user)) return;
 
     const acc = snapshot.attempts > 0 ? (snapshot.matches / snapshot.attempts) * 100 : 0;
 

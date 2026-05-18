@@ -8,6 +8,7 @@ import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { MAKAN_APA_ITEMS, type MakanApaItem } from "@/lib/makanApa/items";
 import { addHighScore } from "@/lib/highscores";
+import { canSaveHighscores } from "@/lib/userCapabilities";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import StylizedTitle from "@/components/game/StylizedTitle";
 import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
@@ -209,6 +210,7 @@ export default function MakanApaPlayPage() {
   }) {
     if (recordedRef.current) return;
     recordedRef.current = true;
+    if (!canSaveHighscores(user)) return;
 
     const totalQuestions = deck.length || MAKAN_APA_ITEMS.length;
     const accuracy = totalQuestions > 0 ? (snapshot.solved / totalQuestions) * 100 : 0;

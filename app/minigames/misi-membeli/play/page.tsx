@@ -15,6 +15,7 @@ import {
 } from "@/lib/misiMembeli/items";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
+import { canSaveHighscores } from "@/lib/userCapabilities";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import StylizedTitle from "@/components/game/StylizedTitle";
 import IconActionLink from "@/components/navigation/IconActionLink";
@@ -461,6 +462,7 @@ export default function MisiMembeliPlayPage() {
   }) {
     if (recordedRef.current) return;
     recordedRef.current = true;
+    if (!canSaveHighscores(user)) return;
 
     const accuracy = snapshot.attempts > 0 ? (snapshot.score / snapshot.attempts) * 100 : 0;
 

@@ -13,6 +13,7 @@ import { addHighScore } from "@/lib/highscores";
 import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { isSingleWordSearchEntry, isValidWordSearchWord, normalizeWordSearchWord } from "@/lib/wordSearch";
+import { canSaveHighscores } from "@/lib/userCapabilities";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
@@ -192,6 +193,7 @@ export default function WordSearchMiniGame() {
     const elapsed = now - started;
     setFinishedTs(now);
     setSaved(true);
+    if (!canSaveHighscores(user)) return;
     addHighScore("wordsearch", {
       name: playerName,
       avatarId: playerAvatarId,

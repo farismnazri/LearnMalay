@@ -34,6 +34,7 @@ import { chapter11Intro } from "@/lib/akuAku/chapter-11";
 
 import { getCurrentUser, updateProgress, type UserProfile } from "@/lib/userStore";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
+import { canPersistProgress, canUnlockEverything } from "@/lib/userCapabilities";
 
 // IMPORTANT: pull types from the same place as chapters (avoid broken /types imports)
 import {
@@ -161,7 +162,7 @@ export default function ChapterPage() {
 
   if (!user) return null;
 
-  const isAdmin = !!user.isAdmin;
+  const canSaveProgress = canPersistProgress(user) && !canUnlockEverything(user);
 
   if (!content) {
     return (
@@ -194,7 +195,7 @@ export default function ChapterPage() {
 
   async function markChapterDone() {
     if (!isLastPage) return;
-    if (isAdmin) return;
+    if (!canSaveProgress) return;
     if (isFinalChapter) return;
     if (markingDone) return;
     if (!user) return;
@@ -372,7 +373,7 @@ export default function ChapterPage() {
         </div>
 
         {/* CHAPTER COMPLETE CTA */}
-        {!isAdmin && totalPages > 0 && isLastPage && !isFinalChapter && (
+        {canSaveProgress && totalPages > 0 && isLastPage && !isFinalChapter && (
           <section className="mt-5 rounded-3xl bg-white/90 p-6 shadow-xl">
             <div className="text-xs font-black opacity-60">{lang === "ms" ? "SELESAI" : lang === "en" ? "DONE" : "LISTO"}</div>
 
@@ -402,7 +403,7 @@ export default function ChapterPage() {
               <button
                 type="button"
                 onClick={markChapterDone}
-                disabled={alreadyUnlockedNext || isAdmin || markingDone}
+                disabled={alreadyUnlockedNext || !canSaveProgress || markingDone}
                 className={[
                   "rounded-xl px-4 py-2 text-sm font-black shadow",
                   alreadyUnlockedNext ? "bg-white opacity-60" : "bg-emerald-600 text-white hover:bg-emerald-500",

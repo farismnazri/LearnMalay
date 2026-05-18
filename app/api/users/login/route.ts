@@ -10,6 +10,7 @@ import {
 } from "@/server/authSecurity";
 import { startSessionForUser } from "@/server/sessionAuth";
 import { ADMIN_ID } from "@/lib/userStoreTypes";
+import { isAdmin } from "@/lib/userCapabilities";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -57,7 +58,7 @@ export async function POST(req: Request) {
     }
 
     recordAuthSuccess(rateLimit.key);
-    if (profile.isAdmin) {
+    if (isAdmin(profile)) {
       logAdminAudit({
         action: "login",
         success: true,

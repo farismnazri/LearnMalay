@@ -11,6 +11,7 @@ import {
 import { rotateAdminPasswordFromEnv, verifyUserPassword } from "@/server/userRepo";
 import { clearSessionCookie, getSessionUser } from "@/server/sessionAuth";
 import { deleteSessionsForUser } from "@/server/sessionRepo";
+import { canRotateAdminPassword } from "@/lib/userCapabilities";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,7 +39,7 @@ export async function POST(req: Request) {
 
   try {
     const { user } = await getSessionUser();
-    if (!user?.isAdmin) {
+    if (!user || !canRotateAdminPassword(user)) {
       recordAuthFailure(rateLimit.key);
       logAdminAudit({
         action: "rotate-admin-password",
