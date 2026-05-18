@@ -121,6 +121,7 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
 
   const familyTreeMode = page.showFamilyLegend || page.nodes.some((n) => !!n.role);
   const isAdvancedFamilyTree = page.id === "p-latihan-2-advanced";
+  const isChapter2FamilyTree = page.id === "p-latihan-2" || page.id === "p-latihan-2-advanced";
   const legendTitle = lang === "ms" ? "Legenda" : lang === "en" ? "Legend" : "Leyenda";
   const legendItems: Array<{ id: "male" | "female" | "self"; text: Translated; swatchClass: string }> = [
     { id: "male", text: { ms: "lelaki", en: "male", es: "hombre" }, swatchClass: "h-4 w-7 rounded-[2px] border-2 border-black/30 bg-white" },
@@ -139,7 +140,13 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
   }
 
   return (
-    <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-5 tablet:p-6">
+    <section
+      className={[
+        "rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-5 tablet:p-6",
+        isChapter2FamilyTree ? "chapter2-family-tree-card" : "",
+        isAdvancedFamilyTree ? "chapter2-family-tree-advanced" : "",
+      ].join(" ")}
+    >
       <div className="text-xl font-extrabold phone-lg:text-2xl">{page.title.ms}</div>
       {lang !== "ms" && <div className="text-sm font-semibold opacity-70">{titleTrans}</div>}
 
@@ -148,7 +155,7 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
         {lang !== "ms" && <div className="mt-1 text-xs font-semibold opacity-70">{instTrans}</div>}
       </div>
 
-      <div className="mt-5 flex flex-wrap gap-2">
+      <div className="boxdrag-options mt-5 flex flex-wrap gap-2">
         {page.options.map((o) => (
           <button
             type="button"
@@ -157,7 +164,7 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
             onDragStart={(e) => onDragStart(e, o.id)}
             onClick={() => setSelectedOptionId((prev) => (prev === o.id ? null : o.id))}
             className={[
-              "touch-target cursor-grab rounded-2xl bg-white px-4 py-2 text-sm font-black shadow active:cursor-grabbing",
+              "boxdrag-option-chip touch-target cursor-grab rounded-2xl bg-white px-4 py-2 text-sm font-black shadow active:cursor-grabbing",
               selectedOptionId === o.id ? "ring-2 ring-amber-400" : "",
             ].join(" ")}
             title={
@@ -185,9 +192,9 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
       )}
 
       <div className="mt-2 tablet:mt-5">
-        <div className="relative mx-auto w-full max-w-7xl rounded-3xl bg-white/70 p-3 shadow phone-lg:p-4 tablet:p-5 xl:p-6">
+        <div className="boxdrag-tree-shell relative mx-auto w-full max-w-7xl rounded-3xl bg-white/70 p-3 shadow phone-lg:p-4 tablet:p-5 xl:p-6">
           {familyTreeMode && (
-            <div className="mb-3 flex flex-wrap items-start justify-start gap-2 tablet:justify-end">
+            <div className="boxdrag-tree-legend-wrap mb-3 flex flex-wrap items-start justify-start gap-2 tablet:justify-end">
               <div className="rounded-2xl border-2 border-black/20 bg-[#fff8d6] px-3 py-2 text-[11px] font-black tracking-wide text-black/80 phone-lg:text-xs">
                 <div className="mb-1 text-center">{legendTitle}</div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -218,7 +225,7 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
           <div className="relative w-full overflow-x-auto">
             <div
               className={[
-                "relative",
+                "boxdrag-tree-canvas relative",
                 page.compact
                   ? isAdvancedFamilyTree
                     ? "mx-auto w-full max-w-[1240px] aspect-[5/4] phone-lg:aspect-[16/11] tablet:aspect-[16/10] xl:aspect-[21/9]"
@@ -229,7 +236,7 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
               <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1000 600" preserveAspectRatio="none">
                 <defs>
                   <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
-                    <path d="M0,0 L6,3 L0,6 Z" fill="rgba(0,0,0,0.55)" />
+                    <path d="M0,0 L6,3 L0,6 Z" fill="rgba(0,0,0,1)" />
                   </marker>
                 </defs>
 
@@ -241,19 +248,19 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
                       y1={pxY(ln.y1)}
                       x2={pxX(ln.x2)}
                       y2={pxY(ln.y2)}
-                      stroke="rgba(0,0,0,0.55)"
+                      stroke="rgba(0,0,0,1)"
                       strokeWidth="3"
                       markerEnd={ln.arrow ? "url(#arrow)" : undefined}
                     />
                   ))
                 ) : (
                   <>
-                    <line x1="310" y1="120" x2="690" y2="120" stroke="rgba(0,0,0,0.55)" strokeWidth="3" />
-                    <line x1="500" y1="120" x2="500" y2="260" stroke="rgba(0,0,0,0.55)" strokeWidth="3" />
-                    <line x1="200" y1="260" x2="800" y2="260" stroke="rgba(0,0,0,0.55)" strokeWidth="3" />
-                    <line x1="200" y1="260" x2="200" y2="390" stroke="rgba(0,0,0,0.55)" strokeWidth="3" markerEnd="url(#arrow)" />
-                    <line x1="500" y1="260" x2="500" y2="390" stroke="rgba(0,0,0,0.55)" strokeWidth="3" markerEnd="url(#arrow)" />
-                    <line x1="800" y1="260" x2="800" y2="390" stroke="rgba(0,0,0,0.55)" strokeWidth="3" markerEnd="url(#arrow)" />
+                    <line x1="310" y1="120" x2="690" y2="120" stroke="rgba(0,0,0,1)" strokeWidth="3" />
+                    <line x1="500" y1="120" x2="500" y2="260" stroke="rgba(0,0,0,1)" strokeWidth="3" />
+                    <line x1="200" y1="260" x2="800" y2="260" stroke="rgba(0,0,0,1)" strokeWidth="3" />
+                    <line x1="200" y1="260" x2="200" y2="390" stroke="rgba(0,0,0,1)" strokeWidth="3" markerEnd="url(#arrow)" />
+                    <line x1="500" y1="260" x2="500" y2="390" stroke="rgba(0,0,0,1)" strokeWidth="3" markerEnd="url(#arrow)" />
+                    <line x1="800" y1="260" x2="800" y2="390" stroke="rgba(0,0,0,1)" strokeWidth="3" markerEnd="url(#arrow)" />
                   </>
                 )}
               </svg>
@@ -321,7 +328,7 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
             </div>
           </div>
 
-          <div className="mt-4 text-xs font-semibold opacity-70">
+          <div className="boxdrag-helper-text mt-4 text-xs font-semibold opacity-70">
             {lang === "ms"
               ? "Seret atau ketik pilihan ke tempat yang betul. Ketik pada kotak untuk kosongkan."
               : lang === "en"
@@ -329,7 +336,7 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
               : "Arrastra o toca las opciones en el lugar correcto. Pulsa una casilla para borrarla."}
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="boxdrag-actions mt-4 flex flex-wrap gap-2">
             <button onClick={() => setChecked(true)} className="touch-target rounded-xl bg-emerald-600 px-4 py-2 text-sm font-black text-white shadow">
               Check Answers
             </button>

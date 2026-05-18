@@ -261,16 +261,10 @@ export default function ChapterPage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-[#0a2014] app-page-pad">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[100svh]">
-        <div
-          className="absolute inset-0 bg-top bg-no-repeat"
-          style={{
-            backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')",
-            backgroundSize: "100% auto",
-          }}
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0.36)_58%,rgba(10,32,20,0.98)_100%)]" />
+    <main className="chapter-page-shell relative min-h-screen overflow-x-hidden bg-[#0a2014] app-page-pad">
+      <div className="chapter-viewport-bg" aria-hidden="true">
+        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-fade" />
       </div>
 
       <AkuAkuPopup

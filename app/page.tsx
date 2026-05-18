@@ -60,7 +60,7 @@ export default function TitleScreen() {
         <BackgroundAudioControls />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center px-4 pb-[max(1.5rem,var(--safe-area-bottom))] pt-[max(6.5rem,var(--safe-area-top))] text-center phone-lg:px-6 phone-lg:pt-[max(8rem,var(--safe-area-top))]">
+      <div className="title-screen-stack relative z-10 mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center px-4 pb-[max(1.5rem,var(--safe-area-bottom))] pt-[max(6.5rem,var(--safe-area-top))] text-center phone-lg:px-6 phone-lg:pt-[max(8rem,var(--safe-area-top))]">
         <header className="w-full">
           <Image
             src="/assets/titles/learnmalay_title.webp"
@@ -68,11 +68,11 @@ export default function TitleScreen() {
             width={1536}
             height={1024}
             priority
-            className="title-drop-bounce mx-auto h-auto w-[min(86vw,720px)] select-none"
+            className="title-screen-logo title-drop-bounce mx-auto h-auto w-[min(86vw,720px)] select-none"
           />
 
           <div
-            className="relative mx-auto mt-7 flex w-full max-w-[820px] items-center justify-center overflow-hidden rounded-2xl bg-[length:50%_100%] bg-center bg-no-repeat px-3 py-4 shadow-xl phone-lg:px-4 phone-lg:py-5"
+            className="title-screen-user-plaque relative mx-auto mt-7 flex w-full max-w-[820px] items-center justify-center overflow-hidden rounded-2xl bg-[length:50%_100%] bg-center bg-no-repeat px-3 py-4 shadow-xl phone-lg:px-4 phone-lg:py-5"
             style={plankBgStyle}
           >
             <div className="absolute inset-0 bg-[#000000]/0" />
@@ -97,7 +97,7 @@ export default function TitleScreen() {
           </div>
         </header>
 
-        <section className="mt-6 flex w-full max-w-[980px] flex-col items-stretch justify-center gap-3 phone-lg:mt-8 phone-lg:flex-row phone-lg:items-start phone-lg:gap-4">
+        <section className="title-screen-actions mt-6 flex w-full max-w-[980px] flex-col items-stretch justify-center gap-3 phone-lg:mt-8 phone-lg:flex-row phone-lg:items-start phone-lg:gap-4">
           <button
             type="button"
             onClick={() => void handleStart()}
@@ -137,7 +137,7 @@ export default function TitleScreen() {
         </section>
       </div>
 
-      <footer className="absolute bottom-[max(1.25rem,var(--safe-area-bottom))] left-0 right-0 z-10 px-4 text-center">
+      <footer className="title-screen-footer absolute bottom-[max(1.25rem,var(--safe-area-bottom))] left-0 right-0 z-10 px-4 text-center">
         <p className="text-xs font-black tracking-[0.22em] text-[#f8efcb]/88">By FN for NF ❤︎</p>
 
         <div className="mx-auto mt-2 w-full max-w-[56rem]">

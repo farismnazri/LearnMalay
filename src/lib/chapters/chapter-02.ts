@@ -645,19 +645,16 @@ messages: [
   showFamilyLegend: true,
 
   options: [
-    { id: "bapa", ms: "bapa", en: "father", es: "padre" },
-    { id: "ibu", ms: "ibu", en: "mother", es: "madre" },
-
-    { id: "abang", ms: "abang", en: "older brother", es: "hermano mayor" },
-    { id: "kakak", ms: "kakak", en: "older sister", es: "hermana mayor" },
-    { id: "adik", ms: "adik", en: "younger sibling", es: "hermano/a menor" },
     { id: "saya", ms: "saya", en: "me / I", es: "yo" },
-
-    { id: "kakak-ipar", ms: "kakak ipar", en: "sister-in-law (brother’s wife)", es: "cuñada (esposa de mi hermano)" },
-    { id: "abang-ipar", ms: "abang-ipar", en: "brother-in-law (sister’s husband)", es: "cuñado (esposo de mi hermana)" },
-
-    { id: "anak-perempuan-abang", ms: "anak perempuan abang", en: "my brother’s daughter", es: "la hija de mi hermano" },
     { id: "anak-lelaki-kakak", ms: "anak lelaki kakak", en: "my sister’s son", es: "el hijo de mi hermana" },
+    { id: "ibu", ms: "ibu", en: "mother", es: "madre" },
+    { id: "kakak-ipar", ms: "kakak ipar", en: "sister-in-law (brother’s wife)", es: "cuñada (esposa de mi hermano)" },
+    { id: "abang", ms: "abang", en: "older brother", es: "hermano mayor" },
+    { id: "anak-perempuan-abang", ms: "anak perempuan abang", en: "my brother’s daughter", es: "la hija de mi hermano" },
+    { id: "bapa", ms: "bapa", en: "father", es: "padre" },
+    { id: "adik", ms: "adik", en: "younger sibling", es: "hermano/a menor" },
+    { id: "abang-ipar", ms: "abang-ipar", en: "brother-in-law (sister’s husband)", es: "cuñado (esposo de mi hermana)" },
+    { id: "kakak", ms: "kakak", en: "older sister", es: "hermana mayor" },
   ],
 
   // Nodes: percent-based positions so we can fit 10 items
