@@ -584,40 +584,46 @@ messages: [
     en: "Complete the family tree correctly.",
     es: "Completa el árbol familiar correctamente.",
   },
+  showFamilyLegend: true,
   options: [
     { id: "ibu", ms: "ibu", en: "mother", es: "madre" },
     { id: "abang", ms: "abang", en: "older brother", es: "hermano mayor" },
-    { id: "adik", ms: "adik", en: "younger sibling", es: "hermano/a menor" },
+    { id: "saya", ms: "saya", en: "me / I", es: "yo" },
     { id: "kakak", ms: "kakak", en: "older sister", es: "hermana mayor" },
   ],
   nodes: [
     {
       id: "n-bapa",
       shape: "rect",
+      role: "male",
       position: "topLeft",
       fixedText: { ms: "bapa", en: "father", es: "padre" },
     },
     {
       id: "n-ibu",
       shape: "oval",
+      role: "female",
       position: "topRight",
       correctOptionId: "ibu",
     },
     {
       id: "n-abang",
-      shape: "oval",
+      shape: "rect",
+      role: "male",
       position: "bottomLeft",
       correctOptionId: "abang",
     },
     {
-      id: "n-adik",
+      id: "n-saya",
       shape: "rect",
+      role: "self",
       position: "bottomCenter",
-      correctOptionId: "adik",
+      correctOptionId: "saya",
     },
     {
       id: "n-kakak",
       shape: "oval",
+      role: "female",
       position: "bottomRight",
       correctOptionId: "kakak",
     },
@@ -636,6 +642,7 @@ messages: [
   },
 
   compact: true,
+  showFamilyLegend: true,
 
   options: [
     { id: "bapa", ms: "bapa", en: "father", es: "padre" },
@@ -656,22 +663,22 @@ messages: [
   // Nodes: percent-based positions so we can fit 10 items
   nodes: [
     // Layer 1
-    { id: "n-bapa", shape: "rect", xPct: 42, yPct: 15, correctOptionId: "bapa" },
-    { id: "n-ibu", shape: "oval", xPct: 58, yPct: 15, correctOptionId: "ibu" },
+    { id: "n-bapa", shape: "rect", role: "male", xPct: 42, yPct: 15, correctOptionId: "bapa" },
+    { id: "n-ibu", shape: "oval", role: "female", xPct: 58, yPct: 15, correctOptionId: "ibu" },
 
     // Layer 2 (order you asked)
     // Layer 2 (6 nodes)
-    { id: "n-kipar", shape: "oval", xPct: 10, yPct: 54, correctOptionId: "kakak-ipar" },
-    { id: "n-abang", shape: "rect", xPct: 26, yPct: 54, correctOptionId: "abang" },
-    { id: "n-adik",  shape: "rect", xPct: 42, yPct: 54, correctOptionId: "adik" },
-    { id: "n-saya",  shape: "rect", xPct: 58, yPct: 54, correctOptionId: "saya" },
-    { id: "n-kakak", shape: "oval", xPct: 74, yPct: 54, correctOptionId: "kakak" },
-    { id: "n-suami", shape: "rect", xPct: 90, yPct: 54, correctOptionId: "abang-ipar" },
+    { id: "n-kipar", shape: "oval", role: "female", xPct: 10, yPct: 54, correctOptionId: "kakak-ipar" },
+    { id: "n-abang", shape: "rect", role: "male", xPct: 26, yPct: 54, correctOptionId: "abang" },
+    { id: "n-adik",  shape: "rect", role: "male", xPct: 42, yPct: 54, correctOptionId: "adik" },
+    { id: "n-saya",  shape: "rect", role: "self", xPct: 58, yPct: 54, correctOptionId: "saya" },
+    { id: "n-kakak", shape: "oval", role: "female", xPct: 74, yPct: 54, correctOptionId: "kakak" },
+    { id: "n-suami", shape: "rect", role: "male", xPct: 90, yPct: 54, correctOptionId: "abang-ipar" },
 
 
     // Layer 3
-    { id: "n-anak-abang", shape: "oval", xPct: 18, yPct: 85, correctOptionId: "anak-perempuan-abang" },
-    { id: "n-anak-kakak", shape: "rect", xPct: 82, yPct: 85, correctOptionId: "anak-lelaki-kakak" },
+    { id: "n-anak-abang", shape: "oval", role: "female", xPct: 18, yPct: 84, correctOptionId: "anak-perempuan-abang" },
+    { id: "n-anak-kakak", shape: "rect", role: "male", xPct: 82, yPct: 84, correctOptionId: "anak-lelaki-kakak" },
   ],
 
   // Connector lines (percent coords, rendered into SVG viewBox)

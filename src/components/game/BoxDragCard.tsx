@@ -13,11 +13,13 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
   const [placed, setPlaced] = useState<Record<string, string>>({});
   const [checked, setChecked] = useState(false);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
+  const [openLegendItem, setOpenLegendItem] = useState<"male" | "female" | "self" | null>(null);
 
   useEffect(() => {
     setPlaced({});
     setChecked(false);
     setSelectedOptionId(null);
+    setOpenLegendItem(null);
   }, [page.id]);
 
   const titleTrans = lang === "ms" ? "" : lang === "en" ? page.title.en : page.title.es;
@@ -89,18 +91,42 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
     }
   }
 
-  function nodeClass(shape: BoxDragNode["shape"], ok: boolean | null, hasValue: boolean) {
+  function nodeRole(node: BoxDragNode): BoxDragNode["role"] {
+    if (node.role) return node.role;
+    return node.shape === "oval" ? "female" : "male";
+  }
+
+  function nodeClass(node: BoxDragNode, ok: boolean | null, hasValue: boolean) {
     const base =
-      "absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center text-center shadow font-extrabold text-xs phone-lg:text-sm tablet:text-[15px] xl:text-base";
-    const shapeCls = shape === "oval" ? "rounded-full" : "rounded-2xl";
-    const fill = hasValue ? "bg-amber-100" : "bg-white";
+      "absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center text-center shadow font-extrabold text-xs leading-tight phone-lg:text-sm tablet:text-[15px] xl:text-base";
+    const role = nodeRole(node);
+    const shapeCls = familyTreeMode
+      ? role === "female"
+        ? "rounded-full"
+        : role === "self"
+        ? "rounded-2xl"
+        : "rounded-[4px]"
+      : node.shape === "oval"
+      ? "rounded-full"
+      : "rounded-2xl";
+    const fill = hasValue ? "bg-amber-100" : familyTreeMode && role === "self" ? "bg-sky-50" : "bg-white";
     const border = ok === null ? "border-2 border-black/20" : ok ? "border-2 border-emerald-500" : "border-2 border-red-500";
+    const selfFx = familyTreeMode && role === "self" ? "ring-2 ring-sky-300/70 ring-offset-1" : "";
     const size = page.compact
-      ? "w-[88px] h-[46px] phone-lg:w-[106px] phone-lg:h-[52px] tablet:w-[118px] tablet:h-[56px] xl:w-[145px] xl:h-[60px] px-2 phone-lg:px-3"
+      ? "w-[88px] h-[54px] phone-lg:w-[104px] phone-lg:h-[60px] tablet:w-[116px] tablet:h-[66px] xl:w-[136px] xl:h-[72px] px-2"
       : "w-[136px] h-[54px] phone-lg:w-[170px] phone-lg:h-[62px] tablet:w-[210px] tablet:h-[72px] xl:w-[260px] xl:h-[80px] px-2 phone-lg:px-4";
 
-    return [base, shapeCls, fill, border, size].join(" ");
+    return [base, shapeCls, fill, border, selfFx, size].join(" ");
   }
+
+  const familyTreeMode = page.showFamilyLegend || page.nodes.some((n) => !!n.role);
+  const isAdvancedFamilyTree = page.id === "p-latihan-2-advanced";
+  const legendTitle = lang === "ms" ? "Legenda" : lang === "en" ? "Legend" : "Leyenda";
+  const legendItems: Array<{ id: "male" | "female" | "self"; text: Translated; swatchClass: string }> = [
+    { id: "male", text: { ms: "lelaki", en: "male", es: "hombre" }, swatchClass: "h-4 w-7 rounded-[2px] border-2 border-black/30 bg-white" },
+    { id: "female", text: { ms: "perempuan", en: "female", es: "mujer" }, swatchClass: "h-4 w-7 rounded-full border-2 border-black/30 bg-white" },
+    { id: "self", text: { ms: "saya", en: "me", es: "yo" }, swatchClass: "h-4 w-7 rounded-[10px] border-2 border-sky-400 bg-sky-100" },
+  ];
 
   const VB_W = 1000;
   const VB_H = 600;
@@ -160,12 +186,43 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
 
       <div className="mt-2 tablet:mt-5">
         <div className="relative mx-auto w-full max-w-7xl rounded-3xl bg-white/70 p-3 shadow phone-lg:p-4 tablet:p-5 xl:p-6">
+          {familyTreeMode && (
+            <div className="mb-3 flex flex-wrap items-start justify-start gap-2 tablet:justify-end">
+              <div className="rounded-2xl border-2 border-black/20 bg-[#fff8d6] px-3 py-2 text-[11px] font-black tracking-wide text-black/80 phone-lg:text-xs">
+                <div className="mb-1 text-center">{legendTitle}</div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {legendItems.map((item) => {
+                    const showTranslation = lang !== "ms" && openLegendItem === item.id;
+                    return (
+                      <div key={item.id}>
+                        <button
+                          type="button"
+                          onClick={() => setOpenLegendItem((prev) => (prev === item.id ? null : item.id))}
+                          className="flex touch-target items-center gap-1.5 rounded-xl bg-white px-2 py-1 text-[11px] shadow phone-lg:text-xs"
+                          title={lang === "ms" ? "Ketik untuk butiran terjemahan" : "Tap to reveal translation"}
+                        >
+                          <span className={item.swatchClass} />
+                          <span className="leading-tight">
+                            <span className="block">{item.text.ms}</span>
+                            {showTranslation && <span className="block text-[10px] font-semibold normal-case opacity-75">{tr(item.text)}</span>}
+                          </span>
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="relative w-full overflow-x-auto">
             <div
               className={[
                 "relative",
                 page.compact
-                  ? "min-w-[700px] aspect-[5/4] phone-lg:min-w-[740px] phone-lg:aspect-[16/11] tablet:min-w-[740px] tablet:aspect-[16/10] xl:min-w-[1100px] xl:aspect-[21/9]"
+                  ? isAdvancedFamilyTree
+                    ? "mx-auto w-full max-w-[1240px] aspect-[5/4] phone-lg:aspect-[16/11] tablet:aspect-[16/10] xl:aspect-[21/9]"
+                    : "mx-auto w-full max-w-[1120px] aspect-[5/4] phone-lg:aspect-[16/11] tablet:aspect-[16/10] xl:aspect-[21/9]"
                   : "min-w-[620px] aspect-[4/3] phone-lg:min-w-[720px] tablet:min-w-[820px] tablet:aspect-[7/5] xl:min-w-[900px] xl:aspect-video",
               ].join(" ")}
             >
@@ -206,10 +263,14 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
 
                 if (node.fixedText) {
                   return (
-                    <div key={node.id} style={style} className={nodeClass(node.shape, null, true)}>
-                      <div>
-                        <div className="text-sm phone-lg:text-base sm:text-lg">{node.fixedText.ms}</div>
-                        {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{tr(node.fixedText)}</div>}
+                    <div key={node.id} style={style} className={nodeClass(node, null, true)}>
+                      <div className="w-full break-words whitespace-normal px-1 text-center">
+                        <div className={page.compact ? "text-[11px] phone-lg:text-xs tablet:text-[13px] xl:text-sm" : "text-sm phone-lg:text-base sm:text-lg"}>
+                          {node.fixedText.ms}
+                        </div>
+                        {lang !== "ms" && (
+                          <div className={page.compact ? "text-[10px] font-semibold opacity-70" : "text-xs font-semibold opacity-70"}>{tr(node.fixedText)}</div>
+                        )}
                       </div>
                     </div>
                   );
@@ -218,6 +279,9 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
                 const chosenId = placed[node.id];
                 const chosen = page.options.find((o) => o.id === chosenId);
                 const ok = checked ? isCorrect(node.id, node.correctOptionId) : null;
+                const isSelfNode = nodeRole(node) === "self";
+                const selfLabel = lang === "ms" ? "saya" : "me";
+                const selfTrans = lang === "ms" ? "me / I" : lang === "en" ? "me / I" : "yo";
 
                 return (
                   <div
@@ -226,7 +290,7 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
                     onDragOver={allowDrop}
                     onDrop={(e) => onDrop(e, node.id)}
                     onClick={() => onTapNode(node.id)}
-                    className={nodeClass(node.shape, ok, !!chosen)}
+                    className={nodeClass(node, ok, !!chosen)}
                     title={
                       selectedOptionId
                         ? lang === "ms"
@@ -241,9 +305,15 @@ export default function BoxDragCard({ page, lang }: BoxDragCardProps) {
                         : "Pulsa para borrar"
                     }
                   >
-                    <div>
-                      <div className="text-sm phone-lg:text-base sm:text-lg">{chosen ? chosen.ms : "—"}</div>
-                      {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{chosen ? tr(chosen) : "—"}</div>}
+                    <div className="w-full break-words whitespace-normal px-1 text-center">
+                      <div className={page.compact ? "text-[11px] phone-lg:text-xs tablet:text-[13px] xl:text-sm" : "text-sm phone-lg:text-base sm:text-lg"}>
+                        {chosen ? chosen.ms : isSelfNode ? selfLabel : "—"}
+                      </div>
+                      {lang !== "ms" && (
+                        <div className={page.compact ? "text-[10px] font-semibold opacity-70" : "text-xs font-semibold opacity-70"}>
+                          {chosen ? tr(chosen) : isSelfNode ? selfTrans : "—"}
+                        </div>
+                      )}
                     </div>
                   </div>
                 );

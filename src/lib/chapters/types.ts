@@ -187,6 +187,7 @@ export type BoxDragLine = {
 export type BoxDragNode = {
   id: string;
   shape: "rect" | "oval";
+  role?: "male" | "female" | "self";
 
   // Old preset positioning (basic tree can keep using this)
   position?: "topLeft" | "topRight" | "bottomLeft" | "bottomCenter" | "bottomRight";
@@ -204,6 +205,7 @@ export type BoxDragPage = {
   kind: "boxdrag";
   title: Translated;
   instructions: Translated;
+  showFamilyLegend?: boolean;
   options: DragOption[];
   nodes: BoxDragNode[];
 
