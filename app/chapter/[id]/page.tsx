@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import BoxDragCard from "@/components/game/BoxDragCard";
@@ -447,6 +448,8 @@ function SectionCard({ section, lang }: { section: ChapterSection; lang: UiLang 
   };
 
   const titleTrans = lang === "en" ? section.title.en : lang === "es" ? section.title.es : section.title.ms;
+  const isImageCardList =
+    section.kind === "list" && section.items.some((it) => typeof it.imageSrc === "string" && it.imageSrc.length > 0);
 
   return (
     <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
@@ -472,6 +475,54 @@ function SectionCard({ section, lang }: { section: ChapterSection; lang: UiLang 
             );
           })}
         </div>
+      ) : isImageCardList ? (
+        <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {section.items.map((it) => {
+            const t = lang === "en" ? it.en : lang === "es" ? it.es : it.ms;
+            const label = it.cardLabel
+              ? lang === "en"
+                ? it.cardLabel.en
+                : lang === "es"
+                ? it.cardLabel.es
+                : it.cardLabel.ms
+              : "";
+            const alt = it.imageAlt
+              ? lang === "en"
+                ? it.imageAlt.en
+                : lang === "es"
+                ? it.imageAlt.es
+                : it.imageAlt.ms
+              : it.ms;
+
+            return (
+              <li
+                key={it.id}
+                className="overflow-hidden rounded-3xl border-4 border-black/15 bg-[#0c2b27] shadow-[0_10px_0_rgba(0,0,0,0.2)]"
+              >
+                <div className="relative aspect-[4/3] w-full">
+                  {it.imageSrc && (
+                    <Image
+                      src={it.imageSrc}
+                      alt={alt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover"
+                    />
+                  )}
+                  {label && (
+                    <div className="absolute left-3 top-3 rounded-full bg-[#ffcf33] px-3 py-1 text-xs font-black uppercase tracking-wide text-black shadow">
+                      {label}
+                    </div>
+                  )}
+                </div>
+                <div className="border-t-4 border-black/10 bg-[#0c2b27] px-4 py-3 text-white">
+                  <div className="text-base font-extrabold leading-tight">{it.ms}</div>
+                  {lang !== "ms" && <div className="mt-0.5 text-xs font-semibold text-white/85">{t}</div>}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       ) : (
         <ul className="mt-4 grid gap-3 sm:grid-cols-2">
           {section.items.map((it) => {

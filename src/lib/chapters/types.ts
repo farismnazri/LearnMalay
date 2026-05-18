@@ -49,7 +49,13 @@ export type ChapterSection =
       kind: "list";
       id: string;
       title: Translated;
-      items: Array<{ id: string } & Translated>;
+      items: Array<
+        ({ id: string } & Translated & {
+          imageSrc?: string;
+          imageAlt?: Translated;
+          cardLabel?: Translated;
+        })
+      >;
     };
 
 export type ChapterIntroPage = {
