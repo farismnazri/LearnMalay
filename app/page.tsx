@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
+import { APP_VERSION_LABEL } from "@/lib/appVersion";
 
 
 function chapterToWorldLevel(chapter: number) {
@@ -183,6 +184,15 @@ export default function TitleScreen() {
           </div>
         </div>
       </footer>
+
+      <div className="absolute bottom-[max(0.85rem,var(--safe-area-bottom))] right-[max(0.85rem,var(--safe-area-right))] z-20">
+        <Link
+          href="/updates"
+          className="rounded-full border border-[#d7b45c]/40 bg-[#1e2e21]/55 px-2.5 py-1 text-[10px] font-black tracking-[0.14em] text-[#f8efcb]/75 underline decoration-[#d7b45c]/70 decoration-2 underline-offset-2 backdrop-blur-sm transition hover:text-[#fff4cf]"
+        >
+          {APP_VERSION_LABEL} • Adventure Log
+        </Link>
+      </div>
     </main>
   );
 }
