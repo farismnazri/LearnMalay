@@ -1,9 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import StylizedTitle from "@/components/game/StylizedTitle";
 import { ADVENTURE_LOG, type AdventureLogEntry } from "@/lib/adventureLog";
 import { APP_VERSION_LABEL } from "@/lib/appVersion";
 import type { Translated } from "@/lib/chapters";
+import { isAdmin, isDemo } from "@/lib/userCapabilities";
+import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 
 const DISPLAY_LANG = "en" as const;
 type HighlightGroup = keyof AdventureLogEntry["highlights"];
@@ -21,7 +26,20 @@ function pick(text: Translated) {
 }
 
 export default function AdventureLogPage() {
+  const [user, setUser] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    getCurrentUser().then((u) => {
+      if (alive) setUser(u);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   const releases = [...ADVENTURE_LOG].sort((a, b) => b.date.localeCompare(a.date));
+  const showTechnicalNotes = isAdmin(user) || isDemo(user);
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#081d14] app-page-pad text-[#f7f1d5]">
@@ -96,6 +114,21 @@ export default function AdventureLogPage() {
                     </section>
                   );
                 })}
+
+                {showTechnicalNotes && release.technicalNotes && release.technicalNotes.length > 0 && (
+                  <section>
+                    <h3 className="text-xs font-black uppercase tracking-[0.2em] text-[#4f5a3a]">
+                      Technical Notes
+                    </h3>
+                    <ul className="mt-1.5 list-disc space-y-1.5 pl-4">
+                      {release.technicalNotes.map((item, idx) => (
+                        <li key={`technical-${idx}`} className="text-sm font-semibold text-[#2f3b27]">
+                          {pick(item)}
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                )}
               </div>
             </article>
           ))}
