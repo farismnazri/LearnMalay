@@ -114,13 +114,15 @@ body {
 
 .chapter-page-shell {
   background-color: var(--chapter-bg-deep);
+  isolation: isolate;
+  position: relative;
 }
 
 .chapter-viewport-bg {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
 }
 
 .chapter-viewport-bg-image {

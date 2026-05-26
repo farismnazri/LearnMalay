@@ -316,15 +316,11 @@ export default function UserSelectPage() {
   const isActionDisabled = submitting || !cleanName || (mode === "create" && !cleanPassword);
 
   return (
-    <main
-      className="relative min-h-screen overflow-hidden bg-cover bg-center app-page-pad text-[#fbf7e8]"
-      style={{ backgroundImage: "url('/assets/backgrounds/mainpagebackground.jpg')" }}
-    >
-      <div className="absolute inset-0 bg-[linear-gradient(160deg,rgba(13,54,27,0.88)_0%,rgba(22,71,33,0.84)_58%,rgba(57,92,39,0.8)_100%)]" />
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.12)_0px,rgba(0,0,0,0.12)_1px,transparent_2px,transparent_4px)]" />
-      <div className="pointer-events-none absolute -left-24 top-16 h-72 w-72 rounded-full bg-[#b8d973]/20 blur-3xl" />
-      <div className="pointer-events-none absolute -right-24 top-8 h-64 w-64 rounded-full bg-[#ffd447]/20 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-[#8ac25a]/20 blur-3xl" />
+    <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad text-[#fbf7e8]">
+      <div className="chapter-viewport-bg" aria-hidden="true">
+        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-fade" />
+      </div>
 
       <div className="relative z-10 mx-auto max-w-4xl">
         <div className="flex flex-col items-start justify-between gap-3 phone-lg:flex-row phone-lg:gap-4">

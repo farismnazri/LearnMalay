@@ -60,7 +60,11 @@ export default function CurrencyIntroPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
+      <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad">
+      <div className="chapter-viewport-bg" aria-hidden="true">
+        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-fade" />
+      </div>
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
@@ -79,7 +83,11 @@ export default function CurrencyIntroPage() {
 
   if (!unlocked) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
+      <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad">
+      <div className="chapter-viewport-bg" aria-hidden="true">
+        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-fade" />
+      </div>
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">
@@ -136,12 +144,11 @@ export default function CurrencyIntroPage() {
   };
 
   return (
-    <main className="relative min-h-screen bg-cover bg-center app-page-pad">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
-      />
-      <div className="absolute inset-0 bg-black/25" />
+    <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad">
+      <div className="chapter-viewport-bg" aria-hidden="true">
+        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-fade" />
+      </div>
 
       <div className="relative mx-auto max-w-4xl space-y-5 phone-lg:space-y-6">
         {/* header row */}

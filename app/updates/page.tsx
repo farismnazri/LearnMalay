@@ -42,13 +42,11 @@ export default function AdventureLogPage() {
   const showTechnicalNotes = isAdmin(user) || isDemo(user);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#081d14] app-page-pad text-[#f7f1d5]">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
-      />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_10%,rgba(255,220,88,0.17)_0%,rgba(255,220,88,0.04)_36%,transparent_58%),radial-gradient(circle_at_84%_18%,rgba(126,197,88,0.16)_0%,rgba(126,197,88,0.04)_36%,transparent_56%),linear-gradient(180deg,rgba(6,20,14,0.52)_0%,rgba(9,30,20,0.7)_58%,rgba(10,35,23,0.9)_100%)]" />
-      <div className="pointer-events-none absolute inset-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.2)_0px,rgba(0,0,0,0.2)_1px,transparent_2px,transparent_4px)]" />
+    <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad text-[#f7f1d5]">
+      <div className="chapter-viewport-bg" aria-hidden="true">
+        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-fade" />
+      </div>
 
       <div className="relative z-10 mx-auto max-w-4xl space-y-4 phone-lg:space-y-5">
         <header className="rounded-3xl border border-[#c6dca8]/45 bg-[#163726]/75 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.45)] backdrop-blur-md">

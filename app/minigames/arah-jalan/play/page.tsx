@@ -343,7 +343,11 @@ export default function ArahJalanPlayPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
+      <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad">
+      <div className="chapter-viewport-bg" aria-hidden="true">
+        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-fade" />
+      </div>
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">MINI GAMES</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">Select a user first to play this minigame.</p>
@@ -360,7 +364,11 @@ export default function ArahJalanPlayPage() {
 
   if (!unlocked) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-emerald-200 via-sky-200 to-amber-200 app-page-pad">
+      <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad">
+      <div className="chapter-viewport-bg" aria-hidden="true">
+        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-fade" />
+      </div>
         <div className="mx-auto max-w-xl rounded-2xl bg-white/85 p-6 shadow">
           <h1 className="crash-text crash-outline-fallback text-5xl font-black">LOCKED</h1>
           <p className="mt-4 text-sm font-semibold text-black/70">
@@ -385,14 +393,13 @@ export default function ArahJalanPlayPage() {
   const winRate = runs > 0 ? Math.round((wins / runs) * 100) : 0;
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#081d14] app-page-pad">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
-      />
-      <div className="absolute inset-0 bg-black/30" />
+    <main className="chapter-page-shell relative min-h-screen overflow-x-hidden overflow-y-auto app-page-pad">
+      <div className="chapter-viewport-bg" aria-hidden="true">
+        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-fade" />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl space-y-4 phone-lg:space-y-6">
+      <div className="relative z-10 mx-auto max-w-7xl space-y-4 phone-lg:space-y-6">
         <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between tablet:gap-4">
           <div>
             <StylizedTitle title={title} />
@@ -541,7 +548,7 @@ export default function ArahJalanPlayPage() {
             </div>
           </div>
 
-          <aside className="space-y-4">
+          <aside className="space-y-4 lg:sticky lg:top-3 lg:self-start">
             <div className="rounded-3xl border border-[#d8c790]/75 bg-[#fff5d7]/95 p-4 shadow-xl">
               <div className="text-[11px] font-black uppercase tracking-wide text-[#6e5918]/70">
                 {lang === "ms" ? "Misi" : lang === "en" ? "Mission" : "Misión"}
@@ -594,7 +601,7 @@ export default function ArahJalanPlayPage() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-[#d8c790]/75 bg-[#fff5d7]/95 p-4 shadow-xl">
+            <div className="flex flex-col rounded-3xl border border-[#d8c790]/75 bg-[#fff5d7]/95 p-4 shadow-xl lg:max-h-[72svh]">
               <div className="flex items-center justify-between">
                 <div className="text-[11px] font-black uppercase tracking-wide text-[#6e5918]/70">
                   {lang === "ms" ? "Queue Arahan" : lang === "en" ? "Command Queue" : "Cola de comandos"}
@@ -604,27 +611,32 @@ export default function ArahJalanPlayPage() {
                 </div>
               </div>
 
-              {queue.length === 0 ? (
-                <div className="mt-2 rounded-xl border border-dashed border-[#d6c590] bg-white/75 p-3 text-xs font-semibold text-[#7a6840]">
-                  {lang === "ms"
-                    ? "Belum ada arahan."
-                    : lang === "en"
-                    ? "No commands yet."
-                    : "Aún no hay comandos."}
-                </div>
-              ) : (
-                <ol className="mt-2 max-h-44 space-y-1.5 overflow-auto pr-1">
-                  {queue.map((commandId, idx) => (
-                    <li
-                      key={`${commandId}-${idx}`}
-                      className="rounded-xl border border-[#e2d2a5] bg-white px-2.5 py-2 text-xs font-black text-[#3f2f00]"
-                    >
-                      <span className="mr-1.5 opacity-65">{idx + 1}.</span>
-                      {ARAH_JALAN_COMMAND_LABELS[commandId].ms}
-                    </li>
-                  ))}
-                </ol>
-              )}
+              <div className="relative mt-2 min-h-24 flex-1 overflow-hidden rounded-xl border border-[#e2d2a5] bg-white/75">
+                {queue.length === 0 ? (
+                  <div className="p-3 text-xs font-semibold text-[#7a6840]">
+                    {lang === "ms"
+                      ? "Belum ada arahan."
+                      : lang === "en"
+                      ? "No commands yet."
+                      : "Aún no hay comandos."}
+                  </div>
+                ) : (
+                  <>
+                    <ol className="h-full max-h-[32svh] space-y-1.5 overflow-y-auto p-2.5 pr-2">
+                      {queue.map((commandId, idx) => (
+                        <li
+                          key={`${commandId}-${idx}`}
+                          className="rounded-xl border border-[#e2d2a5] bg-white px-2.5 py-2 text-xs font-black text-[#3f2f00]"
+                        >
+                          <span className="mr-1.5 opacity-65">{idx + 1}.</span>
+                          {ARAH_JALAN_COMMAND_LABELS[commandId].ms}
+                        </li>
+                      ))}
+                    </ol>
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#fff0c7]/95 to-transparent" />
+                  </>
+                )}
+              </div>
 
               <div className="mt-3 grid grid-cols-3 gap-2">
                 <button

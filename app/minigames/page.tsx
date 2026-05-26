@@ -257,18 +257,11 @@ export default function MiniGamesHubPage() {
   const latestUnlockedId = useMemo(() => getLatestUnlockedMinigameId(user), [user]);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#081d14] app-page-pad">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[100svh]">
-        <div
-          className="absolute inset-0 bg-top bg-no-repeat"
-          style={{
-            backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')",
-            backgroundSize: "100% auto",
-          }}
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(255,220,88,0.16)_0%,rgba(255,220,88,0.03)_35%,transparent_52%),radial-gradient(circle_at_85%_18%,rgba(126,197,88,0.2)_0%,rgba(126,197,88,0.04)_38%,transparent_58%),linear-gradient(180deg,rgba(6,20,14,0.48)_0%,rgba(9,30,20,0.66)_58%,rgba(10,35,23,0.98)_100%)]" />
+    <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad">
+      <div className="chapter-viewport-bg" aria-hidden="true">
+        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-fade" />
       </div>
-      <div className="pointer-events-none absolute inset-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.18)_0px,rgba(0,0,0,0.18)_1px,transparent_2px,transparent_4px)]" />
 
       <div className="relative z-10 mx-auto max-w-4xl space-y-5 phone-lg:space-y-6">
         {/* header row */}

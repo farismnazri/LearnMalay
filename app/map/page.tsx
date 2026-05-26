@@ -122,15 +122,11 @@ export default function MapPage() {
   const completionPct = Math.round((unlockedCount / totalChapters) * 100);
 
   return (
-    <main
-      className="relative min-h-screen overflow-hidden bg-[#081d14] app-page-pad"
-    >
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/assets/backgrounds/worldbackground.jpg')" }}
-      />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_12%,rgba(255,220,88,0.16)_0%,rgba(255,220,88,0.03)_35%,transparent_52%),radial-gradient(circle_at_85%_18%,rgba(126,197,88,0.2)_0%,rgba(126,197,88,0.04)_38%,transparent_58%),linear-gradient(180deg,rgba(6,20,14,0.48)_0%,rgba(9,30,20,0.62)_42%,rgba(10,35,23,0.72)_100%)]" />
-      <div className="pointer-events-none absolute inset-0 opacity-20 [background:repeating-linear-gradient(0deg,rgba(0,0,0,0.18)_0px,rgba(0,0,0,0.18)_1px,transparent_2px,transparent_4px)]" />
+    <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad">
+      <div className="chapter-viewport-bg" aria-hidden="true">
+        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-fade" />
+      </div>
 
       <div className="relative z-10 mx-auto max-w-5xl">
         <div className="flex flex-wrap items-start justify-between gap-2.5 phone-lg:gap-3">
