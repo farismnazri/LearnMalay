@@ -33,7 +33,7 @@ function pick(tr: Translated, lang: UiLang) {
 }
 
 type MiniGame = {
-  id: "numbers" | "word-match" | "wordsearch" | "currency" | "makan-apa" | "misi-membeli";
+  id: "numbers" | "word-match" | "wordsearch" | "currency" | "makan-apa" | "misi-membeli" | "arah-jalan";
   title: Translated;
   desc: Translated;
   href: string;
@@ -113,6 +113,18 @@ const GAMES: MiniGame[] = [
     href: "/minigames/misi-membeli",
     requiredChapter: 11,
     backgroundSrc: "/assets/backgrounds/misi_membeli.webp",
+  },
+  {
+    id: "arah-jalan",
+    title: { ms: "Arah Jalan", en: "Directions", es: "Direcciones" },
+    desc: {
+      ms: "Susun arahan belok untuk sampai destinasi di peta tetap.",
+      en: "Build turn commands to reach a destination on a fixed map.",
+      es: "Construye comandos de giro para llegar al destino en un mapa fijo.",
+    },
+    href: "/minigames/arah-jalan",
+    requiredChapter: 11,
+    backgroundSrc: "/assets/chapters/ch4/kompas.webp",
   },
 ];
 

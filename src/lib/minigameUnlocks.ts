@@ -3,7 +3,14 @@ import { canUnlockEverything } from "./userCapabilities";
 
 const FINAL_CHAPTER = 11;
 
-export type UnlockableMinigameId = "numbers" | "word-match" | "wordsearch" | "currency" | "makan-apa" | "misi-membeli";
+export type UnlockableMinigameId =
+  | "numbers"
+  | "word-match"
+  | "wordsearch"
+  | "currency"
+  | "makan-apa"
+  | "misi-membeli"
+  | "arah-jalan";
 
 export const MINIGAME_PREREQUISITES: Record<UnlockableMinigameId, number> = {
   numbers: 1,
@@ -12,6 +19,7 @@ export const MINIGAME_PREREQUISITES: Record<UnlockableMinigameId, number> = {
   currency: 5,
   "makan-apa": 7,
   "misi-membeli": 11,
+  "arah-jalan": 11,
 };
 
 export const MINIGAME_UNLOCK_ORDER: UnlockableMinigameId[] = [
@@ -21,6 +29,7 @@ export const MINIGAME_UNLOCK_ORDER: UnlockableMinigameId[] = [
   "currency",
   "makan-apa",
   "misi-membeli",
+  "arah-jalan",
 ];
 
 export function hasCompletedChapter(user: UserProfile | null, chapter: number) {
