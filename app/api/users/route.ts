@@ -24,6 +24,9 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const csrf = enforceSameOriginMutation(req);
+  if (csrf) return csrf;
+
   const body = (await req.json().catch(() => null)) as { name?: string; password?: string; avatarId?: string } | null;
   if (!body?.name || typeof body.password !== "string") {
     return NextResponse.json({ error: "name and password required" }, { status: 400 });
