@@ -17,6 +17,7 @@ import {
   startSessionForUser,
 } from "@/server/sessionAuth";
 import { deleteSession } from "@/server/sessionRepo";
+import { enforceSameOriginMutation } from "@/server/requestSecurity";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -44,6 +45,9 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const csrf = enforceSameOriginMutation(req);
+  if (csrf) return csrf;
+
   try {
     const body = (await req.json().catch(() => null)) as { id?: string; password?: string } | null;
     if (!body?.id) return NextResponse.json({ error: "id required" }, { status: 400 });
@@ -86,12 +90,16 @@ export async function POST(req: Request) {
           reason: "invalid_credentials",
         });
       }
-      return NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
+      const res = NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
+      if (sessionId) clearSessionCookie(res);
+      return res;
     }
 
     const user = await getUser(userId);
     if (!user) {
-      return NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
+      const res = NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
+      if (sessionId) clearSessionCookie(res);
+      return res;
     }
 
     if (rateLimit && allowByPassword) {
@@ -119,7 +127,10 @@ export async function POST(req: Request) {
   }
 }
 
-export async function DELETE() {
+export async function DELETE(req: Request) {
+  const csrf = enforceSameOriginMutation(req);
+  if (csrf) return csrf;
+
   try {
     const sessionId = await readSessionIdFromCookie();
     if (sessionId) {

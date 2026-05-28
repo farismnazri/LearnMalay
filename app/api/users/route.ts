@@ -8,6 +8,7 @@ import {
 import { deleteSession, deleteSessionsForUser } from "@/server/sessionRepo";
 import { ADMIN_ID, DEMO_ID } from "@/lib/userStoreTypes";
 import { canManageUsers } from "@/lib/userCapabilities";
+import { enforceSameOriginMutation } from "@/server/requestSecurity";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -46,13 +47,20 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+  const csrf = enforceSameOriginMutation(req);
+  if (csrf) return csrf;
+
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
 
   try {
     const { sessionId, user: actor } = await getSessionUser();
-    if (!actor) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!actor) {
+      const res = NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      if (sessionId) clearSessionCookie(res);
+      return res;
+    }
 
     const targetId = id.trim().toUpperCase();
     const actorId = actor.id.trim().toUpperCase();
