@@ -24,8 +24,8 @@ import {
   getCurrentUser,
   type UserProfile,
 } from "@/lib/userStore";
-import { MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
-import { canUnlockEverything, isAdmin, isDemo } from "@/lib/userCapabilities";
+import { isChapterUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
+import { isAdmin, isDemo } from "@/lib/userCapabilities";
 
 type ChapterCard = {
   chapter: number; // 1..11
@@ -112,13 +112,10 @@ export default function MapPage() {
 
   if (!user) return null;
 
-  const hasFullUnlock = canUnlockEverything(user);
   const isAdminMode = isAdmin(user);
   const isDemoMode = isDemo(user);
   const totalChapters = chapters.length;
-  const unlockedCount = hasFullUnlock
-    ? totalChapters
-    : chapters.filter((c) => c.chapter <= currentChapter).length;
+  const unlockedCount = chapters.filter((c) => isChapterUnlocked(user, c.chapter)).length;
   const completionPct = Math.round((unlockedCount / totalChapters) * 100);
 
   return (
@@ -228,7 +225,7 @@ export default function MapPage() {
                       WORLD {w}
                     </h2>
                     <span className="rounded-full border border-[#bdd89d]/60 bg-[#305f34]/80 px-2 py-0.5 text-[10px] font-black text-[#ecf6d9] phone-lg:text-[11px]">
-                      {worldChapters.filter((c) => hasFullUnlock || user.progress.chapter >= c.chapter).length}/
+                      {worldChapters.filter((c) => isChapterUnlocked(user, c.chapter)).length}/
                       {worldChapters.length} OPEN
                     </span>
                   </div>
@@ -236,7 +233,7 @@ export default function MapPage() {
 
                 <div className="grid flex-1 grid-cols-1 gap-2.5 phone-lg:gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:gap-4">
                 {worldChapters.map((c) => {
-                  const unlocked = hasFullUnlock || user.progress.chapter >= c.chapter;
+                  const unlocked = isChapterUnlocked(user, c.chapter);
                   const isCurrent = c.chapter === currentChapter;
                   const lockHint = c.chapter === 1 ? "Start here" : `Finish Chapter ${c.chapter - 1}`;
                   const unlocksMinigame = CHAPTERS_WITH_MINIGAME_UNLOCK.has(c.chapter);

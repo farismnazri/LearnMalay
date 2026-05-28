@@ -14,6 +14,9 @@ import {
   isProfileAvatarId,
   type ProfileAvatarId,
 } from "@/lib/profileAvatars";
+import { MAX_CHAPTER_ID, MIN_CHAPTER_ID } from "@/lib/chapters";
+
+const MAX_PROGRESS_PAGE = 10_000;
 
 function resolveAdminBootstrapPassword(): string {
   const fromEnv = process.env.LEARN_MALAY_ADMIN_PASSWORD?.trim();
@@ -37,15 +40,24 @@ function resolveAdminRotationPassword(): string {
   return fromEnv;
 }
 
-function resolveDemoBootstrapPassword(): string {
+function resolveDemoBootstrapPassword(): string | null {
   const fromEnv = process.env.LEARN_MALAY_DEMO_PASSWORD?.trim();
   if (fromEnv) return fromEnv;
-  return "demomode";
+
+  if (process.env.NODE_ENV === "development") {
+    console.warn(
+      "LEARN_MALAY_DEMO_PASSWORD is not set. Using development fallback password for DEMO."
+    );
+    return "demomode";
+  }
+
+  return null;
 }
 const AUTH_BOOTSTRAP_KEY = "users_auth_v1_bootstrap_done";
 
 let userDataStateReady = false;
 let userDataStatePromise: Promise<void> | null = null;
+let warnedMissingDemoPassword = false;
 
 function normalizeUserId(id: string) {
   return id.trim().toUpperCase();
@@ -185,7 +197,18 @@ async function ensureDemoAccount() {
   const existing = await users.findOne({ id: DEMO_ID });
   const demoPassword = resolveDemoBootstrapPassword();
 
+  if (!existing && !demoPassword) {
+    if (!warnedMissingDemoPassword) {
+      warnedMissingDemoPassword = true;
+      console.warn(
+        "LEARN_MALAY_DEMO_PASSWORD is not set outside development. Demo account bootstrap is disabled."
+      );
+    }
+    return;
+  }
+
   if (!existing) {
+    if (!demoPassword) return;
     const pw = hashPassword(demoPassword);
     await users.insertOne({
       id: DEMO_ID,
@@ -204,7 +227,7 @@ async function ensureDemoAccount() {
 
   const updates: Partial<UserDocument> = {};
 
-  if (!existing.password_hash || !existing.password_salt) {
+  if ((!existing.password_hash || !existing.password_salt) && demoPassword) {
     const pw = hashPassword(demoPassword);
     updates.password_hash = pw.hash;
     updates.password_salt = pw.salt;
@@ -455,8 +478,15 @@ export async function setCurrentChapter(id: string, progress: UserProgress): Pro
   const cleanId = normalizeUserId(id);
   if (cleanId === DEMO_ID) return;
 
-  const chapter = Math.max(1, Math.min(11, Number(progress.chapter) || 1));
-  const page = Math.max(1, Number(progress.page) || 1);
+  if (!Number.isInteger(progress.chapter) || progress.chapter < MIN_CHAPTER_ID || progress.chapter > MAX_CHAPTER_ID) {
+    throw new Error("Invalid progress payload.");
+  }
+  if (!Number.isInteger(progress.page) || progress.page < 1 || progress.page > MAX_PROGRESS_PAGE) {
+    throw new Error("Invalid progress payload.");
+  }
+
+  const chapter = progress.chapter;
+  const page = progress.page;
 
   const current = await users.findOne(
     { id: cleanId },
@@ -470,8 +500,12 @@ export async function setCurrentChapter(id: string, progress: UserProgress): Pro
 
   if (!current) return;
 
-  const currentChapter = Number(current.progress_chapter) || 1;
-  const currentPage = Number(current.progress_page) || 1;
+  const currentChapter = Number.isInteger(current.progress_chapter)
+    ? current.progress_chapter
+    : MIN_CHAPTER_ID;
+  const currentPage = Number.isInteger(current.progress_page)
+    ? current.progress_page
+    : 1;
 
   const nextChapter = Math.max(currentChapter, chapter);
   const nextPage = chapter < currentChapter ? currentPage : page;

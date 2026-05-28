@@ -1,4 +1,6 @@
 export * from "./types";
+export const MIN_CHAPTER_ID = 1;
+export const MAX_CHAPTER_ID = 11;
 export { chapter01 } from "./chapter-01";
 export { chapter02 } from "./chapter-02";
 export { chapter03 } from "./chapter-03";

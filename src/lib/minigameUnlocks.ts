@@ -32,6 +32,12 @@ export const MINIGAME_UNLOCK_ORDER: UnlockableMinigameId[] = [
   "arah-jalan",
 ];
 
+export function isChapterUnlocked(user: UserProfile | null, chapter: number) {
+  if (!user) return false;
+  if (canUnlockEverything(user)) return true;
+  return user.progress.chapter >= chapter;
+}
+
 export function hasCompletedChapter(user: UserProfile | null, chapter: number) {
   if (!user) return false;
   if (canUnlockEverything(user)) return true;

@@ -36,9 +36,12 @@ import { chapter11Intro } from "@/lib/akuAku/chapter-11";
 import { getCurrentUser, updateProgress, type UserProfile } from "@/lib/userStore";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import { canPersistProgress, canUnlockEverything } from "@/lib/userCapabilities";
+import { isChapterUnlocked } from "@/lib/minigameUnlocks";
 
 // IMPORTANT: pull types from the same place as chapters (avoid broken /types imports)
 import {
+  MAX_CHAPTER_ID,
+  MIN_CHAPTER_ID,
   chapter01,
   chapter02,
   chapter03,
@@ -55,7 +58,7 @@ import {
   type ChapterSection,
 } from "@/lib/chapters";
 
-const MAX_CHAPTERS = 11;
+const MAX_CHAPTERS = MAX_CHAPTER_ID;
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 
 function readUiLang(): UiLang {
@@ -71,7 +74,12 @@ function writeUiLang(lang: UiLang) {
 
 export default function ChapterPage() {
   const params = useParams<{ id?: string }>();
-  const chapterId = Number(params.id ?? "0");
+  const chapterId =
+    typeof params.id === "string" && /^\d+$/.test(params.id)
+      ? Number.parseInt(params.id, 10)
+      : Number.NaN;
+  const hasValidChapterId =
+    Number.isInteger(chapterId) && chapterId >= MIN_CHAPTER_ID && chapterId <= MAX_CHAPTERS;
 
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
@@ -164,6 +172,38 @@ export default function ChapterPage() {
   if (!user) return null;
 
   const canSaveProgress = canPersistProgress(user) && !canUnlockEverything(user);
+  const chapterUnlocked = hasValidChapterId && isChapterUnlocked(user, chapterId);
+
+  if (!hasValidChapterId) {
+    return (
+      <main className="min-h-screen app-page-pad">
+        <div className="mx-auto max-w-2xl rounded-2xl bg-white/90 p-6 shadow">
+          <div className="text-xl font-extrabold">Invalid chapter</div>
+          <p className="mt-2 text-sm opacity-70">This chapter link is invalid.</p>
+          <div className="mt-5">
+            <IconActionLink href="/map" kind="map" tooltip="Back to Map" iconClassName="brightness-0" />
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!chapterUnlocked) {
+    const previousChapter = Math.max(MIN_CHAPTER_ID, chapterId - 1);
+    return (
+      <main className="min-h-screen app-page-pad">
+        <div className="mx-auto max-w-2xl rounded-2xl bg-white/90 p-6 shadow">
+          <div className="text-xl font-extrabold">Chapter locked</div>
+          <p className="mt-2 text-sm opacity-70">
+            Finish Chapter {previousChapter} first to unlock Chapter {chapterId}.
+          </p>
+          <div className="mt-5">
+            <IconActionLink href="/map" kind="map" tooltip="Back to Map" iconClassName="brightness-0" />
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   if (!content) {
     return (
