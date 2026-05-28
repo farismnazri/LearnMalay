@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.0] - 2026-05-26
+
+### Added
+- Added Arah Jalan directions minigame MVP and integrated it into chapter-based unlock flow.
+
+### Changed
+- Bumped app version to `0.6.0`.
+- Synced release workflow metadata to keep version, changelog, and release history aligned.
+
+### Notes
+- Release commits in this cycle:
+  - `03766f0` - `feat: add Arah Jalan directions minigame MVP`
+  - `8db975e` - `chore(release): bump version to v0.6.0`
+
 ## [0.5.0] - 2026-05-21
 
 ### Added

@@ -16,6 +16,49 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.6.0",
+    date: "2026-05-26",
+    headline: {
+      ms: "Pelancaran minigame Arah Jalan dan penyelarasan metadata keluaran v0.6.0.",
+      en: "Arah Jalan minigame release and v0.6.0 release metadata alignment.",
+      es: "Lanzamiento del minijuego Arah Jalan y alineacion de metadatos de la version v0.6.0.",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah minigame Arah Jalan sebagai MVP untuk latihan arah di peta.",
+          en: "Added the Arah Jalan minigame MVP for direction practice on a fixed map.",
+          es: "Se agrego el MVP del minijuego Arah Jalan para practicar direcciones en un mapa fijo.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Menaikkan versi aplikasi kepada v0.6.0 bersama aliran keluaran semasa.",
+          en: "Bumped the app to v0.6.0 under the current release workflow.",
+          es: "Se actualizo la app a v0.6.0 bajo el flujo de lanzamiento actual.",
+        },
+        {
+          ms: "Menyelaras rekod keluaran supaya versi aplikasi, changelog, dan Adventure Log konsisten.",
+          en: "Aligned release records so app version, changelog, and Adventure Log stay consistent.",
+          es: "Se alinearon los registros para que version de app, changelog y Adventure Log sean consistentes.",
+        },
+      ],
+      fixed: [],
+    },
+    technicalNotes: [
+      {
+        ms: "Skop keluaran v0.6.0 merangkumi commit `03766f0` (fitur) dan `8db975e` (bump keluaran).",
+        en: "v0.6.0 release scope includes commit `03766f0` (feature) and `8db975e` (release bump).",
+        es: "El alcance de v0.6.0 incluye los commits `03766f0` (funcion) y `8db975e` (bump de version).",
+      },
+      {
+        ms: "Label versi dalam UI terus dibaca daripada `package.json` melalui `src/lib/appVersion.ts`.",
+        en: "UI version label continues to read from `package.json` via `src/lib/appVersion.ts`.",
+        es: "La etiqueta de version en UI se sigue leyendo desde `package.json` via `src/lib/appVersion.ts`.",
+      },
+    ],
+  },
+  {
     version: "0.5.0",
     date: "2026-05-21",
     headline: {
