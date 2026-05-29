@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
+### Security
+- Completed Phase 2A auth/rate-limit/CSRF hardening coverage for session-affecting mutations and abuse-prone score/progress routes.
+
+### QA
+- Verified `POST /api/highscores` limiter (`40/min`): `1-40 => 200`, `41+ => 429`, `Retry-After: 60`.
+- Verified `POST /api/users/progress` limiter (`30/min`): `1-30 => 200`, `31+ => 429`, `Retry-After: 60`.
+- Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
+- Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
+
 ## [0.6.0] - 2026-05-26
 
 ### Added
