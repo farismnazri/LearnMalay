@@ -19,7 +19,7 @@ export const chapter07: ChapterContent = {
       intro: {
         ms: "Selamat datang ke tema makanan! Di sini kita akan belajar tentang makanan. Malaysia sangat kaya dengan pelbagai jenis makanan. Setiap negeri ada hidangan istimewa. Kami berbangga dengan masakan kami dan sangat gembira untuk berkongsi dengan anda.",
         en: "Welcome to the food theme! Here we will learn about food. Malaysia is very rich in many kinds of food. Every state has special dishes. We are proud of our cuisine and very happy to share it with you.",
-        es: "Bienvenido al tema de la comida. Aqui aprenderemos sobre la comida. Malasia es muy rica en muchos tipos de comida. Cada estado tiene platos especiales. Estamos orgullosos de nuestra cocina y muy felices de compartirla contigo.",
+        es: "Bienvenido al tema de la comida. Aquí aprenderemos sobre la comida. Malasia es muy rica en muchos tipos de comida. Cada estado tiene platos especiales. Estamos orgullosos de nuestra cocina y muy felices de compartirla contigo.",
       },
       sections: [],
       galleryImages: [
@@ -992,7 +992,7 @@ export const chapter07: ChapterContent = {
           text: {
             ms: "Mereka suka kuih manis atau kuih masin?",
             en: "Do they like sweet kuih or savory kuih?",
-            es: "Les gusta el kuih dulce o salado?",
+            es: "¿Les gusta el kuih dulce o salado?",
           },
         },
         {
@@ -1019,7 +1019,7 @@ export const chapter07: ChapterContent = {
           text: {
             ms: "Berapa harga satu karipap?",
             en: "How much is one karipap?",
-            es: "Cuanto cuesta un karipap?",
+            es: "¿Cuánto cuesta un karipap?",
           },
         },
         {
@@ -1112,7 +1112,7 @@ export const chapter07: ChapterContent = {
         {
           id: "c7-72-m2",
           from: "ahmad",
-          text: { ms: "Ya.", en: "Yes.", es: "Si." },
+          text: { ms: "Ya.", en: "Yes.", es: "Sí." },
         },
         {
           id: "c7-72-m3",
@@ -1143,7 +1143,7 @@ export const chapter07: ChapterContent = {
           text: {
             ms: "Wah! Banyaknya pilihan. Ada nasi ayam, nasi lemak, nasi kerabu, nasi dagang dan nasi tomato.",
             en: "Wow! So many choices. There is chicken rice, nasi lemak, nasi kerabu, nasi dagang and tomato rice.",
-            es: "Guau! Hay muchisimas opciones. Hay nasi ayam, nasi lemak, nasi kerabu, nasi dagang y nasi tomato.",
+            es: "¡Guau! Hay muchísimas opciones. Hay nasi ayam, nasi lemak, nasi kerabu, nasi dagang y nasi tomato.",
           },
         },
         {
@@ -1186,7 +1186,7 @@ export const chapter07: ChapterContent = {
       title: {
         ms: "Aktiviti: Makan Apa?",
         en: "Activity: What to Eat?",
-        es: "Actividad: ¿Que Comer?",
+        es: "Actividad: ¿Qué Comer?",
       },
       instructions: {
         ms: "Lihat gambar dan taip nama makanan yang betul. Ada 4 soalan dalam satu halaman.",

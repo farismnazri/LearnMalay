@@ -238,7 +238,7 @@ pages: [
       text: {
         ms: "Selamat pagi, encik. Saya mahu daftar bengkel komunikasi Bahasa Melayu.",
         en: "Good morning, sir. I want to register for a Malay communication workshop.",
-        es: "Buenos dias, senor. Quiero registrarme en un taller de comunicacion en malayo.",
+        es: "Buenos días, señor. Quiero registrarme en un taller de comunicación en malayo.",
       },
     },
     {
@@ -247,7 +247,7 @@ pages: [
       text: {
         ms: "Selamat pagi. Baik, silakan duduk. Awak pelajar baharu?",
         en: "Good morning. Alright, please sit. Are you a new student?",
-        es: "Buenos dias. Bien, por favor sientate. Eres estudiante nuevo?",
+        es: "Buenos días. Bien, por favor siéntate. ¿Eres estudiante nuevo?",
       },
     },
     {
@@ -256,7 +256,7 @@ pages: [
       text: {
         ms: "Ya, saya pelajar baharu semester ini.",
         en: "Yes, I am a new student this semester.",
-        es: "Si, soy estudiante nuevo este semestre.",
+        es: "Sí, soy estudiante nuevo este semestre.",
       },
     },
     {
@@ -274,7 +274,7 @@ pages: [
       text: {
         ms: "Encik, ruang \"kod kursus\" perlu isi sekarang?",
         en: "Sir, do I need to fill in the 'course code' field now?",
-        es: "Senor, necesito llenar ahora el campo 'codigo del curso'?",
+        es: "Señor, ¿necesito llenar ahora el campo 'código del curso'?",
       },
     },
     {
@@ -283,7 +283,7 @@ pages: [
       text: {
         ms: "Ya. Kalau belum pasti, tulis \"akan diberi\".",
         en: "Yes. If you are not sure yet, write 'to be given'.",
-        es: "Si. Si aun no estas seguro, escribe 'se dara despues'.",
+        es: "Sí. Si aún no estas seguro, escribe 'se dara después'.",
       },
     },
     {
@@ -292,7 +292,7 @@ pages: [
       text: {
         ms: "Baik, ini borang saya yang sudah lengkap.",
         en: "Alright, here is my completed form.",
-        es: "Bien, aqui esta mi formulario completo.",
+        es: "Bien, aquí está mi formulario completo.",
       },
     },
     {
@@ -301,7 +301,7 @@ pages: [
       text: {
         ms: "Terima kasih. Pendaftaran bengkel awak sudah selesai.",
         en: "Thank you. Your workshop registration is complete.",
-        es: "Gracias. Tu registro del taller ya esta completo.",
+        es: "Gracias. Tu registro del taller ya está completo.",
       },
     },
     {
@@ -310,7 +310,7 @@ pages: [
       text: {
         ms: "Saya perlu bawa apa-apa pada hari pertama?",
         en: "Do I need to bring anything on the first day?",
-        es: "Necesito traer algo el primer dia?",
+        es: "¿Necesito traer algo el primer día?",
       },
     },
     {
@@ -363,7 +363,7 @@ pages: [
       text: {
         ms: "Selamat petang. Encik makan di sini atau bungkus?",
         en: "Good evening. Will you dine in or take away?",
-        es: "Buenas tardes. Va a comer aqui o para llevar?",
+        es: "Buenas tardes. ¿Va a comer aquí o para llevar?",
       },
     },
     {
@@ -372,7 +372,7 @@ pages: [
       text: {
         ms: "Makan di sini.",
         en: "Dine in.",
-        es: "Para comer aqui.",
+        es: "Para comer aquí.",
       },
     },
     {
@@ -381,7 +381,7 @@ pages: [
       text: {
         ms: "Baik. Encik hendak pesan apa?",
         en: "Alright. What would you like to order?",
-        es: "Muy bien. Que desea pedir?",
+        es: "Muy bien. ¿Qué desea pedir?",
       },
     },
     {
@@ -417,7 +417,7 @@ pages: [
       text: {
         ms: "Baik. Jumlahnya RM9.00. Bayar tunai atau QR?",
         en: "Alright. The total is RM9.00. Cash or QR payment?",
-        es: "Muy bien. El total es RM9.00. Paga en efectivo o con QR?",
+        es: "Muy bien. El total es RM9.00. ¿Paga en efectivo o con QR?",
       },
     },
     {
@@ -426,7 +426,7 @@ pages: [
       text: {
         ms: "QR. Ini, saya dah bayar.",
         en: "QR. Here, I have paid.",
-        es: "QR. Aqui, ya pague.",
+        es: "QR. Aquí, ya pague.",
       },
     },
     {
@@ -435,7 +435,7 @@ pages: [
       text: {
         ms: "Terima kasih. Simpan resit ini. Nombor giliran encik 18.",
         en: "Thank you. Keep this receipt. Your queue number is 18.",
-        es: "Gracias. Guarde este recibo. Su numero de turno es 18.",
+        es: "Gracias. Guarde este recibo. Su número de turno es 18.",
       },
     },
     {
@@ -453,7 +453,7 @@ pages: [
       text: {
         ms: "Ya, saya. Terima kasih.",
         en: "Yes, that's me. Thank you.",
-        es: "Si, soy yo. Gracias.",
+        es: "Sí, soy yo. Gracias.",
       },
     },
     {

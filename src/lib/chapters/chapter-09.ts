@@ -48,10 +48,10 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-pelakon",
           cells: {
-            perkara: [{ ms: "Dia bekerja sebagai pelakon.", en: "He works as an actor.", es: "El trabaja como actor." }],
+            perkara: [{ ms: "Día bekerja sebagai pelakon.", en: "He works as an actor.", es: "El trabaja como actor." }],
             butiran: [
               {
-                ms: "Dia berlakon dalam drama.",
+                ms: "Día berlakon dalam drama.",
                 en: "He acts in dramas.",
                 es: "El actua en dramas.",
               },
@@ -163,7 +163,7 @@ export const chapter09: ChapterContent = {
         {
           id: "c9-row-polis",
           cells: {
-            perkara: [{ ms: "Dia anggota polis.", en: "He is a police officer.", es: "El es policia." }],
+            perkara: [{ ms: "Día anggota polis.", en: "He is a police officer.", es: "El es policia." }],
             butiran: [
               {
                 ms: "Saya menangkap pencuri.",
@@ -244,7 +244,7 @@ export const chapter09: ChapterContent = {
               {
                 kind: "image",
                 src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "petani di kebun", en: "farmer in the garden", es: "agrícultor en el huerto" },
+                alt: { ms: "petani di kebun", en: "farmer in the garden", es: "agricultor en el huerto" },
                 w: 640,
                 h: 360,
                 className: "w-full h-auto max-h-40 object-contain rounded-xl",
@@ -450,25 +450,25 @@ export const chapter09: ChapterContent = {
         { id: "finah", name: { ms: "Finah", en: "Finah", es: "Finah" } },
       ],
       messages: [
-        { id: "c9-chat2-m1", from: "ketua", text: { ms: "Selamat pagi, cikgu.", en: "Good morning, teacher.", es: "Buenos dias, profesora." } },
-        { id: "c9-chat2-m2", from: "murid", text: { ms: "Selamat pagi, cikgu.", en: "Good morning, teacher.", es: "Buenos dias, profesora." } },
+        { id: "c9-chat2-m1", from: "ketua", text: { ms: "Selamat pagi, cikgu.", en: "Good morning, teacher.", es: "Buenos días, profesora." } },
+        { id: "c9-chat2-m2", from: "murid", text: { ms: "Selamat pagi, cikgu.", en: "Good morning, teacher.", es: "Buenos días, profesora." } },
         {
           id: "c9-chat2-m3",
           from: "cikgu",
           text: {
             ms: "Selamat pagi. Hari ini kita buat aktiviti cari kata kerja.",
             en: "Good morning. Today we will do an activity to find action words.",
-            es: "Buenos dias. Hoy haremos una actividad para encontrar palabras de accion.",
+            es: "Buenos días. Hoy haremos una actividad para encontrar palabras de acción.",
           },
         },
-        { id: "c9-chat2-m4", from: "murid", text: { ms: "Baik, cikgu.", en: "Okay, teacher.", es: "Esta bien, profesora." } },
+        { id: "c9-chat2-m4", from: "murid", text: { ms: "Baik, cikgu.", en: "Okay, teacher.", es: "Está bien, profesora." } },
         {
           id: "c9-chat2-m5",
           from: "cikgu",
           text: {
             ms: "Dengar ayat ini: Aina menyusun buku di atas meja.",
             en: "Listen to this sentence: Aina arranges books on the table.",
-            es: "Escuchen esta oracion: Aina ordena libros sobre la mesa.",
+            es: "Escuchen esta oración: Aina ordena libros sobre la mesa.",
           },
         },
         { id: "c9-chat2-m6", from: "murid", text: { ms: "Aina menyusun buku di atas meja.", en: "Aina arranges books on the table.", es: "Aina ordena libros sobre la mesa." } },
@@ -478,7 +478,7 @@ export const chapter09: ChapterContent = {
           text: {
             ms: "Bagus. Finah, mana satu kata kerja?",
             en: "Good. Finah, which one is the action word?",
-            es: "Bien. Finah, cual es la palabra de accion?",
+            es: "Bien. Finah, ¿cuál es la palabra de acción?",
           },
         },
         {
@@ -487,7 +487,7 @@ export const chapter09: ChapterContent = {
           text: {
             ms: "Kata kerja ialah menyusun.",
             en: "The action word is arranges.",
-            es: "La palabra de accion es ordena.",
+            es: "La palabra de acción es ordena.",
           },
         },
         {
@@ -496,7 +496,7 @@ export const chapter09: ChapterContent = {
           text: {
             ms: "Betul. Menyusun ialah perbuatan.",
             en: "Correct. Arranging is an action.",
-            es: "Correcto. Ordenar es una accion.",
+            es: "Correcto. Ordenar es una acción.",
           },
         },
         {
@@ -514,7 +514,7 @@ export const chapter09: ChapterContent = {
           text: {
             ms: "Kata kerja ialah melukis.",
             en: "The action word is draws.",
-            es: "La palabra de accion es dibuja.",
+            es: "La palabra de acción es dibuja.",
           },
         },
         {
@@ -523,7 +523,7 @@ export const chapter09: ChapterContent = {
           text: {
             ms: "Bagus. Hari ini semua sudah pandai cari kata kerja.",
             en: "Good. Today everyone can find action words.",
-            es: "Bien. Hoy todos ya saben encontrar palabras de accion.",
+            es: "Bien. Hoy todos ya saben encontrar palabras de acción.",
           },
         },
       ],
@@ -539,7 +539,7 @@ export const chapter09: ChapterContent = {
       instructions: {
         ms: "Cari dan tandakan 7 perkataan pekerjaan dalam petak huruf. Tiada garisan serong atau terbalik.",
         en: "Find and mark the 7 job words in the grid. No diagonal or backwards words.",
-        es: "Busca y marca las 7 palabras de trabajos en la cuadrícula. Sin diagonales ni palabras al revés.",
+        es: "Busca y marca los 7 nombres de trabajos en la cuadrícula. Sin diagonales ni palabras al revés.",
       },
       size: 12,
       autoGenerate: true,

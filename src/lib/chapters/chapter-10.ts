@@ -61,7 +61,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Azman, awak bawa papan congkak ke taman?",
             en: "Azman, did you bring a congkak board to the park?",
-            es: "Azman, trajiste un tablero de congkak al parque?",
+            es: "Azman, ¿trajiste un tablero de congkak al parque?",
           },
         },
         {
@@ -70,7 +70,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Ya. Tadi saya main sementara tunggu kawan.",
             en: "Yes. I was playing while waiting for a friend.",
-            es: "Si. Estaba jugando mientras esperaba a un amigo.",
+            es: "Sí. Estaba jugando mientras esperaba a un amigo.",
           },
         },
         {
@@ -79,7 +79,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Boleh saya tengok dekat-dekat?",
             en: "Can I take a closer look?",
-            es: "Puedo verlo de cerca?",
+            es: "¿Puedo verlo de cerca?",
           },
         },
         {
@@ -88,7 +88,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Boleh. Duduk sini, saya tunjuk cara pegang guli.",
             en: "Sure. Sit here, I'll show you how to hold the marbles.",
-            es: "Claro. Sientate aqui, te muestro como sujetar las canicas.",
+            es: "Claro. Siéntate aquí, te muestro como sujetar las canicas.",
           },
         },
         {
@@ -97,7 +97,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Nampak seronok. Awak selalu main di taman ini?",
             en: "Looks fun. Do you often play at this park?",
-            es: "Se ve divertido. Juegas seguido en este parque?",
+            es: "Se ve divertido. ¿Juegas seguido en este parque?",
           },
         },
         {
@@ -124,7 +124,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Boleh. Lepas ini awak cuba satu pusingan.",
             en: "Sure. After this you can try one round.",
-            es: "Claro. Despues de esto puedes intentar una ronda.",
+            es: "Claro. Después de esto puedes intentar una ronda.",
           },
         },
         {
@@ -179,7 +179,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Saya sudah susun guli. Betul tak, Azman?",
             en: "I have arranged the marbles. Is it right, Azman?",
-            es: "Ya acomode las canicas. Esta bien, Azman?",
+            es: "Ya acomodé las canicas. ¿Está bien, Azman?",
           },
         },
         {
@@ -188,7 +188,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Hampir betul. Letak tujuh biji guli di setiap lubang rumah.",
             en: "Almost right. Put seven marbles in each house hole.",
-            es: "Casi esta bien. Pon siete canicas en cada agujero de casa.",
+            es: "Casi está bien. Pon siete canicas en cada agujero de casa.",
           },
         },
         {
@@ -197,7 +197,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Baik. Ini lubang rumah saya?",
             en: "Alright. Is this my house hole?",
-            es: "Bien. Este es mi agujero de casa?",
+            es: "Bien. ¿Este es mi agujero de casa?",
           },
         },
         {
@@ -206,7 +206,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Ya. Lubang besar di kanan ialah lubang ibu awak.",
             en: "Yes. The big hole on the right is your home store.",
-            es: "Si. El agujero grande a la derecha es tu deposito.",
+            es: "Sí. El agujero grande a la derecha es tu deposito.",
           },
         },
         {
@@ -215,7 +215,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Sekarang saya mula dari lubang ini?",
             en: "Now do I start from this hole?",
-            es: "Ahora empiezo desde este agujero?",
+            es: "¿Ahora empiezo desde este agujero?",
           },
         },
         {
@@ -224,7 +224,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Boleh. Ambil semua guli dan edarkan satu-satu.",
             en: "Yes. Take all the marbles and distribute them one by one.",
-            es: "Si. Toma todas las canicas y distribuyelas una por una.",
+            es: "Sí. Toma todas las canicas y distribuyelas una por una.",
           },
         },
         {
@@ -233,7 +233,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Saya masukkan satu guli di sini, kemudian di sini.",
             en: "I put one marble here, then here.",
-            es: "Pongo una canica aqui, luego aqui.",
+            es: "Pongo una canica aquí, luego aquí.",
           },
         },
         {
@@ -242,7 +242,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Bagus. Teruskan ikut arah ini.",
             en: "Good. Continue in this direction.",
-            es: "Bien. Sigue en esta direccion.",
+            es: "Bien. Sigue en esta dirección.",
           },
         },
         {
@@ -315,7 +315,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Angin kuat hari ini, Azman.",
             en: "The wind is strong today, Azman.",
-            es: "El viento esta fuerte hoy, Azman.",
+            es: "El viento está fuerte hoy, Azman.",
           },
         },
         {
@@ -324,7 +324,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Ya, sesuai untuk naikkan layang-layang.",
             en: "Yes, it is good for flying a kite.",
-            es: "Si, es bueno para volar una cometa.",
+            es: "Sí, es bueno para volar una cometa.",
           },
         },
         {
@@ -333,7 +333,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Saya pegang rangka ini?",
             en: "Do I hold this frame?",
-            es: "Sostengo este marco?",
+            es: "¿Sostengo este marco?",
           },
         },
         {
@@ -342,7 +342,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Ya, pegang rangka dengan dua tangan.",
             en: "Yes, hold the frame with two hands.",
-            es: "Si, sostén el marco con dos manos.",
+            es: "Sí, sostén el marco con dos manos.",
           },
         },
         {
@@ -351,7 +351,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Siapa pegang tali?",
             en: "Who holds the string?",
-            es: "Quien sostiene el hilo?",
+            es: "¿Quién sostiene el hilo?",
           },
         },
         {
@@ -369,7 +369,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Baik. Saya berdiri di sini?",
             en: "Alright. Do I stand here?",
-            es: "Bien. Me paro aqui?",
+            es: "Bien. ¿Me paro aquí?",
           },
         },
         {
@@ -387,7 +387,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Satu, dua, tiga. Saya lepaskan!",
             en: "One, two, three. I let go!",
-            es: "Uno, dos, tres. Suelto!",
+            es: "Uno, dos, tres. ¡Suelto!",
           },
         },
         {
@@ -396,7 +396,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Tarik tali perlahan-lahan. Layang-layang sudah naik.",
             en: "Pull the string slowly. The kite is going up.",
-            es: "Tira del hilo despacio. La cometa esta subiendo.",
+            es: "Tira del hilo despacio. La cometa está subiendo.",
           },
         },
         {
@@ -405,7 +405,7 @@ export const chapter10: ChapterContent = {
           text: {
             ms: "Wah, tinggi! Ekor layang-layang bergerak.",
             en: "Wow, it is high! The kite's tail is moving.",
-            es: "Vaya, esta alta! La cola de la cometa se mueve.",
+            es: "¡Vaya, está alta! La cola de la cometa se mueve.",
           },
         },
         {

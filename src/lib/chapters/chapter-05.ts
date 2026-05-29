@@ -305,7 +305,7 @@ export const chapter05: ChapterContent = {
           text: {
             ms: "Selamat pagi. Boleh saya bantu?",
             en: "Good morning. How may I help?",
-            es: "Buenos dias. En que puedo ayudarle?",
+            es: "Buenos días. ¿En qué puedo ayudarle?",
           },
         },
         {
@@ -314,7 +314,7 @@ export const chapter05: ChapterContent = {
           text: {
             ms: "Selamat pagi. Saya mahu kemas kini profil bank saya.",
             en: "Good morning. I want to update my bank profile.",
-            es: "Buenos dias. Quiero actualizar mi perfil bancario.",
+            es: "Buenos días. Quiero actualizar mi perfil bancario.",
           },
         },
         {
@@ -323,7 +323,7 @@ export const chapter05: ChapterContent = {
           text: {
             ms: "Baik. Bahagian mana yang perlu dikemas kini?",
             en: "Alright. Which section needs to be updated?",
-            es: "Muy bien. Que seccion necesita actualizar?",
+            es: "Muy bien. ¿Qué sección necesita actualizar?",
           },
         },
         {
@@ -332,7 +332,7 @@ export const chapter05: ChapterContent = {
           text: {
             ms: "Saya mahu tukar e-mel dan pilihan bahasa.",
             en: "I want to change my email and language preference.",
-            es: "Quiero cambiar mi correo electronico y la preferencia de idioma.",
+            es: "Quiero cambiar mi correo electrónico y la preferencia de idioma.",
           },
         },
         {
@@ -350,7 +350,7 @@ export const chapter05: ChapterContent = {
           text: {
             ms: "Baik. Ruang 'nama paparan' perlu diisi juga?",
             en: "Alright. Do I also need to fill in the 'display name' field?",
-            es: "Bien. Tambien tengo que llenar el campo 'nombre visible'?",
+            es: "Bien. ¿También tengo que llenar el campo 'nombre visible'?",
           },
         },
         {
@@ -359,7 +359,7 @@ export const chapter05: ChapterContent = {
           text: {
             ms: "Ya. Tulis nama yang encik mahu lihat dalam aplikasi.",
             en: "Yes. Write the name you want to see in the app.",
-            es: "Si. Escriba el nombre que quiere ver en la aplicacion.",
+            es: "Sí. Escriba el nombre que quiere ver en la aplicación.",
           },
         },
         {
@@ -377,7 +377,7 @@ export const chapter05: ChapterContent = {
           text: {
             ms: "Bagus. Untuk notis, encik mahu e-mel atau mesej aplikasi?",
             en: "Good. For notices, do you want email or app messages?",
-            es: "Bien. Para los avisos, quiere correo electronico o mensajes de la aplicacion?",
+            es: "Bien. Para los avisos, ¿quiere correo electrónico o mensajes de la aplicación?",
           },
         },
         {
@@ -386,7 +386,7 @@ export const chapter05: ChapterContent = {
           text: {
             ms: "Mesej aplikasi, supaya lebih mudah saya semak.",
             en: "App messages, so it is easier for me to check.",
-            es: "Mensajes de la aplicacion, para que sea mas facil revisarlos.",
+            es: "Mensajes de la aplicación, para que sea más fácil revisarlos.",
           },
         },
         {
@@ -430,17 +430,17 @@ export const chapter05: ChapterContent = {
         { id: "pelanggan", name: { ms: "Pelanggan", en: "Customer", es: "Cliente" } },
       ],
       messages: [
-        { id: "c5-52-m1", from: "jurujual", text: { ms: "Selamat malam. Cari buah apa?", en: "Good evening. What fruit are you looking for?", es: "Buenas noches. Que fruta buscas?" } },
-        { id: "c5-52-m2", from: "pelanggan", text: { ms: "Mangga ni berapa harga satu kilo?", en: "How much is this mango per kilo?", es: "Cuanto cuesta este mango por kilo?" } },
-        { id: "c5-52-m3", from: "jurujual", text: { ms: "RM9 satu kilo. Manis, baru sampai petang tadi.", en: "RM9 per kilo. Sweet, arrived this afternoon.", es: "RM9 por kilo. Es dulce, llego esta tarde." } },
-        { id: "c5-52-m4", from: "pelanggan", text: { ms: "Kalau saya ambil dua kilo, boleh kurang?", en: "If I take two kilos, can the price be lower?", es: "Si llevo dos kilos, puede bajar el precio?" } },
-        { id: "c5-52-m5", from: "jurujual", text: { ms: "Boleh, saya bagi RM8 satu kilo.", en: "Sure, I can give RM8 per kilo.", es: "Si, puedo darlo a RM8 por kilo." } },
-        { id: "c5-52-m6", from: "pelanggan", text: { ms: "Baik. Pisang pula berapa?", en: "Alright. How much is the banana?", es: "Bien. Y cuanto cuesta el platano?" } },
-        { id: "c5-52-m7", from: "jurujual", text: { ms: "Pisang RM10 satu kilo.", en: "Bananas are RM10 per kilo.", es: "El platano cuesta RM10 por kilo." } },
-        { id: "c5-52-m8", from: "pelanggan", text: { ms: "Tambah setengah kilo pisang ya.", en: "Add half a kilo of bananas, please.", es: "Anade medio kilo de platanos, por favor." } },
+        { id: "c5-52-m1", from: "jurujual", text: { ms: "Selamat malam. Cari buah apa?", en: "Good evening. What fruit are you looking for?", es: "Buenas noches. ¿Qué fruta buscas?" } },
+        { id: "c5-52-m2", from: "pelanggan", text: { ms: "Mangga ni berapa harga satu kilo?", en: "How much is this mango per kilo?", es: "¿Cuánto cuesta este mango por kilo?" } },
+        { id: "c5-52-m3", from: "jurujual", text: { ms: "RM9 satu kilo. Manis, baru sampai petang tadi.", en: "RM9 per kilo. Sweet, arrived this afternoon.", es: "RM9 por kilo. Es dulce, llegó esta tarde." } },
+        { id: "c5-52-m4", from: "pelanggan", text: { ms: "Kalau saya ambil dua kilo, boleh kurang?", en: "If I take two kilos, can the price be lower?", es: "Si llevo dos kilos, ¿puede bajar el precio?" } },
+        { id: "c5-52-m5", from: "jurujual", text: { ms: "Boleh, saya bagi RM8 satu kilo.", en: "Sure, I can give RM8 per kilo.", es: "Sí, puedo darlo a RM8 por kilo." } },
+        { id: "c5-52-m6", from: "pelanggan", text: { ms: "Baik. Pisang pula berapa?", en: "Alright. How much is the banana?", es: "Bien. ¿Y cuánto cuesta el plátano?" } },
+        { id: "c5-52-m7", from: "jurujual", text: { ms: "Pisang RM10 satu kilo.", en: "Bananas are RM10 per kilo.", es: "El plátano cuesta RM10 por kilo." } },
+        { id: "c5-52-m8", from: "pelanggan", text: { ms: "Tambah setengah kilo pisang ya.", en: "Add half a kilo of bananas, please.", es: "Añade medio kilo de plátanos, por favor." } },
         { id: "c5-52-m9", from: "jurujual", text: { ms: "Baik. Jumlah semua RM21.", en: "Alright. Total is RM21.", es: "Muy bien. El total es RM21." } },
-        { id: "c5-52-m10", from: "pelanggan", text: { ms: "Ini wangnya. Boleh asingkan dua beg?", en: "Here is the money. Can you separate into two bags?", es: "Aqui tienes el dinero. Puedes separarlo en dos bolsas?" } },
-        { id: "c5-52-m11", from: "jurujual", text: { ms: "Boleh. Ini baki dan dua beg buah encik.", en: "Sure. Here is your change and two fruit bags.", es: "Claro. Aqui esta su cambio y dos bolsas de fruta." } },
+        { id: "c5-52-m10", from: "pelanggan", text: { ms: "Ini wangnya. Boleh asingkan dua beg?", en: "Here is the money. Can you separate into two bags?", es: "Aquí tienes el dinero. ¿Puedes separarlo en dos bolsas?" } },
+        { id: "c5-52-m11", from: "jurujual", text: { ms: "Boleh. Ini baki dan dua beg buah encik.", en: "Sure. Here is your change and two fruit bags.", es: "Claro. Aquí está su cambio y dos bolsas de fruta." } },
         { id: "c5-52-m12", from: "pelanggan", text: { ms: "Terima kasih, kak.", en: "Thank you, sis.", es: "Gracias, hermana." } },
       ],
     },

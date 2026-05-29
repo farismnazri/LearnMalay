@@ -49,7 +49,7 @@ export const chapter11: ChapterContent = {
           cells: {
             tarikh: [{ ms: "17 Feb", en: "17 Feb", es: "17 Feb" }],
             hari: [{ ms: "Selasa", en: "Tuesday", es: "Martes" }],
-            cuti: [{ ms: "Tahun Baru Cina", en: "Chinese New Year", es: "Ano Nuevo Chino" }],
+            cuti: [{ ms: "Tahun Baru Cina", en: "Chinese New Year", es: "Año Nuevo Chino" }],
             negeri: [{ ms: "Seluruh Negeri", en: "All States", es: "Todos los estados" }],
           },
         },
@@ -58,7 +58,7 @@ export const chapter11: ChapterContent = {
           cells: {
             tarikh: [{ ms: "18 Feb", en: "18 Feb", es: "18 Feb" }],
             hari: [{ ms: "Rabu", en: "Wednesday", es: "Miercoles" }],
-            cuti: [{ ms: "Tahun Baru Cina Hari Kedua", en: "Chinese New Year Second Day", es: "Ano Nuevo Chino segundo dia" }],
+            cuti: [{ ms: "Tahun Baru Cina Hari Kedua", en: "Chinese New Year Second Day", es: "Año Nuevo Chino segundo dia" }],
             negeri: [{ ms: "Seluruh Negeri", en: "All States", es: "Todos los estados" }],
           },
         },
@@ -85,7 +85,7 @@ export const chapter11: ChapterContent = {
           cells: {
             tarikh: [{ ms: "1 Mei", en: "1 May", es: "1 May" }],
             hari: [{ ms: "Jumaat", en: "Friday", es: "Viernes" }],
-            cuti: [{ ms: "Hari Pekerja", en: "Labour Day", es: "Dia del Trabajador" }],
+            cuti: [{ ms: "Hari Pekerja", en: "Labour Day", es: "Día del Trabajador" }],
             negeri: [{ ms: "Seluruh Negeri", en: "All States", es: "Todos los estados" }],
           },
         },
@@ -103,7 +103,7 @@ export const chapter11: ChapterContent = {
           cells: {
             tarikh: [{ ms: "31 Mei", en: "31 May", es: "31 May" }],
             hari: [{ ms: "Ahad", en: "Sunday", es: "Domingo" }],
-            cuti: [{ ms: "Hari Wesak", en: "Wesak Day", es: "Dia de Wesak" }],
+            cuti: [{ ms: "Hari Wesak", en: "Wesak Day", es: "Día de Wesak" }],
             negeri: [{ ms: "Seluruh Negeri", en: "All States", es: "Todos los estados" }],
           },
         },
@@ -112,7 +112,7 @@ export const chapter11: ChapterContent = {
           cells: {
             tarikh: [{ ms: "1 Jun", en: "1 Jun", es: "1 Jun" }],
             hari: [{ ms: "Isnin", en: "Monday", es: "Lunes" }],
-            cuti: [{ ms: "Hari Keputeraan YDP Agong", en: "Birthday of YDP Agong", es: "Cumpleanos de YDP Agong" }],
+            cuti: [{ ms: "Hari Keputeraan YDP Agong", en: "Birthday of YDP Agong", es: "Cumpleaños de YDP Agong" }],
             negeri: [{ ms: "Seluruh Negeri", en: "All States", es: "Todos los estados" }],
           },
         },
@@ -139,7 +139,7 @@ export const chapter11: ChapterContent = {
           cells: {
             tarikh: [{ ms: "31 Ogos", en: "31 Aug", es: "31 Ago" }],
             hari: [{ ms: "Isnin", en: "Monday", es: "Lunes" }],
-            cuti: [{ ms: "Hari Kebangsaan", en: "National Day", es: "Dia Nacional" }],
+            cuti: [{ ms: "Hari Kebangsaan", en: "National Day", es: "Día Nacional" }],
             negeri: [{ ms: "Seluruh Negeri", en: "All States", es: "Todos los estados" }],
           },
         },
@@ -148,7 +148,7 @@ export const chapter11: ChapterContent = {
           cells: {
             tarikh: [{ ms: "16 Sep", en: "16 Sep", es: "16 Sep" }],
             hari: [{ ms: "Rabu", en: "Wednesday", es: "Miercoles" }],
-            cuti: [{ ms: "Hari Malaysia", en: "Malaysia Day", es: "Dia de Malasia" }],
+            cuti: [{ ms: "Hari Malaysia", en: "Malaysia Day", es: "Día de Malasia" }],
             negeri: [{ ms: "Seluruh Negeri", en: "All States", es: "Todos los estados" }],
           },
         },
@@ -170,12 +170,12 @@ export const chapter11: ChapterContent = {
       title: {
         ms: "Situasi 11 Mini Kuiz Siapa Pintar: Soalan Cuti Umum",
         en: "Situation 11 Siapa Pintar Mini Quiz: Public Holiday Questions",
-        es: "Situacion 11 Mini concurso Siapa Pintar: Preguntas sobre festivos",
+        es: "Situacion 11 Mini concurso? Siapa Pintar: Preguntas sobre festivos",
       },
       context: {
         ms: "Latar tempat: Studio mini kuiz 'Siapa Pintar'",
         en: "Setting: Studio of the 'Siapa Pintar' mini quiz",
-        es: "Lugar: Estudio del mini concurso 'Siapa Pintar'",
+        es: "Lugar: Estudio del mini concurso? 'Siapa Pintar'",
       },
       participants: [
         {
@@ -199,7 +199,7 @@ export const chapter11: ChapterContent = {
           text: {
             ms: "Selamat datang ke pusingan Teka Cuti!",
             en: "Welcome to the Guess the Holiday round!",
-            es: "Bienvenidos a la ronda Adivina el festivo!",
+            es: "Bienvenidos a la ronda ¡Adivina el festivo!",
           },
         },
         {
@@ -217,7 +217,7 @@ export const chapter11: ChapterContent = {
           text: {
             ms: "Saya pun bersedia.",
             en: "I am ready too.",
-            es: "Yo tambien estoy listo.",
+            es: "Yo también estoy listo.",
           },
         },
         {
@@ -226,7 +226,7 @@ export const chapter11: ChapterContent = {
           text: {
             ms: "Soalan pertama: Hari Kebangsaan pada bulan apa?",
             en: "First question: What month is National Day in?",
-            es: "Primera pregunta: En que mes es el Dia Nacional?",
+            es: "Primera pregunta: ¿En qué mes es el Día Nacional?",
           },
         },
         {
@@ -253,7 +253,7 @@ export const chapter11: ChapterContent = {
           text: {
             ms: "Soalan kedua: Krismas pada 25 Disember atau 25 November?",
             en: "Second question: Is Christmas on December 25 or November 25?",
-            es: "Segunda pregunta: Navidad es el 25 de diciembre o el 25 de noviembre?",
+            es: "Segunda pregunta: ¿Navidad es el 25 de diciembre o el 25 de noviembre?",
           },
         },
         {
@@ -271,7 +271,7 @@ export const chapter11: ChapterContent = {
           text: {
             ms: "Tepat. Soalan bonus: Hari Malaysia pada 16 September?",
             en: "Correct. Bonus question: Is Malaysia Day on September 16?",
-            es: "Correcto. Pregunta extra: El Dia de Malasia es el 16 de septiembre?",
+            es: "Correcto. Pregunta extra: ¿El Día de Malasia es el 16 de septiembre?",
           },
         },
         {
@@ -289,7 +289,7 @@ export const chapter11: ChapterContent = {
           text: {
             ms: "Hebat. Skor seri! Semua dapat pelekat bintang.",
             en: "Great. The score is tied! Everyone gets a star sticker.",
-            es: "Excelente. El marcador esta empatado! Todos reciben una pegatina de estrella.",
+            es: "¡Excelente! El marcador está empatado. Todos reciben una pegatina de estrella.",
           },
         },
         {
@@ -320,17 +320,17 @@ export const chapter11: ChapterContent = {
         {
           id: "c11-tick-1",
           correct: true,
-          text: { ms: "Hari keputeraan Agong", en: "Birthday of Agong", es: "Cumpleanos del Agong" },
+          text: { ms: "Hari keputeraan Agong", en: "Birthday of Agong", es: "Cumpleaños del Agong" },
           why: {
             ms: "Betul. Hari Keputeraan Yang di-Pertuan Agong ialah cuti umum utama.",
             en: "Correct. The Birthday of Yang di-Pertuan Agong is a major public holiday.",
-            es: "Correcto. El Cumpleanos de Yang di-Pertuan Agong es un dia festivo principal.",
+            es: "Correcto. El Cumpleaños de Yang di-Pertuan Agong es un día festivo principal.",
           },
         },
         {
           id: "c11-tick-2",
           correct: false,
-          text: { ms: "Hari keputeraan Sultan Selangor", en: "Birthday of Sultan Selangor", es: "Cumpleanos del Sultan de Selangor" },
+          text: { ms: "Hari keputeraan Sultan Selangor", en: "Birthday of Sultan Selangor", es: "Cumpleaños del Sultan de Selangor" },
           why: {
             ms: "Salah. Ini cuti negeri Selangor, bukan cuti umum utama seluruh negara.",
             en: "Wrong. This is a Selangor state holiday, not a nationwide major public holiday.",
@@ -354,27 +354,27 @@ export const chapter11: ChapterContent = {
           why: {
             ms: "Salah. Cuti sekolah bukan cuti umum.",
             en: "Wrong. School holidays are not public holidays.",
-            es: "Incorrecto. Las vacaciones escolares no son dias festivos publicos.",
+            es: "Incorrecto. Las vacaciones escolares no son días festivos públicos.",
           },
         },
         {
           id: "c11-tick-5",
           correct: false,
-          text: { ms: "Hari lahir ketua kampung", en: "Village head's birthday", es: "Cumpleanos del jefe de aldea" },
+          text: { ms: "Hari lahir ketua kampung", en: "Village head's birthday", es: "Cumpleaños del jefe de aldea" },
           why: {
             ms: "Salah. Hari lahir ketua kampung bukan cuti umum.",
             en: "Wrong. A village head's birthday is not a public holiday.",
-            es: "Incorrecto. El cumpleanos del jefe de aldea no es un dia festivo publico.",
+            es: "Incorrecto. El cumpleaños del jefe de aldea no es un día festivo público.",
           },
         },
         {
           id: "c11-tick-6",
           correct: true,
-          text: { ms: "Tahun Baru Cina", en: "Chinese New Year", es: "Ano Nuevo Chino" },
+          text: { ms: "Tahun Baru Cina", en: "Chinese New Year", es: "Año Nuevo Chino" },
           why: {
             ms: "Betul. Tahun Baru Cina ialah cuti umum utama.",
             en: "Correct. Chinese New Year is a major public holiday.",
-            es: "Correcto. El Ano Nuevo Chino es un dia festivo principal.",
+            es: "Correcto. El Año Nuevo Chino es un día festivo principal.",
           },
         },
         {
@@ -384,7 +384,7 @@ export const chapter11: ChapterContent = {
           why: {
             ms: "Betul. Maulidur Rasul ialah cuti umum utama.",
             en: "Correct. Maulidur Rasul is a major public holiday.",
-            es: "Correcto. Maulidur Rasul es un dia festivo principal.",
+            es: "Correcto. Maulidur Rasul es un día festivo principal.",
           },
         },
         {
@@ -394,17 +394,17 @@ export const chapter11: ChapterContent = {
           why: {
             ms: "Betul. Hari Puasa merujuk kepada Hari Raya Aidilfitri yang merupakan cuti umum utama.",
             en: "Correct. Hari Puasa refers to Hari Raya Aidilfitri, which is a major public holiday.",
-            es: "Correcto. Hari Puasa se refiere a Hari Raya Aidilfitri, que es un dia festivo principal.",
+            es: "Correcto. Hari Puasa se refiere a Hari Raya Aidilfitri, que es un día festivo principal.",
           },
         },
         {
           id: "c11-tick-9",
           correct: true,
-          text: { ms: "Hari Wesak", en: "Wesak Day", es: "Dia de Wesak" },
+          text: { ms: "Hari Wesak", en: "Wesak Day", es: "Día de Wesak" },
           why: {
             ms: "Betul. Hari Wesak ialah cuti umum utama.",
             en: "Correct. Wesak Day is a major public holiday.",
-            es: "Correcto. El Dia de Wesak es un dia festivo principal.",
+            es: "Correcto. El Día de Wesak es un día festivo principal.",
           },
         },
         {
@@ -414,7 +414,7 @@ export const chapter11: ChapterContent = {
           why: {
             ms: "Salah. Cuti sakit ialah cuti peribadi, bukan cuti umum.",
             en: "Wrong. Sick leave is personal leave, not a public holiday.",
-            es: "Incorrecto. La baja por enfermedad es permiso personal, no un festivo publico.",
+            es: "Incorrecto. La baja por enfermedad es permiso personal, no un festivo público.",
           },
         },
       ],

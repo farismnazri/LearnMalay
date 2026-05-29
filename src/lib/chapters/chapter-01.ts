@@ -223,131 +223,131 @@ export const chapter01: ChapterContent = {
     },
 
     {
-      id: "p3-situasi-1-1",
-      kind: "chat",
-      title: {
-        ms: "Situasi 1.1 Sapaan dengan orang lebih tua",
-        en: "Situation 1.1 Greeting an older person",
-        es: "Situación 1.1 Saludar a una persona mayor",
-      },
-      context: {
-        ms: "Latar tempat: Di sebuah kedai makan",
-        en: "Setting: At a food shop",
-        es: "Lugar: En una tienda/restaurante",
-      },
-      participants: [
-        {
-          id: "azman",
-          name: { ms: "Azman", en: "Azman", es: "Azman" },
-        },
-        {
-          id: "ayub",
-          name: { ms: "Pak Cik Ayub", en: "Uncle Ayub", es: "Tío Ayub" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
-        },
-      ],
-      messages: [
-        {
-          id: "m1",
-          from: "azman",
-          text: {
-            ms: "Assalamualaikum, pak cik Ayub.",
-            en: "Assalamualaikum, Uncle Ayub.",
-            es: "Assalamualaikum, tio Ayub.",
-          },
-        },
-        {
-          id: "m2",
-          from: "ayub",
-          text: {
-            ms: "Waalaikumussalam, Azman. Cari apa di kedai?",
-            en: "Waalaikumussalam, Azman. What are you looking for in the shop?",
-            es: "Waalaikumussalam, Azman. Que buscas en la tienda?",
-          },
-        },
-        {
-          id: "m3",
-          from: "azman",
-          text: {
-            ms: "Saya cari roti dan susu.",
-            en: "I am looking for bread and milk.",
-            es: "Estoy buscando pan y leche.",
-          },
-        },
-        {
-          id: "m4",
-          from: "ayub",
-          text: {
-            ms: "Roti di rak depan. Susu di peti sejuk sana.",
-            en: "The bread is on the front shelf. The milk is in that fridge.",
-            es: "El pan esta en el estante de delante. La leche esta en esa nevera.",
-          },
-        },
-        {
-          id: "m5",
-          from: "azman",
-          text: {
-            ms: "Baik, terima kasih, pak cik.",
-            en: "Alright, thank you, Uncle.",
-            es: "Muy bien, gracias, tio.",
-          },
-        },
-        {
-          id: "m6",
-          from: "ayub",
-          text: {
-            ms: "Sama-sama. Awak datang seorang hari ini?",
-            en: "You are welcome. Did you come alone today?",
-            es: "De nada. Viniste solo hoy?",
-          },
-        },
-        {
-          id: "m7",
-          from: "azman",
-          text: {
-            ms: "Ya, saya datang seorang. Kawan saya tunggu di luar.",
-            en: "Yes, I came alone. My friend is waiting outside.",
-            es: "Si, vine solo. Mi amigo espera afuera.",
-          },
-        },
-        {
-          id: "m8",
-          from: "ayub",
-          text: {
-            ms: "Baik. Lepas ambil barang, bayar di kaunter ini.",
-            en: "Good. After taking your items, pay at this counter.",
-            es: "Bien. Despues de tomar tus cosas, paga en este mostrador.",
-          },
-        },
-        {
-          id: "m9",
-          from: "azman",
-          text: {
-            ms: "Baik, pak cik. Saya ambil sekarang.",
-            en: "Alright, Uncle. I will take them now.",
-            es: "De acuerdo, tio. Los tomo ahora.",
-          },
-        },
-        {
-          id: "m10",
-          from: "ayub",
-          text: {
-            ms: "Terima kasih, Azman. Jumpa lagi.",
-            en: "Thank you, Azman. See you again.",
-            es: "Gracias, Azman. Nos vemos otra vez.",
-          },
-        },
-        {
-          id: "m11",
-          from: "azman",
-          text: {
-            ms: "Baik, pak cik. Jumpa lagi.",
-            en: "Alright, Uncle. See you again.",
-            es: "De acuerdo, tio. Nos vemos otra vez.",
-          },
-        },
-      ],
+  id: "p3-situasi-1-1",
+  kind: "chat",
+  title: {
+    ms: "Situasi 1.1: Sapaan dengan orang yang lebih tua",
+    en: "Situation 1.1: Greeting an older person",
+    es: "Situación 1.1: Saludar a una persona mayor",
+  },
+  context: {
+    ms: "Latar tempat: Di sebuah kedai runcit",
+    en: "Setting: At a small grocery shop",
+    es: "Lugar: En una pequeña tienda de comestibles",
+  },
+  participants: [
+    {
+      id: "azman",
+      name: { ms: "Azman", en: "Azman", es: "Azman" },
     },
+    {
+      id: "ayub",
+      name: { ms: "Pak Cik Ayub", en: "Uncle Ayub", es: "Señor Ayub" },
+      avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+    },
+  ],
+  messages: [
+    {
+      id: "m1",
+      from: "azman",
+      text: {
+        ms: "Assalamualaikum, Pak Cik Ayub.",
+        en: "Assalamualaikum, Uncle Ayub.",
+        es: "Assalamualaikum, señor Ayub.",
+      },
+    },
+    {
+      id: "m2",
+      from: "ayub",
+      text: {
+        ms: "Waalaikumussalam, Azman. Cari apa di kedai hari ini?",
+        en: "Waalaikumussalam, Azman. What are you looking for today?",
+        es: "Waalaikumussalam, Azman. ¿Qué estás buscando hoy?",
+      },
+    },
+    {
+      id: "m3",
+      from: "azman",
+      text: {
+        ms: "Saya cari roti dan susu.",
+        en: "I am looking for bread and milk.",
+        es: "Estoy buscando pan y leche.",
+      },
+    },
+    {
+      id: "m4",
+      from: "ayub",
+      text: {
+        ms: "Roti ada di rak depan. Susu ada di peti sejuk sana.",
+        en: "The bread is on the front shelf. The milk is in the fridge over there.",
+        es: "El pan está en el estante de adelante. La leche está en la nevera de allá.",
+      },
+    },
+    {
+      id: "m5",
+      from: "azman",
+      text: {
+        ms: "Baik, terima kasih, Pak Cik.",
+        en: "Alright, thank you, Uncle.",
+        es: "Muy bien, gracias, señor.",
+      },
+    },
+    {
+      id: "m6",
+      from: "ayub",
+      text: {
+        ms: "Sama-sama. Awak datang seorang hari ini?",
+        en: "You’re welcome. Did you come alone today?",
+        es: "De nada. ¿Viniste solo hoy?",
+      },
+    },
+    {
+      id: "m7",
+      from: "azman",
+      text: {
+        ms: "Ya, saya datang seorang. Kawan saya tunggu di luar.",
+        en: "Yes, I came alone. My friend is waiting outside.",
+        es: "Sí, vine solo. Mi amigo me espera afuera.",
+      },
+    },
+    {
+      id: "m8",
+      from: "ayub",
+      text: {
+        ms: "Baik. Selepas ambil barang, bayar di kaunter.",
+        en: "Good. After you get your items, pay at this counter.",
+        es: "Bien. Después de tomar tus cosas, paga en este mostrador.",
+      },
+    },
+    {
+      id: "m9",
+      from: "azman",
+      text: {
+        ms: "Baik, Pak Cik. Saya ambil sekarang.",
+        en: "Alright, Uncle. I’ll get them now.",
+        es: "De acuerdo, señor. Las tomo ahora.",
+      },
+    },
+    {
+      id: "m10",
+      from: "ayub",
+      text: {
+        ms: "Terima kasih, Azman. Jumpa lagi.",
+        en: "Thank you, Azman. See you again.",
+        es: "Gracias, Azman. Nos vemos.",
+      },
+    },
+    {
+      id: "m11",
+      from: "azman",
+      text: {
+        ms: "Baik, Pak Cik. Jumpa lagi.",
+        en: "Alright, Uncle. See you again.",
+        es: "De acuerdo, señor. Nos vemos.",
+      },
+    },
+  ],
+},
 
     {
   id: "p-next-chat-muthu",
@@ -374,15 +374,15 @@ export const chapter01: ChapterContent = {
     },
   ],
   messages: [
-    { id: "m1", from: "azman", text: { ms: "Selamat pagi, Muthu. Awal awak datang kedai buku.", en: "Good morning, Muthu. You came early to the bookstore.", es: "Buenos dias, Muthu. Llegaste temprano a la libreria." } },
-    { id: "m2", from: "ayub",  text: { ms: "Selamat pagi, Azman. Ya, saya singgah beli pen.", en: "Good morning, Azman. Yes, I stopped by to buy a pen.", es: "Buenos dias, Azman. Si, pase a comprar un boligrafo." } },
+    { id: "m1", from: "azman", text: { ms: "Selamat pagi, Muthu. Awal awak datang kedai buku.", en: "Good morning, Muthu. You came early to the bookstore.", es: "Buenos días, Muthu. Llegaste temprano a la librería." } },
+    { id: "m2", from: "ayub",  text: { ms: "Selamat pagi, Azman. Ya, saya singgah beli pen.", en: "Good morning, Azman. Yes, I stopped by to buy a pen.", es: "Buenos días, Azman. Sí, pasé a comprar un bolígrafo." } },
     { id: "m3", from: "azman", text: { ms: "Saya pula mahu beli buku nota.", en: "I want to buy a notebook.", es: "Yo quiero comprar un cuaderno." } },
-    { id: "m4", from: "ayub",  text: { ms: "Buku nota di rak kanan, dekat kaunter.", en: "The notebooks are on the right shelf, near the counter.", es: "Los cuadernos estan en el estante de la derecha, cerca del mostrador." } },
-    { id: "m5", from: "azman", text: { ms: "Terima kasih. Awak sudah pilih pen?", en: "Thank you. Have you chosen a pen?", es: "Gracias. Ya elegiste el boligrafo?" } },
-    { id: "m6", from: "ayub",  text: { ms: "Belum. Saya tak pasti pen gel atau pen biasa.", en: "Not yet. I'm not sure whether to get a gel pen or a regular pen.", es: "Todavia no. No estoy seguro si comprar boligrafo de gel o boligrafo normal." } },
-    { id: "m7", from: "azman", text: { ms: "Kalau tulis laju, pen gel lebih senang.", en: "If you write fast, a gel pen is easier.", es: "Si escribes rapido, un boligrafo de gel es mas comodo." } },
-    { id: "m8", from: "ayub",  text: { ms: "Betul juga. Saya ambil dua batang.", en: "That's true. I will take two pens.", es: "Es cierto. Tomare dos boligrafos." } },
-    { id: "m9", from: "azman", text: { ms: "Bagus. Lepas bayar, kita terus ke kelas?", en: "Great. After paying, shall we go straight to class?", es: "Bien. Despues de pagar, vamos directo a clase?" } },
+    { id: "m4", from: "ayub",  text: { ms: "Buku nota di rak kanan, dekat kaunter.", en: "The notebooks are on the right shelf, near the counter.", es: "Los cuadernos están en el estante de la derecha, cerca del mostrador." } },
+    { id: "m5", from: "azman", text: { ms: "Terima kasih. Awak sudah pilih pen?", en: "Thank you. Have you chosen a pen?", es: "Gracias. ¿Ya elegiste el bolígrafo?" } },
+    { id: "m6", from: "ayub",  text: { ms: "Belum. Saya tak pasti pen gel atau pen biasa.", en: "Not yet. I'm not sure whether to get a gel pen or a regular pen.", es: "Todavía no. No estoy seguro si comprar bolígrafo de gel o bolígrafo normal." } },
+    { id: "m7", from: "azman", text: { ms: "Kalau tulis laju, pen gel lebih senang.", en: "If you write fast, a gel pen is easier.", es: "Si escribes rápido, un bolígrafo de gel es más cómodo." } },
+    { id: "m8", from: "ayub",  text: { ms: "Betul juga. Saya ambil dua batang.", en: "That's true. I will take two pens.", es: "Es cierto. Tomaré dos bolígrafos." } },
+    { id: "m9", from: "azman", text: { ms: "Bagus. Lepas bayar, kita terus ke kelas?", en: "Great. After paying, shall we go straight to class?", es: "Bien. Después de pagar, ¿vamos directo a clase?" } },
     { id: "m10", from: "ayub", text: { ms: "Boleh. Kelas mula pukul sembilan.", en: "Sure. Class starts at nine o'clock.", es: "Claro. La clase empieza a las nueve." } },
     { id: "m11", from: "azman", text: { ms: "Okey, jom ke kaunter.", en: "Okay, let's go to the counter.", es: "Vale, vamos al mostrador." } },
     { id: "m12", from: "ayub", text: { ms: "Jom.", en: "Let's go.", es: "Vamos." } },
@@ -399,7 +399,7 @@ export const chapter01: ChapterContent = {
         es: "Arrastra las tarjetas de respuesta al espacio correcto.",
     },
     options: [
-        { id: "selamat-pagi", ms: "Selamat pagi", en: "Good morning", es: "Buenos dias" },
+        { id: "selamat-pagi", ms: "Selamat pagi", en: "Good morning", es: "Buenos días" },
         { id: "khabar-baik", ms: "khabar baik", en: "doing well", es: "bien" },
         { id: "nama", ms: "Nama", en: "Name", es: "Nombre" },
         { id: "sihat", ms: "sihat", en: "well / healthy", es: "bien / saludable" },
@@ -415,12 +415,12 @@ export const chapter01: ChapterContent = {
             after: { ms: ", Cikgu Aina.", en: ", Teacher Aina.", es: ", Profesora Aina." },
             correctOptionId: "selamat-pagi",
         },
-        a: { kind: "text", text: { ms: "Selamat pagi, Faris.", en: "Good morning, Faris.", es: "Buenos dias, Faris." } },
+        a: { kind: "text", text: { ms: "Selamat pagi, Faris.", en: "Good morning, Faris.", es: "Buenos días, Faris." } },
         },
         {
         id: "lat1-q2",
         n: 2,
-        q: { kind: "text", text: { ms: "Apa khabar, Aina?", en: "How are you, Aina?", es: "Como estas, Aina?" } },
+        q: { kind: "text", text: { ms: "Apa khabar, Aina?", en: "How are you, Aina?", es: "¿Cómo estás, Aina?" } },
         a: {
             kind: "blank",
             before: { ms: "", en: "", es: "" },
@@ -448,7 +448,7 @@ export const chapter01: ChapterContent = {
             after: { ms: " hari ini?", en: " today?", es: " hoy?" },
             correctOptionId: "sihat",
         },
-        a: { kind: "text", text: { ms: "Ya, saya sihat.", en: "Yes, I am well.", es: "Si, estoy bien." } },
+        a: { kind: "text", text: { ms: "Ya, saya sihat.", en: "Yes, I am well.", es: "Sí, estoy bien." } },
         },
         {
         id: "lat1-q5",
@@ -461,7 +461,7 @@ export const chapter01: ChapterContent = {
         },
         a: {
             kind: "text",
-            text: { ms: "Sudah, saya sudah makan.", en: "Yes, I have eaten.", es: "Si, ya comi." },
+            text: { ms: "Sudah, saya sudah makan.", en: "Yes, I have eaten.", es: "Sí, ya comí." },
         },
         },
     ],

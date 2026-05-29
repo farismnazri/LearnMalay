@@ -65,7 +65,7 @@ export const chapter08: ChapterContent = {
               id: "c8-kaum-cina",
               ms: "Tahun Baru Cina",
               en: "Chinese New Year",
-              es: "Ano Nuevo Chino",
+              es: "Año Nuevo Chino",
               cardLabel: {
                 ms: "Cina",
                 en: "Chinese",
@@ -75,7 +75,7 @@ export const chapter08: ChapterContent = {
               imageAlt: {
                 ms: "Sambutan Tahun Baru Cina",
                 en: "Chinese New Year celebration",
-                es: "Celebracion del Ano Nuevo Chino",
+                es: "Celebracion del Año Nuevo Chino",
               },
             },
             {

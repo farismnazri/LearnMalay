@@ -261,17 +261,17 @@ export const chapter06: ChapterContent = {
         {
           id: "c6-61-m1",
           from: "azman",
-          text: { ms: "Salina, awak nak balik kolej sekarang?", en: "Salina, are you going back to college now?", es: "Salina, vas a volver al colegio ahora?" },
+          text: { ms: "Salina, awak nak balik kolej sekarang?", en: "Salina, are you going back to college now?", es: "Salina, ¿vas a volver al colegio ahora?" },
         },
         {
           id: "c6-61-m2",
           from: "salina",
-          text: { ms: "Ya, tapi langit mendung sangat.", en: "Yes, but the sky is very cloudy.", es: "Si, pero el cielo esta muy nublado." },
+          text: { ms: "Ya, tapi langit mendung sangat.", en: "Yes, but the sky is very cloudy.", es: "Sí, pero el cielo está muy nublado." },
         },
         {
           id: "c6-61-m3",
           from: "azman",
-          text: { ms: "Betul. Angin pun kuat, macam nak hujan.", en: "True. The wind is strong too, looks like rain.", es: "Cierto. El viento tambien esta fuerte, parece que va a llover." },
+          text: { ms: "Betul. Angin pun kuat, macam nak hujan.", en: "True. The wind is strong too, looks like rain.", es: "Cierto. El viento también está fuerte, parece que va a llover." },
         },
         {
           id: "c6-61-m4",
@@ -324,7 +324,7 @@ export const chapter06: ChapterContent = {
           text: {
             ms: "Lepas hujan, cuaca biasanya lebih sejuk.",
             en: "After rain, the weather is usually cooler.",
-            es: "Despues de la lluvia, el clima normalmente es mas fresco.",
+            es: "Después de la lluvia, el clima normalmente es más fresco.",
           },
         },
         {
@@ -333,7 +333,7 @@ export const chapter06: ChapterContent = {
           text: {
             ms: "Ya, nyaman sikit. Bila hujan perlahan, kita gerak.",
             en: "Yes, it feels nicer. When the rain slows, we move.",
-            es: "Si, se siente mejor. Cuando la lluvia baje, nos movemos.",
+            es: "Sí, se siente mejor. Cuando la lluvia baje, nos movemos.",
           },
         },
       ],
@@ -367,7 +367,7 @@ export const chapter06: ChapterContent = {
           text: {
             ms: "Cantik pemandangan di sini. Laut pun tenang hari ini.",
             en: "The view here is beautiful. The sea is calm today too.",
-            es: "La vista aqui es hermosa. El mar tambien esta tranquilo hoy.",
+            es: "La vista aquí es hermosa. El mar también está tranquilo hoy.",
           },
         },
         {
@@ -376,7 +376,7 @@ export const chapter06: ChapterContent = {
           text: {
             ms: "Betul. Angin pantai pun sejuk, sedap duduk lama.",
             en: "True. The beach breeze is cool, nice to sit here longer.",
-            es: "Cierto. La brisa de la playa es fresca, da gusto quedarse mas tiempo.",
+            es: "Cierto. La brisa de la playa es fresca, da gusto quedarse más tiempo.",
           },
         },
         {
@@ -403,7 +403,7 @@ export const chapter06: ChapterContent = {
           text: {
             ms: "Kita kutip sama-sama. Biar pantai kekal bersih.",
             en: "Let's pick it up together. Let the beach stay clean.",
-            es: "Recojamosla juntos. Que la playa se mantenga limpia.",
+            es: "Recojamosla juntos. Qué la playa se mantenga limpia.",
           },
         },
         {
@@ -412,7 +412,7 @@ export const chapter06: ChapterContent = {
           text: {
             ms: "Setuju. Lepas ini kita jalan sampai hujung pantai?",
             en: "Agreed. After this shall we walk to the end of the beach?",
-            es: "De acuerdo. Despues de esto caminamos hasta el final de la playa?",
+            es: "De acuerdo. Después de esto, ¿caminamos hasta el final de la playa?",
           },
         },
         {
@@ -421,7 +421,7 @@ export const chapter06: ChapterContent = {
           text: {
             ms: "Boleh. Saya nak tengok matahari terbenam dari sana.",
             en: "Sure. I want to watch the sunset from there.",
-            es: "Claro. Quiero ver el atardecer desde alli.",
+            es: "Claro. Quiero ver el atardecer desde allí.",
           },
         },
         {
@@ -430,7 +430,7 @@ export const chapter06: ChapterContent = {
           text: {
             ms: "Cantik waktu senja. Kadang-kadang nampak juga bot nelayan balik.",
             en: "Twilight is beautiful. Sometimes we can also see fishing boats returning.",
-            es: "El atardecer es bonito. A veces tambien se ven barcos pesqueros regresando.",
+            es: "El atardecer es bonito. A veces también se ven barcos pesqueros regresando.",
           },
         },
         {
@@ -439,7 +439,7 @@ export const chapter06: ChapterContent = {
           text: {
             ms: "Seronok juga. Saya suka suasana pantai yang tenang macam ini.",
             en: "This is nice. I like calm beach vibes like this.",
-            es: "Esto esta bien. Me gusta el ambiente tranquilo de playa como este.",
+            es: "Esto está bien. Me gusta el ambiente tranquilo de playa como este.",
           },
         },
         {
@@ -448,7 +448,7 @@ export const chapter06: ChapterContent = {
           text: {
             ms: "Saya pun sama. Minggu depan kita datang lagi.",
             en: "Same here. Next week we come again.",
-            es: "Yo tambien. La proxima semana venimos otra vez.",
+            es: "Yo también. La proxima semana venimos otra vez.",
           },
         },
       ],

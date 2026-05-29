@@ -785,7 +785,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Mohamad, pukul berapa sekarang?",
             en: "Mohamad, what time is it now?",
-            es: "Mohamad, que hora es ahora?",
+            es: "Mohamad, ¿qué hora es ahora?",
           },
         },
         {
@@ -794,7 +794,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Sekarang pukul 5.20 petang. Kenapa, Man?",
             en: "It's 5:20 p.m. Why, Man?",
-            es: "Ahora son las 5:20 de la tarde. Por que, Man?",
+            es: "Ahora son las 5:20 de la tarde. ¿Por qué, Man?",
           },
         },
         {
@@ -812,7 +812,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Awak nak ke gelanggang belakang dewan sukan, kan?",
             en: "You're going to the court behind the sports hall, right?",
-            es: "Vas a la cancha detras del pabellon deportivo, verdad?",
+            es: "Vas a la cancha detrás del pabellón deportivo, ¿verdad?",
           },
         },
         {
@@ -821,7 +821,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Ya. Saya lupa jalan paling cepat dari sini.",
             en: "Yes. I forgot the fastest way from here.",
-            es: "Si. Olvide la ruta mas rapida desde aqui.",
+            es: "Sí. Olvidé la ruta más rápida desde aquí.",
           },
         },
         {
@@ -839,7 +839,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Selepas itu, dewan sukan ada di sebelah kiri awak.",
             en: "After that, the sports hall is on your left.",
-            es: "Despues de eso, el pabellon deportivo queda a tu izquierda.",
+            es: "Después de eso, el pabellón deportivo queda a tu izquierda.",
           },
         },
         {
@@ -848,7 +848,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Kalau saya naik bas kampus, sempat tak?",
             en: "If I take the campus bus, will I make it?",
-            es: "Si tomo el bus del campus, llego a tiempo?",
+            es: "Si tomo el bus del campus, ¿llego a tiempo?",
           },
         },
         {
@@ -857,7 +857,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Sempat. Bas biasanya datang dua minit lagi.",
             en: "Yes, you can. The bus usually comes in two minutes.",
-            es: "Si, alcanzas. El bus normalmente llega en dos minutos.",
+            es: "Sí, alcanzas. El bus normalmente llega en dos minutos.",
           },
         },
         {
@@ -866,7 +866,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Bagus. Terima kasih, Mohamad. Jom cepat.",
             en: "Great. Thanks, Mohamad. Let's hurry.",
-            es: "Bien. Gracias, Mohamad. Vamos rapido.",
+            es: "Bien. Gracias, Mohamad. Vamos rápido.",
           },
         },
       ],
@@ -903,7 +903,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Selamat petang. Nak beli tiket cerita apa?",
             en: "Good afternoon. Which movie ticket do you want?",
-            es: "Buenas tardes. Que pelicula quieres ver?",
+            es: "Buenas tardes. ¿Qué película quieres ver?",
           },
         },
         {
@@ -930,7 +930,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Kawan saya sampai pukul 4. Tayangan mana sesuai?",
             en: "My friend arrives at 4. Which showtime is suitable?",
-            es: "Mi amigo llega a las 4. Que horario conviene?",
+            es: "Mi amigo llega a las 4. ¿Qué horario conviene?",
           },
         },
         {
@@ -939,7 +939,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Saya cadang 4.30 petang. Sempat beli makanan juga.",
             en: "I suggest 4:30 p.m. You will have time to buy snacks too.",
-            es: "Sugiero las 4:30 p. m. Tambien tendras tiempo para comprar comida.",
+            es: "Sugiero las 4:30 p. m. También tendras tiempo para comprar comida.",
           },
         },
         {
@@ -948,7 +948,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Baik. Saya ambil dua tiket pukul 4.30. Berapa harga?",
             en: "Alright. I will take two tickets for 4:30. How much?",
-            es: "Bien. Tomo dos boletos para las 4:30. Cuanto cuesta?",
+            es: "Bien. Tomo dos boletos para las 4:30. ¿Cuánto cuesta?",
           },
         },
         {
@@ -966,7 +966,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Boleh saya bayar guna e-dompet?",
             en: "Can I pay by e-wallet?",
-            es: "Puedo pagar con billetera electronica?",
+            es: "¿Puedo pagar con billetera electrónica?",
           },
         },
         {
@@ -975,7 +975,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Boleh. Imbas kod ini. Pembayaran berjaya, ini dua tiket encik.",
             en: "Sure. Scan this code. Payment successful, here are your two tickets.",
-            es: "Claro. Escanea este codigo. Pago exitoso, aqui estan tus dos boletos.",
+            es: "Claro. Escanea este código. Pago exitoso, aquí están tus dos boletos.",
           },
         },
         {
@@ -993,7 +993,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Sama-sama. Selamat menonton.",
             en: "You're welcome. Enjoy the movie.",
-            es: "De nada. Disfruta la pelicula.",
+            es: "De nada. Disfruta la película.",
           },
         },
       ],
@@ -1030,7 +1030,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Azman, boleh tanya? Di mana klinik komuniti?",
             en: "Azman, may I ask? Where is the community clinic?",
-            es: "Azman, puedo preguntar? Donde esta la clinica comunitaria?",
+            es: "Azman, ¿puedo preguntar? ¿Dónde está la clínica comunitaria?",
           },
         },
         {
@@ -1039,7 +1039,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Boleh. Dari sini, jalan terus sampai lampu isyarat.",
             en: "Sure. From here, walk straight until the traffic light.",
-            es: "Claro. Desde aqui, sigue recto hasta el semaforo.",
+            es: "Claro. Desde aquí, sigue recto hasta el semáforo.",
           },
         },
         {
@@ -1048,7 +1048,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Selepas lampu isyarat, belok kiri.",
             en: "After the traffic light, turn left.",
-            es: "Despues del semaforo, gira a la izquierda.",
+            es: "Después del semáforo, gira a la izquierda.",
           },
         },
         {
@@ -1057,7 +1057,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Belok kiri selepas lampu isyarat, betul?",
             en: "Turn left after the traffic light, right?",
-            es: "Giro a la izquierda despues del semaforo, correcto?",
+            es: "Giro a la izquierda después del semáforo, ¿correcto?",
           },
         },
         {
@@ -1075,7 +1075,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Kedai runcit itu di sebelah kanan?",
             en: "Is the grocery shop on the right?",
-            es: "La tienda de comestibles esta a la derecha?",
+            es: "¿La tienda de comestibles está a la derecha?",
           },
         },
         {
@@ -1084,7 +1084,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Ya. Klinik ada di belakang kedai itu.",
             en: "Yes. The clinic is behind that shop.",
-            es: "Si. La clinica esta detras de esa tienda.",
+            es: "Sí. La clínica está detrás de esa tienda.",
           },
         },
         {
@@ -1093,7 +1093,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Oh, dekat sahaja.",
             en: "Oh, it is nearby.",
-            es: "Ah, esta cerca.",
+            es: "Ah, está cerca.",
           },
         },
         {
@@ -1102,7 +1102,7 @@ export const chapter04: ChapterContent = {
           text: {
             ms: "Ya, lebih kurang lima minit berjalan kaki.",
             en: "Yes, about five minutes on foot.",
-            es: "Si, unos cinco minutos caminando.",
+            es: "Sí, unos cinco minutos caminando.",
           },
         },
         {
