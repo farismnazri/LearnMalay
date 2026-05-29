@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 
 export type IconActionKind = "home" | "map" | "minigames" | "highscores" | "start-game" | "restart";
 
@@ -52,6 +53,13 @@ export default function IconActionLink({
   ...props
 }: IconActionProps) {
   const icon = ICONS[kind];
+  const hasWidthClass = /(?:^|\s)(?:[\w-]+:)*!?w-(?:\[[^\]]+\]|[^\s]+)/.test(iconClassName);
+  const hasHeightClass = /(?:^|\s)(?:[\w-]+:)*!?h-(?:\[[^\]]+\]|[^\s]+)/.test(iconClassName);
+
+  let imageStyle: CSSProperties | undefined;
+  if (hasWidthClass && !hasHeightClass) imageStyle = { height: "auto" };
+  else if (!hasWidthClass && hasHeightClass) imageStyle = { width: "auto" };
+  else if (!hasWidthClass && !hasHeightClass) imageStyle = { width: icon.width, height: icon.height };
 
   const rootClassName = [
     "group touch-target relative inline-flex items-center justify-center transition hover:-translate-y-0.5 focus-visible:outline-none",
@@ -66,6 +74,7 @@ export default function IconActionLink({
         aria-hidden="true"
         width={icon.width}
         height={icon.height}
+        style={imageStyle}
         className={[
           "select-none object-contain drop-shadow-[0_2px_3px_rgba(0,0,0,0.35)]",
           iconClassName,
