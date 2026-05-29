@@ -9,13 +9,17 @@ import {
   recordAuthSuccess,
 } from "@/server/authSecurity";
 import { verifyUserPassword } from "@/server/userRepo";
-import { getSessionUser } from "@/server/sessionAuth";
+import { clearSessionCookie, getSessionUser } from "@/server/sessionAuth";
 import { isAdmin } from "@/lib/userCapabilities";
+import { enforceSameOriginMutation } from "@/server/requestSecurity";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
+  const csrf = enforceSameOriginMutation(req);
+  if (csrf) return csrf;
+
   const body = (await req.json().catch(() => null)) as { password?: string } | null;
   if (typeof body?.password !== "string") {
     return NextResponse.json({ error: "password required" }, { status: 400 });
@@ -37,7 +41,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { user } = await getSessionUser();
+    const { sessionId, user } = await getSessionUser();
     if (!user || !isAdmin(user)) {
       recordAuthFailure(rateLimit.key);
       logAdminAudit({
@@ -48,7 +52,9 @@ export async function POST(req: Request) {
         targetUserId: ADMIN_ID,
         reason: "not_admin_session",
       });
-      return NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
+      const res = NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
+      if (sessionId) clearSessionCookie(res);
+      return res;
     }
 
     const ok = await verifyUserPassword(ADMIN_ID, body.password);

@@ -8,14 +8,19 @@ import {
   recordAuthFailure,
   recordAuthSuccess,
 } from "@/server/authSecurity";
-import { startSessionForUser } from "@/server/sessionAuth";
+import { readSessionIdFromCookie, startSessionForUser } from "@/server/sessionAuth";
+import { deleteSession } from "@/server/sessionRepo";
 import { ADMIN_ID } from "@/lib/userStoreTypes";
 import { isAdmin } from "@/lib/userCapabilities";
+import { enforceSameOriginMutation } from "@/server/requestSecurity";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
+  const csrf = enforceSameOriginMutation(req);
+  if (csrf) return csrf;
+
   const body = (await req.json().catch(() => null)) as { name?: string; password?: string } | null;
   if (!body?.name || typeof body.password !== "string") {
     return NextResponse.json({ error: "name and password required" }, { status: 400 });
@@ -67,8 +72,12 @@ export async function POST(req: Request) {
         targetUserId: profile.id,
       });
     }
+    const previousSessionId = await readSessionIdFromCookie();
     const res = NextResponse.json(profile);
     await startSessionForUser(res, profile.id);
+    if (previousSessionId) {
+      await deleteSession(previousSessionId);
+    }
     return res;
   } catch {
     recordAuthFailure(rateLimit.key);

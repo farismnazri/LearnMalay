@@ -12,11 +12,15 @@ import { rotateAdminPasswordFromEnv, verifyUserPassword } from "@/server/userRep
 import { clearSessionCookie, getSessionUser } from "@/server/sessionAuth";
 import { deleteSessionsForUser } from "@/server/sessionRepo";
 import { canRotateAdminPassword } from "@/lib/userCapabilities";
+import { enforceSameOriginMutation } from "@/server/requestSecurity";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
+  const csrf = enforceSameOriginMutation(req);
+  if (csrf) return csrf;
+
   const body = (await req.json().catch(() => null)) as { currentPassword?: string } | null;
   if (typeof body?.currentPassword !== "string") {
     return NextResponse.json({ error: "currentPassword required" }, { status: 400 });
@@ -38,7 +42,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { user } = await getSessionUser();
+    const { sessionId, user } = await getSessionUser();
     if (!user || !canRotateAdminPassword(user)) {
       recordAuthFailure(rateLimit.key);
       logAdminAudit({
@@ -49,7 +53,9 @@ export async function POST(req: Request) {
         targetUserId: ADMIN_ID,
         reason: "not_admin_session",
       });
-      return NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
+      const res = NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
+      if (sessionId) clearSessionCookie(res);
+      return res;
     }
 
     const verified = await verifyUserPassword(ADMIN_ID, body.currentPassword);
