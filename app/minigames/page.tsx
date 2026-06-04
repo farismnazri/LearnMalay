@@ -124,7 +124,7 @@ const GAMES: MiniGame[] = [
     },
     href: "/minigames/arah-jalan",
     requiredChapter: 11,
-    backgroundSrc: "/assets/chapters/ch4/kompas.webp",
+    backgroundSrc: "/assets/backgrounds/ArahJalan.webp",
   },
 ];
 

@@ -16,6 +16,81 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.7.1",
+    date: "2026-05-30",
+    headline: {
+      ms: "Kemas kini visual minigame Arah Jalan pada hab minigame v0.7.1.",
+      en: "Arah Jalan minigame hub visual update in v0.7.1.",
+      es: "Actualizacion visual del minijuego Arah Jalan en el hub en v0.7.1.",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Mengemas kini artwork minigame Arah Jalan pada hab minigame untuk identiti visual yang lebih jelas.",
+          en: "Updated Arah Jalan minigame artwork on the minigames hub for clearer visual identity.",
+          es: "Se actualizo el arte de Arah Jalan en el hub de minijuegos para una identidad visual mas clara.",
+        },
+      ],
+      fixed: [],
+    },
+    technicalNotes: [
+      {
+        ms: "Tiada perubahan pada logik permainan, logik buka kunci, atau tingkah laku laluan dalam keluaran ini.",
+        en: "No gameplay logic, unlock logic, or route behavior changes in this release.",
+        es: "No hubo cambios de logica de juego, desbloqueo ni comportamiento de rutas en esta version.",
+      },
+    ],
+  },
+  {
+    version: "0.7.0",
+    date: "2026-05-29",
+    headline: {
+      ms: "Kemaskini kualiti salinan berbilang bahasa untuk bab dan penyelarasan nota keluaran v0.7.0.",
+      en: "Multilingual chapter copy quality improvements and v0.7.0 release-note alignment.",
+      es: "Mejoras de calidad del texto multilingue de capitulos y alineacion de notas de version v0.7.0.",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Menambah baik salinan bab merentas Bahasa Melayu, Inggeris, dan Sepanyol supaya lebih semula jadi dan konsisten.",
+          en: "Improved chapter copy across Malay, English, and Spanish for better naturalness and consistency.",
+          es: "Se mejoro el texto de capitulos en malayo, ingles y espanol para mayor naturalidad y consistencia.",
+        },
+        {
+          ms: "Menambah baik konsistensi dialog bab dan teks bantuan AkuAku.",
+          en: "Improved consistency in chapter dialogues and AkuAku helper text.",
+          es: "Se mejoro la consistencia en los dialogos de capitulos y el texto de ayuda de AkuAku.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Membetulkan aksen, tanda baca, dan drift aksen palsu dalam teks Sepanyol.",
+          en: "Corrected Spanish accents, punctuation, and false accent drift in chapter text.",
+          es: "Se corrigieron acentos, puntuacion y deriva de acentos falsos en el texto en espanol.",
+        },
+        {
+          ms: "Menyelaraskan metadata keluaran supaya versi aplikasi kelihatan mempunyai mesej keluaran yang sepadan.",
+          en: "Aligned release metadata so each visible app version has a corresponding release message.",
+          es: "Se alinearon los metadatos de version para que cada version visible tenga su mensaje de lanzamiento.",
+        },
+      ],
+    },
+    technicalNotes: [
+      {
+        ms: "Tiada perubahan pada logik permainan, logik buka kunci, atau tingkah laku laluan dalam keluaran ini.",
+        en: "No gameplay logic, unlock logic, or route behavior changes in this release.",
+        es: "No hubo cambios de logica de juego, desbloqueo ni comportamiento de rutas en esta version.",
+      },
+      {
+        ms: "Skop keluaran v0.7.0 merangkumi `7d3da69` (pembaikan salinan) dan `a619238` (bump versi).",
+        en: "v0.7.0 release scope includes `7d3da69` (copy fixes) and `a619238` (version bump).",
+        es: "El alcance de v0.7.0 incluye `7d3da69` (correcciones de texto) y `a619238` (bump de version).",
+      },
+    ],
+  },
+  {
     version: "0.6.0",
     date: "2026-05-26",
     headline: {

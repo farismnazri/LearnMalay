@@ -1,7 +1,7 @@
 # Learn Malay Product Roadmap
 
-Updated: 2026-05-28  
-Current version baseline: `0.6.0`
+Updated: 2026-06-04  
+Current version baseline: `0.7.1`
 
 ## Purpose
 `ROADMAP.md` is the maintainer-facing planning and execution doc.
@@ -60,6 +60,8 @@ It does **not** replace release notes.
 - Introduced SemVer release model and in-app public update surface (`/updates` + visible version label).
 - Established release metadata chain across version, changelog, and adventure log records.
 - Backfilled and synced `0.6.0` metadata to remove release drift.
+- Synced `0.7.0` multilingual copy release metadata so the visible app version matched public release records.
+- Shipped `0.7.1` as a patch release for the Arah Jalan minigame hub visual update.
 - Added `AGENTS.md` release discipline to standardize commit/release/tag behavior.
 - Ignored local planning context folders to reduce accidental noise in release commits.
 

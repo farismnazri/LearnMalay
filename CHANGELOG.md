@@ -11,6 +11,30 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.7.1] - 2026-05-30
+
+### Fixed
+- Replaced Arah Jalan minigame hub background with new dedicated WebP asset.
+
+### Notes
+- No gameplay/progression behavior changes in this release.
+
+## [0.7.0] - 2026-05-29
+
+### Changed
+- Improved multilingual chapter copy across Malay, English, and Spanish.
+- Improved naturalness and consistency in chapter dialogues and AkuAku helper text.
+
+### Fixed
+- Corrected Spanish accents, punctuation, and false accent drift in chapter content.
+- Aligned release metadata so the visible app version has a matching public release message.
+
+### Notes
+- No gameplay/progression behavior changes in this release.
+- Release commits in this cycle:
+  - `7d3da69` - `fix: polish multilingual chapter content`
+  - `a619238` - `chore: bump version to 0.7.0`
+
 ## [0.6.0] - 2026-05-26
 
 ### Added
