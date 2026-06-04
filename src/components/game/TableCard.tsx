@@ -19,6 +19,7 @@ function isImageCell(item: TableCellItem): item is TableImageCell {
 
 export default function TableCard({ page, lang }: { page: ChapterTablePage; lang: UiLang }) {
   const titleSub = lang === "ms" ? "" : tr(lang, page.title);
+  const isOccupationTable = page.id === "c9-p3-jenis-pekerjaan";
 
   function renderCellItem(item: TableCellItem, idx: number) {
     // ---------- image cell ----------
@@ -104,7 +105,7 @@ export default function TableCard({ page, lang }: { page: ChapterTablePage; lang
                       {lang !== "ms" && <div className="text-[11px] font-semibold opacity-60">{tr(lang, c.label)}</div>}
                     </div>
 
-                    <div className="mt-1 space-y-1">
+                    <div className={["mt-1 space-y-1", isOccupationTable ? "text-center" : ""].join(" ")}>
                       {items.length === 0 ? (
                         <div className="text-xs font-semibold opacity-40">—</div>
                       ) : (
@@ -150,11 +151,12 @@ export default function TableCard({ page, lang }: { page: ChapterTablePage; lang
                   return (
                     <td
                       key={`${r.id}-${c.key}`}
-                      className={
+                      className={[
                         isFirst
-                          ? "sticky left-0 z-[1] border border-black/10 bg-amber-100/90 p-2 align-middle"
-                          : "border border-black/10 p-2 align-top"
-                      }
+                          ? "sticky left-0 z-[1] border border-black/10 bg-amber-100/90 p-2"
+                          : "border border-black/10 p-2",
+                        isOccupationTable ? "align-middle text-center" : isFirst ? "align-middle" : "align-top",
+                      ].join(" ")}
                     >
                       {/* Make image rows tight: reduce vertical spacing */}
                       <div className="space-y-1">

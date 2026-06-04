@@ -11,6 +11,17 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.7.2] - 2026-06-04
+
+### Changed
+- Updated Chapter 9 occupations to focus page 1 on six essential jobs: teacher, doctor, cook, farmer, police officer, and firefighter.
+- Refreshed the visible occupation examples so Malay, English, and Spanish copy uses consistent first-person phrasing.
+- Added WebP artwork for the available Chapter 9 occupation assets.
+
+### Fixed
+- Hid unfinished leftover occupation rows from the Chapter 9 occupation table.
+- Improved Chapter 9 occupation table body alignment so text sits visually centered with the images.
+
 ## [0.7.1] - 2026-05-30
 
 ### Fixed

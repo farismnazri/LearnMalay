@@ -16,6 +16,55 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.7.2",
+    date: "2026-06-04",
+    headline: {
+      ms: "Bab 9 kini lebih mudah diikuti dengan pekerjaan asas, contoh Saya yang jelas, dan artwork pekerjaan baharu.",
+      en: "Chapter 9 is easier to follow with essential jobs, clearer Saya examples, and new job artwork.",
+      es: "El capitulo 9 ahora es mas facil de seguir con trabajos esenciales, ejemplos Saya mas claros y nuevo arte de trabajos.",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah artwork WebP baharu untuk pekerjaan Bab 9 yang sudah tersedia.",
+          en: "Added new WebP artwork for the available Chapter 9 jobs.",
+          es: "Se agrego nuevo arte WebP para los trabajos disponibles del capitulo 9.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Halaman pekerjaan Bab 9 kini fokus pada enam pekerjaan asas dengan contoh Saya yang lebih jelas.",
+          en: "Chapter 9 is easier to follow: the occupations page now focuses on six essential jobs with clearer Saya examples and new job artwork.",
+          es: "El capitulo 9 es mas facil de seguir: la pagina de trabajos ahora se enfoca en seis trabajos esenciales con ejemplos Saya mas claros y nuevo arte.",
+        },
+        {
+          ms: "Contoh Bahasa Melayu, Inggeris, dan Sepanyol dikemas kini supaya lebih konsisten untuk pelajar baharu.",
+          en: "Updated the Malay, English, and Spanish examples for better consistency for new learners.",
+          es: "Se actualizaron los ejemplos en malayo, ingles y espanol para mayor consistencia para estudiantes nuevos.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Menambah baik penjajaran jadual supaya teks pekerjaan lebih seimbang dengan gambar.",
+          en: "Improved the occupation table alignment so text sits more naturally with the images.",
+          es: "Se mejoro la alineacion de la tabla de trabajos para que el texto se vea mas natural junto a las imagenes.",
+        },
+      ],
+    },
+    technicalNotes: [
+      {
+        ms: "Mengemas kini pekerjaan Bab 9 untuk memaparkan set teras sahaja, menambah aset WebP yang tersedia, menyembunyikan baris pekerjaan belum siap, membersihkan salinan Saya, dan mengemas penjajaran jadual.",
+        en: "Updated Chapter 9 occupations to show the core job set only, added WebP artwork for available jobs, hid unfinished occupation rows, aligned the table layout, and refreshed Malay/English/Spanish examples for consistency.",
+        es: "Se actualizaron los trabajos del capitulo 9 para mostrar solo el conjunto principal, agregar arte WebP disponible, ocultar filas sin terminar, alinear la tabla y refrescar los ejemplos en malayo, ingles y espanol.",
+      },
+      {
+        ms: "Label versi UI terus dibaca daripada `package.json` melalui `src/lib/appVersion.ts`.",
+        en: "The UI version label continues to read from `package.json` through `src/lib/appVersion.ts`.",
+        es: "La etiqueta de version en la UI sigue leyendo desde `package.json` mediante `src/lib/appVersion.ts`.",
+      },
+    ],
+  },
+  {
     version: "0.7.1",
     date: "2026-05-30",
     headline: {

@@ -1,4 +1,289 @@
-import type { ChapterContent } from "./types";
+import type { ChapterContent, ChapterTablePage } from "./types";
+
+const occupationImageClassName = "w-full h-auto max-h-40 object-contain rounded-xl";
+
+const occupationRows = {
+  visible: [
+    {
+      id: "c9-row-guru",
+      cells: {
+        perkara: [{ ms: "Saya seorang guru.", en: "I am a teacher.", es: "Soy maestro." }],
+        butiran: [
+          {
+            ms: "Saya mengajar murid di sekolah.",
+            en: "I teach students at school.",
+            es: "Enseño a los estudiantes en la escuela.",
+          },
+        ],
+        gambar: [
+          {
+            kind: "image",
+            src: "/assets/chapters/ch9/ch9_cikgu.webp",
+            alt: { ms: "guru mengajar", en: "teacher teaching", es: "maestro enseñando" },
+            w: 640,
+            h: 360,
+            className: occupationImageClassName,
+          },
+        ],
+      },
+    },
+    {
+      id: "c9-row-doktor",
+      cells: {
+        perkara: [{ ms: "Saya seorang doktor.", en: "I am a doctor.", es: "Soy doctor." }],
+        butiran: [
+          {
+            ms: "Saya merawat pesakit.",
+            en: "I treat patients.",
+            es: "Atiendo a los pacientes.",
+          },
+        ],
+        gambar: [
+          {
+            kind: "image",
+            src: "/assets/chapters/ch9/ch9_doktor.webp",
+            alt: { ms: "doktor merawat pesakit", en: "doctor treating patients", es: "doctor atendiendo pacientes" },
+            w: 640,
+            h: 360,
+            className: occupationImageClassName,
+          },
+        ],
+      },
+    },
+    {
+      id: "c9-row-tukang-masak",
+      cells: {
+        perkara: [{ ms: "Saya seorang tukang masak.", en: "I am a cook.", es: "Soy cocinero." }],
+        butiran: [
+          {
+            ms: "Saya memasak makanan.",
+            en: "I cook food.",
+            es: "Cocino comida.",
+          },
+        ],
+        gambar: [
+          {
+            kind: "image",
+            src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
+            alt: { ms: "tukang masak menyediakan kari", en: "cook preparing curry", es: "cocinero preparando curry" },
+            w: 640,
+            h: 360,
+            className: occupationImageClassName,
+          },
+        ],
+      },
+    },
+    {
+      id: "c9-row-petani",
+      cells: {
+        perkara: [{ ms: "Saya seorang petani.", en: "I am a farmer.", es: "Soy agricultor." }],
+        butiran: [
+          {
+            ms: "Saya menanam padi di sawah.",
+            en: "I plant rice in the paddy field.",
+            es: "Siembro arroz en el arrozal.",
+          },
+        ],
+        gambar: [
+          {
+            kind: "image",
+            src: "/assets/chapters/ch9/ch9_petani.webp",
+            alt: { ms: "petani di kebun", en: "farmer in the garden", es: "agricultor en el huerto" },
+            w: 640,
+            h: 360,
+            className: occupationImageClassName,
+          },
+        ],
+      },
+    },
+    {
+      id: "c9-row-polis",
+      cells: {
+        perkara: [{ ms: "Saya seorang anggota polis.", en: "I am a police officer.", es: "Soy policía." }],
+        butiran: [
+          {
+            ms: "Saya membantu orang awam.",
+            en: "I help the public.",
+            es: "Ayudo a la comunidad.",
+          },
+        ],
+        gambar: [
+          {
+            kind: "image",
+            src: "/assets/chapters/ch9/ch9_polis.webp",
+            alt: { ms: "polis membuat rondaan", en: "police officer patrolling", es: "policía patrullando" },
+            w: 640,
+            h: 360,
+            className: occupationImageClassName,
+          },
+        ],
+      },
+    },
+    {
+      id: "c9-row-bomba",
+      cells: {
+        perkara: [{ ms: "Saya seorang anggota bomba.", en: "I am a firefighter.", es: "Soy bombero." }],
+        butiran: [
+          {
+            ms: "Saya memadamkan api kecil.",
+            en: "I put out a small fire.",
+            es: "Apago un fuego pequeño.",
+          },
+        ],
+        gambar: [
+          {
+            kind: "image",
+            src: "/assets/chapters/ch9/ch9_bomba.webp",
+            alt: { ms: "bomba memadam api", en: "firefighter extinguishing flames", es: "bombero apagando fuego" },
+            w: 640,
+            h: 360,
+            className: occupationImageClassName,
+          },
+        ],
+      },
+    },
+  ],
+  hidden: [
+    {
+      id: "c9-row-pelakon",
+      cells: {
+        perkara: [{ ms: "Día bekerja sebagai pelakon.", en: "He works as an actor.", es: "El trabaja como actor." }],
+        butiran: [
+          {
+            ms: "Día berlakon dalam drama.",
+            en: "He acts in dramas.",
+            es: "El actua en dramas.",
+          },
+        ],
+        gambar: [
+          {
+            kind: "image",
+            src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
+            alt: { ms: "pelakon berlakon", en: "actor performing", es: "actor actuando" },
+            w: 640,
+            h: 360,
+            className: occupationImageClassName,
+          },
+        ],
+      },
+    },
+    {
+      id: "c9-row-arkitek",
+      cells: {
+        perkara: [{ ms: "Saya bekerja sebagai arkitek.", en: "I work as an architect.", es: "Trabajo como arquitecto." }],
+        butiran: [
+          {
+            ms: "Saya mereka bangunan.",
+            en: "I design buildings.",
+            es: "Diseño edificios.",
+          },
+        ],
+        gambar: [
+          {
+            kind: "image",
+            src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
+            alt: { ms: "arkitek mereka bangunan", en: "architect drawing buildings", es: "arquitecto diseñando edificios" },
+            w: 640,
+            h: 360,
+            className: occupationImageClassName,
+          },
+        ],
+      },
+    },
+    {
+      id: "c9-row-penyanyi",
+      cells: {
+        perkara: [{ ms: "Profesion saya penyanyi.", en: "My profession is singer.", es: "Mi profesion es cantante." }],
+        butiran: [
+          {
+            ms: "Saya menyanyi sebuah lagu di atas pentas.",
+            en: "I sing a song on stage.",
+            es: "Canto una canción en el escenario.",
+          },
+        ],
+        gambar: [
+          {
+            kind: "image",
+            src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
+            alt: { ms: "penyanyi di pentas", en: "singer performing", es: "cantante actuando" },
+            w: 640,
+            h: 360,
+            className: occupationImageClassName,
+          },
+        ],
+      },
+    },
+    {
+      id: "c9-row-askar",
+      cells: {
+        perkara: [{ ms: "Saya berkhidmat sebagai askar.", en: "I serve as a soldier.", es: "Sirvo como soldado." }],
+        butiran: [
+          {
+            ms: "Saya menjaga keamanan negara.",
+            en: "I guard the security of the country.",
+            es: "Cuido la seguridad del país.",
+          },
+        ],
+        gambar: [
+          {
+            kind: "image",
+            src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
+            alt: { ms: "askar berjaga", en: "soldiers standing guard", es: "soldados en vigilancia" },
+            w: 640,
+            h: 360,
+            className: occupationImageClassName,
+          },
+        ],
+      },
+    },
+    {
+      id: "c9-row-nelayan",
+      cells: {
+        perkara: [{ ms: "Pak cik itu nelayan.", en: "That uncle is a fisherman.", es: "Ese tio es pescador." }],
+        butiran: [
+          {
+            ms: "Saya menangkap ikan di laut.",
+            en: "I catch fish at sea.",
+            es: "Pesco peces en el mar.",
+          },
+        ],
+        gambar: [
+          {
+            kind: "image",
+            src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
+            alt: { ms: "nelayan di laut", en: "fisherman at sea", es: "pescador en el mar" },
+            w: 640,
+            h: 360,
+            className: occupationImageClassName,
+          },
+        ],
+      },
+    },
+    {
+      id: "c9-row-penjual",
+      cells: {
+        perkara: [{ ms: "Ibu saya penjual.", en: "My mother is a seller.", es: "Mi madre es vendedora." }],
+        butiran: [
+          {
+            ms: "Saya menjual nasi.",
+            en: "I sell rice.",
+            es: "Vendo arroz.",
+          },
+        ],
+        gambar: [
+          {
+            kind: "image",
+            src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
+            alt: { ms: "penjual menjual makanan", en: "vendor selling food", es: "vendedor vendiendo comida" },
+            w: 640,
+            h: 360,
+            className: occupationImageClassName,
+          },
+        ],
+      },
+    },
+  ],
+} satisfies Record<"visible" | "hidden", ChapterTablePage["rows"]>;
 
 export const chapter09: ChapterContent = {
   id: 9,
@@ -21,284 +306,7 @@ export const chapter09: ChapterContent = {
         { key: "butiran", label: { ms: "Kerja saya", en: "My work", es: "Mi trabajo" } },
         { key: "gambar", label: { ms: "Gambar", en: "Image", es: "Imagen" } },
       ],
-      rows: [
-        {
-          id: "c9-row-guru",
-          cells: {
-            perkara: [{ ms: "Pekerjaan saya ialah guru.", en: "My profession is teacher.", es: "Mi profesion es maestra." }],
-            butiran: [
-              {
-                ms: "Saya mengajar murid di sekolah.",
-                en: "I teach students at school.",
-                es: "Enseno a los alumnos en la escuela.",
-              },
-            ],
-            gambar: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "guru mengajar", en: "teacher teaching", es: "maestro enseñando" },
-                w: 640,
-                h: 360,
-                className: "w-full h-auto max-h-40 object-contain rounded-xl",
-              },
-            ],
-          },
-        },
-        {
-          id: "c9-row-pelakon",
-          cells: {
-            perkara: [{ ms: "Día bekerja sebagai pelakon.", en: "He works as an actor.", es: "El trabaja como actor." }],
-            butiran: [
-              {
-                ms: "Día berlakon dalam drama.",
-                en: "He acts in dramas.",
-                es: "El actua en dramas.",
-              },
-            ],
-            gambar: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "pelakon berlakon", en: "actor performing", es: "actor actuando" },
-                w: 640,
-                h: 360,
-                className: "w-full h-auto max-h-40 object-contain rounded-xl",
-              },
-            ],
-          },
-        },
-        {
-          id: "c9-row-arkitek",
-          cells: {
-            perkara: [{ ms: "Saya bekerja sebagai arkitek.", en: "I work as an architect.", es: "Trabajo como arquitecto." }],
-            butiran: [
-              {
-                ms: "Saya mereka bangunan.",
-                en: "I design buildings.",
-                es: "Diseño edificios.",
-              },
-            ],
-            gambar: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "arkitek mereka bangunan", en: "architect drawing buildings", es: "arquitecto diseñando edificios" },
-                w: 640,
-                h: 360,
-                className: "w-full h-auto max-h-40 object-contain rounded-xl",
-              },
-            ],
-          },
-        },
-        {
-          id: "c9-row-doktor",
-          cells: {
-            perkara: [{ ms: "Kerja saya doktor.", en: "My job is doctor.", es: "Mi trabajo es doctor." }],
-            butiran: [
-              {
-                ms: "Saya merawat pesakit.",
-                en: "I treat patients.",
-                es: "Atiendo a los pacientes.",
-              },
-            ],
-            gambar: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "doktor merawat pesakit", en: "doctor treating patients", es: "doctor atendiendo pacientes" },
-                w: 640,
-                h: 360,
-                className: "w-full h-auto max-h-40 object-contain rounded-xl",
-              },
-            ],
-          },
-        },
-        {
-          id: "c9-row-penyanyi",
-          cells: {
-            perkara: [{ ms: "Profesion saya penyanyi.", en: "My profession is singer.", es: "Mi profesion es cantante." }],
-            butiran: [
-              {
-                ms: "Saya menyanyi sebuah lagu di atas pentas.",
-                en: "I sing a song on stage.",
-                es: "Canto una canción en el escenario.",
-              },
-            ],
-            gambar: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "penyanyi di pentas", en: "singer performing", es: "cantante actuando" },
-                w: 640,
-                h: 360,
-                className: "w-full h-auto max-h-40 object-contain rounded-xl",
-              },
-            ],
-          },
-        },
-        {
-          id: "c9-row-bomba",
-          cells: {
-            perkara: [{ ms: "Abang saya seorang bomba.", en: "My brother is a firefighter.", es: "Mi hermano es bombero." }],
-            butiran: [
-              {
-                ms: "Saya memadamkan api.",
-                en: "I put out fires.",
-                es: "Apago incendios.",
-              },
-            ],
-            gambar: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "bomba memadam api", en: "firefighter extinguishing flames", es: "bombero apagando fuego" },
-                w: 640,
-                h: 360,
-                className: "w-full h-auto max-h-40 object-contain rounded-xl",
-              },
-            ],
-          },
-        },
-        {
-          id: "c9-row-polis",
-          cells: {
-            perkara: [{ ms: "Día anggota polis.", en: "He is a police officer.", es: "El es policia." }],
-            butiran: [
-              {
-                ms: "Saya menangkap pencuri.",
-                en: "I catch thieves.",
-                es: "Atrapo a los ladrones.",
-              },
-            ],
-            gambar: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "polis membuat rondaan", en: "police officer patrolling", es: "policía patrullando" },
-                w: 640,
-                h: 360,
-                className: "w-full h-auto max-h-40 object-contain rounded-xl",
-              },
-            ],
-          },
-        },
-        {
-          id: "c9-row-askar",
-          cells: {
-            perkara: [{ ms: "Saya berkhidmat sebagai askar.", en: "I serve as a soldier.", es: "Sirvo como soldado." }],
-            butiran: [
-              {
-                ms: "Saya menjaga keamanan negara.",
-                en: "I guard the security of the country.",
-                es: "Cuido la seguridad del país.",
-              },
-            ],
-            gambar: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "askar berjaga", en: "soldiers standing guard", es: "soldados en vigilancia" },
-                w: 640,
-                h: 360,
-                className: "w-full h-auto max-h-40 object-contain rounded-xl",
-              },
-            ],
-          },
-        },
-        {
-          id: "c9-row-nelayan",
-          cells: {
-            perkara: [{ ms: "Pak cik itu nelayan.", en: "That uncle is a fisherman.", es: "Ese tio es pescador." }],
-            butiran: [
-              {
-                ms: "Saya menangkap ikan di laut.",
-                en: "I catch fish at sea.",
-                es: "Pesco peces en el mar.",
-              },
-            ],
-            gambar: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "nelayan di laut", en: "fisherman at sea", es: "pescador en el mar" },
-                w: 640,
-                h: 360,
-                className: "w-full h-auto max-h-40 object-contain rounded-xl",
-              },
-            ],
-          },
-        },
-        {
-          id: "c9-row-petani",
-          cells: {
-            perkara: [{ ms: "Mereka petani di kampung.", en: "They are farmers in the village.", es: "Ellos son agricultores en el pueblo." }],
-            butiran: [
-              {
-                ms: "Saya menanam sayur di kebun.",
-                en: "I plant vegetables in the garden.",
-                es: "Planto verduras en la huerta.",
-              },
-            ],
-            gambar: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "petani di kebun", en: "farmer in the garden", es: "agricultor en el huerto" },
-                w: 640,
-                h: 360,
-                className: "w-full h-auto max-h-40 object-contain rounded-xl",
-              },
-            ],
-          },
-        },
-        {
-          id: "c9-row-penjual",
-          cells: {
-            perkara: [{ ms: "Ibu saya penjual.", en: "My mother is a seller.", es: "Mi madre es vendedora." }],
-            butiran: [
-              {
-                ms: "Saya menjual nasi.",
-                en: "I sell rice.",
-                es: "Vendo arroz.",
-              },
-            ],
-            gambar: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "penjual menjual makanan", en: "vendor selling food", es: "vendedor vendiendo comida" },
-                w: 640,
-                h: 360,
-                className: "w-full h-auto max-h-40 object-contain rounded-xl",
-              },
-            ],
-          },
-        },
-        {
-          id: "c9-row-tukang-masak",
-          cells: {
-            perkara: [{ ms: "Saya tukang masak di kedai makan.", en: "I am a cook at an eatery.", es: "Soy cocinero en un restaurante." }],
-            butiran: [
-              {
-                ms: "Saya masak kari ayam di kedai makan.",
-                en: "I cook chicken curry at the eatery.",
-                es: "Cocino curry de pollo en el restaurante.",
-              },
-            ],
-            gambar: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
-                alt: { ms: "tukang masak menyediakan kari", en: "cook preparing curry", es: "cocinero preparando curry" },
-                w: 640,
-                h: 360,
-                className: "w-full h-auto max-h-40 object-contain rounded-xl",
-              },
-            ],
-          },
-        },
-      ],
+      rows: occupationRows.visible,
     },
     {
       id: "c9-p4-chat-askar",
