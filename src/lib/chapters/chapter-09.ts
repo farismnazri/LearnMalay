@@ -64,7 +64,7 @@ const occupationRows = {
         gambar: [
           {
             kind: "image",
-            src: "/assets/chapters/ch9/placeholder-pekerjaan.svg",
+            src: "/assets/chapters/ch9/ch9_tukangMasak.webp",
             alt: { ms: "tukang masak menyediakan kari", en: "cook preparing curry", es: "cocinero preparando curry" },
             w: 640,
             h: 360,
