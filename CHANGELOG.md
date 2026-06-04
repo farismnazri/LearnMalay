@@ -11,6 +11,11 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.7.3] - 2026-06-04
+
+### Fixed
+- Added the Chapter 9 cook artwork and connected it to the occupation table, completing the six essential job images.
+
 ## [0.7.2] - 2026-06-04
 
 ### Changed

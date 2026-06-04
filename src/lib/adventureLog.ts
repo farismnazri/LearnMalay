@@ -16,6 +16,39 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.7.3",
+    date: "2026-06-04",
+    headline: {
+      ms: "Bab 9 kini lengkap dengan artwork tukang masak untuk enam pekerjaan asas.",
+      en: "Chapter 9 now includes the cook artwork, completing the six essential occupation images.",
+      es: "El capitulo 9 ahora incluye el arte del cocinero y completa las seis imagenes de trabajos esenciales.",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah artwork tukang masak pada jadual pekerjaan Bab 9.",
+          en: "Added the cook artwork to the Chapter 9 occupation table.",
+          es: "Se agrego el arte del cocinero a la tabla de trabajos del capitulo 9.",
+        },
+      ],
+      changed: [],
+      fixed: [
+        {
+          ms: "Melengkapkan set gambar enam pekerjaan asas yang kelihatan dalam Bab 9.",
+          en: "Completed the visible six-job artwork set for Chapter 9.",
+          es: "Se completo el conjunto visible de seis imagenes de trabajos del capitulo 9.",
+        },
+      ],
+    },
+    technicalNotes: [
+      {
+        ms: "Menambah artwork WebP tukang masak dan menyambungkannya kepada jadual pekerjaan Bab 9.",
+        en: "Added the tukang masak WebP artwork and connected it to the Chapter 9 occupation table, completing the visible six-job artwork set.",
+        es: "Se agrego el arte WebP de tukang masak y se conecto a la tabla de trabajos del capitulo 9, completando el conjunto visible de seis imagenes.",
+      },
+    ],
+  },
+  {
     version: "0.7.2",
     date: "2026-06-04",
     headline: {
