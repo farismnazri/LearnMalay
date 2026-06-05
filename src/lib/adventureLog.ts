@@ -16,6 +16,38 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.7.6",
+    date: "2026-06-05",
+    headline: {
+      ms: "Bab 1 kini lebih ringkas dengan enam halaman",
+      en: "Chapter 1 is now cleaner with six pages",
+      es: "El capítulo 1 ahora es más limpio con seis páginas",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Halaman semakan `Semakan sebutan` yang berulang telah dikeluarkan daripada Bab 1 untuk menjadikan aliran pelajaran lebih padat.",
+          en: "The redundant `Semakan sebutan` review page was removed from Chapter 1 to keep the lesson flow tighter.",
+          es: "Se eliminó de Chapter 1 la página de repaso redundante `Semakan sebutan` para que el flujo de la lección sea más compacto.",
+        },
+        {
+          ms: "Bab 1 kini bergerak dari halaman 1 hingga 6 tanpa menjejaskan susunan halaman lain, navigasi, atau logik tamat bab.",
+          en: "Chapter 1 now runs from page 1 to 6 without affecting the remaining page order, navigation, or end-of-chapter logic.",
+          es: "Chapter 1 ahora va de la página 1 a la 6 sin afectar el orden de las páginas restantes, la navegación ni la lógica de fin de capítulo.",
+        },
+      ],
+      fixed: [],
+    },
+    technicalNotes: [
+      {
+        ms: "Mengeluarkan satu entri halaman daripada data `chapter01.pages` dan menyegerakkan metadata keluaran kepada versi 0.7.6.",
+        en: "Removed one page entry from `chapter01.pages` and synchronized the release metadata to version 0.7.6.",
+        es: "Se eliminó una entrada de página de `chapter01.pages` y se sincronizaron los metadatos de la versión 0.7.6.",
+      },
+    ],
+  },
+  {
     version: "0.7.5",
     date: "2026-06-05",
     headline: {

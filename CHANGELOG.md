@@ -11,6 +11,11 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.7.6] - 2026-06-05
+
+### Fixed
+- Removed the redundant Chapter 1 `Semakan sebutan` review page so the chapter now flows across 6 pages with cleaner progression and navigation.
+
 ## [0.7.5] - 2026-06-05
 
 ### Fixed
