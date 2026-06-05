@@ -11,6 +11,14 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.8.1] - 2026-06-06
+
+### Changed
+- Repaired the roadmap's stale current-version baseline so it matches the canonical `package.json` release version.
+
+### Added
+- Added a lightweight `check:release-drift` script that prevents stale roadmap version baselines and mismatched release metadata from shipping silently.
+
 ## [0.8.0] - 2026-06-05
 
 ### Added

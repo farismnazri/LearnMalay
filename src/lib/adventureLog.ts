@@ -16,6 +16,39 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.8.1",
+    date: "2026-06-06",
+    headline: {
+      ms: "Baseline versi roadmap kini disegerakkan dan diperiksa secara automatik",
+      en: "The roadmap version baseline is now synced and checked automatically",
+      es: "La linea base de version del roadmap ahora se sincroniza y se revisa automaticamente",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah semakan `check:release-drift` yang ringan untuk mengesan drift antara `package.json`, changelog, Adventure Log, dan baseline versi roadmap.",
+          en: "Added a lightweight `check:release-drift` check to catch drift between `package.json`, the changelog, the Adventure Log, and the roadmap version baseline.",
+          es: "Se agrego una verificacion ligera `check:release-drift` para detectar drift entre `package.json`, el changelog, el Adventure Log y la linea base de version del roadmap.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Baseline versi semasa dalam roadmap kini sepadan semula dengan versi keluaran kanonik dalam `package.json`.",
+          en: "The roadmap current-version baseline is now aligned again with the canonical release version in `package.json`.",
+          es: "La linea base de version actual del roadmap vuelve a estar alineada con la version canonica de `package.json`.",
+        },
+      ],
+      fixed: [],
+    },
+    technicalNotes: [
+      {
+        ms: "Semakan drift ini gagal jika keluaran terbaharu dalam `CHANGELOG.md`, entri teratas `src/lib/adventureLog.ts`, atau baseline `ROADMAP.md` tidak sepadan dengan `package.json`.",
+        en: "The drift check now fails when the latest `CHANGELOG.md` release, the top `src/lib/adventureLog.ts` entry, or the `ROADMAP.md` baseline does not match `package.json`.",
+        es: "La verificacion ahora falla cuando la ultima version de `CHANGELOG.md`, la entrada superior de `src/lib/adventureLog.ts` o la linea base de `ROADMAP.md` no coincide con `package.json`.",
+      },
+    ],
+  },
+  {
     version: "0.8.0",
     date: "2026-06-05",
     headline: {
