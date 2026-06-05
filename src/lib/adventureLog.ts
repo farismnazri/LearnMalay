@@ -16,6 +16,44 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.7.7",
+    date: "2026-06-05",
+    headline: {
+      ms: "Latar halaman utama kini lebih tenang dan mudah dibaca",
+      en: "Page backgrounds now load faster and read more clearly",
+      es: "Las paginas principales ahora usan un fondo mas tranquilo y legible",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah versi AVIF dan WebP yang dioptimumkan untuk latar halaman landing, user, Adventure Log, dan latar dunia bersama.",
+          en: "Added optimized AVIF and WebP versions for the landing, user, Adventure Log, and shared world backgrounds.",
+          es: "Se agregaron versiones AVIF y WebP optimizadas para los fondos de landing, user, Adventure Log y mundo compartido.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Latar halaman landing, user, dan Adventure Log dikemas kini dengan suasana hutan yang lebih tenang untuk bacaan yang lebih jelas.",
+          en: "Updated the landing, user, and Adventure Log backgrounds with a calmer jungle-framed scene for better readability.",
+          es: "Se actualizaron los fondos de landing, user y Adventure Log con una escena de jungla mas tranquila para mejorar la legibilidad.",
+        },
+        {
+          ms: "Latar dunia bersama telah diganti dengan artwork baharu dan fallback JPEG progresif untuk mengekalkan sokongan pelayar lama.",
+          en: "Replaced the shared world background with new artwork and a progressive JPEG fallback for older browser support.",
+          es: "Se reemplazo el fondo de mundo compartido con arte nuevo y un fallback JPEG progresivo para navegadores antiguos.",
+        },
+      ],
+      fixed: [],
+    },
+    technicalNotes: [
+      {
+        ms: "Menambah override latar khusus untuk tiga halaman tersebut tanpa mengubah latar bab, map, minigame, atau logik sesi.",
+        en: "Added a scoped background override for those three pages without changing chapter, map, minigame, or session behavior.",
+        es: "Se agrego un override de fondo limitado a esas tres paginas sin cambiar capitulos, mapa, minijuegos ni logica de sesion.",
+      },
+    ],
+  },
+  {
     version: "0.7.6",
     date: "2026-06-05",
     headline: {

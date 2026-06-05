@@ -11,6 +11,12 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.7.7] - 2026-06-05
+
+### Changed
+- Replaced and optimized the shared world background assets for faster modern-browser loading.
+- Updated the landing, user, and Adventure Log backgrounds with a calmer jungle-framed scene for better readability.
+
 ## [0.7.6] - 2026-06-05
 
 ### Fixed

@@ -318,7 +318,7 @@ export default function UserSelectPage() {
   return (
     <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad text-[#fbf7e8]">
       <div className="chapter-viewport-bg" aria-hidden="true">
-        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-image landing-page-bg-image" />
         <div className="chapter-viewport-bg-fade" />
       </div>
 

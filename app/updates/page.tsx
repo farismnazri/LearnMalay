@@ -44,7 +44,7 @@ export default function AdventureLogPage() {
   return (
     <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad text-[#f7f1d5]">
       <div className="chapter-viewport-bg" aria-hidden="true">
-        <div className="chapter-viewport-bg-image" />
+        <div className="chapter-viewport-bg-image landing-page-bg-image" />
         <div className="chapter-viewport-bg-fade" />
       </div>
 

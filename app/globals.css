@@ -129,9 +129,23 @@ body {
   position: absolute;
   inset: 0;
   background-image: url("/assets/backgrounds/worldbackground.jpg");
+  background-image: image-set(
+    url("/assets/backgrounds/worldbackground.avif") type("image/avif"),
+    url("/assets/backgrounds/worldbackground.webp") type("image/webp"),
+    url("/assets/backgrounds/worldbackground.jpg") type("image/jpeg")
+  );
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.landing-page-bg-image {
+  background-image: url("/assets/backgrounds/landingPageBackground.png");
+  background-image: image-set(
+    url("/assets/backgrounds/landingPageBackground.avif") type("image/avif"),
+    url("/assets/backgrounds/landingPageBackground.webp") type("image/webp"),
+    url("/assets/backgrounds/landingPageBackground.png") type("image/png")
+  );
 }
 
 .chapter-viewport-bg-fade {
