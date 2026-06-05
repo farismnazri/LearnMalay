@@ -16,6 +16,44 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.7.4",
+    date: "2026-06-05",
+    headline: {
+      ms: "Bab 1 kini menggunakan artwork komik akhir untuk sapaan, perpisahan, dan penghargaan.",
+      en: "Chapter 1 now uses final comic-style artwork for greetings, goodbye phrases, and thank-you exchanges.",
+      es: "El capitulo 1 ahora usa arte comic final para saludos, despedidas y agradecimientos.",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah aset WebP akhir untuk panel komik dan ikon Bab 1.",
+          en: "Added final WebP assets for the Chapter 1 comic panels and section icons.",
+          es: "Se agregaron recursos WebP finales para los paneles comicos e iconos del capitulo 1.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Pembukaan Bab 1 kini memaparkan panel komik untuk pertanyaan khabar, sapaan perpisahan, dan ucapan terima kasih.",
+          en: "The Chapter 1 opener now shows comic panels for asking how someone is, goodbye phrases, and thank-you exchanges.",
+          es: "El inicio del capitulo 1 ahora muestra paneles comic para preguntar como esta alguien, despedidas y agradecimientos.",
+        },
+        {
+          ms: "Susun atur komik dikemas supaya panel perpisahan seimbang dalam grid dua lajur dan panel penghargaan sejajar dengan saiz panel sapaan.",
+          en: "Refined the comic layout so goodbye panels sit in a balanced two-column grid and the appreciation panel matches the greeting panel size.",
+          es: "Se ajusto el diseno comic para que las despedidas queden en una cuadricula equilibrada de dos columnas y el panel de agradecimiento coincida con el tamano de los saludos.",
+        },
+      ],
+      fixed: [],
+    },
+    technicalNotes: [
+      {
+        ms: "Menggantikan placeholder panel dan ikon Bab 1 dengan aset WebP yang dioptimumkan serta mengekalkan teks bantuan ringkas untuk penggunaan frasa perpisahan.",
+        en: "Replaced the Chapter 1 placeholder panels and icons with optimized WebP assets while preserving short usage captions for goodbye phrases.",
+        es: "Se reemplazaron los placeholders de paneles e iconos del capitulo 1 con recursos WebP optimizados y se conservaron textos breves de uso para las despedidas.",
+      },
+    ],
+  },
+  {
     version: "0.7.3",
     date: "2026-06-04",
     headline: {

@@ -56,6 +56,40 @@ export type ChapterSection =
           cardLabel?: Translated;
         })
       >;
+    }
+  | {
+      kind: "comic";
+      id: string;
+      title: Translated;
+      iconSlot: {
+        label: Translated;
+        variant?: "hello" | "bye" | "thanks";
+        imageSrc?: string;
+        imageAlt?: Translated;
+      };
+      panels: Array<
+        | {
+            kind: "conversation";
+            id: string;
+            caption?: Translated;
+            imageSrc?: string;
+            imageAlt?: Translated;
+            bubbles: Array<{
+              id: string;
+              side: "left" | "right";
+              text: Translated;
+              speakerLabel?: Translated;
+            }>;
+          }
+        | {
+            kind: "phrase";
+            id: string;
+            imageSrc?: string;
+            imageAlt?: Translated;
+            phrase: Translated;
+            hint?: Translated;
+          }
+      >;
     };
 
 export type ChapterIntroPage = {

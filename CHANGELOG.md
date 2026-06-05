@@ -11,6 +11,14 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.7.4] - 2026-06-05
+
+### Changed
+- Chapter 1 now uses final comic-style artwork for greetings, goodbye phrases, and thank-you exchanges.
+
+### Notes
+- Replaced placeholder panels/icons with optimized WebP chapter assets and refined comic layout sizing.
+
 ## [0.7.3] - 2026-06-04
 
 ### Fixed

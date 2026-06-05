@@ -6,61 +6,189 @@ export const chapter01: ChapterContent = {
 
   pages: [
     // -------------------------
-    // Page 1: your existing sections
+    // Page 1: comic-style greeting sections
     // -------------------------
     {
       id: "p1-khabar",
       kind: "intro",
       sections: [
         {
-          kind: "pairs",
+          kind: "comic",
           id: "khabar",
           title: {
             ms: "Pertanyaan khabar",
             en: "Asking how someone is",
             es: "Preguntar cómo está alguien",
           },
-          pairs: [
+          iconSlot: {
+            label: { ms: "HELLO", en: "HELLO", es: "HOLA" },
+            variant: "hello",
+            imageSrc: "/assets/chapters/ch1/ch1_greeting.webp",
+            imageAlt: {
+              ms: "Ikon bersalaman untuk sapaan",
+              en: "Handshake icon for greetings",
+              es: "Icono de apreton de manos para saludos",
+            },
+          },
+          panels: [
             {
+              kind: "conversation",
               id: "khabar-1",
-              q: { id: "apa-khabar", ms: "Apa khabar?", en: "How are you?", es: "¿Cómo estás?" },
-              a: { id: "khabar-baik", ms: "Khabar baik", en: "I’m good", es: "Estoy bien" },
+              imageSrc: "/assets/chapters/ch1/ch1_s1_khabar.webp",
+              imageAlt: {
+                ms: "Komik Apa khabar dan Khabar baik",
+                en: "Comic panel for Apa khabar and Khabar baik",
+                es: "Panel de comic para Apa khabar y Khabar baik",
+              },
+              bubbles: [
+                {
+                  id: "apa-khabar",
+                  side: "left",
+                  text: { ms: "Apa khabar?", en: "How are you?", es: "¿Cómo estás?" },
+                },
+                {
+                  id: "khabar-baik",
+                  side: "right",
+                  text: { ms: "Khabar baik.", en: "I’m good.", es: "Estoy bien." },
+                },
+              ],
             },
             {
+              kind: "conversation",
               id: "khabar-2",
-              q: { id: "sihat-q", ms: "Sihat?", en: "Are you well?", es: "¿Estás bien?" },
-              a: { id: "sihat-a", ms: "Sihat", en: "I’m well", es: "Estoy bien" },
+              imageSrc: "/assets/chapters/ch1/ch1_s1_sihat.webp",
+              imageAlt: {
+                ms: "Komik Sihat dan Sihat",
+                en: "Comic panel for Sihat and Sihat",
+                es: "Panel de comic para Sihat y Sihat",
+              },
+              bubbles: [
+                {
+                  id: "sihat-q",
+                  side: "left",
+                  text: { ms: "Sihat?", en: "Are you well?", es: "¿Estás bien?" },
+                },
+                {
+                  id: "sihat-a",
+                  side: "right",
+                  text: { ms: "Sihat.", en: "I’m well.", es: "Estoy bien." },
+                },
+              ],
             },
           ],
         },
 
         {
-          kind: "list",
+          kind: "comic",
           id: "berpisah",
           title: {
             ms: "Sapaan apabila berpisah",
             en: "When you are leaving",
             es: "Cuando te despides",
           },
-          items: [
-            { id: "selamat-tinggal", ms: "Selamat tinggal", en: "Goodbye (I’m staying)", es: "Adiós (yo me quedo)" },
-            { id: "selamat-jalan", ms: "Selamat jalan", en: "Goodbye / Have a safe trip", es: "Que te vaya bien" },
-            { id: "saya-pergi-dulu", ms: "Saya pergi dulu", en: "I’ll go first / I’m heading off", es: "Ya me voy / Me retiro" },
-            { id: "jumpa-lagi", ms: "Jumpa lagi", en: "See you again", es: "Hasta luego" },
+          iconSlot: {
+            label: { ms: "BYE", en: "BYE", es: "ADIOS" },
+            variant: "bye",
+            imageSrc: "/assets/chapters/ch1/ch1_goodbye.webp",
+            imageAlt: {
+              ms: "Ikon tangan melambai untuk perpisahan",
+              en: "Waving hand icon for goodbyes",
+              es: "Icono de mano saludando para despedidas",
+            },
+          },
+          panels: [
+            {
+              kind: "phrase",
+              id: "selamat-tinggal",
+              imageSrc: "/assets/chapters/ch1/ch1_s2_selamatTinggal.webp",
+              imageAlt: {
+                ms: "Komik Selamat tinggal",
+                en: "Comic panel for Selamat tinggal",
+                es: "Panel de comic para Selamat tinggal",
+              },
+              phrase: { ms: "Selamat tinggal", en: "Goodbye", es: "Adiós" },
+              hint: { ms: "Apabila anda pergi dan orang lain tinggal.", en: "When you leave someone who stays behind.", es: "Cuando te vas y la otra persona se queda." },
+            },
+            {
+              kind: "phrase",
+              id: "selamat-jalan",
+              imageSrc: "/assets/chapters/ch1/ch1_s2_selamatJalan.webp",
+              imageAlt: {
+                ms: "Komik Selamat jalan",
+                en: "Comic panel for Selamat jalan",
+                es: "Panel de comic para Selamat jalan",
+              },
+              phrase: { ms: "Selamat jalan", en: "Goodbye / Have a safe trip", es: "Que te vaya bien" },
+              hint: { ms: "Untuk orang yang pergi.", en: "Said to someone who is leaving.", es: "Para alguien que se va." },
+            },
+            {
+              kind: "phrase",
+              id: "saya-pergi-dulu",
+              imageSrc: "/assets/chapters/ch1/ch1_s2_pergiDulu.webp",
+              imageAlt: {
+                ms: "Komik Saya pergi dulu",
+                en: "Comic panel for Saya pergi dulu",
+                es: "Panel de comic para Saya pergi dulu",
+              },
+              phrase: { ms: "Saya pergi dulu", en: "I’ll go first / I’m heading off", es: "Ya me voy / Me retiro" },
+              hint: { ms: "Apabila anda pergi dahulu.", en: "When you are leaving first.", es: "Cuando te vas primero." },
+            },
+            {
+              kind: "phrase",
+              id: "jumpa-lagi",
+              imageSrc: "/assets/chapters/ch1/ch1_s2_jumpaLagi.webp",
+              imageAlt: {
+                ms: "Komik Jumpa lagi",
+                en: "Comic panel for Jumpa lagi",
+                es: "Panel de comic para Jumpa lagi",
+              },
+              phrase: { ms: "Jumpa lagi", en: "See you again", es: "Hasta luego" },
+              hint: { ms: "Jumpa lagi.", en: "See you again.", es: "Nos vemos otra vez." },
+            },
           ],
         },
 
         {
-          kind: "list",
+          kind: "comic",
           id: "penghargaan",
           title: {
             ms: "Sapaan penghargaan",
             en: "Polite appreciation",
             es: "Agradecimiento",
           },
-          items: [
-            { id: "terima-kasih", ms: "Terima kasih", en: "Thank you", es: "Gracias" },
-            { id: "sama-sama", ms: "Sama-sama", en: "You’re welcome", es: "De nada" },
+          iconSlot: {
+            label: { ms: "THANKS", en: "THANKS", es: "GRACIAS" },
+            variant: "thanks",
+            imageSrc: "/assets/chapters/ch1/ch1_thankYou.webp",
+            imageAlt: {
+              ms: "Ikon hati untuk penghargaan",
+              en: "Heart icon for appreciation",
+              es: "Icono de corazon para agradecimiento",
+            },
+          },
+          panels: [
+            {
+              kind: "conversation",
+              id: "terima-kasih-sama-sama",
+              imageSrc: "/assets/chapters/ch1/ch1_s3_terimaKasih.webp",
+              imageAlt: {
+                ms: "Komik Terima kasih dan Sama-sama",
+                en: "Comic panel for Terima kasih and Sama-sama",
+                es: "Panel de comic para Terima kasih y Sama-sama",
+              },
+              bubbles: [
+                {
+                  id: "terima-kasih",
+                  side: "left",
+                  text: { ms: "Terima kasih", en: "Thank you", es: "Gracias" },
+                },
+                {
+                  id: "sama-sama",
+                  side: "right",
+                  text: { ms: "Sama-sama", en: "You’re welcome", es: "De nada" },
+                },
+              ],
+            },
           ],
         },
       ],

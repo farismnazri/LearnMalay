@@ -56,6 +56,7 @@ import {
   type UiLang,
   type ChapterPage,
   type ChapterSection,
+  type Translated,
 } from "@/lib/chapters";
 
 const MAX_CHAPTERS = MAX_CHAPTER_ID;
@@ -476,6 +477,10 @@ export default function ChapterPage() {
    SECTION CARD
 ---------------------------- */
 function SectionCard({ section, lang }: { section: ChapterSection; lang: UiLang }) {
+  if (section.kind === "comic") {
+    return <ComicSectionCard section={section} lang={lang} />;
+  }
+
   const L = {
     question: lang === "ms" ? "SOALAN" : lang === "en" ? "QUESTION" : "PREGUNTA",
     answer: lang === "ms" ? "JAWAPAN" : lang === "en" ? "ANSWER" : "RESPUESTA",
@@ -571,5 +576,188 @@ function SectionCard({ section, lang }: { section: ChapterSection; lang: UiLang 
         </ul>
       )}
     </section>
+  );
+}
+
+function tr(text: Translated, lang: UiLang) {
+  return lang === "en" ? text.en : lang === "es" ? text.es : text.ms;
+}
+
+function ComicSectionCard({
+  section,
+  lang,
+}: {
+  section: Extract<ChapterSection, { kind: "comic" }>;
+  lang: UiLang;
+}) {
+  const titleTrans = tr(section.title, lang);
+  const iconLabel = tr(section.iconSlot.label, lang);
+  const iconAlt = section.iconSlot.imageAlt ? tr(section.iconSlot.imageAlt, lang) : iconLabel;
+  const hasArtworkPanels = section.panels.some((panel) => Boolean(panel.imageSrc));
+  const panelGridClass =
+    section.id === "berpisah"
+      ? "sm:grid-cols-2"
+      : section.id === "penghargaan"
+      ? "justify-items-center md:grid-cols-1"
+      : section.panels.length >= 4
+      ? hasArtworkPanels
+        ? "sm:grid-cols-2"
+        : "sm:grid-cols-2 xl:grid-cols-4"
+      : section.panels.length === 1
+      ? "md:grid-cols-1"
+      : "md:grid-cols-2";
+  const iconTone =
+    section.iconSlot.variant === "bye"
+      ? "bg-[#a9d7ff]"
+      : section.iconSlot.variant === "thanks"
+      ? "bg-[#f8c1d4]"
+      : "bg-[#ffcf55]";
+
+  return (
+    <section className="overflow-hidden rounded-[1.25rem] border-4 border-[#2b160a] bg-[#ffe48a] p-3 shadow-[0_10px_0_rgba(0,0,0,0.35)] sm:p-4 md:p-5">
+      <div className="flex items-center gap-3 border-b-4 border-[#2b160a]/25 pb-3">
+        <div
+          className={[
+            "grid h-14 w-14 shrink-0 place-items-center rounded-2xl border-4 border-[#2b160a]",
+            "text-center text-[0.6rem] font-black uppercase leading-none text-[#2b160a]",
+            "shadow-[inset_0_-7px_0_rgba(0,0,0,0.13),0_4px_0_rgba(0,0,0,0.2)] [overflow-wrap:anywhere]",
+            iconTone,
+          ].join(" ")}
+          aria-label={iconLabel}
+        >
+          {section.iconSlot.imageSrc ? (
+            <Image src={section.iconSlot.imageSrc} alt={iconAlt} width={48} height={48} className="h-12 w-12 object-contain" />
+          ) : (
+            iconLabel
+          )}
+        </div>
+        <div className="min-w-0">
+          <div className="text-2xl font-black leading-tight text-[#2b160a]">{section.title.ms}</div>
+          {lang !== "ms" && <div className="mt-1 text-sm font-extrabold text-[#2b160a]/70">{titleTrans}</div>}
+        </div>
+      </div>
+
+      <div className={`mt-4 grid gap-4 ${panelGridClass}`}>
+        {section.panels.map((panel) => (
+          <ComicPanel key={panel.id} panel={panel} sectionId={section.id} lang={lang} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ComicPanel({
+  panel,
+  sectionId,
+  lang,
+}: {
+  panel: Extract<ChapterSection, { kind: "comic" }>["panels"][number];
+  sectionId: string;
+  lang: UiLang;
+}) {
+  if (panel.imageSrc) {
+    const fallbackAlt = panel.kind === "conversation" ? panel.bubbles.map((bubble) => bubble.text.ms).join(" / ") : panel.phrase.ms;
+    const imageAlt = panel.imageAlt ? tr(panel.imageAlt, lang) : fallbackAlt;
+    const imageSizes =
+      sectionId === "berpisah"
+        ? "(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 480px"
+        : "(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 480px";
+    const articleClass =
+      sectionId === "penghargaan"
+        ? "w-full max-w-[30rem]"
+        : "";
+
+    return (
+      <article className={`relative overflow-hidden rounded-2xl border-[3px] border-[#25140c] bg-[#f4ead7] p-2 shadow-[inset_0_0_0_4px_rgba(255,255,255,0.22),0_6px_0_rgba(0,0,0,0.25)] ${articleClass}`}>
+        <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-[#f4ead7]">
+          <Image
+            src={panel.imageSrc}
+            alt={imageAlt}
+            fill
+            sizes={imageSizes}
+            className="object-contain"
+          />
+        </div>
+        {"hint" in panel && panel.hint && (
+          <div className="mt-2 rounded-lg border-2 border-[#25140c]/20 bg-[#fff4cf] px-2.5 py-2 text-center text-xs font-extrabold leading-snug text-[#25140c]/75 sm:text-[0.8rem]">
+            {tr(panel.hint, lang)}
+          </div>
+        )}
+      </article>
+    );
+  }
+
+  return (
+    <article className="relative flex min-h-[14rem] flex-col overflow-hidden rounded-2xl border-[3px] border-[#25140c] bg-[#75c7d8] p-4 shadow-[inset_0_0_0_4px_rgba(255,255,255,0.22),0_6px_0_rgba(0,0,0,0.25)]">
+      <div
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.24)_0_12%,transparent_12%_50%,rgba(0,0,0,0.05)_50%_62%,transparent_62%)] bg-[length:38px_38px]"
+        aria-hidden="true"
+      />
+
+      {panel.kind === "conversation" ? (
+        <>
+          {panel.caption && <div className="relative z-10 mb-2 text-xs font-black uppercase text-[#25140c]/70">{tr(panel.caption, lang)}</div>}
+          <div className="relative z-10 grid flex-1 content-start gap-4 pb-12">
+            {panel.bubbles.map((bubble) => (
+              <SpeechBubble key={bubble.id} side={bubble.side} text={bubble.text} lang={lang} />
+            ))}
+          </div>
+          <MascotPlaceholders />
+        </>
+      ) : (
+        <>
+          <div className="relative z-10 flex flex-1 items-center justify-center pb-10">
+            <div className="max-w-[15rem] rounded-[1.15rem] border-[3px] border-[#25140c] bg-white px-4 py-3 text-center shadow-[0_5px_0_rgba(0,0,0,0.22)]">
+              <div className="text-xl font-black leading-tight text-[#25140c]">{panel.phrase.ms}</div>
+              {lang !== "ms" && <div className="mt-1 text-sm font-extrabold leading-snug text-[#25140c]/70">{tr(panel.phrase, lang)}</div>}
+            </div>
+          </div>
+          {panel.hint && (
+            <div className="relative z-10 rounded-xl border-2 border-[#25140c]/45 bg-[#fff1b3] px-3 py-2 text-sm font-extrabold leading-snug text-[#25140c]/80">
+              {tr(panel.hint, lang)}
+            </div>
+          )}
+          <MascotPlaceholders />
+        </>
+      )}
+    </article>
+  );
+}
+
+function SpeechBubble({ side, text, lang }: { side: "left" | "right"; text: Translated; lang: UiLang }) {
+  const isRight = side === "right";
+
+  return (
+    <div
+      className={[
+        "relative max-w-[88%] rounded-[1.15rem] border-[3px] border-[#25140c] px-4 py-3 shadow-[0_5px_0_rgba(0,0,0,0.22)]",
+        isRight ? "ml-auto bg-[#fff1b3]" : "mr-auto bg-white",
+      ].join(" ")}
+    >
+      <div className="text-xl font-black leading-tight text-[#25140c]">{text.ms}</div>
+      {lang !== "ms" && <div className="mt-1 text-sm font-extrabold leading-snug text-[#25140c]/70">{tr(text, lang)}</div>}
+      <span
+        className={[
+          "absolute -bottom-2 h-4 w-4 rotate-45 border-b-[3px] border-[#25140c]",
+          isRight
+            ? "right-7 border-r-[3px] bg-[#fff1b3]"
+            : "left-7 border-l-[3px] bg-white",
+        ].join(" ")}
+        aria-hidden="true"
+      />
+    </div>
+  );
+}
+
+function MascotPlaceholders() {
+  return (
+    <div className="pointer-events-none absolute inset-x-4 bottom-3 z-0 flex items-end justify-between" aria-hidden="true">
+      <div className="grid h-14 w-14 place-items-center rounded-full border-[3px] border-[#25140c] bg-[#f15b2a] text-lg font-black text-white shadow-[inset_0_-7px_0_rgba(0,0,0,0.18)]">
+        A
+      </div>
+      <div className="grid h-14 w-14 place-items-center rounded-full border-[3px] border-[#25140c] bg-[#2258a7] text-lg font-black text-white shadow-[inset_0_-7px_0_rgba(0,0,0,0.18)]">
+        B
+      </div>
+    </div>
   );
 }
