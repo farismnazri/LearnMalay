@@ -15,6 +15,7 @@ import {
   type ProfileAvatarId,
 } from "@/lib/profileAvatars";
 import { MAX_CHAPTER_ID, MIN_CHAPTER_ID } from "@/lib/chapters";
+import { USERNAME_SAFETY_REJECTION_MESSAGE, validateUsernameSafety } from "@/lib/usernameSafety";
 
 const MAX_PROGRESS_PAGE = 10_000;
 
@@ -355,6 +356,9 @@ export async function createUserAccount(input: {
   }
   if (user.id === DEMO_ID) {
     throw new Error("This account is reserved.");
+  }
+  if (!validateUsernameSafety(user.name).ok) {
+    throw new Error(USERNAME_SAFETY_REJECTION_MESSAGE.en);
   }
 
   const existing = await users.findOne({ id: user.id }, { projection: { id: 1 } });

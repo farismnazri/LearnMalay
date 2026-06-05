@@ -11,6 +11,12 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.8.0] - 2026-06-05
+
+### Added
+- Added child-safe username moderation for new accounts with shared client/server validation and multilingual friendly feedback.
+- Strengthened Malay profanity and insult coverage while keeping narrow false-positive exceptions for child-friendly phrases.
+
 ## [0.7.7] - 2026-06-05
 
 ### Changed

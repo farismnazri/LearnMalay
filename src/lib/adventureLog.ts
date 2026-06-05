@@ -16,6 +16,33 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.8.0",
+    date: "2026-06-05",
+    headline: {
+      ms: "Nama pengguna akaun baharu kini disemak dengan lebih selamat",
+      en: "New account usernames now have safer checks",
+      es: "Los nombres de usuario nuevos ahora tienen controles más seguros",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah semakan nama pengguna yang lebih selamat untuk akaun baharu supaya nama yang tidak sesuai ditolak dengan mesej mesra.",
+          en: "Added safer username checks for new accounts so inappropriate names are rejected with friendly feedback.",
+          es: "Se agregaron controles más seguros para nombres de usuario nuevos, con mensajes amables cuando un nombre no está permitido.",
+        },
+      ],
+      changed: [],
+      fixed: [],
+    },
+    technicalNotes: [
+      {
+        ms: "Semakan baharu dikongsi antara halaman user dan API cipta akaun, termasuk liputan perkataan tidak sesuai dalam Bahasa Melayu tanpa mengubah login, sesi, progress, atau akaun admin/demo.",
+        en: "The new checks are shared by the user page and create-account API, including stronger Malay inappropriate-word coverage without changing login, sessions, progress, or admin/demo accounts.",
+        es: "Los controles nuevos se comparten entre la página de usuario y la API para crear cuentas, con mejor cobertura de palabras inapropiadas en malayo sin cambiar login, sesiones, progreso ni cuentas admin/demo.",
+      },
+    ],
+  },
+  {
     version: "0.7.7",
     date: "2026-06-05",
     headline: {

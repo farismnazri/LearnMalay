@@ -166,6 +166,25 @@ test("auth failure responses do not leak credentials or internal auth/session de
   assert.equal(lowered.includes("stack"), false);
 });
 
+test("unsafe signup usernames are rejected without starting a session", async () => {
+  const res = await requestJson("/api/users", {
+    method: "POST",
+    headers: sameOriginHeaders(),
+    body: JSON.stringify({
+      name: "B_o_o_b",
+      password: "test-password-123",
+      avatarId: "crash",
+    }),
+  });
+
+  assert.equal(res.status, 400);
+  assert.equal(isSafeErrorShape(res.body), true);
+  assert.equal(res.text.toLowerCase().includes("boob"), false);
+
+  const setCookies = getSetCookieHeaders(res.headers);
+  assert.equal(setCookies.some((value) => value.startsWith(`${SESSION_COOKIE_NAME}=`)), false);
+});
+
 function validHighscorePayload() {
   return {
     gameId: "numbers",

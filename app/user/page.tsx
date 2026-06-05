@@ -28,8 +28,18 @@ import {
   isDemo,
   isPrivilegedAccountId,
 } from "@/lib/userCapabilities";
+import { USERNAME_SAFETY_REJECTION_MESSAGE, validateUsernameSafety } from "@/lib/usernameSafety";
 
 type AuthMode = "login" | "create";
+type UiLang = "ms" | "en" | "es";
+
+const UI_LANG_KEY = "learnMalay.uiLang.v1";
+
+function readUiLang(): UiLang {
+  if (typeof window === "undefined") return "ms";
+  const value = window.localStorage.getItem(UI_LANG_KEY);
+  return value === "en" || value === "es" || value === "ms" ? value : "ms";
+}
 
 function isAdminName(name: string) {
   return name.trim().toUpperCase() === ADMIN_ID;
@@ -53,6 +63,7 @@ export default function UserSelectPage() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [avatarId, setAvatarId] = useState<ProfileAvatarId>(DEFAULT_USER_AVATAR_ID);
+  const [lang, setLang] = useState<UiLang>("ms");
   const [submitting, setSubmitting] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [me, setMe] = useState<UserProfile | null>(null);
@@ -72,6 +83,7 @@ export default function UserSelectPage() {
 
   useEffect(() => {
     let alive = true;
+    setLang(readUiLang());
     getCurrentUser()
       .then((u) => {
         if (alive) setMe(u);
@@ -115,6 +127,13 @@ export default function UserSelectPage() {
 
   const cleanName = useMemo(() => normalizeUserNameInput(name).trim(), [name]);
   const cleanPassword = useMemo(() => normalizePasswordInput(password), [password]);
+  const usernameSafety = useMemo(
+    () => (mode === "create" && cleanName ? validateUsernameSafety(cleanName) : { ok: true as const }),
+    [cleanName, mode]
+  );
+  const usernameSafetyMessage =
+    mode === "create" && !usernameSafety.ok ? USERNAME_SAFETY_REJECTION_MESSAGE[lang] : null;
+  const displayedError = err ?? usernameSafetyMessage;
   const worldLevel = useMemo(() => {
     if (!me) return { world: "-", level: "-" };
     return chapterToWorldLevel(me.progress.chapter);
@@ -132,10 +151,12 @@ export default function UserSelectPage() {
 
   function setNameInput(v: string) {
     setName(normalizeUserNameInput(v));
+    setErr(null);
   }
 
   function setPasswordInput(v: string) {
     setPassword(normalizePasswordInput(v));
+    setErr(null);
   }
 
   async function handleAuthSubmit() {
@@ -147,13 +168,19 @@ export default function UserSelectPage() {
     }
 
     if (mode === "create") {
-      if (!cleanPassword) {
-        setErr("Please enter a password.");
+      if (isAdminName(cleanName)) {
+        setErr("Admin account already exists. Please log in.");
         return;
       }
 
-      if (isAdminName(cleanName)) {
-        setErr("Admin account already exists. Please log in.");
+      const safety = validateUsernameSafety(cleanName);
+      if (!safety.ok) {
+        setErr(USERNAME_SAFETY_REJECTION_MESSAGE[lang]);
+        return;
+      }
+
+      if (!cleanPassword) {
+        setErr("Please enter a password.");
         return;
       }
 
@@ -313,7 +340,8 @@ export default function UserSelectPage() {
     }
   }
 
-  const isActionDisabled = submitting || !cleanName || (mode === "create" && !cleanPassword);
+  const isActionDisabled =
+    submitting || !cleanName || (mode === "create" && (!cleanPassword || !usernameSafety.ok));
 
   return (
     <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad text-[#fbf7e8]">
@@ -446,9 +474,9 @@ export default function UserSelectPage() {
                   )}
                 </div>
 
-                {err && (
+                {displayedError && (
                   <div className="mt-4 rounded-2xl border border-rose-300/70 bg-rose-100 px-4 py-3 text-sm font-semibold text-rose-900">
-                    {err}
+                    {displayedError}
                   </div>
                 )}
 
