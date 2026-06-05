@@ -269,6 +269,15 @@ export default function ChapterPage() {
     switch (page.kind) {
       case "intro":
         return page.sections.map((s) => <SectionCard key={s.id} section={s} lang={lang} />);
+      case "pronounCards":
+        return (
+          <PronounLessonCard
+            page={page}
+            lang={lang}
+            userAvatarSrc={getProfileAvatarSrc(user.avatarId)}
+            userName={user.name}
+          />
+        );
       case "table":
         return <TableCard page={page} lang={lang} />;
       case "chat":
@@ -581,6 +590,100 @@ function SectionCard({ section, lang }: { section: ChapterSection; lang: UiLang 
 
 function tr(text: Translated, lang: UiLang) {
   return lang === "en" ? text.en : lang === "es" ? text.es : text.ms;
+}
+
+function PronounLessonCard({
+  page,
+  lang,
+  userAvatarSrc,
+  userName,
+}: {
+  page: Extract<ChapterPage, { kind: "pronounCards" }>;
+  lang: UiLang;
+  userAvatarSrc: string;
+  userName: string;
+}) {
+  return (
+    <section className="overflow-hidden rounded-[1.25rem] border-4 border-[#2b160a] bg-[#ffe48a] p-3 shadow-[0_10px_0_rgba(0,0,0,0.35)] sm:p-4 md:p-5">
+      <div className="flex items-center gap-3 border-b-4 border-[#2b160a]/25 pb-3">
+        <div className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-2xl border-4 border-[#2b160a] bg-[#ffcf55] shadow-[inset_0_-7px_0_rgba(0,0,0,0.13),0_4px_0_rgba(0,0,0,0.2)]">
+          <Image
+            src={userAvatarSrc}
+            alt={`${userName} avatar`}
+            width={48}
+            height={48}
+            className="h-12 w-12 object-contain"
+            draggable={false}
+          />
+        </div>
+        <div className="min-w-0">
+          <div className="text-2xl font-black leading-tight text-[#2b160a]">{tr(page.title, lang)}</div>
+          <div className="mt-1 text-sm font-extrabold leading-snug text-[#2b160a]/75">{tr(page.helper, lang)}</div>
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-4">
+        {page.sections.map((section) => (
+          <section
+            key={section.id}
+            className="rounded-2xl border-[3px] border-[#25140c] bg-[#fff4cf] p-3 shadow-[inset_0_0_0_4px_rgba(255,255,255,0.22),0_6px_0_rgba(0,0,0,0.22)] sm:p-4"
+          >
+            <div className="flex items-center gap-2">
+              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border-[3px] border-[#25140c] bg-white shadow-[0_3px_0_rgba(0,0,0,0.18)]">
+                <Image
+                  src={section.iconSrc}
+                  alt={tr(section.iconAlt, lang)}
+                  width={36}
+                  height={36}
+                  className="h-8 w-8 object-contain"
+                  draggable={false}
+                />
+              </div>
+              <h2 className="text-xl font-black leading-tight text-[#25140c]">{tr(section.label, lang)}</h2>
+            </div>
+
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {section.cards.map((card) => (
+                <article
+                  key={card.id}
+                  className="flex min-w-0 flex-col rounded-2xl border-[3px] border-[#25140c] bg-[#f4ead7] p-2 shadow-[0_5px_0_rgba(0,0,0,0.23)]"
+                >
+                  <div className="rounded-xl border-2 border-[#25140c]/20 bg-white/75 px-3 py-2">
+                    <div className="text-lg font-black leading-tight text-[#25140c]">{tr(card.title, lang)}</div>
+                    <div className="mt-0.5 text-sm font-extrabold leading-snug text-[#25140c]/70">{tr(card.description, lang)}</div>
+                  </div>
+
+                  <div className="relative mt-2 aspect-[4/3] overflow-hidden rounded-xl bg-[#fff7df]">
+                    <Image
+                      src={card.imageSrc}
+                      alt={tr(card.imageAlt, lang)}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 320px"
+                      className="object-contain"
+                      draggable={false}
+                    />
+                  </div>
+
+                  <div className="mt-2 grid flex-1 content-start gap-2">
+                    {card.info && (
+                      <div className="rounded-lg border-2 border-[#25140c]/30 bg-[#fff1b3] px-2.5 py-2 text-xs font-black leading-snug text-[#25140c]/80">
+                        {tr(card.info, lang)}
+                      </div>
+                    )}
+                    {lang !== "ms" && card.translation && (
+                      <div className="rounded-lg border-2 border-[#25140c]/25 bg-white px-2.5 py-2 text-sm font-extrabold leading-snug text-[#25140c]/75">
+                        {lang === "en" ? card.translation.en : card.translation.es}
+                      </div>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 function ComicSectionCard({

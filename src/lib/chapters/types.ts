@@ -116,6 +116,38 @@ export type ChapterTablePage = {
   }>;
 };
 
+// -------------------------
+// Pronoun comic card page
+// -------------------------
+export type PronounCardItem = {
+  id: string;
+  title: Translated;
+  description: Translated;
+  imageSrc: string;
+  imageAlt: Translated;
+  info?: Translated;
+  translation?: {
+    en: string;
+    es: string;
+  };
+};
+
+export type PronounCardSection = {
+  id: string;
+  label: Translated;
+  iconSrc: string;
+  iconAlt: Translated;
+  cards: PronounCardItem[];
+};
+
+export type ChapterPronounCardsPage = {
+  id: string;
+  kind: "pronounCards";
+  title: Translated;
+  helper: Translated;
+  sections: PronounCardSection[];
+};
+
 
 // -------------------------
 // Chat page types
@@ -347,6 +379,7 @@ export type FigurePage = {
 export type ChapterPage =
   | ChapterIntroPage
   | ChapterTablePage
+  | ChapterPronounCardsPage
   | ChapterChatPage
   | DragFillPage
   | TypeInPage

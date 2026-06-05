@@ -16,6 +16,44 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.7.5",
+    date: "2026-06-05",
+    headline: {
+      ms: "Kad kata ganti nama Bab 1 kini lebih visual",
+      en: "Chapter 1 pronoun cards are now fully visual",
+      es: "Las tarjetas de pronombres del capítulo 1 ahora son más visuales",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah artwork WebP baharu untuk kad kata ganti nama seorang dan ramai dalam Bab 1.",
+          en: "Added new WebP artwork for the singular and plural pronoun cards in Chapter 1.",
+          es: "Se agregaron nuevos recursos WebP para las tarjetas de pronombres singulares y plurales del capítulo 1.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Halaman 2 Bab 1 kini menggunakan kad komik untuk Saya / Aku, Awak / Kau / Anda, Dia / Beliau, Kita / Kami, Anda semua / Kamu semua, dan Mereka, dengan teks BM/EN/ES yang lengkap.",
+          en: "Chapter 1 page 2 now uses comic cards for Saya / Aku, Awak / Kau / Anda, Dia / Beliau, Kita / Kami, Anda semua / Kamu semua, and Mereka, with complete BM/EN/ES text switching.",
+          es: "La página 2 del capítulo 1 ahora usa tarjetas tipo cómic para Saya / Aku, Awak / Kau / Anda, Dia / Beliau, Kita / Kami, Anda semua / Kamu semua y Mereka, con cambio completo de texto BM/EN/ES.",
+        },
+        {
+          ms: "Kad pelajaran kini menggunakan avatar profil aktif pada tajuk utama dan mengekalkan susun atur komik yang konsisten dengan halaman 1.",
+          en: "The lesson card now uses the active profile avatar in the main title and keeps the comic layout consistent with page 1.",
+          es: "La tarjeta de la lección ahora usa el avatar de perfil activo en el título principal y mantiene un diseño de cómic consistente con la página 1.",
+        },
+      ],
+      fixed: [],
+    },
+    technicalNotes: [
+      {
+        ms: "Menambah jenis halaman khusus untuk kad kata ganti nama, menyambungkannya pada perender bab, dan menyegerakkan metadata keluaran kepada versi 0.7.5.",
+        en: "Added a dedicated pronoun-card page type, wired it into the chapter renderer, and synchronized the release metadata to version 0.7.5.",
+        es: "Se agregó un tipo de página dedicado para tarjetas de pronombres, se conectó al renderizador del capítulo y se sincronizaron los metadatos de la versión 0.7.5.",
+      },
+    ],
+  },
+  {
     version: "0.7.4",
     date: "2026-06-05",
     headline: {

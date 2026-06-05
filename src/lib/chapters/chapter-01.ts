@@ -195,77 +195,211 @@ export const chapter01: ChapterContent = {
     },
 
     // -------------------------
-    // Page 2: Pronouns table (same structure as Page 3)
+    // Page 2: pronoun comic lesson cards
     // -------------------------
     {
       id: "p2-pronouns",
-      kind: "table",
+      kind: "pronounCards",
       title: {
-        ms: "Penggunaan kata ganti nama",
-        en: "Using pronouns",
-        es: "Uso de pronombres",
+        ms: "Kata Ganti Nama Diri",
+        en: "Personal Pronouns",
+        es: "Pronombres personales",
       },
-      columns: [
-        { key: "group", label: { ms: "Kumpulan", en: "Group", es: "Grupo" } },
+      helper: {
+        ms: "Siapa yang bercakap? Siapa yang diajak bercakap? Siapa yang dibualkan?",
+        en: "Who is speaking? Who is being spoken to? Who is being talked about?",
+        es: "¿Quién habla? ¿A quién se le habla? ¿De quién se habla?",
+      },
+      sections: [
         {
-          key: "first",
+          id: "seorang",
           label: {
-            ms: "Kata ganti nama diri pertama",
-            en: "First-person pronouns",
-            es: "Pronombres de primera persona",
+            ms: "Seorang",
+            en: "One person",
+            es: "Una persona",
           },
+          iconSrc: "/assets/chapters/ch1/ch1_seorang.webp",
+          iconAlt: {
+            ms: "Ikon seorang",
+            en: "One person icon",
+            es: "Icono de una persona",
+          },
+          cards: [
+            {
+              id: "saya-aku",
+              title: {
+                ms: "Saya / Aku",
+                en: "Saya / Aku",
+                es: "Saya / Aku",
+              },
+              description: {
+                ms: "orang yang bercakap",
+                en: "the person speaking",
+                es: "la persona que habla",
+              },
+              imageSrc: "/assets/chapters/ch1/ch1_saya.webp",
+              imageAlt: {
+                ms: "Komik Saya dan Aku",
+                en: "Comic for Saya and Aku",
+                es: "Comic para Saya y Aku",
+              },
+              info: {
+                ms: "aku = informal",
+                en: "aku = informal",
+                es: "aku = informal",
+              },
+              translation: {
+                en: "I am Faris.",
+                es: "Soy Faris.",
+              },
+            },
+            {
+              id: "awak-kau-anda",
+              title: {
+                ms: "Awak / Kau / Anda",
+                en: "Awak / Kau / Anda",
+                es: "Awak / Kau / Anda",
+              },
+              description: {
+                ms: "orang yang diajak bercakap",
+                en: "the person being spoken to",
+                es: "la persona a quien se le habla",
+              },
+              imageSrc: "/assets/chapters/ch1/ch1_awak.webp",
+              imageAlt: {
+                ms: "Komik Awak, Kau dan Anda",
+                en: "Comic for Awak, Kau and Anda",
+                es: "Comic para Awak, Kau y Anda",
+              },
+              info: {
+                ms: "kau = informal, anda = formal",
+                en: "kau = informal, anda = formal",
+                es: "kau = informal, anda = formal",
+              },
+              translation: {
+                en: "Are you well?",
+                es: "¿Estás bien?",
+              },
+            },
+            {
+              id: "dia-beliau",
+              title: {
+                ms: "Dia / Beliau",
+                en: "Dia / Beliau",
+                es: "Dia / Beliau",
+              },
+              description: {
+                ms: "orang yang dibualkan",
+                en: "the person being talked about",
+                es: "la persona de quien se habla",
+              },
+              imageSrc: "/assets/chapters/ch1/ch1_dia.webp",
+              imageAlt: {
+                ms: "Komik Dia dan Beliau",
+                en: "Comic for Dia and Beliau",
+                es: "Comic para Dia y Beliau",
+              },
+              info: {
+                ms: "beliau = formal / hormat",
+                en: "beliau = formal / respectful",
+                es: "beliau = formal / respetuoso",
+              },
+              translation: {
+                en: "She is my friend.",
+                es: "Ella es mi amiga.",
+              },
+            },
+          ],
         },
         {
-          key: "second",
+          id: "ramai",
           label: {
-            ms: "Kata ganti nama diri kedua",
-            en: "Second-person pronouns",
-            es: "Pronombres de segunda persona",
+            ms: "Ramai",
+            en: "Many people",
+            es: "Muchas personas",
           },
-        },
-        {
-          key: "third",
-          label: {
-            ms: "Kata ganti nama diri ketiga",
-            en: "Third-person pronouns",
-            es: "Pronombres de tercera persona",
+          iconSrc: "/assets/chapters/ch1/ch1_ramai.webp",
+          iconAlt: {
+            ms: "Ikon ramai orang",
+            en: "Many people icon",
+            es: "Icono de varias personas",
           },
-        },
-      ],
-      rows: [
-        {
-          id: "r1-singular",
-          cells: {
-            group: [{ ms: "Tunggal/Seorang", en: "Singular / one person", es: "Singular / una persona" }],
-            first: [
-              { ms: "saya", en: "I (neutral/polite)", es: "Yo (neutral/formal)" },
-              { ms: "aku", en: "I (informal)", es: "Yo (informal)" },
-            ],
-            second: [
-              { ms: "awak", en: "you (casual)", es: "tú (casual)" },
-              { ms: "kau", en: "you (informal)", es: "tú (informal)" },
-              { ms: "anda", en: "you (formal)", es: "usted" },
-            ],
-            third: [
-              { ms: "dia", en: "he/she", es: "él/ella" },
-              { ms: "beliau", en: "he/she (honorific)", es: "él/ella (honorífico)" },
-            ],
-          },
-        },
-        {
-          id: "r2-plural",
-          cells: {
-            group: [{ ms: "Jamak/Ramai", en: "Plural / many people", es: "Plural / varias personas" }],
-            first: [
-              { ms: "kita", en: "we (inclusive)", es: "nosotros (incl.)" },
-              { ms: "kami", en: "we (exclusive)", es: "nosotros (excl.)" },
-            ],
-            second: [
-              { ms: "anda semua", en: "you all (formal)", es: "ustedes (formal)" },
-              { ms: "kamu semua", en: "you all (casual)", es: "ustedes (casual)" },
-            ],
-            third: [{ ms: "mereka", en: "they", es: "ellos/ellas" }],
-          },
+          cards: [
+            {
+              id: "kita-kami",
+              title: {
+                ms: "Kita / Kami",
+                en: "Kita / Kami",
+                es: "Kita / Kami",
+              },
+              description: {
+                ms: "kumpulan sendiri",
+                en: "our own group",
+                es: "nuestro grupo",
+              },
+              imageSrc: "/assets/chapters/ch1/ch1_kita.webp",
+              imageAlt: {
+                ms: "Komik Kita dan Kami",
+                en: "Comic for Kita and Kami",
+                es: "Comic para Kita y Kami",
+              },
+              info: {
+                ms: "kita = termasuk pendengar, kami = tidak termasuk pendengar",
+                en: "kita = includes the listener, kami = excludes the listener",
+                es: "kita = incluye al oyente, kami = no incluye al oyente",
+              },
+              translation: {
+                en: "We go now.",
+                es: "Vamos ahora.",
+              },
+            },
+            {
+              id: "anda-semua-kamu-semua",
+              title: {
+                ms: "Anda semua / Kamu semua",
+                en: "Anda semua / Kamu semua",
+                es: "Anda semua / Kamu semua",
+              },
+              description: {
+                ms: "ramai orang yang diajak bercakap",
+                en: "many people being spoken to",
+                es: "varias personas a quienes se les habla",
+              },
+              imageSrc: "/assets/chapters/ch1/ch1_kamu.webp",
+              imageAlt: {
+                ms: "Komik Anda semua dan Kamu semua",
+                en: "Comic for Anda semua and Kamu semua",
+                es: "Comic para Anda semua y Kamu semua",
+              },
+              translation: {
+                en: "Do you all understand?",
+                es: "¿Todos entienden?",
+              },
+            },
+            {
+              id: "mereka",
+              title: {
+                ms: "Mereka",
+                en: "Mereka",
+                es: "Mereka",
+              },
+              description: {
+                ms: "ramai orang yang dibualkan",
+                en: "many people being talked about",
+                es: "varias personas de quienes se habla",
+              },
+              imageSrc: "/assets/chapters/ch1/ch1_mereka.webp",
+              imageAlt: {
+                ms: "Komik Mereka",
+                en: "Comic for Mereka",
+                es: "Comic para Mereka",
+              },
+              translation: {
+                en: "They are at school.",
+                es: "Ellos están en la escuela.",
+              },
+            },
+          ],
         },
       ],
     },

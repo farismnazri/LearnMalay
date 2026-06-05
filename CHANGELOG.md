@@ -11,6 +11,11 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.7.5] - 2026-06-05
+
+### Fixed
+- Redesigned and localized Chapter 1 page 2 as comic-style pronoun cards with new WebP artwork, active profile avatar support, and full BM/EN/ES text switching.
+
 ## [0.7.4] - 2026-06-05
 
 ### Changed
