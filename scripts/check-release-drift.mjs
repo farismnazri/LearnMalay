@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 
@@ -14,7 +15,9 @@ const changelog = read("CHANGELOG.md");
 const adventureLog = read("src/lib/adventureLog.ts");
 
 const roadmapMatch = roadmap.match(/Current version baseline:\s*`([^`]+)`/);
-const changelogMatch = changelog.match(/^## \[(?!Unreleased\])([^\]]+)\]/m);
+const releasedVersions = [
+  ...changelog.matchAll(/^## \[(\d+\.\d+\.\d+)\](?:\s+-.*)?$/gm),
+].map((match) => match[1]);
 const adventureLogMatch = adventureLog.match(/version:\s*"([^"]+)"/);
 
 const failures = [];
@@ -27,11 +30,11 @@ if (!roadmapMatch) {
   );
 }
 
-if (!changelogMatch) {
+if (releasedVersions.length === 0) {
   failures.push("CHANGELOG.md is missing a latest released version header.");
-} else if (changelogMatch[1] !== packageVersion) {
+} else if (releasedVersions[0] !== packageVersion) {
   failures.push(
-    `CHANGELOG.md latest release is ${changelogMatch[1]}, but package.json is ${packageVersion}.`,
+    `CHANGELOG.md latest release is ${releasedVersions[0]}, but package.json is ${packageVersion}.`,
   );
 }
 
@@ -40,6 +43,33 @@ if (!adventureLogMatch) {
 } else if (adventureLogMatch[1] !== packageVersion) {
   failures.push(
     `src/lib/adventureLog.ts latest entry is ${adventureLogMatch[1]}, but package.json is ${packageVersion}.`,
+  );
+}
+
+const missingTags = [];
+const nonAnnotatedTags = [];
+
+for (const version of releasedVersions) {
+  const tag = `v${version}`;
+  const result = spawnSync("git", ["cat-file", "-t", `refs/tags/${tag}`], {
+    cwd: repoRoot,
+    encoding: "utf8",
+  });
+
+  if (result.status !== 0) {
+    missingTags.push(tag);
+  } else if (result.stdout.trim() !== "tag") {
+    nonAnnotatedTags.push(tag);
+  }
+}
+
+if (missingTags.length > 0) {
+  failures.push(`Missing release tags: ${missingTags.join(", ")}.`);
+}
+
+if (nonAnnotatedTags.length > 0) {
+  failures.push(
+    `Release tags must be annotated, but these are lightweight: ${nonAnnotatedTags.join(", ")}.`,
   );
 }
 

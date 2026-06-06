@@ -11,6 +11,11 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.9.3] - 2026-06-06
+
+### Added
+- Extended the release drift check to require an annotated `vX.Y.Z` Git tag for every released version listed in the changelog.
+
 ## [0.9.2] - 2026-06-06
 
 ### Changed

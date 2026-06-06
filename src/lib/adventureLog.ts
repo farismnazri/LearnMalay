@@ -16,6 +16,33 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.9.3",
+    date: "2026-06-06",
+    headline: {
+      ms: "Semakan keluaran kini mengesan tag Git yang hilang",
+      en: "Release checks now detect missing Git tags",
+      es: "Las verificaciones de lanzamiento ahora detectan etiquetas Git faltantes",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Semakan release drift kini memastikan setiap versi keluaran dalam changelog mempunyai tag Git `vX.Y.Z` beranotasi.",
+          en: "The release drift check now ensures every released changelog version has an annotated `vX.Y.Z` Git tag.",
+          es: "La verificacion de release drift ahora garantiza que cada version publicada en el changelog tenga una etiqueta Git anotada `vX.Y.Z`.",
+        },
+      ],
+      changed: [],
+      fixed: [],
+    },
+    technicalNotes: [
+      {
+        ms: "Semakan gagal dengan senarai jelas untuk tag yang hilang dan tag lightweight, tanpa mencipta atau menolak tag secara automatik.",
+        en: "The check fails with clear lists of missing and lightweight tags without creating or pushing tags automatically.",
+        es: "La verificacion falla con listas claras de etiquetas faltantes y ligeras sin crear ni enviar etiquetas automaticamente.",
+      },
+    ],
+  },
+  {
     version: "0.9.2",
     date: "2026-06-06",
     headline: {
