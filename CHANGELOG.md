@@ -11,6 +11,14 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.9.2] - 2026-06-06
+
+### Changed
+- Clarified the Chapter 1 `Jumpa lagi` hint so it better explains when learners should use the phrase.
+
+### Fixed
+- Incremented Chapter 1 content revision to trigger the optional update badge for users who completed the earlier revision.
+
 ## [0.9.1] - 2026-06-06
 
 ### Changed

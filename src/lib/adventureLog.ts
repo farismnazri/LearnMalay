@@ -16,6 +16,39 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.9.2",
+    date: "2026-06-06",
+    headline: {
+      ms: "Petunjuk `Jumpa lagi` dalam Bab 1 kini lebih jelas",
+      en: "Chapter 1's `Jumpa lagi` hint is now clearer",
+      es: "La pista de `Jumpa lagi` en el Capitulo 1 ahora es mas clara",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Petunjuk bagi frasa `Jumpa lagi` kini menerangkan bahawa ia digunakan apabila anda menjangka akan berjumpa semula.",
+          en: "The `Jumpa lagi` phrase hint now explains that it is used when you expect to meet again.",
+          es: "La pista de la frase `Jumpa lagi` ahora explica que se usa cuando esperas volver a encontrarte con alguien.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Semakan kandungan Bab 1 dinaikkan supaya pengguna lama boleh melihat lencana kemas kini pilihan pada peta.",
+          en: "Chapter 1's content revision was bumped so returning users can see the optional update badge on the map.",
+          es: "La revision de contenido del Capitulo 1 subio para que los usuarios anteriores vean la insignia opcional de actualizacion en el mapa.",
+        },
+      ],
+    },
+    technicalNotes: [
+      {
+        ms: "Struktur pelajaran, bilangan halaman, renderer, logik buka kunci, dan tingkah laku minigame kekal tidak berubah.",
+        en: "Lesson structure, page count, renderer behavior, unlock logic, and minigame behavior remain unchanged.",
+        es: "La estructura de la leccion, el numero de paginas, el renderizador, la logica de desbloqueo y el comportamiento de minijuegos no cambiaron.",
+      },
+    ],
+  },
+  {
     version: "0.9.1",
     date: "2026-06-06",
     headline: {

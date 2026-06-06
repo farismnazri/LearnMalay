@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter01: ChapterContent = {
   id: 1,
-  revision: 1,
+  revision: 2,
   title: { ms: "Sapaan", en: "Greetings", es: "Saludos" },
 
   pages: [
@@ -144,7 +144,11 @@ export const chapter01: ChapterContent = {
                 es: "Panel de comic para Jumpa lagi",
               },
               phrase: { ms: "Jumpa lagi", en: "See you again", es: "Hasta luego" },
-              hint: { ms: "Jumpa lagi.", en: "See you again.", es: "Nos vemos otra vez." },
+              hint: {
+                ms: "Gunakan apabila anda jangka akan berjumpa lagi.",
+                en: "Use this when you expect to meet again.",
+                es: "Usalo cuando esperas volver a encontrarte con esa persona.",
+              },
             },
           ],
         },
