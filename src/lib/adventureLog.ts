@@ -16,6 +16,50 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.8.2",
+    date: "2026-06-06",
+    headline: {
+      ms: "Pelajaran keluarga Bab 2 kini lebih visual dan ringkas",
+      en: "Chapter 2's family lesson is now more visual and focused",
+      es: "La leccion familiar del Capitulo 2 ahora es mas visual y directa",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah artwork keluarga WebP dan kad ahli keluarga dengan label Bahasa Melayu, Inggeris, dan Sepanyol.",
+          en: "Added optimized WebP family artwork and family-member cards with Malay, English, and Spanish labels.",
+          es: "Se agregaron ilustraciones familiares WebP optimizadas y tarjetas con etiquetas en malayo, ingles y espanol.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Menyusun semula halaman keluarga asas kepada gambar keluarga dan empat baris kad kosa kata yang mudah dibaca.",
+          en: "Reorganized the core-family page into a family portrait and four clear rows of vocabulary cards.",
+          es: "Se reorganizo la pagina de familia basica con un retrato familiar y cuatro filas claras de tarjetas de vocabulario.",
+        },
+        {
+          ms: "Meringkaskan Bab 2 kepada satu intro Aku-Aku dan tujuh halaman pelajaran.",
+          en: "Streamlined Chapter 2 to one Aku-Aku intro and seven lesson pages.",
+          es: "Se simplifico el Capitulo 2 a una introduccion de Aku-Aku y siete paginas de leccion.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Mengekalkan penomboran halaman, navigasi, progress, dan tamat bab selaras dengan aliran Bab 2 yang lebih pendek.",
+          en: "Kept page numbering, navigation, progress, and chapter completion aligned with the shorter Chapter 2 flow.",
+          es: "Se mantuvieron alineados la numeracion, la navegacion, el progreso y la finalizacion con el flujo mas corto del Capitulo 2.",
+        },
+      ],
+    },
+    technicalNotes: [
+      {
+        ms: "Menambah jenis halaman keluarga khusus dan perender kandungan terhad tanpa mengubah UI bab global.",
+        en: "Added a focused family-page type and content renderer without changing the global chapter UI.",
+        es: "Se agrego un tipo de pagina familiar y un renderizador enfocado sin cambiar la interfaz global de capitulos.",
+      },
+    ],
+  },
+  {
     version: "0.8.1",
     date: "2026-06-06",
     headline: {

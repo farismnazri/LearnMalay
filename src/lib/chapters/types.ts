@@ -117,6 +117,26 @@ export type ChapterTablePage = {
 };
 
 // -------------------------
+// Family vocabulary page
+// -------------------------
+export type FamilyPersonCard = {
+  id: string;
+  label: Translated;
+  imageSrc: string;
+  imageAlt: Translated;
+  alternativeNames?: string[];
+};
+
+export type ChapterFamilyPage = {
+  id: string;
+  kind: "family";
+  title: Translated;
+  familyImageSrc: string;
+  familyImageAlt: Translated;
+  people: FamilyPersonCard[];
+};
+
+// -------------------------
 // Pronoun comic card page
 // -------------------------
 export type PronounCardItem = {
@@ -379,6 +399,7 @@ export type FigurePage = {
 export type ChapterPage =
   | ChapterIntroPage
   | ChapterTablePage
+  | ChapterFamilyPage
   | ChapterPronounCardsPage
   | ChapterChatPage
   | DragFillPage

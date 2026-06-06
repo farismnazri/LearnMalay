@@ -11,6 +11,15 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.8.2] - 2026-06-06
+
+### Changed
+- Reworked the Chapter 2 core-family lesson with optimized family artwork, multilingual person labels, and a focused four-row vocabulary-card layout.
+- Streamlined Chapter 2 to one Aku-Aku intro and seven lesson pages by removing redundant opening and extended-family content.
+
+### Fixed
+- Kept Chapter 2 page numbering, navigation, progress, and chapter completion aligned with the shorter lesson flow.
+
 ## [0.8.1] - 2026-06-06
 
 ### Changed

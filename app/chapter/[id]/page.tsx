@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import BoxDragCard from "@/components/game/BoxDragCard";
 import ChatCard from "@/components/game/ChatCard";
 import DragFillCard from "@/components/game/DragFillCard";
+import FamilyCard from "@/components/game/FamilyCard";
 import FigureCard from "@/components/game/FigureCard";
 import FoodIntroCard from "@/components/game/FoodIntroCard";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
@@ -280,6 +281,8 @@ export default function ChapterPage() {
         );
       case "table":
         return <TableCard page={page} lang={lang} />;
+      case "family":
+        return <FamilyCard page={page} lang={lang} />;
       case "chat":
         return (
           <ChatCard

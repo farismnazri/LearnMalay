@@ -6,138 +6,100 @@ export const chapter02: ChapterContent = {
 
   pages: [
     // -------------------------
-    // Page 1: Learning outcomes (from BM2 page 1)
-    // -------------------------
-    {
-      id: "p1-hasil",
-      kind: "intro",
-      sections: [
-        {
-          kind: "list",
-          id: "hasil-pembelajaran",
-          title: {
-            ms: "Hasilnya, anda akan dapat belajar mengenai:",
-            en: "By the end, you will be able to learn about:",
-            es: "Al final, podrás aprender sobre:",
-          },
-          items: [
-            {
-              id: "hasil-1",
-              ms: "Panggilan atau gelaran dalam keluarga",
-              en: "Family terms and titles (how to address relatives)",
-              es: "Términos y títulos familiares (cómo dirigirte a tus familiares)",
-            },
-            {
-              id: "hasil-2",
-              ms: "Cara memperkenalkan ahli keluarga",
-              en: "How to introduce family members",
-              es: "Cómo presentar a miembros de tu familia",
-            },
-            {
-              id: "hasil-3",
-              ms: "Perbualan sesama ahli keluarga",
-              en: "Simple conversations with/among family members",
-              es: "Conversaciones sencillas con/entre familiares",
-            },
-          ],
-        },
-      ],
-    },
-
-    // -------------------------
-    // Page 2: Keluarga Asas (from BM2 page 3)
+    // Page 1: Keluarga Asas (from BM2 page 3)
     // -------------------------
     {
       id: "p2-asas",
-      kind: "table",
+      kind: "family",
       title: {
         ms: "Keluarga asas",
         en: "Core family",
         es: "Familia básica",
       },
-      columns: [
-        { key: "ahli", label: { ms: "Ahli", en: "Member", es: "Miembro" } },
-        { key: "panggilan", label: { ms: "Panggilan", en: "How you address them", es: "Cómo se le dice" } },
-      ],
-      rows: [
-        {
-          id: "r-bapa",
-          cells: {
-            ahli: [{ ms: "bapa", en: "father", es: "padre" }],
-            panggilan: [
-              { ms: "ayah", en: "dad", es: "papá" },
-              { ms: "bapak", en: "dad", es: "papá" },
-              { ms: "abah", en: "dad", es: "papá" },
-            ],
-          },
-        },
-        {
-          id: "r-ibu",
-          cells: {
-            ahli: [{ ms: "ibu", en: "mother", es: "madre" }],
-            panggilan: [
-              { ms: "ibu", en: "mom", es: "mamá" },
-              { ms: "emak", en: "mom", es: "mamá" },
-              { ms: "mak", en: "mom", es: "mamá" },
-              { ms: "mama", en: "mom", es: "mamá" },
-            ],
-          },
-        },
-        {
-          id: "r-anak",
-          cells: {
-            ahli: [{ ms: "anak", en: "child / children", es: "hijo/a / hijos" }],
-            panggilan: [
-              { ms: "kakak", en: "older sister", es: "hermana mayor" },
-              { ms: "abang", en: "older brother", es: "hermano mayor" },
-              { ms: "adik", en: "younger sibling", es: "hermano/a menor" },
-            ],
-          },
-        },
-      ],
-    },
-
-    // -------------------------
-    // Page 3: Keluarga Majmuk (from BM2 page 3)
-    // -------------------------
-    {
-      id: "p3-majmuk",
-      kind: "table",
-      title: {
-        ms: "Keluarga majmuk",
-        en: "Extended family",
-        es: "Familia extendida",
+      familyImageSrc: "/assets/chapters/ch2/ch2-keluarga.webp",
+      familyImageAlt: {
+        ms: "Gambar keluarga asas",
+        en: "Core family portrait",
+        es: "Retrato de la familia básica",
       },
-      columns: [
-        { key: "lelaki", label: { ms: "Moyang lelaki", en: "Male relatives", es: "Parientes (masculino)" } },
-        { key: "perempuan", label: { ms: "Moyang perempuan", en: "Female relatives", es: "Parientes (femenino)" } },
-      ],
-      rows: [
-        { id: "m1", cells: { lelaki: [{ ms: "Datuk", en: "Grandfather", es: "Abuelo" }], perempuan: [{ ms: "Nenek", en: "Grandmother", es: "Abuela" }] } },
-        { id: "m2", cells: { lelaki: [{ ms: "Datuk saudara", en: "Great-uncle", es: "Tío abuelo" }], perempuan: [{ ms: "Nenek saudara", en: "Great-aunt", es: "Tía abuela" }] } },
-        { id: "m3", cells: { lelaki: [{ ms: "Bapa", en: "Father", es: "Padre" }], perempuan: [{ ms: "ibu", en: "Mother", es: "Madre" }] } },
-        { id: "m4", cells: { lelaki: [{ ms: "Bapa saudara", en: "Uncle", es: "Tío" }], perempuan: [{ ms: "Ibu saudara", en: "Aunt", es: "Tía" }] } },
-        { id: "m5", cells: { lelaki: [{ ms: "Abang", en: "Older brother", es: "Hermano mayor" }], perempuan: [{ ms: "Kakak", en: "Older sister", es: "Hermana mayor" }] } },
-        { id: "m6", cells: { lelaki: [{ ms: "Adik lelaki", en: "Younger brother", es: "Hermano menor" }], perempuan: [{ ms: "Adik perempuan", en: "Younger sister", es: "Hermana menor" }] } },
-        { id: "m7", cells: { lelaki: [{ ms: "Sepupu lelaki", en: "Male cousin", es: "Primo" }], perempuan: [{ ms: "Sepupu perempuan", en: "Female cousin", es: "Prima" }] } },
-        { id: "m8", cells: { lelaki: [{ ms: "Anak lelaki", en: "Son", es: "Hijo" }], perempuan: [{ ms: "Anak perempuan", en: "Daughter", es: "Hija" }] } },
-        { id: "m9", cells: { lelaki: [{ ms: "Anak saudara lelaki", en: "Nephew", es: "Sobrino" }], perempuan: [{ ms: "Anak saudara perempuan", en: "Niece", es: "Sobrina" }] } },
-        { id: "m10", cells: { lelaki: [{ ms: "Cucu lelaki", en: "Grandson", es: "Nieto" }], perempuan: [{ ms: "Cucu perempuan", en: "Granddaughter", es: "Nieta" }] } },
-        { id: "m11", cells: { lelaki: [{ ms: "Cucu saudara lelaki", en: "Grandnephew", es: "Sobrino nieto" }], perempuan: [{ ms: "Cucu saudara perempuan", en: "Grandniece", es: "Sobrina nieta" }] } },
-        { id: "m12", cells: { lelaki: [{ ms: "Menantu lelaki", en: "Son-in-law", es: "Yerno" }], perempuan: [{ ms: "Menantu perempuan", en: "Daughter-in-law", es: "Nuera" }] } },
-        { id: "m13", cells: { lelaki: [{ ms: "Abang ipar", en: "Brother-in-law", es: "Cuñado" }], perempuan: [{ ms: "Kakak ipar", en: "Sister-in-law", es: "Cuñada" }] } },
+      people: [
         {
-          id: "m14",
-          cells: {
-            lelaki: [{ ms: "Adik ipar lelaki", en: "Younger brother-in-law", es: "Cuñado (más joven)" }],
-            perempuan: [{ ms: "Adik ipar perempuan", en: "Younger sister-in-law", es: "Cuñada (más joven)" }],
+          id: "datuk",
+          label: { ms: "datuk", en: "grandfather", es: "abuelo" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-datuk.webp",
+          imageAlt: {
+            ms: "Datuk",
+            en: "Grandfather",
+            es: "Abuelo",
+          },
+        },
+        {
+          id: "nenek",
+          label: { ms: "nenek", en: "grandmother", es: "abuela" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-nenek.webp",
+          imageAlt: {
+            ms: "Nenek",
+            en: "Grandmother",
+            es: "Abuela",
+          },
+        },
+        {
+          id: "bapa",
+          label: { ms: "bapa", en: "father", es: "padre" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-bapa.webp",
+          imageAlt: {
+            ms: "Bapa",
+            en: "Father",
+            es: "Padre",
+          },
+          alternativeNames: ["ayah", "abah", "papa"],
+        },
+        {
+          id: "ibu",
+          label: { ms: "ibu", en: "mother", es: "madre" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-ibu.webp",
+          imageAlt: {
+            ms: "Ibu",
+            en: "Mother",
+            es: "Madre",
+          },
+          alternativeNames: ["umi", "mak", "mama"],
+        },
+        {
+          id: "abang",
+          label: { ms: "abang", en: "older brother", es: "hermano mayor" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-abang.webp",
+          imageAlt: {
+            ms: "Abang",
+            en: "Older brother",
+            es: "Hermano mayor",
+          },
+        },
+        {
+          id: "kakak",
+          label: { ms: "kakak", en: "older sister", es: "hermana mayor" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-kakak.webp",
+          imageAlt: {
+            ms: "Kakak",
+            en: "Older sister",
+            es: "Hermana mayor",
+          },
+        },
+        {
+          id: "saya",
+          label: { ms: "saya", en: "me", es: "yo" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-saya.webp",
+          imageAlt: {
+            ms: "Saya",
+            en: "Me",
+            es: "Yo",
           },
         },
       ],
     },
 
     // -------------------------
-    // Page 4: Chat — introducing family
+    // Page 2: Chat — introducing family
     // -------------------------
 {
   id: "p5-situasi-2-1",
