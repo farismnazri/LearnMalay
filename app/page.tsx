@@ -70,7 +70,7 @@ export default function TitleScreen() {
           />
 
           <div
-            className="title-screen-user-plaque relative mx-auto mt-7 flex w-full max-w-[820px] items-center justify-center overflow-hidden rounded-2xl bg-[length:50%_100%] bg-center bg-no-repeat px-3 py-4 shadow-xl phone-lg:px-4 phone-lg:py-5"
+            className="title-screen-user-plaque relative mx-auto mt-7 flex w-full max-w-[820px] items-center justify-center overflow-hidden rounded-2xl bg-[length:50%_100%] bg-center bg-no-repeat px-3 py-4 phone-lg:px-4 phone-lg:py-5"
             style={plankBgStyle}
           >
             <div className="absolute inset-0 bg-[#000000]/0" />

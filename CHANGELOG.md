@@ -11,6 +11,17 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.9.1] - 2026-06-06
+
+### Changed
+- Refreshed the shared wood plank border assets from the updated source set and re-exported them as optimized WebP files for the current app surfaces.
+
+### Fixed
+- Removed unwanted rectangular wrapper shadows beneath the landing and user plank panels without changing user, progress, or route behavior.
+
+### Notes
+- `woodplank.webp` remains in the active border set for consistency even though it is not currently referenced.
+
 ## [0.9.0] - 2026-06-06
 
 ### Added

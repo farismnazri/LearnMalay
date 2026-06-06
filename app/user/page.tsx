@@ -494,7 +494,7 @@ export default function UserSelectPage() {
 
           <section className="space-y-3 phone-lg:space-y-4">
             <div
-              className="relative overflow-hidden rounded-2xl bg-[length:105%_100%] bg-center bg-no-repeat px-4 py-4 text-[#2a1708] shadow-lg"
+              className="relative overflow-hidden rounded-2xl bg-[length:105%_100%] bg-center bg-no-repeat px-4 py-4 text-[#2a1708]"
               style={longPlankStyle}
             >
               <div className="flex flex-col items-start gap-3 phone-lg:flex-row phone-lg:items-center">
@@ -520,7 +520,7 @@ export default function UserSelectPage() {
 
             <div className="grid grid-cols-1 gap-3 phone-lg:grid-cols-[1fr_auto]">
               <div
-                className="relative overflow-hidden rounded-xl bg-[length:100%_108%] bg-center bg-no-repeat px-3 py-2 text-[#2a1708] shadow-lg"
+                className="relative overflow-hidden rounded-xl bg-[length:100%_108%] bg-center bg-no-repeat px-3 py-2 text-[#2a1708]"
                 style={shortPlankStyle}
               >
                 <div className="flex min-h-[110px] flex-wrap items-center justify-evenly gap-3">
@@ -535,7 +535,7 @@ export default function UserSelectPage() {
                 </div>
               </div>
               <div
-                className="relative overflow-hidden rounded-xl bg-[length:100%_100%] bg-center bg-no-repeat px-2 py-2 text-[#2a1708] shadow-lg"
+                className="relative overflow-hidden rounded-xl bg-[length:100%_100%] bg-center bg-no-repeat px-2 py-2 text-[#2a1708]"
                 style={squarePlankStyle}
               >
                 <div className="flex min-h-[110px] w-full flex-col items-center justify-center text-center phone-lg:w-[110px] sm:min-h-[120px] sm:w-[120px]">

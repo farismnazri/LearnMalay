@@ -16,6 +16,39 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.9.1",
+    date: "2026-06-06",
+    headline: {
+      ms: "Aset papan kayu kini lebih ringan dan lebih bersih pada skrin utama",
+      en: "Wood plank assets now load lighter and render cleaner on key screens",
+      es: "Los tablones de madera ahora cargan mas ligero y se ven mas limpios en pantallas clave",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Aset sempadan papan kayu yang dikemas kini dieksport semula sebagai fail WebP yang lebih ringan untuk halaman landing dan user.",
+          en: "Updated wood plank border assets were re-exported as lighter WebP files for the landing and user pages.",
+          es: "Los bordes de tablones actualizados se reexportaron como archivos WebP mas ligeros para las paginas landing y user.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Bayang segi empat yang tidak diingini di bawah panel papan kayu landing dan user telah dibuang tanpa mengubah logik pengguna atau progress.",
+          en: "Unwanted rectangular shadows under the landing and user plank panels were removed without changing user or progress logic.",
+          es: "Se eliminaron las sombras rectangulares no deseadas bajo los paneles de tablones de landing y user sin cambiar la logica de usuario ni progreso.",
+        },
+      ],
+    },
+    technicalNotes: [
+      {
+        ms: "`woodplank.webp` kekal dalam set aset aktif walaupun belum dirujuk oleh mana-mana route semasa.",
+        en: "`woodplank.webp` remains in the active asset set even though no current route references it yet.",
+        es: "`woodplank.webp` permanece en el conjunto activo aunque ninguna ruta actual lo referencia todavia.",
+      },
+    ],
+  },
+  {
     version: "0.9.0",
     date: "2026-06-06",
     headline: {
