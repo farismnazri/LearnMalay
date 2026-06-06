@@ -38,6 +38,7 @@ import { getCurrentUser, updateProgress, type UserProfile } from "@/lib/userStor
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import { canPersistProgress, canUnlockEverything } from "@/lib/userCapabilities";
 import { isChapterUnlocked } from "@/lib/minigameUnlocks";
+import { getCompletedChapterRevision } from "@/lib/chapterUpdates";
 
 // IMPORTANT: pull types from the same place as chapters (avoid broken /types imports)
 import {
@@ -235,11 +236,14 @@ export default function ChapterPage() {
   const isFinalChapter = chapterId >= MAX_CHAPTERS;
   const nextChapter = Math.min(MAX_CHAPTERS, chapterId + 1);
   const alreadyUnlockedNext = isFinalChapter || user.progress.chapter >= nextChapter;
+  const completedRevision = getCompletedChapterRevision(user, chapterId);
+  const needsRevisionReview = completedRevision < content.revision;
+  const canCompleteChapter = needsRevisionReview || !alreadyUnlockedNext;
 
   async function markChapterDone() {
     if (!isLastPage) return;
     if (!canSaveProgress) return;
-    if (isFinalChapter) return;
+    if (!canCompleteChapter) return;
     if (markingDone) return;
     if (!user) return;
 
@@ -250,7 +254,7 @@ export default function ChapterPage() {
 
     try {
       setMarkingDone(true);
-      const updatedUser = await updateProgress(user.id, nextProgress);
+      const updatedUser = await updateProgress(user.id, nextProgress, chapterId);
       setUser(updatedUser);
     } finally {
       setMarkingDone(false);
@@ -421,7 +425,7 @@ export default function ChapterPage() {
         </div>
 
         {/* CHAPTER COMPLETE CTA */}
-        {canSaveProgress && totalPages > 0 && isLastPage && !isFinalChapter && (
+        {canSaveProgress && totalPages > 0 && isLastPage && (
           <section className="mt-5 rounded-3xl bg-white/90 p-6 shadow-xl">
             <div className="text-xs font-black opacity-60">{lang === "ms" ? "SELESAI" : lang === "en" ? "DONE" : "LISTO"}</div>
 
@@ -434,7 +438,13 @@ export default function ChapterPage() {
             </div>
 
             <div className="mt-2 text-sm font-semibold opacity-70">
-              {alreadyUnlockedNext
+              {canCompleteChapter && alreadyUnlockedNext
+                ? lang === "ms"
+                  ? "Ulang kaji ini pilihan sahaja dan tidak mengubah kemajuan anda."
+                  : lang === "en"
+                  ? "This review is optional and does not change your progress."
+                  : "Este repaso es opcional y no cambia tu progreso."
+                : alreadyUnlockedNext
                 ? lang === "ms"
                   ? "Bab seterusnya sudah dibuka."
                   : lang === "en"
@@ -451,18 +461,24 @@ export default function ChapterPage() {
               <button
                 type="button"
                 onClick={markChapterDone}
-                disabled={alreadyUnlockedNext || !canSaveProgress || markingDone}
+                disabled={!canCompleteChapter || !canSaveProgress || markingDone}
                 className={[
                   "rounded-xl px-4 py-2 text-sm font-black shadow",
-                  alreadyUnlockedNext ? "bg-white opacity-60" : "bg-emerald-600 text-white hover:bg-emerald-500",
+                  !canCompleteChapter ? "bg-white opacity-60" : "bg-emerald-600 text-white hover:bg-emerald-500",
                 ].join(" ")}
               >
-                {alreadyUnlockedNext
+                {!canCompleteChapter
                   ? lang === "ms"
-                    ? "Sudah dibuka"
+                    ? "Sudah disemak"
                     : lang === "en"
-                    ? "Already unlocked"
-                    : "Ya desbloqueado"
+                    ? "Already reviewed"
+                    : "Ya revisado"
+                  : alreadyUnlockedNext
+                  ? lang === "ms"
+                    ? "Tanda ulang kaji selesai"
+                    : lang === "en"
+                    ? "Mark review complete"
+                    : "Marcar repaso completo"
                   : lang === "ms"
                   ? "Tanda siap (buka bab seterusnya)"
                   : lang === "en"

@@ -16,6 +16,45 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.9.0",
+    date: "2026-06-06",
+    headline: {
+      ms: "Bab yang dikemas kini kini ditanda secara pilihan pada peta",
+      en: "Updated chapters now have optional notices on the map",
+      es: "Los capitulos actualizados ahora tienen avisos opcionales en el mapa",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah lencana kemas kini yang mesra untuk bab siap yang mempunyai kandungan baharu.",
+          en: "Added friendly update badges for completed chapters that have newer content.",
+          es: "Se agregaron insignias amigables para capitulos completados con contenido nuevo.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Pengguna boleh mengulang kaji bab yang dikemas kini tanpa kehilangan kemajuan, skor, atau akses bab.",
+          en: "Users can review updated chapters without losing progress, scores, or chapter access.",
+          es: "Los usuarios pueden repasar capitulos actualizados sin perder progreso, puntuaciones ni acceso.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Lencana hanya hilang selepas bab dikemas kini ditamatkan semula, bukan apabila dibuka atau lencana disentuh.",
+          en: "Badges clear only after the updated chapter is completed again, not when it is opened or the badge is tapped.",
+          es: "Las insignias solo desaparecen tras completar de nuevo el capitulo actualizado, no al abrirlo o tocar la insignia.",
+        },
+      ],
+    },
+    technicalNotes: [
+      {
+        ms: "Semakan kandungan bab disimpan berasingan daripada progress dan logik buka kunci.",
+        en: "Chapter content revisions are stored separately from progress and unlock logic.",
+        es: "Las revisiones de contenido se guardan separadas del progreso y la logica de desbloqueo.",
+      },
+    ],
+  },
+  {
     version: "0.8.2",
     date: "2026-06-06",
     headline: {

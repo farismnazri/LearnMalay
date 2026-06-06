@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { setCurrentChapter, getUser } from "@/server/userRepo";
 import { clearSessionCookie, getSessionUser } from "@/server/sessionAuth";
 import { canPersistProgress, isAdmin, isDemo } from "@/lib/userCapabilities";
-import { MAX_CHAPTER_ID, MIN_CHAPTER_ID } from "@/lib/chapters";
+import { MAX_CHAPTER_ID, MIN_CHAPTER_ID, getChapterById } from "@/lib/chapters";
 import { checkRouteRateLimit, GENERIC_ROUTE_RATE_LIMIT_MESSAGE } from "@/server/routeRateLimit";
 import { enforceSameOriginMutation } from "@/server/requestSecurity";
 
@@ -36,8 +36,12 @@ export async function POST(req: Request) {
   const csrf = enforceSameOriginMutation(req);
   if (csrf) return csrf;
 
-  const body = (await req.json().catch(() => null)) as { id?: unknown; progress?: unknown } | null;
-  if (!isPlainObject(body) || !hasOnlyKeys(body, ["id", "progress"])) {
+  const body = (await req.json().catch(() => null)) as {
+    id?: unknown;
+    progress?: unknown;
+    completedChapterId?: unknown;
+  } | null;
+  if (!isPlainObject(body) || !hasOnlyKeys(body, ["id", "progress", "completedChapterId"])) {
     return NextResponse.json({ error: "Invalid progress payload" }, { status: 400 });
   }
   if (typeof body.id !== "string" || !body.id.trim()) {
@@ -46,6 +50,17 @@ export async function POST(req: Request) {
 
   const safeProgress = parseProgress(body.progress);
   if (!safeProgress) {
+    return NextResponse.json({ error: "Invalid progress payload" }, { status: 400 });
+  }
+  const completedChapterId = body.completedChapterId;
+  if (
+    completedChapterId !== undefined &&
+    (
+      typeof completedChapterId !== "number" ||
+      !Number.isInteger(completedChapterId) ||
+      !getChapterById(completedChapterId)
+    )
+  ) {
     return NextResponse.json({ error: "Invalid progress payload" }, { status: 400 });
   }
 
@@ -85,9 +100,12 @@ export async function POST(req: Request) {
     if (chapterDelta !== 0 && chapterDelta !== 1) {
       return NextResponse.json({ error: "Invalid progress payload" }, { status: 400 });
     }
+    if (completedChapterId !== undefined && completedChapterId > user.progress.chapter) {
+      return NextResponse.json({ error: "Invalid progress payload" }, { status: 400 });
+    }
   }
 
-  await setCurrentChapter(targetId, safeProgress);
+  await setCurrentChapter(targetId, safeProgress, completedChapterId);
   const updatedUser = await getUser(targetId);
   if (!updatedUser) return NextResponse.json({ error: "user not found" }, { status: 404 });
   return NextResponse.json(updatedUser);

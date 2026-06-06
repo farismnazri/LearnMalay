@@ -158,11 +158,15 @@ export async function deleteUser(id: string) {
   await fetchJson("/api/users?id=" + encodeURIComponent(id), { method: "DELETE" });
 }
 
-export async function updateProgress(id: string, progress: UserProgress): Promise<UserProfile> {
+export async function updateProgress(
+  id: string,
+  progress: UserProgress,
+  completedChapterId?: number
+): Promise<UserProfile> {
   const profile = await fetchJson<UserProfile>("/api/users/progress", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id, progress }),
+    body: JSON.stringify({ id, progress, completedChapterId }),
   });
   cachedUser = profile;
   return profile;

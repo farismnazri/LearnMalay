@@ -15,6 +15,7 @@ export type UserProfile = {
   isAdmin?: boolean;
   isDemo?: boolean;
   progress: UserProgress;
+  completedChapterRevisions: Record<string, number>;
 };
 
 export const ADMIN_ID = "ADMIN";

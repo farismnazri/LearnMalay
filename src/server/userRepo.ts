@@ -14,7 +14,7 @@ import {
   isProfileAvatarId,
   type ProfileAvatarId,
 } from "@/lib/profileAvatars";
-import { MAX_CHAPTER_ID, MIN_CHAPTER_ID } from "@/lib/chapters";
+import { CHAPTERS, MAX_CHAPTER_ID, MIN_CHAPTER_ID, getChapterById } from "@/lib/chapters";
 import { USERNAME_SAFETY_REJECTION_MESSAGE, validateUsernameSafety } from "@/lib/usernameSafety";
 
 const MAX_PROGRESS_PAGE = 10_000;
@@ -107,6 +107,29 @@ function roleFromRow(row: UserDocument): UserRole {
   return "user";
 }
 
+function normalizeCompletedChapterRevisions(value: unknown): Record<string, number> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+
+  const revisions: Record<string, number> = {};
+  for (const [chapterId, revision] of Object.entries(value)) {
+    if (/^\d+$/.test(chapterId) && Number.isInteger(revision) && Number(revision) >= 1) {
+      revisions[chapterId] = Number(revision);
+    }
+  }
+  return revisions;
+}
+
+function completedRevisionBaseline(progressChapter: number): Record<string, number> {
+  const revisions: Record<string, number> = {};
+  for (const chapter of CHAPTERS) {
+    const completed = chapter.id === MAX_CHAPTER_ID
+      ? progressChapter >= MAX_CHAPTER_ID
+      : progressChapter > chapter.id;
+    if (completed) revisions[String(chapter.id)] = chapter.revision;
+  }
+  return revisions;
+}
+
 function hashPassword(password: string, saltHex?: string) {
   const salt = saltHex ?? randomBytes(16).toString("hex");
   const hash = scryptSync(password, Buffer.from(salt, "hex"), 64).toString("hex");
@@ -141,6 +164,7 @@ function toProfile(row: UserDocument): UserProfile {
       chapter: Number(row.progress_chapter) || 1,
       page: Number(row.progress_page) || 1,
     },
+    completedChapterRevisions: normalizeCompletedChapterRevisions(row.completed_chapter_revisions),
   };
 }
 
@@ -158,6 +182,7 @@ async function ensureAdmin() {
       is_admin: true,
       progress_chapter: 11,
       progress_page: 1,
+      completed_chapter_revisions: completedRevisionBaseline(11),
       password_hash: pw.hash,
       password_salt: pw.salt,
       password_algo: pw.algo,
@@ -218,6 +243,7 @@ async function ensureDemoAccount() {
       is_admin: false,
       progress_chapter: 11,
       progress_page: 1,
+      completed_chapter_revisions: completedRevisionBaseline(11),
       password_hash: pw.hash,
       password_salt: pw.salt,
       password_algo: pw.algo,
@@ -295,6 +321,26 @@ async function ensureAvatarBackfill() {
   );
 }
 
+async function ensureCompletedChapterRevisionBackfill() {
+  const { users } = await getCollections();
+  const rows = await users.find({}).toArray();
+
+  for (const row of rows) {
+    if (
+      row.completed_chapter_revisions &&
+      typeof row.completed_chapter_revisions === "object" &&
+      !Array.isArray(row.completed_chapter_revisions)
+    ) {
+      continue;
+    }
+    const progressChapter = Number(row.progress_chapter) || MIN_CHAPTER_ID;
+    await users.updateOne(
+      { id: row.id },
+      { $set: { completed_chapter_revisions: completedRevisionBaseline(progressChapter) } }
+    );
+  }
+}
+
 async function ensureUserDataState() {
   if (userDataStateReady) return;
 
@@ -304,6 +350,7 @@ async function ensureUserDataState() {
       await ensureDemoAccount();
       await ensureAuthBootstrap();
       await ensureAvatarBackfill();
+      await ensureCompletedChapterRevisionBackfill();
     })();
   }
 
@@ -376,6 +423,7 @@ export async function createUserAccount(input: {
       is_admin: false,
       progress_chapter: 1,
       progress_page: 1,
+      completed_chapter_revisions: {},
       password_hash: pw.hash,
       password_salt: pw.salt,
       password_algo: pw.algo,
@@ -475,7 +523,11 @@ export async function deleteUser(id: string): Promise<void> {
   await users.deleteOne({ id: cleanId });
 }
 
-export async function setCurrentChapter(id: string, progress: UserProgress): Promise<void> {
+export async function setCurrentChapter(
+  id: string,
+  progress: UserProgress,
+  completedChapterId?: number
+): Promise<void> {
   await ensureUserDataState();
   const { users } = await getCollections();
 
@@ -498,6 +550,7 @@ export async function setCurrentChapter(id: string, progress: UserProgress): Pro
       projection: {
         progress_chapter: 1,
         progress_page: 1,
+        completed_chapter_revisions: 1,
       },
     }
   );
@@ -513,6 +566,15 @@ export async function setCurrentChapter(id: string, progress: UserProgress): Pro
 
   const nextChapter = Math.max(currentChapter, chapter);
   const nextPage = chapter < currentChapter ? currentPage : page;
+  const completedChapterRevisions = normalizeCompletedChapterRevisions(current.completed_chapter_revisions);
+
+  if (completedChapterId !== undefined) {
+    const completedChapter = getChapterById(completedChapterId);
+    if (!completedChapter || completedChapterId > currentChapter) {
+      throw new Error("Invalid completed chapter.");
+    }
+    completedChapterRevisions[String(completedChapterId)] = completedChapter.revision;
+  }
 
   await users.updateOne(
     { id: cleanId },
@@ -520,6 +582,7 @@ export async function setCurrentChapter(id: string, progress: UserProgress): Pro
       $set: {
         progress_chapter: nextChapter,
         progress_page: nextPage,
+        completed_chapter_revisions: completedChapterRevisions,
       },
     }
   );

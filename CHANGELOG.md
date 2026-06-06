@@ -11,6 +11,19 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.9.0] - 2026-06-06
+
+### Added
+- Added optional map badges that highlight updated content in chapters a user has already completed.
+- Added per-chapter content revisions and per-user completed revision tracking.
+
+### Changed
+- Chapter completion now records the reviewed content revision without resetting progress, scores, completion, or unlock state.
+- Added an explicit completion/review action for the final chapter.
+
+### Fixed
+- Update badges clear only after the updated chapter is explicitly completed again, never from opening, hovering, tapping, or partially replaying it.
+
 ## [0.8.2] - 2026-06-06
 
 ### Changed

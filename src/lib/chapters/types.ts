@@ -417,6 +417,7 @@ export type ChapterPage =
 // -------------------------
 export type ChapterContent = {
   id: number;
+  revision: number;
   title: Translated;
   pages: ChapterPage[];
 };

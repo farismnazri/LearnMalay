@@ -8,24 +8,15 @@ import IconActionLink from "@/components/navigation/IconActionLink";
 import StylizedTitle from "@/components/game/StylizedTitle";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import {
-  chapter01,
-  chapter02,
-  chapter03,
-  chapter04,
-  chapter05,
-  chapter06,
-  chapter07,
-  chapter08,
-  chapter09,
-  chapter10,
-  chapter11,
+  CHAPTERS,
 } from "@/lib/chapters";
 import {
   getCurrentUser,
   type UserProfile,
 } from "@/lib/userStore";
 import { isChapterUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
-import { isAdmin, isDemo } from "@/lib/userCapabilities";
+import { hasChapterUpdate } from "@/lib/chapterUpdates";
+import { canPersistProgress, canUnlockEverything, isAdmin, isDemo } from "@/lib/userCapabilities";
 
 type ChapterCard = {
   chapter: number; // 1..11
@@ -45,37 +36,22 @@ function chapterToWorldLevel(chapter: number) {
 }
 
 function buildChapters(): ChapterCard[] {
-  const chapterThemes = new Map<number, string>([
-    [chapter01.id, chapter01.title.ms],
-    [chapter02.id, chapter02.title.ms],
-    [chapter03.id, chapter03.title.ms],
-    [chapter04.id, chapter04.title.ms],
-    [chapter05.id, chapter05.title.ms],
-    [chapter06.id, chapter06.title.ms],
-    [chapter07.id, chapter07.title.ms],
-    [chapter08.id, chapter08.title.ms],
-    [chapter09.id, chapter09.title.ms],
-    [chapter10.id, chapter10.title.ms],
-    [chapter11.id, chapter11.title.ms],
-  ]);
-
-  const items: ChapterCard[] = [];
-  for (let c = 1; c <= 11; c++) {
-    const wl = chapterToWorldLevel(c);
-    items.push({
-      chapter: c,
+  return CHAPTERS.map((chapter) => {
+    const wl = chapterToWorldLevel(chapter.id);
+    return {
+      chapter: chapter.id,
       world: wl.world,
       level: wl.level,
-      theme: chapterThemes.get(c) ?? "",
-    });
-  }
-  return items;
+      theme: chapter.title.ms,
+    };
+  });
 }
 
 export default function MapPage() {
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [openUpdateTooltip, setOpenUpdateTooltip] = useState<number | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -117,6 +93,9 @@ export default function MapPage() {
   const totalChapters = chapters.length;
   const unlockedCount = chapters.filter((c) => isChapterUnlocked(user, c.chapter)).length;
   const completionPct = Math.round((unlockedCount / totalChapters) * 100);
+  const canShowChapterUpdates = canPersistProgress(user) && !canUnlockEverything(user);
+  const updateTooltip =
+    "Updated content. See what’s new! Optional review, your progress stays complete.";
 
   return (
     <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad">
@@ -237,31 +216,37 @@ export default function MapPage() {
                   const isCurrent = c.chapter === currentChapter;
                   const lockHint = c.chapter === 1 ? "Start here" : `Finish Chapter ${c.chapter - 1}`;
                   const unlocksMinigame = CHAPTERS_WITH_MINIGAME_UNLOCK.has(c.chapter);
+                  const chapterContent = CHAPTERS.find((chapter) => chapter.id === c.chapter);
+                  const showUpdateBadge =
+                    canShowChapterUpdates &&
+                    chapterContent !== undefined &&
+                    hasChapterUpdate(user, chapterContent);
+                  const tooltipId = `chapter-update-tooltip-${c.chapter}`;
 
                   return (
-                    <button
-                      key={c.chapter}
-                      disabled={!unlocked}
-                      onClick={() => selectChapter(c.chapter)}
-                      className={[
-                        "group relative overflow-hidden rounded-3xl border px-3 py-2.5 text-center shadow-xl transition-all duration-200 phone-lg:px-3.5 phone-lg:py-3 xl:p-3.5",
-                        "flex min-h-[172px] flex-col items-center phone-lg:min-h-[182px] xl:min-h-[198px]",
-                        "active:scale-[0.98] focus:outline-none",
-                        unlocked
-                          ? "hover:-translate-y-0.5 hover:shadow-[0_18px_30px_rgba(0,0,0,0.28)]"
-                          : "cursor-not-allowed",
-                        isCurrent
-                          ? "border-[#e8c04f]/90 bg-gradient-to-br from-[#ffde64] via-[#ffd04d] to-[#f7bf3d] text-[#2f2606]"
-                          : unlocked
-                          ? "border-[#dfd29f]/70 bg-[#fff6d8]/92 text-[#23331c]"
-                          : "border-[#88aa7b]/35 bg-[#173828]/70 text-[#dbebcf]/85",
-                      ].join(" ")}
-                      title={
-                        unlocked
-                          ? `Go to Chapter ${c.chapter}`
-                          : `Locked until you reach Chapter ${c.chapter}`
-                      }
-                    >
+                    <div key={c.chapter} className="relative min-h-[172px] phone-lg:min-h-[182px] xl:min-h-[198px]">
+                      <button
+                        disabled={!unlocked}
+                        onClick={() => selectChapter(c.chapter)}
+                        className={[
+                          "group relative h-full w-full overflow-hidden rounded-3xl border px-3 py-2.5 text-center shadow-xl transition-all duration-200 phone-lg:px-3.5 phone-lg:py-3 xl:p-3.5",
+                          "flex min-h-[172px] flex-col items-center phone-lg:min-h-[182px] xl:min-h-[198px]",
+                          "active:scale-[0.98] focus:outline-none",
+                          unlocked
+                            ? "hover:-translate-y-0.5 hover:shadow-[0_18px_30px_rgba(0,0,0,0.28)]"
+                            : "cursor-not-allowed",
+                          isCurrent
+                            ? "border-[#e8c04f]/90 bg-gradient-to-br from-[#ffde64] via-[#ffd04d] to-[#f7bf3d] text-[#2f2606]"
+                            : unlocked
+                            ? "border-[#dfd29f]/70 bg-[#fff6d8]/92 text-[#23331c]"
+                            : "border-[#88aa7b]/35 bg-[#173828]/70 text-[#dbebcf]/85",
+                        ].join(" ")}
+                        title={
+                          unlocked
+                            ? `Go to Chapter ${c.chapter}`
+                            : `Locked until you reach Chapter ${c.chapter}`
+                        }
+                      >
                       {unlocksMinigame && (
                         <span
                           className={[
@@ -335,7 +320,38 @@ export default function MapPage() {
                           </div>
                         )}
                       </div>
-                    </button>
+                      </button>
+                      {showUpdateBadge && (
+                        <div className="group/update absolute left-2.5 top-2.5 z-20">
+                        <button
+                          type="button"
+                          aria-label={updateTooltip}
+                          aria-describedby={tooltipId}
+                          aria-expanded={openUpdateTooltip === c.chapter}
+                          title={updateTooltip}
+                          onClick={() =>
+                            setOpenUpdateTooltip((current) => current === c.chapter ? null : c.chapter)
+                          }
+                          onBlur={() => setOpenUpdateTooltip(null)}
+                          className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-[#fff2a8] bg-gradient-to-b from-[#ffd85a] to-[#e9a72d] text-xl font-black text-[#31512d] shadow-[0_3px_0_#8a6422,0_6px_14px_rgba(0,0,0,0.28)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#31512d]"
+                        >
+                          !
+                        </button>
+                        <span
+                          id={tooltipId}
+                          role="tooltip"
+                          className={[
+                            "pointer-events-none absolute left-0 top-full z-30 mt-2 w-56 rounded-xl border border-[#f3db86] bg-[#173828]/95 px-3 py-2 text-left text-xs font-bold leading-relaxed text-[#fff8dc] shadow-xl transition-opacity",
+                            openUpdateTooltip === c.chapter
+                              ? "opacity-100"
+                              : "opacity-0 group-hover/update:opacity-100 group-focus-within/update:opacity-100",
+                          ].join(" ")}
+                        >
+                          {updateTooltip}
+                        </span>
+                        </div>
+                      )}
+                    </div>
                   );
                 })}
               </div>

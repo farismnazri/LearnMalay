@@ -2,6 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter01: ChapterContent = {
   id: 1,
+  revision: 1,
   title: { ms: "Sapaan", en: "Greetings", es: "Saludos" },
 
   pages: [

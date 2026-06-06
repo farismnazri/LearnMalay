@@ -106,6 +106,60 @@ test("read-only routes are not blocked by CSRF origin policy", async () => {
   assert.equal(typeof res.body, "object");
 });
 
+test("chapter revision is recorded only by an explicit completion request", async () => {
+  const user = await createUserAndSessionCookie();
+
+  const progressOnly = await requestJson("/api/users/progress", {
+    method: "POST",
+    headers: {
+      ...sameOriginHeaders(),
+      cookie: user.sessionCookie,
+    },
+    body: JSON.stringify({
+      id: user.id,
+      progress: { chapter: 2, page: 1 },
+    }),
+  });
+
+  assert.equal(progressOnly.status, 200);
+  assert.deepEqual(readCompletedChapterRevisions(progressOnly.body), {});
+
+  const completed = await requestJson("/api/users/progress", {
+    method: "POST",
+    headers: {
+      ...sameOriginHeaders(),
+      cookie: user.sessionCookie,
+    },
+    body: JSON.stringify({
+      id: user.id,
+      progress: { chapter: 2, page: 1 },
+      completedChapterId: 1,
+    }),
+  });
+
+  assert.equal(completed.status, 200);
+  assert.deepEqual(readCompletedChapterRevisions(completed.body), { "1": 1 });
+});
+
+test("chapter completion cannot acknowledge a chapter that is still locked", async () => {
+  const user = await createUserAndSessionCookie();
+  const res = await requestJson("/api/users/progress", {
+    method: "POST",
+    headers: {
+      ...sameOriginHeaders(),
+      cookie: user.sessionCookie,
+    },
+    body: JSON.stringify({
+      id: user.id,
+      progress: { chapter: 1, page: 1 },
+      completedChapterId: 2,
+    }),
+  });
+
+  assert.equal(res.status, 400);
+  assert.equal(isSafeErrorShape(res.body), true);
+});
+
 test("progress route enforces route-specific 429 contract after max hits", async () => {
   const user = await createUserAndSessionCookie();
 
@@ -272,6 +326,17 @@ function readUserId(body: unknown): string {
   const id = (body as { id?: unknown }).id;
   if (typeof id !== "string" || !id.trim()) throw new Error("user response did not include id");
   return id;
+}
+
+function readCompletedChapterRevisions(body: unknown): Record<string, number> {
+  if (typeof body !== "object" || body === null || Array.isArray(body)) {
+    throw new Error("expected user object response");
+  }
+  const revisions = (body as { completedChapterRevisions?: unknown }).completedChapterRevisions;
+  if (typeof revisions !== "object" || revisions === null || Array.isArray(revisions)) {
+    throw new Error("user response did not include completed chapter revisions");
+  }
+  return revisions as Record<string, number>;
 }
 
 function readSessionCookieFromResponse(headers: Headers): string {
