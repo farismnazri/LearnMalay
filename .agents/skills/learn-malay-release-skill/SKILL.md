@@ -18,11 +18,17 @@ Work from the true repository root and follow the root `AGENTS.md`.
    - `src/lib/appVersion.ts`
    - `scripts/check-release-drift.mjs`
 3. Inspect the changes being released and existing tags before selecting a bump.
+4. When the release includes chapter content changes, inspect chapter revision control before selecting the release:
+   - Read `src/lib/chapterUpdates.ts` to confirm how the app compares completed and current chapter revisions.
+   - Inspect every changed `src/lib/chapters/chapter-XX.ts` file and its `revision` field.
+   - Inspect relevant chapter revision/version contracts, including `src/lib/chapters/types.ts` and any changed completed-revision tracking fields used by the app.
+   - Confirm each meaningfully changed learner-facing chapter increments `revision` exactly once from its last released value; formatting-only or internal renderer changes do not require a chapter revision bump.
 
 ## Decide
 
 - Read the current version; never guess it.
 - Recommend `MAJOR`, `MINOR`, or `PATCH`, the exact next version, a release commit subject, a short changelog note, and matching multilingual Adventure Log text.
+- When chapter content changed, include the chapter revision increment and learner update-notice context in the release notes.
 - Do not change release metadata until the user has asked to close, bump, or publish a release.
 - Do not invent historical release commits or replace existing release tags.
 
@@ -36,6 +42,7 @@ Work from the true repository root and follow the root `AGENTS.md`.
    - Leave a category empty instead of fabricating a release item.
 4. Update the `ROADMAP.md` current version baseline.
 5. Confirm `src/lib/appVersion.ts` still derives the visible version correctly; do not hardcode a duplicate version.
+6. For chapter releases, re-check the changed chapter revision fields against the last released version and confirm `src/lib/chapterUpdates.ts` still recognizes the new revision.
 
 ## Validate And Publish
 

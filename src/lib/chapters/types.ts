@@ -117,6 +117,23 @@ export type ChapterTablePage = {
 };
 
 // -------------------------
+// Icon row page types
+// -------------------------
+export type ChapterIconRowsPage = {
+  id: string;
+  kind: "iconRows";
+  title: Translated;
+  rows: Array<{
+    id: string;
+    iconSrc: string;
+    iconAlt: Translated;
+    name: Translated;
+    description: Translated;
+    example?: Translated;
+  }>;
+};
+
+// -------------------------
 // Family vocabulary page
 // -------------------------
 export type FamilyPersonCard = {
@@ -401,6 +418,7 @@ export type FigurePage = {
 export type ChapterPage =
   | ChapterIntroPage
   | ChapterTablePage
+  | ChapterIconRowsPage
   | ChapterFamilyPage
   | ChapterPronounCardsPage
   | ChapterChatPage

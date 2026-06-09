@@ -11,6 +11,15 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.10.0] - 2026-06-09
+
+### Added
+- Added a responsive icon-row lesson layout and optimized WebP/AVIF artwork for the six Chapter 3 counter types.
+
+### Changed
+- Focused Chapter 3 page 1 on exactly six practical counter types and refreshed Situasi 3.1, Situasi 3.2, and Latihan 1 with short, practical counter conversations and vocabulary practice.
+- Incremented the Chapter 3 content revision from `1` to `2` so returning learners can see the optional chapter update notice.
+
 ## [0.9.4] - 2026-06-09
 
 ### Changed

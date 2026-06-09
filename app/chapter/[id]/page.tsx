@@ -10,6 +10,7 @@ import DragFillCard from "@/components/game/DragFillCard";
 import FamilyCard from "@/components/game/FamilyCard";
 import FigureCard from "@/components/game/FigureCard";
 import FoodIntroCard from "@/components/game/FoodIntroCard";
+import IconRowsCard from "@/components/game/IconRowsCard";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import ChapterTitleHeader from "@/components/game/ChapterTitleHeader";
 import IconActionLink from "@/components/navigation/IconActionLink";
@@ -285,6 +286,8 @@ export default function ChapterPage() {
         );
       case "table":
         return <TableCard page={page} lang={lang} />;
+      case "iconRows":
+        return <IconRowsCard page={page} lang={lang} />;
       case "family":
         return <FamilyCard page={page} lang={lang} />;
       case "chat":

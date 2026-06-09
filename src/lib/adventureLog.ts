@@ -16,6 +16,45 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.10.0",
+    date: "2026-06-09",
+    headline: {
+      ms: "Bab 3 kini memperkenalkan kaunter dengan ikon dan dialog praktikal",
+      en: "Chapter 3 now introduces counters with icons and practical dialogues",
+      es: "El Capitulo 3 ahora presenta mostradores con iconos y dialogos practicos",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah susun atur baris ikon responsif dan aset WebP serta AVIF yang dioptimumkan untuk enam jenis kaunter dalam Bab 3.",
+          en: "Added a responsive icon-row layout and optimized WebP and AVIF assets for the six Chapter 3 counter types.",
+          es: "Se agregaron filas de iconos adaptables y recursos WebP y AVIF optimizados para los seis tipos de mostrador del Capitulo 3.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Bab 3 kini memfokuskan enam jenis kaunter sahaja, dengan Situasi 3.1 dan 3.2 yang praktikal serta Latihan 1 yang melatih nama kaunter.",
+          en: "Chapter 3 now focuses on six counter types, with practical Situations 3.1 and 3.2 and an Exercise 1 focused on counter names.",
+          es: "El Capitulo 3 ahora se centra en seis tipos de mostrador, con Situaciones 3.1 y 3.2 practicas y un Ejercicio 1 sobre sus nombres.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Semakan kandungan Bab 3 dinaikkan daripada 1 kepada 2 supaya pengguna lama boleh melihat notis kemas kini bab pilihan.",
+          en: "Chapter 3's content revision was increased from 1 to 2 so returning users can see the optional chapter update notice.",
+          es: "La revision de contenido del Capitulo 3 aumento de 1 a 2 para que los usuarios anteriores vean el aviso opcional de actualizacion.",
+        },
+      ],
+    },
+    technicalNotes: [
+      {
+        ms: "Skill keluaran kini memerlukan semakan kawalan revisi bab apabila kandungan bab berubah.",
+        en: "The release skill now requires chapter revision-control checks when chapter content changes.",
+        es: "La habilidad de lanzamiento ahora exige revisar el control de revisiones cuando cambia el contenido de un capitulo.",
+      },
+    ],
+  },
+  {
     version: "0.9.4",
     date: "2026-06-09",
     headline: {
