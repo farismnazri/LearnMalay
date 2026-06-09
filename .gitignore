@@ -37,5 +37,6 @@ next-env.d.ts
 /var/*.db-wal
 goal.md
 goal-progress.md
+learn-malay-major-chapter-update.md
 Chat_GPT_Context/
 security_tightening_checklist.md
