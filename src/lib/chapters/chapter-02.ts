@@ -2,26 +2,26 @@ import type { ChapterContent } from "./types";
 
 export const chapter02: ChapterContent = {
   id: 2,
-  revision: 1,
+  revision: 3,
   title: { ms: "Keluarga", en: "Family", es: "Familia" },
 
   pages: [
     // -------------------------
-    // Page 1: Keluarga Asas (from BM2 page 3)
+    // Page 1: immediate family
     // -------------------------
     {
       id: "p2-asas",
       kind: "family",
       title: {
-        ms: "Keluarga asas",
-        en: "Core family",
-        es: "Familia básica",
+        ms: "Keluarga terdekat",
+        en: "Close family",
+        es: "Familia cercana",
       },
       familyImageSrc: "/assets/chapters/ch2/ch2-keluarga.webp",
       familyImageAlt: {
-        ms: "Gambar keluarga asas",
-        en: "Core family portrait",
-        es: "Retrato de la familia básica",
+        ms: "Gambar keluarga terdekat",
+        en: "Close family portrait",
+        es: "Retrato de la familia cercana",
       },
       people: [
         {
@@ -53,7 +53,7 @@ export const chapter02: ChapterContent = {
             en: "Father",
             es: "Padre",
           },
-          alternativeNames: ["ayah", "abah", "papa"],
+          alternativeNames: ["ayah", "papa", "abah", "abi", "bapak"],
         },
         {
           id: "ibu",
@@ -64,7 +64,7 @@ export const chapter02: ChapterContent = {
             en: "Mother",
             es: "Madre",
           },
-          alternativeNames: ["umi", "mak", "mama"],
+          alternativeNames: ["mak", "emak", "mama", "umi"],
         },
         {
           id: "abang",
@@ -88,12 +88,12 @@ export const chapter02: ChapterContent = {
         },
         {
           id: "saya",
-          label: { ms: "saya", en: "me", es: "yo" },
+          label: { ms: "adik", en: "younger sibling", es: "hermano o hermana menor" },
           imageSrc: "/assets/chapters/ch2/ch2-keluarga-saya.webp",
           imageAlt: {
-            ms: "Saya",
-            en: "Me",
-            es: "Yo",
+            ms: "Adik",
+            en: "Younger sibling",
+            es: "Hermano o hermana menor",
           },
         },
       ],
@@ -106,19 +106,23 @@ export const chapter02: ChapterContent = {
   id: "p5-situasi-2-1",
   kind: "chat",
   title: {
-    ms: "Situasi 2.1: Berbual tentang keluarga saya",
-    en: "Situation 2.1: Talking about my family",
-    es: "Situación 2.1: Hablar de mi familia",
+        ms: "Situasi 2.1: Menunjukkan gambar keluarga",
+        en: "Situation 2.1: Showing a family photo",
+        es: "Situación 2.1: Mostrar una foto familiar",
   },
   context: {
-    ms: "Latar tempat: Di rumah",
-    en: "Setting: At home",
-    es: "Lugar: En casa",
+        ms: "Latar tempat: Di universiti",
+        en: "Setting: At the university",
+        es: "Lugar: En la universidad",
   },
   participants: [
     {
+      id: "azman",
+      name: { ms: "Azman", en: "Azman", es: "Azman" },
+    },
+    {
       id: "ayub", // keep this id for your UI
-      name: { ms: "Ahmad", en: "Ahmad", es: "Ahmad" },
+      name: { ms: "Muthu", en: "Muthu", es: "Muthu" },
       avatarSrc: "/assets/characters/Bandicoot_Profile.png",
     },
   ],
@@ -127,99 +131,72 @@ export const chapter02: ChapterContent = {
       id: "s21-m1",
       from: "ayub",
       text: {
-        ms: "Assalamualaikum, Man. Tadi saya nampak awak buat panggilan video.",
-        en: "Assalamualaikum, Man. I saw you on a video call earlier.",
-        es: "Assalamualaikum, Man. Te vi en una videollamada hace un rato.",
+        ms: "Hai, Azman. Ini keluarga awak?",
+        en: "Hi, Azman. Is this your family?",
+        es: "Hola, Azman. ¿Esta es tu familia?",
       },
     },
     {
       id: "s21-m2",
       from: "azman",
       text: {
-        ms: "Waalaikumussalam, Mad. Ya, saya telefon keluarga saya di kampung.",
-        en: "Waalaikumussalam, Mad. Yes, I called my family back home.",
-        es: "Waalaikumussalam, Mad. Sí, llamé a mi familia en mi pueblo.",
+        ms: "Hai, Muthu. Ya, ini keluarga saya.",
+        en: "Hi, Muthu. Yes, this is my family.",
+        es: "Hola, Muthu. Sí, esta es mi familia.",
       },
     },
     {
       id: "s21-m3",
       from: "ayub",
       text: {
-        ms: "Awak bercakap dengan siapa tadi?",
-        en: "Who were you talking to?",
-        es: "¿Con quién estabas hablando?",
+        ms: "Siapa ini?",
+        en: "Who are these people?",
+        es: "¿Quiénes son?",
       },
     },
     {
       id: "s21-m4",
       from: "azman",
       text: {
-        ms: "Saya bercakap dengan ibu dan bapa saya.",
-        en: "I was talking to my mother and father.",
-        es: "Estaba hablando con mi mamá y mi papá.",
+        ms: "Ini ibu dan bapa saya.",
+        en: "These are my mother and father.",
+        es: "Son mi madre y mi padre.",
       },
     },
     {
       id: "s21-m5",
       from: "ayub",
       text: {
-        ms: "Adik-beradik awak ada sekali?",
-        en: "Were your siblings there too?",
-        es: "¿También estaban tus hermanos?",
+        ms: "Yang ini abang awak?",
+        en: "Is this your older brother?",
+        es: "¿Este es tu hermano mayor?",
       },
     },
     {
       id: "s21-m6",
       from: "azman",
       text: {
-        ms: "Ada. Adik perempuan saya pun ikut dalam panggilan itu.",
-        en: "Yes. My younger sister was on the call too.",
-        es: "Sí. Mi hermana menor también estaba en la llamada.",
+        ms: "Ya, itu abang saya.",
+        en: "Yes, that is my older brother.",
+        es: "Sí, ese es mi hermano mayor.",
       },
     },
     {
       id: "s21-m7",
       from: "ayub",
       text: {
-        ms: "Semua sihat?",
-        en: "Is everyone doing well?",
-        es: "¿Todos están bien?",
+        ms: "Ini adik awak?",
+        en: "Is this your younger sibling?",
+        es: "¿Este es tu hermano menor?",
       },
     },
     {
       id: "s21-m8",
       from: "azman",
       text: {
-        ms: "Alhamdulillah, semua sihat. Ibu pesan supaya saya makan dengan baik.",
-        en: "Alhamdulillah, everyone is well. My mother reminded me to eat properly.",
-        es: "Alhamdulillah, todos están bien. Mi mamá me dijo que comiera bien.",
-      },
-    },
-    {
-      id: "s21-m9",
-      from: "ayub",
-      text: {
-        ms: "Bagus. Hujung minggu ini awak balik kampung?",
-        en: "That’s good. Are you going back to your hometown this weekend?",
-        es: "Qué bien. ¿Vas a volver a tu pueblo este fin de semana?",
-      },
-    },
-    {
-      id: "s21-m10",
-      from: "azman",
-      text: {
-        ms: "Belum lagi. Mungkin bulan depan saya balik jumpa ibu bapa saya.",
-        en: "Not yet. Maybe next month I’ll go back to see my parents.",
-        es: "Todavía no. Quizás el próximo mes vuelva para ver a mis padres.",
-      },
-    },
-    {
-      id: "s21-m11",
-      from: "ayub",
-      text: {
-        ms: "Baiklah, kirim salam saya kepada keluarga awak.",
-        en: "Alright, send my regards to your family.",
-        es: "Está bien, mándale saludos a tu familia de mi parte.",
+        ms: "Ya, ini adik saya.",
+        en: "Yes, this is my younger sibling.",
+        es: "Sí, este es mi hermano menor.",
       },
     },
   ],
@@ -227,21 +204,22 @@ export const chapter02: ChapterContent = {
 
 
 
-    //"Situasi 2.2 Memperkenalkan Keluarga saya (Tidak Formal)"
+    // Situation 2.2: introducing family
 
 {
   id: "p6-situasi-2-2",
   kind: "chat",
   title: {
-    ms: "Situasi 2.2: Memperkenalkan keluarga saya (tidak formal)",
-    en: "Situation 2.2: Introducing my family (informal)",
-    es: "Situación 2.2: Presentar a mi familia (informal)",
+    ms: "Situasi 2.2: Memperkenalkan keluarga",
+    en: "Situation 2.2: Introducing family",
+    es: "Situación 2.2: Presentar a la familia",
   },
   context: {
     ms: "Latar tempat: Di rumah Hassan",
     en: "Setting: At Hassan’s house",
     es: "Lugar: En la casa de Hassan",
   },
+  youId: "azman",
   participants: [
     {
       id: "azman",
@@ -252,139 +230,125 @@ export const chapter02: ChapterContent = {
       id: "ayub", // keep this id for your UI
       name: { ms: "Hassan", en: "Hassan", es: "Hassan" },
     },
+    {
+      id: "ibu",
+      name: { ms: "Ibu", en: "Mother", es: "Mamá" },
+      tone: "aux",
+    },
+    {
+      id: "bapa",
+      name: { ms: "Bapa", en: "Father", es: "Papá" },
+      tone: "aux",
+    },
   ],
   messages: [
     {
       id: "s22-m1",
-      from: "azman",
+      from: "ayub",
       text: {
-        ms: "Assalamualaikum, Hassan. Saya datang nak buat kerja kumpulan.",
-        en: "Assalamualaikum, Hassan. I came over to work on the group assignment.",
-        es: "Assalamualaikum, Hassan. Vine para trabajar en el proyecto de grupo.",
+        ms: "Hai, Azman. Ini ibu saya.",
+        en: "Hi, Azman. This is my mother.",
+        es: "Hola, Azman. Esta es mi madre.",
       },
     },
     {
       id: "s22-m2",
-      from: "ayub",
+      from: "ibu",
       text: {
-        ms: "Waalaikumussalam, Azman. Jemput masuk.",
-        en: "Waalaikumussalam, Azman. Come in.",
-        es: "Waalaikumussalam, Azman. Pasa.",
+        ms: "Hai, Azman.",
+        en: "Hi, Azman.",
+        es: "Hola, Azman.",
       },
     },
     {
       id: "s22-m3",
       from: "azman",
       text: {
-        ms: "Terima kasih. Wah, selesanya rumah awak.",
-        en: "Thank you. Wow, your house feels so comfortable.",
-        es: "Gracias. Qué cómoda se siente tu casa.",
+        ms: "Hai, mak cik.",
+        en: "Hi, ma’am.",
+        es: "Hola, señora.",
       },
     },
     {
       id: "s22-m4",
       from: "ayub",
       text: {
-        ms: "Terima kasih. Itu ibu saya. Ibu, ini kawan saya, Azman.",
-        en: "Thank you. That’s my mother. Mom, this is my friend, Azman.",
-        es: "Gracias. Esa es mi mamá. Mamá, este es mi amigo, Azman.",
+        ms: "Itu bapa saya.",
+        en: "That is my father.",
+        es: "Ese es mi padre.",
       },
     },
     {
       id: "s22-m5",
-      from: "azman",
+      from: "bapa",
       text: {
-        ms: "Selamat berkenalan, mak cik.",
-        en: "Nice to meet you, Auntie.",
-        es: "Mucho gusto, señora.",
+        ms: "Hai, Azman.",
+        en: "Hi, Azman.",
+        es: "Hola, Azman.",
       },
     },
     {
       id: "s22-m6",
-      from: "ayub",
+      from: "azman",
       text: {
-        ms: "Ibu saya sedang buat teh panas. Nanti kita minum sama-sama.",
-        en: "My mother is making hot tea. We can have some together later.",
-        es: "Mi mamá está preparando té caliente. Luego podemos tomar un poco juntos.",
+        ms: "Hai, pak cik.",
+        en: "Hi, sir.",
+        es: "Hola, señor.",
       },
     },
     {
       id: "s22-m7",
-      from: "azman",
+      from: "ayub",
       text: {
-        ms: "Wah, patutlah bau teh itu wangi.",
-        en: "Wow, no wonder the tea smells so good.",
-        es: "Con razón huele tan bien el té.",
+        ms: "Ini kakak saya, Sara, dan adik saya, Lina.",
+        en: "This is my older sister, Sara, and my younger sister, Lina.",
+        es: "Esta es mi hermana mayor, Sara, y mi hermana menor, Lina.",
       },
     },
     {
       id: "s22-m8",
-      from: "ayub",
-      text: {
-        ms: "Yang duduk di sebelah ibu saya itu adik saya, Lina.",
-        en: "The one sitting next to my mother is my younger sister, Lina.",
-        es: "La que está sentada al lado de mi mamá es mi hermana menor, Lina.",
-      },
-    },
-    {
-      id: "s22-m9",
       from: "azman",
       text: {
-        ms: "Hai, Lina. Kamu sekolah rendah lagi?",
-        en: "Hi, Lina. Are you still in primary school?",
-        es: "Hola, Lina. ¿Todavía estás en primaria?",
-      },
-    },
-    {
-      id: "s22-m10",
-      from: "ayub",
-      text: {
-        ms: "Ya, Lina Darjah Lima. Abang saya, Amir, pula ada di dapur.",
-        en: "Yes, Lina is in Year Five. My older brother, Amir, is in the kitchen.",
-        es: "Sí, Lina está en quinto grado. Mi hermano mayor, Amir, está en la cocina.",
-      },
-    },
-    {
-      id: "s22-m11",
-      from: "azman",
-      text: {
-        ms: "Oh, ramai juga orang di rumah awak hari ini.",
-        en: "Oh, there are quite a few people at your house today.",
-        es: "Ah, hoy hay bastante gente en tu casa.",
-      },
-    },
-    {
-      id: "s22-m12",
-      from: "ayub",
-      text: {
-        ms: "Ya. Hari ini keluarga kami makan bersama. Jom duduk dulu.",
-        en: "Yes. Our family is having a meal together today. Come, let’s sit down first.",
-        es: "Sí. Hoy mi familia va a comer junta. Ven, sentémonos primero.",
+        ms: "Hai, Sara. Hai, Lina.",
+        en: "Hi, Sara. Hi, Lina.",
+        es: "Hola, Sara. Hola, Lina.",
       },
     },
   ],
 },
 
-///Situasi 2.3 Perbualan dengan ibu (Gelaran dalam Keluarga)
+// Situation 2.3: family names used at home
 
 {
   id: "p7-situasi-2-3",
   kind: "chat",
   title: {
-    ms: "Situasi 2.3 Perbualan dengan ibu (Gelaran dalam Keluarga)",
-    en: "Situation 2.3 Conversation with mother (Family titles)",
-    es: "Situación 2.3 Conversación con mamá (Títulos familiares)",
+    ms: "Situasi 2.3: Panggilan keluarga di rumah",
+    en: "Situation 2.3: Family names used at home",
+    es: "Situación 2.3: Nombres familiares usados en casa",
   },
   context: {
-    ms: "Latar tempat: Kawasan dapur di rumah",
-    en: "Setting: In the kitchen at home",
-    es: "Lugar: En la cocina de casa",
+    ms: "Latar tempat: Di rumah Azman",
+    en: "Setting: At Azman’s house",
+    es: "Lugar: En la casa de Azman",
   },
   participants: [
     {
+      id: "azman",
+      name: { ms: "Azman", en: "Azman", es: "Azman" },
+      side: "left",
+    },
+    {
+      id: "muthu",
+      name: { ms: "Muthu", en: "Muthu", es: "Muthu" },
+      avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+      side: "right",
+    },
+    {
       id: "ayub", // keep this id for your UI
       name: { ms: "Ibu", en: "Mother", es: "Mamá" },
-      avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+      side: "left",
+      tone: "aux",
     },
   ],
   messages: [
@@ -392,90 +356,72 @@ export const chapter02: ChapterContent = {
     id: "s23-m1",
     from: "azman",
     text: {
-      ms: "Mak, ayah dah bangun?",
-      en: "Mum, is Dad already up?",
-      es: "Mamá, ¿papá ya se despertó?",
+      ms: "Mak, ini kawan saya, Muthu.",
+      en: "Mum, this is my friend, Muthu.",
+      es: "Mamá, este es mi amigo Muthu.",
     },
   },
   {
     id: "s23-m2",
     from: "ayub",
     text: {
-      ms: "Dah. Ayah baca surat khabar di ruang tamu.",
-      en: "Yes. Dad is reading the newspaper in the living room.",
-      es: "Sí. Papá está leyendo el periódico en la sala.",
+      ms: "Hai, Muthu.",
+      en: "Hi, Muthu.",
+      es: "Hola, Muthu.",
     },
   },
   {
     id: "s23-m3",
-    from: "azman",
+    from: "muthu",
     text: {
-      ms: "Abang Long balik malam tadi, kan?",
-      en: "Abang Long came back last night, right?",
-      es: "Abang Long volvió anoche, ¿verdad?",
+      ms: "Hai, mak cik.",
+      en: "Hi, ma’am.",
+      es: "Hola, señora.",
     },
   },
   {
     id: "s23-m4",
     from: "ayub",
     text: {
-      ms: "Ya. Abang awak balik dengan isteri dan anaknya.",
-      en: "Yes. Your older brother came back with his wife and child.",
-      es: "Sí. Tu hermano mayor regreso con su esposa y su hijo.",
+      ms: "Azman, ayah ada di ruang tamu.",
+      en: "Azman, Dad is in the living room.",
+      es: "Azman, papá está en la sala.",
     },
   },
   {
     id: "s23-m5",
-    from: "azman",
+    from: "muthu",
     text: {
-      ms: "Bagus. Saya nak susun pinggan untuk ayah, abang, dan adik.",
-      en: "Great. I want to arrange plates for Dad, my brother, and my younger sibling.",
-      es: "Bien. Quiero preparar platos para papa, mi hermano y mi hermano menor.",
+      ms: "Awak panggil bapa awak “ayah”?",
+      en: "Do you call your father ayah?",
+      es: "¿Llamas ayah a tu padre?",
     },
   },
   {
     id: "s23-m6",
-    from: "ayub",
+    from: "azman",
     text: {
-      ms: "Terima kasih, Man. Tolong panggil nenek sekali.",
-      en: "Thank you, Man. Please call Grandma too.",
-      es: "Gracias, Man. Por favor llama también a la abuela.",
+      ms: "Ya. Saya panggil bapa saya “ayah”.",
+      en: "Yes. I call my father ayah.",
+      es: "Sí. Llamo ayah a mi padre.",
     },
   },
   {
     id: "s23-m7",
-    from: "azman",
+    from: "muthu",
     text: {
-      ms: "Baik, mak. Nenek ada di bilik depan?",
-      en: "Okay, Mum. Is Grandma in the front room?",
-      es: "De acuerdo, mamá. ¿La abuela está en el cuarto de delante?",
+      ms: "Dan awak panggil ibu awak “mak”?",
+      en: "And do you call your mother mak?",
+      es: "¿Y llamas mak a tu madre?",
     },
   },
   {
     id: "s23-m8",
-    from: "ayub",
-    text: {
-      ms: "Ya, nenek rehat sekejap di situ.",
-      en: "Yes, Grandma is resting there for a while.",
-      es: "Sí, la abuela está descansando un rato allí.",
-    },
-  },
-  {
-    id: "s23-m9",
     from: "azman",
     text: {
-      ms: "Lepas semua datang, kita sarapan sama-sama.",
-      en: "After everyone comes, we will have breakfast together.",
-      es: "Cuando todos lleguen, desayunaremos juntos.",
-    },
-  },
-  {
-    id: "s23-m10",
-    from: "ayub",
-    text: {
-      ms: "Betul. Itu yang mak suka.",
-      en: "That's right. That's what Mum likes.",
-      es: "Correcto. Eso es lo que le gusta a mamá.",
+      ms: "Ya. Di rumah, saya panggil ibu saya “mak”.",
+      en: "Yes. At home, I call my mother mak.",
+      es: "Sí. En casa, llamo mak a mi madre.",
     },
   },
 ],
@@ -492,9 +438,9 @@ export const chapter02: ChapterContent = {
   kind: "typein",
   title: { ms: "Latihan 1", en: "Exercise 1", es: "Ejercicio 1" },
   instructions: {
-    ms: "Susun semula huruf di bawah menjadi perkataan yang betul. Taip jawapan anda.",
-    en: "Unscramble the letters into the correct word. Type your answer.",
-    es: "Reordena las letras para formar la palabra correcta. Escribe tu respuesta.",
+    ms: "Susun huruf menjadi perkataan keluarga yang betul. Taip jawapan.",
+    en: "Unscramble the letters to make the correct family word. Type your answer.",
+    es: "Ordena las letras para formar la palabra familiar correcta. Escribe la respuesta.",
   },
   caseSensitive: false,
   items: [
@@ -531,7 +477,7 @@ export const chapter02: ChapterContent = {
       n: 5,
       scrambled: "iakd",
       answer: "adik",
-      meaning: { ms: "adik", en: "younger sibling", es: "hermano/a menor" },
+      meaning: { ms: "adik", en: "younger sibling", es: "hermano o hermana menor" },
     },
   ],
 },
@@ -543,15 +489,14 @@ export const chapter02: ChapterContent = {
   kind: "boxdrag",
   title: { ms: "Latihan 2", en: "Exercise 2", es: "Ejercicio 2" },
   instructions: {
-    ms: "Lengkapkan carta organisasi keluarga di bawah dengan betul.",
-    en: "Complete the family tree correctly.",
-    es: "Completa el árbol familiar correctamente.",
+    ms: "Lengkapkan carta keluarga terdekat di bawah.",
+    en: "Complete the immediate-family chart below.",
+    es: "Completa el cuadro de la familia inmediata.",
   },
   showFamilyLegend: true,
   options: [
-    { id: "ibu", ms: "ibu", en: "mother", es: "madre" },
-    { id: "abang", ms: "abang", en: "older brother", es: "hermano mayor" },
     { id: "saya", ms: "saya", en: "me / I", es: "yo" },
+    { id: "ibu", ms: "ibu", en: "mother", es: "madre" },
     { id: "kakak", ms: "kakak", en: "older sister", es: "hermana mayor" },
   ],
   nodes: [
@@ -574,7 +519,7 @@ export const chapter02: ChapterContent = {
       shape: "rect",
       role: "male",
       position: "bottomLeft",
-      correctOptionId: "abang",
+      fixedText: { ms: "abang", en: "older brother", es: "hermano mayor" },
     },
     {
       id: "n-saya",
@@ -593,15 +538,15 @@ export const chapter02: ChapterContent = {
   ],
 },
 
-///latihan 2 (advanced)
+/// Latihan 3: immediate-family recap
 {
   id: "p-latihan-2-advanced",
   kind: "boxdrag",
-  title: { ms: "Latihan 2 (Lanjutan)", en: "Exercise 2 (Advanced)", es: "Ejercicio 2 (Avanzado)" },
+  title: { ms: "Latihan 3", en: "Exercise 3", es: "Ejercicio 3" },
   instructions: {
-    ms: "Lengkapkan carta keluarga (lanjutan) dengan betul.",
-    en: "Complete the advanced family tree correctly.",
-    es: "Completa correctamente el árbol familiar avanzado.",
+    ms: "Lengkapkan carta keluarga dengan perkataan yang telah dipelajari.",
+    en: "Complete the family chart with the words you have learned.",
+    es: "Completa el cuadro familiar con las palabras que has aprendido.",
   },
 
   compact: true,
@@ -609,36 +554,30 @@ export const chapter02: ChapterContent = {
 
   options: [
     { id: "saya", ms: "saya", en: "me / I", es: "yo" },
-    { id: "anak-lelaki-kakak", ms: "anak lelaki kakak", en: "my sister’s son", es: "el hijo de mi hermana" },
     { id: "ibu", ms: "ibu", en: "mother", es: "madre" },
-    { id: "kakak-ipar", ms: "kakak ipar", en: "sister-in-law (brother’s wife)", es: "cuñada (esposa de mi hermano)" },
-    { id: "abang", ms: "abang", en: "older brother", es: "hermano mayor" },
-    { id: "anak-perempuan-abang", ms: "anak perempuan abang", en: "my brother’s daughter", es: "la hija de mi hermano" },
     { id: "bapa", ms: "bapa", en: "father", es: "padre" },
-    { id: "adik", ms: "adik", en: "younger sibling", es: "hermano/a menor" },
-    { id: "abang-ipar", ms: "abang-ipar", en: "brother-in-law (sister’s husband)", es: "cuñado (esposo de mi hermana)" },
+    { id: "adik", ms: "adik", en: "younger sibling", es: "hermano o hermana menor" },
     { id: "kakak", ms: "kakak", en: "older sister", es: "hermana mayor" },
   ],
 
-  // Nodes: percent-based positions so we can fit 10 items
+  // Nodes: percent-based positions for the immediate-family recap
   nodes: [
     // Layer 1
     { id: "n-bapa", shape: "rect", role: "male", xPct: 42, yPct: 15, correctOptionId: "bapa" },
     { id: "n-ibu", shape: "oval", role: "female", xPct: 58, yPct: 15, correctOptionId: "ibu" },
 
-    // Layer 2 (order you asked)
-    // Layer 2 (6 nodes)
-    { id: "n-kipar", shape: "oval", role: "female", xPct: 10, yPct: 54, correctOptionId: "kakak-ipar" },
-    { id: "n-abang", shape: "rect", role: "male", xPct: 26, yPct: 54, correctOptionId: "abang" },
-    { id: "n-adik",  shape: "rect", role: "male", xPct: 42, yPct: 54, correctOptionId: "adik" },
-    { id: "n-saya",  shape: "rect", role: "self", xPct: 58, yPct: 54, correctOptionId: "saya" },
-    { id: "n-kakak", shape: "oval", role: "female", xPct: 74, yPct: 54, correctOptionId: "kakak" },
-    { id: "n-suami", shape: "rect", role: "male", xPct: 90, yPct: 54, correctOptionId: "abang-ipar" },
-
-
-    // Layer 3
-    { id: "n-anak-abang", shape: "oval", role: "female", xPct: 18, yPct: 84, correctOptionId: "anak-perempuan-abang" },
-    { id: "n-anak-kakak", shape: "rect", role: "male", xPct: 82, yPct: 84, correctOptionId: "anak-lelaki-kakak" },
+    // Layer 2
+    {
+      id: "n-abang",
+      shape: "rect",
+      role: "male",
+      xPct: 20,
+      yPct: 62,
+      fixedText: { ms: "abang", en: "older brother", es: "hermano mayor" },
+    },
+    { id: "n-adik", shape: "rect", role: "male", xPct: 40, yPct: 62, correctOptionId: "adik" },
+    { id: "n-saya", shape: "rect", role: "self", xPct: 60, yPct: 62, correctOptionId: "saya" },
+    { id: "n-kakak", shape: "oval", role: "female", xPct: 80, yPct: 62, correctOptionId: "kakak" },
   ],
 
   // Connector lines (percent coords, rendered into SVG viewBox)
@@ -648,19 +587,13 @@ export const chapter02: ChapterContent = {
 
     // trunk down from parents
     { x1: 50, y1: 15, x2: 50, y2: 30 },
-    { x1: 26, y1: 30, x2: 74, y2: 30 },
+    { x1: 20, y1: 30, x2: 80, y2: 30 },
 
-    // arrows to children (abang, adik, saya, kakak) — NOT to spouses
-    { x1: 26, y1: 30, x2: 26, y2: 45, arrow: true },
-    { x1: 42, y1: 30, x2: 42, y2: 45, arrow: true },
-    { x1: 58, y1: 30, x2: 58, y2: 45, arrow: true },
-    { x1: 74, y1: 30, x2: 74, y2: 45, arrow: true },
-
-    { x1: 10, y1: 54, x2: 26, y2: 54 }, // kakak ipar — abang
-    { x1: 74, y1: 54, x2: 90, y2: 54 }, // kakak — suami kakak
-    { x1: 18, y1: 54, x2: 18, y2: 78, arrow: true }, // child of abang couple
-    { x1: 82, y1: 54, x2: 82, y2: 78, arrow: true }, // child of kakak couple
-
+    // arrows to immediate-family children
+    { x1: 20, y1: 30, x2: 20, y2: 52, arrow: true },
+    { x1: 40, y1: 30, x2: 40, y2: 52, arrow: true },
+    { x1: 60, y1: 30, x2: 60, y2: 52, arrow: true },
+    { x1: 80, y1: 30, x2: 80, y2: 52, arrow: true },
   ],
 },
 

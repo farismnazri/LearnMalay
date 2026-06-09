@@ -11,6 +11,16 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.9.4] - 2026-06-09
+
+### Changed
+- Refined Chapter 2 family labels, family-tree exercise targets, and family-dialogue flow so the lesson stays beginner-focused and internally consistent.
+- Chat bubbles now distinguish auxiliary family speakers with explicit participant labels and light-blue styling where Chapter 2 needs it.
+
+### Fixed
+- Repaired the Chapter 2 family-card data contract so `/chapter/2` no longer crashes when rendering family portraits.
+- Corrected Chapter 2 chat speaker ownership and left/right bubble placement for `Azman`, `Ibu`, `Bapa`, and `Muthu`.
+
 ## [0.9.3] - 2026-06-06
 
 ### Added

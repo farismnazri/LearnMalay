@@ -20,13 +20,16 @@ export default function ChatCard({
   const contextTrans = !page.context ? "" : lang === "ms" ? "" : lang === "en" ? page.context.en : page.context.es;
 
   const youId = page.youId ?? "azman";
-  const aku2Name = "Aku2";
-  const aku2AvatarSrc = "/assets/characters/Akuaku_idle.png";
+  const participantsById = new Map(page.participants.map((participant) => [participant.id, participant]));
 
   function msgText(t: Translated) {
     if (lang === "ms") return { main: t.ms, sub: "" };
     const sub = lang === "en" ? t.en : t.es;
     return { main: t.ms, sub };
+  }
+
+  function tr(t: Translated) {
+    return lang === "ms" ? t.ms : lang === "en" ? t.en : t.es;
   }
 
   function initials(name: string) {
@@ -48,27 +51,29 @@ export default function ChatCard({
 
       <div className="mt-5 space-y-3">
         {page.messages.map((m) => {
-          const isYou = m.from === youId;
-          const speakerNameMs = isYou ? userName : aku2Name;
-          const speakerAvatar = isYou ? userAvatarSrc : aku2AvatarSrc;
+          const speaker = participantsById.get(m.from);
+          const isRight = speaker?.side ? speaker.side === "right" : m.from === youId;
+          const isAux = speaker?.tone === "aux";
+          const speakerName = speaker ? tr(speaker.name) : m.from === youId ? userName : "Speaker";
+          const speakerAvatar = speaker?.avatarSrc ?? (m.from === youId ? userAvatarSrc : undefined);
 
           const { main, sub } = msgText(m.text);
 
           return (
-            <div key={m.id} className={`flex items-end gap-2 ${isYou ? "justify-end" : "justify-start"}`}>
-              {!isYou && (
+            <div key={m.id} className={`flex items-end gap-2 ${isRight ? "justify-end" : "justify-start"}`}>
+              {!isRight && (
                 <div className="h-10 w-10 overflow-hidden rounded-full bg-white shadow">
                   {speakerAvatar ? (
                     <Image
                       src={speakerAvatar}
-                      alt={speakerNameMs}
+                      alt={speakerName}
                       width={40}
                       height={40}
-                      className="h-10 w-10 bg-[#fbf5df] object-contain p-0.5"
+                      className="h-10 w-10 bg-[#fbf5df] object-cover"
                     />
                   ) : (
                     <div className="flex h-10 w-10 items-center justify-center text-xs font-black">
-                      {initials(speakerNameMs) || "?"}
+                      {initials(speakerName) || "?"}
                     </div>
                   )}
                 </div>
@@ -77,18 +82,24 @@ export default function ChatCard({
               <div
                 className={[
                   "max-w-[78%] rounded-2xl px-4 py-3 shadow",
-                  isYou ? "bg-amber-200 text-black" : "bg-white text-black",
+                  isAux ? "bg-sky-200/80 text-black" : isRight ? "bg-amber-200 text-black" : "bg-white text-black",
                 ].join(" ")}
               >
-                <div className="text-[10px] font-black opacity-50">{speakerNameMs.toUpperCase()}</div>
+                <div className="text-[10px] font-black opacity-50">{speakerName.toUpperCase()}</div>
 
                 <div className="mt-1 whitespace-pre-line text-sm font-extrabold">{main}</div>
                 {lang !== "ms" && <div className="mt-1 whitespace-pre-line text-xs font-semibold opacity-70">{sub}</div>}
               </div>
 
-              {isYou && (
+              {isRight && (
                 <div className="h-10 w-10 overflow-hidden rounded-full bg-white shadow">
-                  <Image src={userAvatarSrc} alt={userName} width={40} height={40} className="h-10 w-10 object-cover" />
+                  <Image
+                    src={speakerAvatar ?? userAvatarSrc}
+                    alt={speakerName}
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 object-cover"
+                  />
                 </div>
               )}
             </div>

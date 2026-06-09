@@ -182,6 +182,8 @@ export type ChapterChatPage = {
     id: string; // "azman", "ayub", etc.
     name: Translated;
     avatarSrc?: string;
+    side?: "left" | "right";
+    tone?: "default" | "aux";
   }>;
   messages: Array<{
     id: string;

@@ -16,6 +16,49 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.9.4",
+    date: "2026-06-09",
+    headline: {
+      ms: "Bab 2 kini lebih jelas dan stabil untuk pelajaran keluarga",
+      en: "Chapter 2 is now clearer and more stable for the family lesson",
+      es: "El Capitulo 2 ahora es mas claro y estable para la leccion de la familia",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Bab 2 kini menggunakan label keluarga yang lebih jelas, latihan carta keluarga yang lebih fokus, dan dialog yang lebih kemas untuk pelajar baharu.",
+          en: "Chapter 2 now uses clearer family labels, a more focused family-chart exercise, and tidier dialogue flow for new learners.",
+          es: "El Capitulo 2 ahora usa etiquetas familiares mas claras, un ejercicio de cuadro familiar mas enfocado y dialogos mas ordenados para principiantes.",
+        },
+        {
+          ms: "Gelembung chat kini boleh membezakan penutur keluarga sampingan seperti ibu dan bapa dengan label yang jelas serta gaya biru muda apabila diperlukan.",
+          en: "Chat bubbles can now distinguish secondary family speakers like mother and father with clear labels and light-blue styling where needed.",
+          es: "Las burbujas de chat ahora pueden distinguir a hablantes familiares secundarios como madre y padre con etiquetas claras y estilo azul claro cuando hace falta.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Pepijat yang menyebabkan `/chapter/2` gagal apabila kad keluarga cuba memaparkan ahli keluarga yang hilang telah diperbaiki.",
+          en: "The bug that caused `/chapter/2` to fail when the family card tried to render a missing family member has been fixed.",
+          es: "Se corrigio el error que hacia fallar `/chapter/2` cuando la tarjeta familiar intentaba mostrar un miembro de la familia faltante.",
+        },
+        {
+          ms: "Pemilikan dialog dan kedudukan gelembung untuk Azman, Ibu, Bapa, dan Muthu dalam Bab 2 kini dipaparkan dengan betul.",
+          en: "Dialogue ownership and bubble placement for Azman, Mother, Father, and Muthu in Chapter 2 now render correctly.",
+          es: "La autoria del dialogo y la posicion de las burbujas para Azman, Madre, Padre y Muthu en el Capitulo 2 ahora se muestran correctamente.",
+        },
+      ],
+    },
+    technicalNotes: [
+      {
+        ms: "Perender chat berkongsi metadata sisi dan tona peserta secara minimum tanpa mengubah route, progress, atau tata letak bab yang lain.",
+        en: "The shared chat renderer now supports minimal participant side and tone metadata without changing routes, progress, or unrelated chapter layouts.",
+        es: "El renderizador compartido de chat ahora admite metadatos minimos de lado y tono por participante sin cambiar rutas, progreso ni disenos ajenos de capitulos.",
+      },
+    ],
+  },
+  {
     version: "0.9.3",
     date: "2026-06-06",
     headline: {
