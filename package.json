@@ -3,6 +3,7 @@
   "version": "0.9.3",
   "private": true,
   "scripts": {
+    "generate:project-map": "node scripts/generate-project-map.mjs",
     "check:release-drift": "node scripts/check-release-drift.mjs",
     "dev": "next dev",
     "build": "next build",
