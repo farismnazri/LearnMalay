@@ -5,7 +5,6 @@ This file supplements the repository-root `AGENTS.md` for files under `src/lib/c
 - Use the `chapters` project for bounded chapter-content work. Use the `learn-malay` project if the change also needs Aku-Aku dialogs, assets, renderer behavior, Git, release, or repo-wide validation.
 - Preserve the existing `ChapterContent` types, stable IDs, page order, and completion behavior.
 - Keep every required `{ ms, en, es }` value present and non-empty. Prefer natural spoken Malaysian Malay and equivalent learner-friendly translations over literal wording.
-- Treat `revision` as a learner-visible content revision. Increment it only when returning learners should be notified about shipped chapter changes; do not increment it for formatting or internal refactors.
 - Do not edit `app/chapter/[id]/page.tsx` unless renderer behavior must change.
 - Run `npm run lint`; also run `npm run build` when shared types, page structure, or renderer behavior changes.
 
@@ -50,3 +49,15 @@ This file supplements the repository-root `AGENTS.md` for files under `src/lib/c
 * Avoid unnatural “textbook” conversations where characters only list vocabulary.
 * Make sure the Malay chat is natural first, then adapt English and Spanish to match the meaning.
 * If shortening is needed, preserve conversational logic before preserving exact wording.
+
+
+## Chapter Revision / Learner Notification Rules
+
+- Each chapter has its own `revision` number. Base/original chapters start at `revision: 1`.
+- `revision` is separate from the app SemVer version in `package.json`.
+- Increment a chapter `revision` by exactly `+1` when the chapter content change is learner-visible and returning learners should be notified.
+- Learner-visible changes include meaningful changes to lesson pages, examples, chats, exercises, answers, translations, or chapter structure.
+- Do not increment `revision` for formatting-only edits, internal refactors, comments, lint fixes, or changes that do not affect what learners see.
+- If a learner already completed an older chapter revision, the app can show the chapter update `!` notification based on the saved completed revision versus the current chapter revision.
+- When revising a chapter, report whether `revision` changed and why.
+- If multiple learner-visible edits are made to the same chapter before shipping/committing, increment the revision once for that shipped revision, not once per tiny edit.

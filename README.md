@@ -103,3 +103,8 @@ Before shipping meaningful app changes, do a short browser pass:
 - Open the minigames hub and at least one minigame.
 - Submit and view a highscore.
 - Briefly check mobile layout at phone and tablet widths.
+
+## Revision Checking
+
+cd learn-malay
+grep -R "revision:" src/lib/chapters/chapter-*.ts
