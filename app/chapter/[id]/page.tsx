@@ -800,6 +800,37 @@ function ComicPanel({
             className="object-contain"
           />
         </div>
+        {panel.kind === "conversation" ? (
+          <div className="mt-2 grid gap-2">
+            {panel.bubbles.map((bubble) => {
+              const speaker = bubble.speakerLabel ? tr(bubble.speakerLabel, lang) : bubble.side === "left" ? "A" : "B";
+
+              return (
+                <div key={bubble.id} className="grid gap-2">
+                  <div className="rounded-lg border-2 border-[#25140c]/30 bg-[#fff1b3] px-2.5 py-2 text-xs font-black leading-snug text-[#25140c]/80">
+                    <span className="font-black">{speaker}:</span> {bubble.text.ms}
+                  </div>
+                  {lang !== "ms" && (
+                    <div className="rounded-lg border-2 border-[#25140c]/25 bg-white px-2.5 py-2 text-sm font-extrabold leading-snug text-[#25140c]/75">
+                      {tr(bubble.text, lang)}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="mt-2 grid gap-2">
+            <div className="rounded-lg border-2 border-[#25140c]/30 bg-[#fff1b3] px-2.5 py-2 text-xs font-black leading-snug text-[#25140c]/80">
+              {panel.phrase.ms}
+            </div>
+            {lang !== "ms" && (
+              <div className="rounded-lg border-2 border-[#25140c]/25 bg-white px-2.5 py-2 text-sm font-extrabold leading-snug text-[#25140c]/75">
+                {tr(panel.phrase, lang)}
+              </div>
+            )}
+          </div>
+        )}
         {"hint" in panel && panel.hint && (
           <div className="mt-2 rounded-lg border-2 border-[#25140c]/20 bg-[#fff4cf] px-2.5 py-2 text-center text-xs font-extrabold leading-snug text-[#25140c]/75 sm:text-[0.8rem]">
             {tr(panel.hint, lang)}

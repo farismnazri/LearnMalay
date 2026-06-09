@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter01: ChapterContent = {
   id: 1,
-  revision: 2,
+  revision: 3,
   title: { ms: "Sapaan", en: "Greetings", es: "Saludos" },
 
   pages: [
@@ -100,30 +100,6 @@ export const chapter01: ChapterContent = {
           panels: [
             {
               kind: "phrase",
-              id: "selamat-tinggal",
-              imageSrc: "/assets/chapters/ch1/ch1_s2_selamatTinggal.webp",
-              imageAlt: {
-                ms: "Komik Selamat tinggal",
-                en: "Comic panel for Selamat tinggal",
-                es: "Panel de comic para Selamat tinggal",
-              },
-              phrase: { ms: "Selamat tinggal", en: "Goodbye", es: "Adiós" },
-              hint: { ms: "Apabila anda pergi dan orang lain tinggal.", en: "When you leave someone who stays behind.", es: "Cuando te vas y la otra persona se queda." },
-            },
-            {
-              kind: "phrase",
-              id: "selamat-jalan",
-              imageSrc: "/assets/chapters/ch1/ch1_s2_selamatJalan.webp",
-              imageAlt: {
-                ms: "Komik Selamat jalan",
-                en: "Comic panel for Selamat jalan",
-                es: "Panel de comic para Selamat jalan",
-              },
-              phrase: { ms: "Selamat jalan", en: "Goodbye / Have a safe trip", es: "Que te vaya bien" },
-              hint: { ms: "Untuk orang yang pergi.", en: "Said to someone who is leaving.", es: "Para alguien que se va." },
-            },
-            {
-              kind: "phrase",
               id: "saya-pergi-dulu",
               imageSrc: "/assets/chapters/ch1/ch1_s2_pergiDulu.webp",
               imageAlt: {
@@ -132,7 +108,7 @@ export const chapter01: ChapterContent = {
                 es: "Panel de comic para Saya pergi dulu",
               },
               phrase: { ms: "Saya pergi dulu", en: "I’ll go first / I’m heading off", es: "Ya me voy / Me retiro" },
-              hint: { ms: "Apabila anda pergi dahulu.", en: "When you are leaving first.", es: "Cuando te vas primero." },
+              hint: { ms: "Gunakan ketika mahu beredar.", en: "Use this when you are leaving.", es: "Úsalo cuando te vas." },
             },
             {
               kind: "phrase",
@@ -145,9 +121,9 @@ export const chapter01: ChapterContent = {
               },
               phrase: { ms: "Jumpa lagi", en: "See you again", es: "Hasta luego" },
               hint: {
-                ms: "Gunakan apabila anda jangka akan berjumpa lagi.",
+                ms: "Gunakan jika akan berjumpa lagi.",
                 en: "Use this when you expect to meet again.",
-                es: "Usalo cuando esperas volver a encontrarte con esa persona.",
+                es: "Úsalo cuando esperas volver a encontrarte con esa persona.",
               },
             },
           ],
@@ -157,7 +133,7 @@ export const chapter01: ChapterContent = {
           kind: "comic",
           id: "penghargaan",
           title: {
-            ms: "Sapaan penghargaan",
+            ms: "Ucapan penghargaan",
             en: "Polite appreciation",
             es: "Agradecimiento",
           },
@@ -200,28 +176,28 @@ export const chapter01: ChapterContent = {
     },
 
     // -------------------------
-    // Page 2: pronoun comic lesson cards
+    // Page 2: core words for a simple introduction
     // -------------------------
     {
       id: "p2-pronouns",
       kind: "pronounCards",
       title: {
-        ms: "Kata Ganti Nama Diri",
-        en: "Personal Pronouns",
-        es: "Pronombres personales",
+        ms: "Perkenalan ringkas",
+        en: "A simple introduction",
+        es: "Una presentación sencilla",
       },
       helper: {
-        ms: "Siapa yang bercakap? Siapa yang diajak bercakap? Siapa yang dibualkan?",
-        en: "Who is speaking? Who is being spoken to? Who is being talked about?",
-        es: "¿Quién habla? ¿A quién se le habla? ¿De quién se habla?",
+        ms: "Gunakan saya untuk diri sendiri, awak untuk orang yang diajak bercakap, dan dia untuk orang lain.",
+        en: "Use saya for yourself, awak for the person you are speaking to, and dia for another person.",
+        es: "Usa saya para ti, awak para la persona con quien hablas y dia para otra persona.",
       },
       sections: [
         {
           id: "seorang",
           label: {
-            ms: "Seorang",
-            en: "One person",
-            es: "Una persona",
+            ms: "Tiga kata penting",
+            en: "Three useful words",
+            es: "Tres palabras útiles",
           },
           iconSrc: "/assets/chapters/ch1/ch1_seorang.webp",
           iconAlt: {
@@ -233,25 +209,25 @@ export const chapter01: ChapterContent = {
             {
               id: "saya-aku",
               title: {
-                ms: "Saya / Aku",
-                en: "Saya / Aku",
-                es: "Saya / Aku",
+                ms: "Saya",
+                en: "Saya",
+                es: "Saya",
               },
               description: {
-                ms: "orang yang bercakap",
-                en: "the person speaking",
-                es: "la persona que habla",
+                ms: "untuk bercakap tentang diri sendiri",
+                en: "for talking about yourself",
+                es: "para hablar de ti",
               },
               imageSrc: "/assets/chapters/ch1/ch1_saya.webp",
               imageAlt: {
-                ms: "Komik Saya dan Aku",
-                en: "Comic for Saya and Aku",
-                es: "Comic para Saya y Aku",
+                ms: "Komik Saya",
+                en: "Comic for Saya",
+                es: "Cómic para Saya",
               },
               info: {
-                ms: "aku = informal",
-                en: "aku = informal",
-                es: "aku = informal",
+                ms: "Saya Faris.",
+                en: "Saya Faris.",
+                es: "Saya Faris.",
               },
               translation: {
                 en: "I am Faris.",
@@ -261,25 +237,25 @@ export const chapter01: ChapterContent = {
             {
               id: "awak-kau-anda",
               title: {
-                ms: "Awak / Kau / Anda",
-                en: "Awak / Kau / Anda",
-                es: "Awak / Kau / Anda",
+                ms: "Awak",
+                en: "Awak",
+                es: "Awak",
               },
               description: {
-                ms: "orang yang diajak bercakap",
-                en: "the person being spoken to",
-                es: "la persona a quien se le habla",
+                ms: "untuk bercakap dengan seorang kawan",
+                en: "for speaking to one friend",
+                es: "para hablar con un amigo",
               },
               imageSrc: "/assets/chapters/ch1/ch1_awak.webp",
               imageAlt: {
-                ms: "Komik Awak, Kau dan Anda",
-                en: "Comic for Awak, Kau and Anda",
-                es: "Comic para Awak, Kau y Anda",
+                ms: "Komik Awak",
+                en: "Comic for Awak",
+                es: "Cómic para Awak",
               },
               info: {
-                ms: "kau = informal, anda = formal",
-                en: "kau = informal, anda = formal",
-                es: "kau = informal, anda = formal",
+                ms: "Awak sihat?",
+                en: "Awak sihat?",
+                es: "Awak sihat?",
               },
               translation: {
                 en: "Are you well?",
@@ -289,119 +265,29 @@ export const chapter01: ChapterContent = {
             {
               id: "dia-beliau",
               title: {
-                ms: "Dia / Beliau",
-                en: "Dia / Beliau",
-                es: "Dia / Beliau",
+                ms: "Dia",
+                en: "Dia",
+                es: "Dia",
               },
               description: {
-                ms: "orang yang dibualkan",
-                en: "the person being talked about",
-                es: "la persona de quien se habla",
+                ms: "untuk bercakap tentang orang lain",
+                en: "for talking about another person",
+                es: "para hablar de otra persona",
               },
               imageSrc: "/assets/chapters/ch1/ch1_dia.webp",
               imageAlt: {
-                ms: "Komik Dia dan Beliau",
-                en: "Comic for Dia and Beliau",
-                es: "Comic para Dia y Beliau",
+                ms: "Komik Dia",
+                en: "Comic for Dia",
+                es: "Cómic para Dia",
               },
               info: {
-                ms: "beliau = formal / hormat",
-                en: "beliau = formal / respectful",
-                es: "beliau = formal / respetuoso",
+                ms: "Dia kawan saya.",
+                en: "Dia kawan saya.",
+                es: "Dia kawan saya.",
               },
               translation: {
-                en: "She is my friend.",
-                es: "Ella es mi amiga.",
-              },
-            },
-          ],
-        },
-        {
-          id: "ramai",
-          label: {
-            ms: "Ramai",
-            en: "Many people",
-            es: "Muchas personas",
-          },
-          iconSrc: "/assets/chapters/ch1/ch1_ramai.webp",
-          iconAlt: {
-            ms: "Ikon ramai orang",
-            en: "Many people icon",
-            es: "Icono de varias personas",
-          },
-          cards: [
-            {
-              id: "kita-kami",
-              title: {
-                ms: "Kita / Kami",
-                en: "Kita / Kami",
-                es: "Kita / Kami",
-              },
-              description: {
-                ms: "kumpulan sendiri",
-                en: "our own group",
-                es: "nuestro grupo",
-              },
-              imageSrc: "/assets/chapters/ch1/ch1_kita.webp",
-              imageAlt: {
-                ms: "Komik Kita dan Kami",
-                en: "Comic for Kita and Kami",
-                es: "Comic para Kita y Kami",
-              },
-              info: {
-                ms: "kita = termasuk pendengar, kami = tidak termasuk pendengar",
-                en: "kita = includes the listener, kami = excludes the listener",
-                es: "kita = incluye al oyente, kami = no incluye al oyente",
-              },
-              translation: {
-                en: "We go now.",
-                es: "Vamos ahora.",
-              },
-            },
-            {
-              id: "anda-semua-kamu-semua",
-              title: {
-                ms: "Anda semua / Kamu semua",
-                en: "Anda semua / Kamu semua",
-                es: "Anda semua / Kamu semua",
-              },
-              description: {
-                ms: "ramai orang yang diajak bercakap",
-                en: "many people being spoken to",
-                es: "varias personas a quienes se les habla",
-              },
-              imageSrc: "/assets/chapters/ch1/ch1_kamu.webp",
-              imageAlt: {
-                ms: "Komik Anda semua dan Kamu semua",
-                en: "Comic for Anda semua and Kamu semua",
-                es: "Comic para Anda semua y Kamu semua",
-              },
-              translation: {
-                en: "Do you all understand?",
-                es: "¿Todos entienden?",
-              },
-            },
-            {
-              id: "mereka",
-              title: {
-                ms: "Mereka",
-                en: "Mereka",
-                es: "Mereka",
-              },
-              description: {
-                ms: "ramai orang yang dibualkan",
-                en: "many people being talked about",
-                es: "varias personas de quienes se habla",
-              },
-              imageSrc: "/assets/chapters/ch1/ch1_mereka.webp",
-              imageAlt: {
-                ms: "Komik Mereka",
-                en: "Comic for Mereka",
-                es: "Comic para Mereka",
-              },
-              translation: {
-                en: "They are at school.",
-                es: "Ellos están en la escuela.",
+                en: "This person is my friend.",
+                es: "Esta persona es mi amiga.",
               },
             },
           ],
@@ -413,7 +299,7 @@ export const chapter01: ChapterContent = {
   id: "p3-situasi-1-1",
   kind: "chat",
   title: {
-    ms: "Situasi 1.1: Sapaan dengan orang yang lebih tua",
+    ms: "Situasi 1.1: Bertegur sapa dengan orang yang lebih tua",
     en: "Situation 1.1: Greeting an older person",
     es: "Situación 1.1: Saludar a una persona mayor",
   },
@@ -438,99 +324,72 @@ export const chapter01: ChapterContent = {
       id: "m1",
       from: "azman",
       text: {
-        ms: "Assalamualaikum, Pak Cik Ayub.",
-        en: "Assalamualaikum, Uncle Ayub.",
-        es: "Assalamualaikum, señor Ayub.",
+        ms: "Selamat pagi, Pak Cik Ayub.",
+        en: "Good morning, Uncle Ayub.",
+        es: "Buenos días, señor Ayub.",
       },
     },
     {
       id: "m2",
       from: "ayub",
       text: {
-        ms: "Waalaikumussalam, Azman. Cari apa di kedai hari ini?",
-        en: "Waalaikumussalam, Azman. What are you looking for today?",
-        es: "Waalaikumussalam, Azman. ¿Qué estás buscando hoy?",
+        ms: "Selamat pagi, Azman.",
+        en: "Good morning, Azman.",
+        es: "Buenos días, Azman.",
       },
     },
     {
       id: "m3",
       from: "azman",
       text: {
-        ms: "Saya cari roti dan susu.",
-        en: "I am looking for bread and milk.",
-        es: "Estoy buscando pan y leche.",
+        ms: "Apa khabar?",
+        en: "How are you?",
+        es: "¿Cómo está?",
       },
     },
     {
       id: "m4",
       from: "ayub",
       text: {
-        ms: "Roti ada di rak depan. Susu ada di peti sejuk sana.",
-        en: "The bread is on the front shelf. The milk is in the fridge over there.",
-        es: "El pan está en el estante de adelante. La leche está en la nevera de allá.",
+        ms: "Khabar baik. Azman?",
+        en: "I’m good. And you?",
+        es: "Estoy bien. ¿Y tú?",
       },
     },
     {
       id: "m5",
       from: "azman",
       text: {
-        ms: "Baik, terima kasih, Pak Cik.",
-        en: "Alright, thank you, Uncle.",
-        es: "Muy bien, gracias, señor.",
+        ms: "Khabar baik, terima kasih.",
+        en: "I’m good, thank you.",
+        es: "Estoy bien, gracias.",
       },
     },
     {
       id: "m6",
       from: "ayub",
       text: {
-        ms: "Sama-sama. Awak datang seorang hari ini?",
-        en: "You’re welcome. Did you come alone today?",
-        es: "De nada. ¿Viniste solo hoy?",
+        ms: "Sama-sama.",
+        en: "You’re welcome.",
+        es: "De nada.",
       },
     },
     {
       id: "m7",
       from: "azman",
       text: {
-        ms: "Ya, saya datang seorang. Kawan saya tunggu di luar.",
-        en: "Yes, I came alone. My friend is waiting outside.",
-        es: "Sí, vine solo. Mi amigo me espera afuera.",
+        ms: "Saya pergi dulu.",
+        en: "I’m heading off.",
+        es: "Ya me voy.",
       },
     },
     {
       id: "m8",
       from: "ayub",
       text: {
-        ms: "Baik. Selepas ambil barang, bayar di kaunter.",
-        en: "Good. After you get your items, pay at this counter.",
-        es: "Bien. Después de tomar tus cosas, paga en este mostrador.",
-      },
-    },
-    {
-      id: "m9",
-      from: "azman",
-      text: {
-        ms: "Baik, Pak Cik. Saya ambil sekarang.",
-        en: "Alright, Uncle. I’ll get them now.",
-        es: "De acuerdo, señor. Las tomo ahora.",
-      },
-    },
-    {
-      id: "m10",
-      from: "ayub",
-      text: {
-        ms: "Terima kasih, Azman. Jumpa lagi.",
-        en: "Thank you, Azman. See you again.",
-        es: "Gracias, Azman. Nos vemos.",
-      },
-    },
-    {
-      id: "m11",
-      from: "azman",
-      text: {
-        ms: "Baik, Pak Cik. Jumpa lagi.",
-        en: "Alright, Uncle. See you again.",
-        es: "De acuerdo, señor. Nos vemos.",
+        ms: "Baik. Jumpa lagi.",
+        en: "Alright. See you again.",
+        es: "Muy bien. Hasta luego.",
       },
     },
   ],
@@ -540,14 +399,14 @@ export const chapter01: ChapterContent = {
   id: "p-next-chat-muthu",
   kind: "chat",
   title: {
-    ms: "Situasi 1.3 Sapaan antara rakan sebaya berlainan bangsa",
-    en: "Situation 1.3 Greeting a friend of a different ethnicity",
-    es: "Situación 1.3 Saludar a un amigo de otra etnia",
+    ms: "Situasi 1.2: Berkenalan dengan rakan baharu",
+    en: "Situation 1.2: Meeting a new friend",
+    es: "Situación 1.2: Conocer a un nuevo amigo",
   },
   context: {
-    ms: "Latar tempat: Sekitar Universiti",
-    en: "Setting: Around the university",
-    es: "Lugar: Alrededor de la universidad",
+    ms: "Latar tempat: Di universiti",
+    en: "Setting: At the university",
+    es: "Lugar: En la universidad",
   },
   participants: [
     {
@@ -555,24 +414,20 @@ export const chapter01: ChapterContent = {
       name: { ms: "Azman", en: "Azman", es: "Azman" },
     },
     {
-      id: "ayub", // ✅ keep the same id your UI expects (bandicoot)
-      name: { ms: "Muthu", en: "Muthu", es: "Muthu" }, // display name
+      id: "ayub",
+      name: { ms: "Muthu", en: "Muthu", es: "Muthu" },
       avatarSrc: "/assets/characters/Bandicoot_Profile.png",
     },
   ],
   messages: [
-    { id: "m1", from: "azman", text: { ms: "Selamat pagi, Muthu. Awal awak datang kedai buku.", en: "Good morning, Muthu. You came early to the bookstore.", es: "Buenos días, Muthu. Llegaste temprano a la librería." } },
-    { id: "m2", from: "ayub",  text: { ms: "Selamat pagi, Azman. Ya, saya singgah beli pen.", en: "Good morning, Azman. Yes, I stopped by to buy a pen.", es: "Buenos días, Azman. Sí, pasé a comprar un bolígrafo." } },
-    { id: "m3", from: "azman", text: { ms: "Saya pula mahu beli buku nota.", en: "I want to buy a notebook.", es: "Yo quiero comprar un cuaderno." } },
-    { id: "m4", from: "ayub",  text: { ms: "Buku nota di rak kanan, dekat kaunter.", en: "The notebooks are on the right shelf, near the counter.", es: "Los cuadernos están en el estante de la derecha, cerca del mostrador." } },
-    { id: "m5", from: "azman", text: { ms: "Terima kasih. Awak sudah pilih pen?", en: "Thank you. Have you chosen a pen?", es: "Gracias. ¿Ya elegiste el bolígrafo?" } },
-    { id: "m6", from: "ayub",  text: { ms: "Belum. Saya tak pasti pen gel atau pen biasa.", en: "Not yet. I'm not sure whether to get a gel pen or a regular pen.", es: "Todavía no. No estoy seguro si comprar bolígrafo de gel o bolígrafo normal." } },
-    { id: "m7", from: "azman", text: { ms: "Kalau tulis laju, pen gel lebih senang.", en: "If you write fast, a gel pen is easier.", es: "Si escribes rápido, un bolígrafo de gel es más cómodo." } },
-    { id: "m8", from: "ayub",  text: { ms: "Betul juga. Saya ambil dua batang.", en: "That's true. I will take two pens.", es: "Es cierto. Tomaré dos bolígrafos." } },
-    { id: "m9", from: "azman", text: { ms: "Bagus. Lepas bayar, kita terus ke kelas?", en: "Great. After paying, shall we go straight to class?", es: "Bien. Después de pagar, ¿vamos directo a clase?" } },
-    { id: "m10", from: "ayub", text: { ms: "Boleh. Kelas mula pukul sembilan.", en: "Sure. Class starts at nine o'clock.", es: "Claro. La clase empieza a las nueve." } },
-    { id: "m11", from: "azman", text: { ms: "Okey, jom ke kaunter.", en: "Okay, let's go to the counter.", es: "Vale, vamos al mostrador." } },
-    { id: "m12", from: "ayub", text: { ms: "Jom.", en: "Let's go.", es: "Vamos." } },
+    { id: "m1", from: "azman", text: { ms: "Hai. Saya Azman.", en: "Hi. I’m Azman.", es: "Hola. Soy Azman." } },
+    { id: "m2", from: "ayub", text: { ms: "Hai, Azman. Saya Muthu.", en: "Hi, Azman. I’m Muthu.", es: "Hola, Azman. Soy Muthu." } },
+    { id: "m3", from: "azman", text: { ms: "Apa khabar, Muthu?", en: "How are you, Muthu?", es: "¿Cómo estás, Muthu?" } },
+    { id: "m4", from: "ayub", text: { ms: "Khabar baik. Awak?", en: "I’m good. And you?", es: "Estoy bien. ¿Y tú?" } },
+    { id: "m5", from: "azman", text: { ms: "Khabar baik, terima kasih.", en: "I’m good, thank you.", es: "Estoy bien, gracias." } },
+    { id: "m6", from: "ayub", text: { ms: "Sama-sama.", en: "You’re welcome.", es: "De nada." } },
+    { id: "m7", from: "azman", text: { ms: "Jumpa lagi, Muthu.", en: "See you again, Muthu.", es: "Hasta luego, Muthu." } },
+    { id: "m8", from: "ayub", text: { ms: "Jumpa lagi, Azman.", en: "See you again, Azman.", es: "Hasta luego, Azman." } },
   ],
 },
 
@@ -588,9 +443,9 @@ export const chapter01: ChapterContent = {
     options: [
         { id: "selamat-pagi", ms: "Selamat pagi", en: "Good morning", es: "Buenos días" },
         { id: "khabar-baik", ms: "khabar baik", en: "doing well", es: "bien" },
-        { id: "nama", ms: "Nama", en: "Name", es: "Nombre" },
-        { id: "sihat", ms: "sihat", en: "well / healthy", es: "bien / saludable" },
-        { id: "makan", ms: "makan", en: "eat / eaten", es: "comer / comido" },
+        { id: "saya", ms: "Saya", en: "I am", es: "Soy" },
+        { id: "sihat", ms: "sihat", en: "well", es: "bien" },
+        { id: "sama-sama", ms: "Sama-sama", en: "You’re welcome", es: "De nada" },
     ],
     items: [
         {
@@ -621,17 +476,17 @@ export const chapter01: ChapterContent = {
         q: {
             kind: "blank",
             before: { ms: "", en: "", es: "" },
-            after: { ms: " saya Faris.", en: " is Faris.", es: " soy Faris." },
-            correctOptionId: "nama",
+            after: { ms: " Faris.", en: " Faris.", es: " Faris." },
+            correctOptionId: "saya",
         },
-        a: { kind: "text", text: { ms: "Nama saya Aina.", en: "My name is Aina.", es: "Mi nombre es Aina." } },
+        a: { kind: "text", text: { ms: "Saya Aina.", en: "I’m Aina.", es: "Soy Aina." } },
         },
         {
         id: "lat1-q4",
         n: 4,
         q: {
             kind: "blank",
-            before: { ms: "Awak ", en: "Are you ", es: "Estas " },
+            before: { ms: "Awak ", en: "Are you ", es: "¿Estás " },
             after: { ms: " hari ini?", en: " today?", es: " hoy?" },
             correctOptionId: "sihat",
         },
@@ -641,14 +496,14 @@ export const chapter01: ChapterContent = {
         id: "lat1-q5",
         n: 5,
         q: {
-            kind: "blank",
-            before: { ms: "Awak sudah ", en: "Have you ", es: "Ya has " },
-            after: { ms: "?", en: "?", es: "?" },
-            correctOptionId: "makan",
+            kind: "text",
+            text: { ms: "Terima kasih.", en: "Thank you.", es: "Gracias." },
         },
         a: {
-            kind: "text",
-            text: { ms: "Sudah, saya sudah makan.", en: "Yes, I have eaten.", es: "Sí, ya comí." },
+            kind: "blank",
+            before: { ms: "", en: "", es: "" },
+            after: { ms: ".", en: ".", es: "." },
+            correctOptionId: "sama-sama",
         },
         },
     ],
@@ -659,9 +514,9 @@ export const chapter01: ChapterContent = {
   kind: "tick",
   title: { ms: "Latihan 3", en: "Exercise 3", es: "Ejercicio 3" },
   instructions: {
-    ms: "Tandakan (✓) untuk penggunaan kata sapaan yang bagus.",
-    en: "Tick (✓) the sentences that use greetings appropriately.",
-    es: "Marca (✓) las frases que usan saludos de manera adecuada.",
+    ms: "Tandakan (✓) ayat yang sesuai untuk menyapa atau berpisah.",
+    en: "Tick (✓) the sentences suitable for greeting or saying goodbye.",
+    es: "Marca (✓) las frases adecuadas para saludar o despedirse.",
   },
   items: [
   {
@@ -677,39 +532,39 @@ export const chapter01: ChapterContent = {
   {
     id: "l3-2",
     correct: false,
-    text: { ms: "Esok saya hendak ke sekolah.", en: "Tomorrow I want to go to school.", es: "Mañana quiero ir a la escuela." },
+    text: { ms: "Dia kawan saya.", en: "He is my friend.", es: "Él es mi amigo." },
     why: {
-      ms: "Ayat ini bukan sapaan. Ini hanya kenyataan tentang rancangan esok.",
-      en: "This is not a greeting. It’s just a statement about tomorrow’s plan.",
-      es: "Esto no es un saludo. Es una frase sobre un plan para mañana.",
+      ms: "Ayat ini memperkenalkan orang lain, bukan sapaan atau perpisahan.",
+      en: "This introduces another person; it is not a greeting or goodbye.",
+      es: "Esta frase presenta a otra persona; no es un saludo ni una despedida.",
     },
   },
   {
     id: "l3-3",
     correct: true,
     text: {
-      ms: "Selamat pagi. Boleh saya tanya sesuatu?",
-      en: "Good morning. May I ask something?",
-      es: "Buenos días. ¿Puedo preguntar algo?",
+      ms: "Selamat pagi. Apa khabar?",
+      en: "Good morning. How are you?",
+      es: "Buenos días. ¿Cómo estás?",
     },
     why: {
-      ms: "Ada sapaan yang betul (‘Selamat pagi’) sebelum bertanya soalan.",
-      en: "It includes a proper greeting (‘Good morning’) before asking a question.",
-      es: "Incluye un saludo correcto (‘Buenos días’) antes de hacer una pregunta.",
+      ms: "‘Selamat pagi’ dan ‘Apa khabar?’ sesuai digunakan ketika menyapa.",
+      en: "‘Good morning’ and ‘How are you?’ are suitable greeting phrases.",
+      es: "‘Buenos días’ y ‘¿Cómo estás?’ son frases adecuadas para saludar.",
     },
   },
   {
     id: "l3-4",
     correct: true,
     text: {
-      ms: "Hai. Nama saya Mariam. Apa nama awak?",
-      en: "Hi. My name is Mariam. What’s your name?",
-      es: "Hola. Me llamo Mariam. ¿Cómo te llamas?",
+      ms: "Hai. Saya Mariam.",
+      en: "Hi. I’m Mariam.",
+      es: "Hola. Soy Mariam.",
     },
     why: {
-      ms: "Ini sapaan yang sesuai: bermula dengan ‘Hai’ dan memperkenalkan diri.",
-      en: "This is an appropriate greeting: it starts with ‘Hi’ and introduces oneself.",
-      es: "Es un saludo apropiado: empieza con ‘Hola’ y se presenta.",
+      ms: "Ini sapaan ringkas yang diikuti dengan perkenalan diri.",
+      en: "This is a short greeting followed by a simple introduction.",
+      es: "Es un saludo breve seguido de una presentación sencilla.",
     },
   },
   {
@@ -726,54 +581,54 @@ export const chapter01: ChapterContent = {
     id: "l3-6",
     correct: false,
     text: {
-      ms: "Siti, kenalkan ini kawan saya, Seri.",
-      en: "Siti, let me introduce my friend, Seri.",
-      es: "Siti, te presento a mi amiga, Seri.",
+      ms: "Saya Faris.",
+      en: "I’m Faris.",
+      es: "Soy Faris.",
     },
     why: {
-      ms: "Ayat ini ialah ayat perkenalan (introduce orang lain), bukan kata sapaan seperti ‘Hai/ Selamat pagi’.",
-      en: "This is an introduction sentence (introducing someone), not a greeting like ‘Hi/Good morning’.",
-      es: "Es una frase de presentación, no un saludo como ‘Hola/Buenos días’.",
+      ms: "Ayat ini memperkenalkan diri tetapi tidak menyapa atau berpisah.",
+      en: "This introduces the speaker but does not greet or say goodbye.",
+      es: "Esta frase presenta a la persona, pero no saluda ni se despide.",
     },
   },
   {
     id: "l3-7",
     correct: false,
-    text: { ms: "Seronok bertemu awak.", en: "Nice to meet you.", es: "Mucho gusto." },
+    text: { ms: "Terima kasih.", en: "Thank you.", es: "Gracias." },
     why: {
-      ms: "Ini lebih kepada ungkapan selepas berkenalan, bukan pembuka sapaan utama.",
-      en: "This is usually said after meeting someone, not as the main opening greeting.",
-      es: "Normalmente se dice después de presentarse, no como saludo inicial principal.",
+      ms: "Ini ungkapan penghargaan, bukan sapaan atau perpisahan.",
+      en: "This expresses appreciation; it is not a greeting or goodbye.",
+      es: "Esta frase expresa agradecimiento; no es un saludo ni una despedida.",
     },
   },
   {
     id: "l3-8",
     correct: false,
-    text: { ms: "Jom jumpa hari Isnin ini!", en: "Let’s meet this Monday!", es: "¡Nos vemos este lunes!" },
+    text: { ms: "Khabar baik.", en: "I’m good.", es: "Estoy bien." },
     why: {
-      ms: "Ini ajakan/ rancangan, bukan kata sapaan atau bertanya khabar.",
-      en: "This is an invitation/plan, not a greeting or wellbeing question.",
-      es: "Es una invitación/plan, no un saludo ni una pregunta de cortesía.",
+      ms: "Ini jawapan kepada pertanyaan khabar, bukan sapaan atau perpisahan.",
+      en: "This answers a wellbeing question; it is not a greeting or goodbye.",
+      es: "Esta frase responde a una pregunta sobre el estado de ánimo; no es un saludo ni una despedida.",
     },
   },
   {
     id: "l3-9",
     correct: true,
-    text: { ms: "Selamat tinggal. Jumpa lagi.", en: "Goodbye. See you again.", es: "Adiós. Hasta luego." },
+    text: { ms: "Saya pergi dulu. Jumpa lagi.", en: "I’m heading off. See you again.", es: "Ya me voy. Hasta luego." },
     why: {
-      ms: "Ini kata sapaan apabila berpisah (ucapan penutup perbualan).",
-      en: "This is a leave-taking greeting (closing a conversation).",
-      es: "Es una despedida (cierre de una conversación).",
+      ms: "Ini ungkapan yang sesuai apabila berpisah.",
+      en: "These phrases are suitable when saying goodbye.",
+      es: "Estas frases son adecuadas para despedirse.",
     },
   },
   {
     id: "l3-10",
-    correct: true,
-    text: { ms: "Awak sudah makan?", en: "Have you eaten?", es: "¿Ya comiste?" },
+    correct: false,
+    text: { ms: "Sama-sama.", en: "You’re welcome.", es: "De nada." },
     why: {
-      ms: "Soalan ini biasa digunakan sebagai sapaan sosial dalam BM (bertanya makan).",
-      en: "This is a common social greeting in Malay (asking if someone has eaten).",
-      es: "Es una pregunta social común en malayo (preguntar si ya comió).",
+      ms: "Ini jawapan kepada ‘Terima kasih’, bukan sapaan atau perpisahan.",
+      en: "This answers ‘Thank you’; it is not a greeting or goodbye.",
+      es: "Esta frase responde a ‘Gracias’; no es un saludo ni una despedida.",
     },
   },
   ],
