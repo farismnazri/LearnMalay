@@ -3,6 +3,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
+const metadataOnly = process.argv.includes("--metadata-only");
 
 const read = (relativePath) =>
   fs.readFileSync(path.join(repoRoot, relativePath), "utf8");
@@ -49,17 +50,19 @@ if (!adventureLogMatch) {
 const missingTags = [];
 const nonAnnotatedTags = [];
 
-for (const version of releasedVersions) {
-  const tag = `v${version}`;
-  const result = spawnSync("git", ["cat-file", "-t", `refs/tags/${tag}`], {
-    cwd: repoRoot,
-    encoding: "utf8",
-  });
+if (!metadataOnly) {
+  for (const version of releasedVersions) {
+    const tag = `v${version}`;
+    const result = spawnSync("git", ["cat-file", "-t", `refs/tags/${tag}`], {
+      cwd: repoRoot,
+      encoding: "utf8",
+    });
 
-  if (result.status !== 0) {
-    missingTags.push(tag);
-  } else if (result.stdout.trim() !== "tag") {
-    nonAnnotatedTags.push(tag);
+    if (result.status !== 0) {
+      missingTags.push(tag);
+    } else if (result.stdout.trim() !== "tag") {
+      nonAnnotatedTags.push(tag);
+    }
   }
 }
 
@@ -81,4 +84,8 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`Release metadata aligned at v${packageVersion}.`);
+console.log(
+  metadataOnly
+    ? `Release metadata aligned at v${packageVersion}; tag checks skipped.`
+    : `Release metadata aligned at v${packageVersion}.`,
+);

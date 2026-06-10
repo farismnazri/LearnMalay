@@ -7,6 +7,13 @@ description: Close or publish a Learn Malay release by selecting the SemVer bump
 
 Work from the true repository root and follow the root `AGENTS.md`.
 
+## Phrase Aliases
+
+- `plan close update` and `plan close` mean plan-only preflight. Inspect first, recommend the SemVer bump, run safe validation when appropriate, and report readiness, blockers, and the exact execution phrase to use next. Never stage, commit, tag, or push.
+- `close update`, `close this update`, and an explicit request to close or publish mean execution mode. Synchronize and review the release first, stage only the intended release set, then run `npm run release:publish -- --version X.Y.Z`.
+- Ambiguous requests never imply permission to publish or push.
+- Use `npm run release:plan` as the repeatable read-only preflight command.
+
 ## Inspect
 
 1. Run `git status --short` and identify unrelated changes that must remain untouched.
@@ -46,17 +53,13 @@ Work from the true repository root and follow the root `AGENTS.md`.
 
 ## Validate And Publish
 
-1. Before the release commit, run:
-   - `npm run lint`
-   - `npm run build`
-2. Commit only the intended release artifacts with:
-   `chore(release): bump version to vX.Y.Z`
-3. Create the annotated tag on that release commit:
-   `git tag -a vX.Y.Z <release-commit-sha> -m "Release vX.Y.Z"`
-4. Run `npm run check:release-drift` after the annotated tag exists.
-5. Verify the tag points to the intended release commit.
-6. Push the branch and annotated tag only when the user explicitly requested publication.
+1. Review the synchronized release and stage only the intended release files. The publisher never stages files automatically.
+2. Run `npm run release:publish -- --version X.Y.Z` only for an execution phrase or explicit publish request.
+3. The staged-only publisher requires a clean `main` aligned with `origin/main`, synchronized metadata, all five required release metadata files staged, and an unused local and remote tag.
+4. The publisher runs lint and build, creates `chore(release): bump version to vX.Y.Z`, creates the annotated tag, runs the normal release-drift check, verifies the tag, and atomically pushes `main` and the tag.
+5. Never run the publisher for a plan-only or ambiguous request.
 
 ## Report
 
-Include the bump type and final version, changed release artifacts, release commit hash, annotated tag, validation results, push results if applicable, and final `git status --short`.
+- For plan-only preflight, report what is hot/ready, what would be released, the recommended bump and exact next version, blockers, validation results, and the exact close/update execution phrase to use next.
+- For execution mode, include the bump type and final version, changed release artifacts, release commit hash, annotated tag, validation results, push results, and final `git status --short`.

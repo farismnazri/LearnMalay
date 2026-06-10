@@ -5,10 +5,14 @@
   "scripts": {
     "generate:project-map": "node scripts/generate-project-map.mjs",
     "check:release-drift": "node scripts/check-release-drift.mjs",
+    "check:release-metadata": "node scripts/check-release-drift.mjs --metadata-only",
+    "release:plan": "node scripts/release.mjs plan",
+    "release:publish": "node scripts/release.mjs publish",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:release": "node --test tests/release/*.test.mjs",
     "test:security": "node --test --experimental-strip-types tests/security/*.test.ts",
     "generate:pwa-icons": "node scripts/generate-pwa-icons.mjs"
   },
