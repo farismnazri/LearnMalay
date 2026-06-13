@@ -287,7 +287,7 @@ const occupationRows = {
 
 export const chapter09: ChapterContent = {
   id: 9,
-  revision: 1,
+  revision: 2,
   title: {
     ms: "Pekerjaan di Sekitar Kita",
     en: "Jobs Around Us",
@@ -312,7 +312,7 @@ export const chapter09: ChapterContent = {
     {
       id: "c9-p4-chat-askar",
       kind: "chat",
-      youId: "amri",
+      youId: "me",
       title: {
         ms: "Situasi 9.1 Cita-cita menjadi seorang askar",
         en: "Situation 9.1 Ambition to become a soldier",
@@ -327,12 +327,11 @@ export const chapter09: ChapterContent = {
         {
           id: "cikgu",
           name: { ms: "Cikgu", en: "Teacher", es: "Profesora" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
         },
-        { id: "amri", name: { ms: "Amri", en: "Amri", es: "Amri" } },
+        { id: "me", name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" } },
       ],
       messages: [
-        { id: "c9-chat1-m1", from: "cikgu", text: { ms: "Amri.", en: "Amri.", es: "Amri." } },
+        { id: "c9-chat1-m1", from: "cikgu", text: { ms: "{currentUsername}, cikgu nak tanya.", en: "{currentUsername}, I have a question.", es: "{currentUsername}, tengo una pregunta." } },
         {
           id: "c9-chat1-m2",
           from: "cikgu",
@@ -344,7 +343,7 @@ export const chapter09: ChapterContent = {
         },
         {
           id: "c9-chat1-m3",
-          from: "amri",
+          from: "me",
           text: {
             ms: "Saya bercita-cita ingin menjadi seorang askar, cikgu.",
             en: "I aspire to become a soldier, teacher.",
@@ -362,7 +361,7 @@ export const chapter09: ChapterContent = {
         },
         {
           id: "c9-chat1-m5",
-          from: "amri",
+          from: "me",
           text: {
             ms: "Saya ingin menjaga keamanan negara, cikgu.",
             en: "I want to protect the country's safety, teacher.",
@@ -380,7 +379,7 @@ export const chapter09: ChapterContent = {
         },
         {
           id: "c9-chat1-m7",
-          from: "amri",
+          from: "me",
           text: {
             ms: "Saya ingin menjadi berani seperti ayah saya, cikgu.",
             en: "I want to be brave like my father, teacher.",
@@ -398,7 +397,7 @@ export const chapter09: ChapterContent = {
         },
         {
           id: "c9-chat1-m9",
-          from: "amri",
+          from: "me",
           text: {
             ms: "Ayah saya seorang anggota polis.",
             en: "My father is a police officer.",
@@ -416,7 +415,7 @@ export const chapter09: ChapterContent = {
         },
         {
           id: "c9-chat1-m11",
-          from: "amri",
+          from: "me",
           text: {
             ms: "Terima kasih cikgu.",
             en: "Thank you, teacher.",
@@ -437,7 +436,7 @@ export const chapter09: ChapterContent = {
     {
       id: "c9-p5-chat-guru",
       kind: "chat",
-      youId: "cikgu",
+      youId: "me",
       title: {
         ms: "Situasi 9.2 Pekerjaan Seorang Guru",
         en: "Situation 9.2 Work of a Teacher",
@@ -452,9 +451,8 @@ export const chapter09: ChapterContent = {
         { id: "ketua", name: { ms: "Ketua kelas", en: "Class monitor", es: "Jefe de clase" } },
         { id: "murid", name: { ms: "Semua murid", en: "All students", es: "Todos los alumnos" } },
         {
-          id: "cikgu",
-          name: { ms: "Cikgu", en: "Teacher", es: "Maestra" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+          id: "me",
+          name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
         },
         { id: "finah", name: { ms: "Finah", en: "Finah", es: "Finah" } },
       ],
@@ -463,7 +461,7 @@ export const chapter09: ChapterContent = {
         { id: "c9-chat2-m2", from: "murid", text: { ms: "Selamat pagi, cikgu.", en: "Good morning, teacher.", es: "Buenos días, profesora." } },
         {
           id: "c9-chat2-m3",
-          from: "cikgu",
+          from: "me",
           text: {
             ms: "Selamat pagi. Hari ini kita buat aktiviti cari kata kerja.",
             en: "Good morning. Today we will do an activity to find action words.",
@@ -473,7 +471,7 @@ export const chapter09: ChapterContent = {
         { id: "c9-chat2-m4", from: "murid", text: { ms: "Baik, cikgu.", en: "Okay, teacher.", es: "Está bien, profesora." } },
         {
           id: "c9-chat2-m5",
-          from: "cikgu",
+          from: "me",
           text: {
             ms: "Dengar ayat ini: Aina menyusun buku di atas meja.",
             en: "Listen to this sentence: Aina arranges books on the table.",
@@ -483,7 +481,7 @@ export const chapter09: ChapterContent = {
         { id: "c9-chat2-m6", from: "murid", text: { ms: "Aina menyusun buku di atas meja.", en: "Aina arranges books on the table.", es: "Aina ordena libros sobre la mesa." } },
         {
           id: "c9-chat2-m7",
-          from: "cikgu",
+          from: "me",
           text: {
             ms: "Bagus. Finah, mana satu kata kerja?",
             en: "Good. Finah, which one is the action word?",
@@ -501,7 +499,7 @@ export const chapter09: ChapterContent = {
         },
         {
           id: "c9-chat2-m9",
-          from: "cikgu",
+          from: "me",
           text: {
             ms: "Betul. Menyusun ialah perbuatan.",
             en: "Correct. Arranging is an action.",
@@ -510,7 +508,7 @@ export const chapter09: ChapterContent = {
         },
         {
           id: "c9-chat2-m10",
-          from: "cikgu",
+          from: "me",
           text: {
             ms: "Sekarang cuba ayat kedua: Amir melukis peta kecil.",
             en: "Now try the second sentence: Amir draws a small map.",
@@ -528,7 +526,7 @@ export const chapter09: ChapterContent = {
         },
         {
           id: "c9-chat2-m12",
-          from: "cikgu",
+          from: "me",
           text: {
             ms: "Bagus. Hari ini semua sudah pandai cari kata kerja.",
             en: "Good. Today everyone can find action words.",

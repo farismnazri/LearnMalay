@@ -7,7 +7,7 @@ const malam = "/assets/chapters/ch4/malam.webp";
 
 export const chapter04: ChapterContent = {
   id: 4,
-  revision: 2,
+  revision: 3,
   title: { ms: "Masa\n& Arah Jalan", en: "Time & Simple Routes", es: "Tiempo y Rutas Sencillas" },
   pages: [
     {
@@ -82,20 +82,20 @@ export const chapter04: ChapterContent = {
     {
       id: "c4-p4-chat-masa",
       kind: "chat",
+      youId: "me",
       title: { ms: "Situasi 4.1: Masa", en: "Situation 4.1: Time", es: "Situación 4.1: Tiempo" },
-      youId: "a",
       participants: [
-        { id: "a", name: { ms: "Ali", en: "Ali", es: "Ali" } },
+        { id: "me", name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" } },
         { id: "b", name: { ms: "Muthu", en: "Muthu", es: "Muthu" } },
       ],
       messages: [
-        { id: "c4-time-chat-1", from: "a", text: { ms: "Muthu, pukul berapa sekarang?", en: "Muthu, what time is it now?", es: "Muthu, ¿qué hora es ahora?" } },
+        { id: "c4-time-chat-1", from: "me", text: { ms: "Muthu, pukul berapa sekarang?", en: "Muthu, what time is it now?", es: "Muthu, ¿qué hora es ahora?" } },
         { id: "c4-time-chat-2", from: "b", text: { ms: "Sekarang pukul lapan pagi.", en: "It is eight in the morning now.", es: "Ahora son las ocho de la mañana." } },
-        { id: "c4-time-chat-3", from: "a", text: { ms: "Kita jumpa pukul sembilan?", en: "Shall we meet at nine?", es: "¿Nos vemos a las nueve?" } },
+        { id: "c4-time-chat-3", from: "me", text: { ms: "Kita jumpa pukul sembilan?", en: "Shall we meet at nine?", es: "¿Nos vemos a las nueve?" } },
         { id: "c4-time-chat-4", from: "b", text: { ms: "Boleh. Jumpa pukul sembilan.", en: "Sure. See you at nine.", es: "Sí. Nos vemos a las nueve." } },
-        { id: "c4-time-chat-5", from: "a", text: { ms: "Kita jumpa di mana?", en: "Where shall we meet?", es: "¿Dónde nos vemos?" } },
+        { id: "c4-time-chat-5", from: "me", text: { ms: "Kita jumpa di mana?", en: "Where shall we meet?", es: "¿Dónde nos vemos?" } },
         { id: "c4-time-chat-6", from: "b", text: { ms: "Di sini saja.", en: "Just here.", es: "Aquí mismo." } },
-        { id: "c4-time-chat-7", from: "a", text: { ms: "Baik, jumpa nanti.", en: "Okay, see you later.", es: "Bueno, nos vemos luego." } },
+        { id: "c4-time-chat-7", from: "me", text: { ms: "Baik, jumpa nanti.", en: "Okay, see you later.", es: "Bueno, nos vemos luego." } },
         { id: "c4-time-chat-8", from: "b", text: { ms: "Jumpa nanti.", en: "See you later.", es: "Nos vemos luego." } },
       ],
     },
@@ -148,20 +148,20 @@ export const chapter04: ChapterContent = {
     {
       id: "c4-p8-chat-arah",
       kind: "chat",
+      youId: "me",
       title: { ms: "Situasi 4.2: Tanya Arah", en: "Situation 4.2: Asking Directions", es: "Situación 4.2: Pedir Direcciones" },
-      youId: "a",
       participants: [
-        { id: "a", name: { ms: "Ali", en: "Ali", es: "Ali" } },
+        { id: "me", name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" } },
         { id: "b", name: { ms: "Muthu", en: "Muthu", es: "Muthu" } },
       ],
       messages: [
-        { id: "c4-dir-chat-1", from: "a", text: { ms: "Maaf, tandas di mana?", en: "Excuse me, where is the toilet?", es: "Disculpa, ¿dónde está el baño?" } },
+        { id: "c4-dir-chat-1", from: "me", text: { ms: "Maaf, tandas di mana?", en: "Excuse me, where is the toilet?", es: "Disculpa, ¿dónde está el baño?" } },
         { id: "c4-dir-chat-2", from: "b", text: { ms: "Tandas di sana.", en: "The toilet is over there.", es: "El baño está allá." } },
-        { id: "c4-dir-chat-3", from: "a", text: { ms: "Saya jalan terus?", en: "Do I go straight?", es: "¿Sigo recto?" } },
+        { id: "c4-dir-chat-3", from: "me", text: { ms: "Saya jalan terus?", en: "Do I go straight?", es: "¿Sigo recto?" } },
         { id: "c4-dir-chat-4", from: "b", text: { ms: "Ya, jalan terus.", en: "Yes, go straight.", es: "Sí, sigue recto." } },
-        { id: "c4-dir-chat-5", from: "a", text: { ms: "Lepas itu?", en: "After that?", es: "¿Después de eso?" } },
+        { id: "c4-dir-chat-5", from: "me", text: { ms: "Lepas itu?", en: "After that?", es: "¿Después de eso?" } },
         { id: "c4-dir-chat-6", from: "b", text: { ms: "Belok kiri.", en: "Turn left.", es: "Gira a la izquierda." } },
-        { id: "c4-dir-chat-7", from: "a", text: { ms: "Oh, di sana?", en: "Oh, over there?", es: "Ah, ¿allá?" } },
+        { id: "c4-dir-chat-7", from: "me", text: { ms: "Oh, di sana?", en: "Oh, over there?", es: "Ah, ¿allá?" } },
         { id: "c4-dir-chat-8", from: "b", text: { ms: "Ya, di sana.", en: "Yes, over there.", es: "Sí, allá." } },
       ],
     },

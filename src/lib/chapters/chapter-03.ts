@@ -1,7 +1,7 @@
 import type { ChapterContent } from "./types";
 export const chapter03: ChapterContent = {
   id: 3,
-  revision: 2,
+  revision: 3,
   title: { ms: "Kaunter", en: "Counter", es: "Mostrador" },
 
 
@@ -191,6 +191,7 @@ pages: [
 {
   id: "p3-situasi-3-1",
   kind: "chat",
+  youId: "me",
   title: {
     ms: "Situasi 3.1 Bertanya lokasi tandas",
     en: "Situation 3.1 Asking where the toilet is",
@@ -203,8 +204,8 @@ pages: [
   },
   participants: [
     {
-      id: "azman",
-      name: { ms: "Azman", en: "Azman", es: "Azman" },
+      id: "me",
+      name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
     },
     {
       id: "pegawai",
@@ -213,13 +214,12 @@ pages: [
         en: "Counter staff",
         es: "Personal del mostrador",
       },
-      avatarSrc: "/assets/characters/Bandicoot_Profile.png",
     },
   ],
   messages: [
     {
       id: "m1",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Selamat pagi. Tumpang tanya, tandas di mana?",
         en: "Good morning. Excuse me, where is the toilet?",
@@ -237,7 +237,7 @@ pages: [
     },
     {
       id: "m3",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Baik. Selepas keluar lif, saya perlu belok ke mana?",
         en: "Alright. After getting out of the lift, where should I turn?",
@@ -255,7 +255,7 @@ pages: [
     },
     {
       id: "m5",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Oh, dekat surau. Jauh tak dari sini?",
         en: "Oh, near the prayer room. Is it far from here?",
@@ -273,7 +273,7 @@ pages: [
     },
     {
       id: "m7",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Baik, terima kasih.",
         en: "Alright, thank you.",
@@ -297,6 +297,7 @@ pages: [
 {
   id: "p4-situasi-3-2",
   kind: "chat",
+  youId: "me",
   title: {
     ms: "Situasi 3.2 Membayar di restoran",
     en: "Situation 3.2 Paying at a restaurant",
@@ -309,19 +310,18 @@ pages: [
   },
   participants: [
     {
-      id: "azman",
-      name: { ms: "Azman", en: "Azman", es: "Azman" },
+      id: "me",
+      name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
     },
     {
       id: "juruwang",
       name: { ms: "Juruwang", en: "Cashier", es: "Cajero/a" },
-      avatarSrc: "/assets/characters/Bandicoot_Profile.png",
     },
   ],
   messages: [
     {
       id: "m1",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Selamat petang. Saya nak bayar nasi lemak satu.",
         en: "Good evening. I want to pay for one nasi lemak.",
@@ -339,7 +339,7 @@ pages: [
     },
     {
       id: "m3",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Tunai. Ini RM5.",
         en: "Cash. Here is RM5.",
@@ -357,7 +357,7 @@ pages: [
     },
     {
       id: "m5",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Tak ada. Baki 50 sen pun boleh.",
         en: "No. 50 sen change is fine too.",
@@ -375,7 +375,7 @@ pages: [
     },
     {
       id: "m7",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Terima kasih.",
         en: "Thank you.",

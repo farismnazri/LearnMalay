@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter01: ChapterContent = {
   id: 1,
-  revision: 3,
+  revision: 4,
   title: { ms: "Sapaan", en: "Greetings", es: "Saludos" },
 
   pages: [
@@ -298,6 +298,7 @@ export const chapter01: ChapterContent = {
     {
   id: "p3-situasi-1-1",
   kind: "chat",
+  youId: "me",
   title: {
     ms: "Situasi 1.1: Bertegur sapa dengan orang yang lebih tua",
     en: "Situation 1.1: Greeting an older person",
@@ -310,19 +311,18 @@ export const chapter01: ChapterContent = {
   },
   participants: [
     {
-      id: "azman",
-      name: { ms: "Azman", en: "Azman", es: "Azman" },
+      id: "me",
+      name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
     },
     {
       id: "ayub",
       name: { ms: "Pak Cik Ayub", en: "Uncle Ayub", es: "Señor Ayub" },
-      avatarSrc: "/assets/characters/Bandicoot_Profile.png",
     },
   ],
   messages: [
     {
       id: "m1",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Selamat pagi, Pak Cik Ayub.",
         en: "Good morning, Uncle Ayub.",
@@ -333,14 +333,14 @@ export const chapter01: ChapterContent = {
       id: "m2",
       from: "ayub",
       text: {
-        ms: "Selamat pagi, Azman.",
-        en: "Good morning, Azman.",
-        es: "Buenos días, Azman.",
+        ms: "Selamat pagi, {currentUsername}.",
+        en: "Good morning, {currentUsername}.",
+        es: "Buenos días, {currentUsername}.",
       },
     },
     {
       id: "m3",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Apa khabar?",
         en: "How are you?",
@@ -351,14 +351,14 @@ export const chapter01: ChapterContent = {
       id: "m4",
       from: "ayub",
       text: {
-        ms: "Khabar baik. Azman?",
+        ms: "Khabar baik. Awak pula?",
         en: "I’m good. And you?",
         es: "Estoy bien. ¿Y tú?",
       },
     },
     {
       id: "m5",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Khabar baik, terima kasih.",
         en: "I’m good, thank you.",
@@ -376,7 +376,7 @@ export const chapter01: ChapterContent = {
     },
     {
       id: "m7",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Saya pergi dulu.",
         en: "I’m heading off.",
@@ -398,6 +398,7 @@ export const chapter01: ChapterContent = {
     {
   id: "p-next-chat-muthu",
   kind: "chat",
+  youId: "me",
   title: {
     ms: "Situasi 1.2: Berkenalan dengan rakan baharu",
     en: "Situation 1.2: Meeting a new friend",
@@ -410,24 +411,23 @@ export const chapter01: ChapterContent = {
   },
   participants: [
     {
-      id: "azman",
-      name: { ms: "Azman", en: "Azman", es: "Azman" },
+      id: "me",
+      name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
     },
     {
       id: "ayub",
       name: { ms: "Muthu", en: "Muthu", es: "Muthu" },
-      avatarSrc: "/assets/characters/Bandicoot_Profile.png",
     },
   ],
   messages: [
-    { id: "m1", from: "azman", text: { ms: "Hai. Saya Azman.", en: "Hi. I’m Azman.", es: "Hola. Soy Azman." } },
-    { id: "m2", from: "ayub", text: { ms: "Hai, Azman. Saya Muthu.", en: "Hi, Azman. I’m Muthu.", es: "Hola, Azman. Soy Muthu." } },
-    { id: "m3", from: "azman", text: { ms: "Apa khabar, Muthu?", en: "How are you, Muthu?", es: "¿Cómo estás, Muthu?" } },
+    { id: "m1", from: "me", text: { ms: "Hai. Saya {currentUsername}.", en: "Hi. I’m {currentUsername}.", es: "Hola. Soy {currentUsername}." } },
+    { id: "m2", from: "ayub", text: { ms: "Hai, {currentUsername}. Saya Muthu.", en: "Hi, {currentUsername}. I’m Muthu.", es: "Hola, {currentUsername}. Soy Muthu." } },
+    { id: "m3", from: "me", text: { ms: "Apa khabar, Muthu?", en: "How are you, Muthu?", es: "¿Cómo estás, Muthu?" } },
     { id: "m4", from: "ayub", text: { ms: "Khabar baik. Awak?", en: "I’m good. And you?", es: "Estoy bien. ¿Y tú?" } },
-    { id: "m5", from: "azman", text: { ms: "Khabar baik, terima kasih.", en: "I’m good, thank you.", es: "Estoy bien, gracias." } },
+    { id: "m5", from: "me", text: { ms: "Khabar baik, terima kasih.", en: "I’m good, thank you.", es: "Estoy bien, gracias." } },
     { id: "m6", from: "ayub", text: { ms: "Sama-sama.", en: "You’re welcome.", es: "De nada." } },
-    { id: "m7", from: "azman", text: { ms: "Jumpa lagi, Muthu.", en: "See you again, Muthu.", es: "Hasta luego, Muthu." } },
-    { id: "m8", from: "ayub", text: { ms: "Jumpa lagi, Azman.", en: "See you again, Azman.", es: "Hasta luego, Azman." } },
+    { id: "m7", from: "me", text: { ms: "Jumpa lagi, Muthu.", en: "See you again, Muthu.", es: "Hasta luego, Muthu." } },
+    { id: "m8", from: "ayub", text: { ms: "Jumpa lagi, {currentUsername}.", en: "See you again, {currentUsername}.", es: "Hasta luego, {currentUsername}." } },
   ],
 },
 

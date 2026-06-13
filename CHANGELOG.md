@@ -11,6 +11,15 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.11.1] - 2026-06-13
+
+### Changed
+- Normalized chapter chats so the active learner consistently appears on the right with the active username and selected profile avatar, while other speakers use Aku Aku.
+
+### Fixed
+- Corrected chapter chat speaker ownership, dynamic learner-name references, and contextual bubble alignment across Chapters 1–7 and 9–11.
+- Incremented the affected chapter content revisions so returning learners can see the optional chapter update notices.
+
 ## [0.11.0] - 2026-06-13
 
 ### Added

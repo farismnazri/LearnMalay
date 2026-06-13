@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter06: ChapterContent = {
   id: 6,
-  revision: 1,
+  revision: 2,
   title: { ms: "Alam Sekitar & Cuaca", en: "Environment & Weather", es: "Medioambiente y Clima" },
   pages: [
     {
@@ -243,7 +243,7 @@ export const chapter06: ChapterContent = {
     {
       id: "c6-p3-chat-cuaca",
       kind: "chat",
-      youId: "salina",
+      youId: "me",
       title: {
         ms: "Situasi 6.1 Cuaca di Malaysia",
         en: "Situation 6.1 Weather in Malaysia",
@@ -255,18 +255,18 @@ export const chapter06: ChapterContent = {
         es: "Lugar: Una parada de autobús.",
       },
       participants: [
-        { id: "azman", name: { ms: "Azman", en: "Azman", es: "Azman" }, avatarSrc: "/assets/characters/Bandicoot_Profile.png" },
-        { id: "salina", name: { ms: "Salina", en: "Salina", es: "Salina" } },
+        { id: "azman", name: { ms: "Azman", en: "Azman", es: "Azman" } },
+        { id: "me", name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" } },
       ],
       messages: [
         {
           id: "c6-61-m1",
           from: "azman",
-          text: { ms: "Salina, awak nak balik kolej sekarang?", en: "Salina, are you going back to college now?", es: "Salina, ¿vas a volver al colegio ahora?" },
+          text: { ms: "{currentUsername}, awak nak balik kolej sekarang?", en: "{currentUsername}, are you going back to college now?", es: "{currentUsername}, ¿vas a volver al colegio ahora?" },
         },
         {
           id: "c6-61-m2",
-          from: "salina",
+          from: "me",
           text: { ms: "Ya, tapi langit mendung sangat.", en: "Yes, but the sky is very cloudy.", es: "Sí, pero el cielo está muy nublado." },
         },
         {
@@ -276,7 +276,7 @@ export const chapter06: ChapterContent = {
         },
         {
           id: "c6-61-m4",
-          from: "salina",
+          from: "me",
           text: {
             ms: "Kalau hujan sekarang, susah saya nak jalan ke blok saya.",
             en: "If it rains now, it will be hard for me to walk to my block.",
@@ -294,7 +294,7 @@ export const chapter06: ChapterContent = {
         },
         {
           id: "c6-61-m6",
-          from: "salina",
+          from: "me",
           text: {
             ms: "Baik. Kalau hujan reda, kita terus jalan.",
             en: "Alright. If the rain eases, we continue walking.",
@@ -312,7 +312,7 @@ export const chapter06: ChapterContent = {
         },
         {
           id: "c6-61-m8",
-          from: "salina",
+          from: "me",
           text: {
             ms: "Nasib baik kita tunggu tadi.",
             en: "Good thing we waited just now.",
@@ -330,7 +330,7 @@ export const chapter06: ChapterContent = {
         },
         {
           id: "c6-61-m10",
-          from: "salina",
+          from: "me",
           text: {
             ms: "Ya, nyaman sikit. Bila hujan perlahan, kita gerak.",
             en: "Yes, it feels nicer. When the rain slows, we move.",
@@ -346,7 +346,7 @@ export const chapter06: ChapterContent = {
     {
       id: "c6-p4-chat-pantai",
       kind: "chat",
-      youId: "azman",
+      youId: "me",
       title: {
         ms: "Situasi 6.2 Bercuti di pantai",
         en: "Situation 6.2 Vacation at the beach",
@@ -358,13 +358,13 @@ export const chapter06: ChapterContent = {
         es: "Lugar: Una playa.",
       },
       participants: [
-        { id: "azman", name: { ms: "Azman", en: "Azman", es: "Azman" }, avatarSrc: "/assets/characters/Bandicoot_Profile.png" },
+        { id: "me", name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" } },
         { id: "ahmad", name: { ms: "Ahmad", en: "Ahmad", es: "Ahmad" } },
       ],
       messages: [
         {
           id: "c6-62-m1",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Cantik pemandangan di sini. Laut pun tenang hari ini.",
             en: "The view here is beautiful. The sea is calm today too.",
@@ -382,7 +382,7 @@ export const chapter06: ChapterContent = {
         },
         {
           id: "c6-62-m3",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Jom duduk bawah pokok sekejap, panas tadi kuat juga.",
             en: "Let's sit under the tree for a while, it was quite hot earlier.",
@@ -400,7 +400,7 @@ export const chapter06: ChapterContent = {
         },
         {
           id: "c6-62-m5",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Kita kutip sama-sama. Biar pantai kekal bersih.",
             en: "Let's pick it up together. Let the beach stay clean.",
@@ -418,7 +418,7 @@ export const chapter06: ChapterContent = {
         },
         {
           id: "c6-62-m7",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Boleh. Saya nak tengok matahari terbenam dari sana.",
             en: "Sure. I want to watch the sunset from there.",
@@ -436,7 +436,7 @@ export const chapter06: ChapterContent = {
         },
         {
           id: "c6-62-m9",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Seronok juga. Saya suka suasana pantai yang tenang macam ini.",
             en: "This is nice. I like calm beach vibes like this.",

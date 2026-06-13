@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter10: ChapterContent = {
   id: 10,
-  revision: 1,
+  revision: 2,
   title: {
     ms: "Permainan Tradisional",
     en: "Traditional Games",
@@ -33,7 +33,7 @@ export const chapter10: ChapterContent = {
     {
       id: "c10-p2-chat-congkak",
       kind: "chat",
-      youId: "azman",
+      youId: "me",
       title: {
         ms: "Situasi 10.1 Memperkenalkan Permainan Tradisional Congkak",
         en: "Situation 10.1 Introducing the Traditional Game Congkak",
@@ -50,9 +50,8 @@ export const chapter10: ChapterContent = {
           name: { ms: "Ali", en: "Ali", es: "Ali" },
         },
         {
-          id: "azman",
-          name: { ms: "Azman", en: "Azman", es: "Azman" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+          id: "me",
+          name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
         },
       ],
       messages: [
@@ -60,14 +59,14 @@ export const chapter10: ChapterContent = {
           id: "c10-1-m1",
           from: "ali",
           text: {
-            ms: "Azman, awak bawa papan congkak ke taman?",
-            en: "Azman, did you bring a congkak board to the park?",
-            es: "Azman, ¿trajiste un tablero de congkak al parque?",
+            ms: "{currentUsername}, awak bawa papan congkak ke taman?",
+            en: "{currentUsername}, did you bring a congkak board to the park?",
+            es: "{currentUsername}, ¿trajiste un tablero de congkak al parque?",
           },
         },
         {
           id: "c10-1-m2",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Ya. Tadi saya main sementara tunggu kawan.",
             en: "Yes. I was playing while waiting for a friend.",
@@ -85,7 +84,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-1-m4",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Boleh. Duduk sini, saya tunjuk cara pegang guli.",
             en: "Sure. Sit here, I'll show you how to hold the marbles.",
@@ -103,7 +102,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-1-m6",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Selalu juga. Kadang-kadang kami bawa gasing atau wau kecil.",
             en: "Quite often. Sometimes we bring a spinning top or a small wau kite.",
@@ -121,7 +120,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-1-m8",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Boleh. Lepas ini awak cuba satu pusingan.",
             en: "Sure. After this you can try one round.",
@@ -139,7 +138,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-1-m10",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Bagus. Jom mula.",
             en: "Good. Let's start.",
@@ -151,7 +150,7 @@ export const chapter10: ChapterContent = {
     {
       id: "c10-p3-chat-cara-congkak",
       kind: "chat",
-      youId: "azman",
+      youId: "me",
       title: {
         ms: "Situasi 10.2 Cara Bermain Congkak",
         en: "Situation 10.2 How to Play Congkak",
@@ -168,9 +167,8 @@ export const chapter10: ChapterContent = {
           name: { ms: "Ali", en: "Ali", es: "Ali" },
         },
         {
-          id: "azman",
-          name: { ms: "Azman", en: "Azman", es: "Azman" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+          id: "me",
+          name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
         },
       ],
       messages: [
@@ -178,14 +176,14 @@ export const chapter10: ChapterContent = {
           id: "c10-2-m1",
           from: "ali",
           text: {
-            ms: "Saya sudah susun guli. Betul tak, Azman?",
-            en: "I have arranged the marbles. Is it right, Azman?",
-            es: "Ya acomodé las canicas. ¿Está bien, Azman?",
+            ms: "Saya sudah susun guli. Betul tak, {currentUsername}?",
+            en: "I have arranged the marbles. Is it right, {currentUsername}?",
+            es: "Ya acomodé las canicas. ¿Está bien, {currentUsername}?",
           },
         },
         {
           id: "c10-2-m2",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Hampir betul. Letak tujuh biji guli di setiap lubang rumah.",
             en: "Almost right. Put seven marbles in each house hole.",
@@ -203,7 +201,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-2-m4",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Ya. Lubang besar di kanan ialah lubang ibu awak.",
             en: "Yes. The big hole on the right is your home store.",
@@ -221,7 +219,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-2-m6",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Boleh. Ambil semua guli dan edarkan satu-satu.",
             en: "Yes. Take all the marbles and distribute them one by one.",
@@ -239,7 +237,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-2-m8",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Bagus. Teruskan ikut arah ini.",
             en: "Good. Continue in this direction.",
@@ -257,7 +255,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-2-m10",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Jangan. Langkau lubang ibu lawan. Masuk ke lubang ibu sendiri.",
             en: "Don't. Skip your opponent's home store. Put it into your own home store.",
@@ -275,7 +273,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-2-m12",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Bagus. Giliran saya selepas guli awak habis.",
             en: "Good. It is my turn after your marbles run out.",
@@ -287,7 +285,7 @@ export const chapter10: ChapterContent = {
     {
       id: "c10-p4-chat-layang-layang",
       kind: "chat",
-      youId: "azman",
+      youId: "me",
       title: {
         ms: "Situasi 10.3 Memperkenalkan Permainan Tradisional Layang-layang",
         en: "Situation 10.3 Introducing the Traditional Game Kite-flying",
@@ -304,9 +302,8 @@ export const chapter10: ChapterContent = {
           name: { ms: "Ahmad", en: "Ahmad", es: "Ahmad" },
         },
         {
-          id: "azman",
-          name: { ms: "Azman", en: "Azman", es: "Azman" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+          id: "me",
+          name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
         },
       ],
       messages: [
@@ -314,14 +311,14 @@ export const chapter10: ChapterContent = {
           id: "c10-3-m1",
           from: "ahmad",
           text: {
-            ms: "Angin kuat hari ini, Azman.",
-            en: "The wind is strong today, Azman.",
-            es: "El viento está fuerte hoy, Azman.",
+            ms: "Angin kuat hari ini, {currentUsername}.",
+            en: "The wind is strong today, {currentUsername}.",
+            es: "El viento está fuerte hoy, {currentUsername}.",
           },
         },
         {
           id: "c10-3-m2",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Ya, sesuai untuk naikkan layang-layang.",
             en: "Yes, it is good for flying a kite.",
@@ -339,7 +336,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-3-m4",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Ya, pegang rangka dengan dua tangan.",
             en: "Yes, hold the frame with two hands.",
@@ -357,7 +354,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-3-m6",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Saya pegang tali. Bila kita kira tiga, awak lepaskan.",
             en: "I hold the string. When we count to three, you let go.",
@@ -375,7 +372,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-3-m8",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Mundur sedikit. Angin datang dari depan.",
             en: "Step back a little. The wind is coming from the front.",
@@ -393,7 +390,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-3-m10",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Tarik tali perlahan-lahan. Layang-layang sudah naik.",
             en: "Pull the string slowly. The kite is going up.",
@@ -411,7 +408,7 @@ export const chapter10: ChapterContent = {
         },
         {
           id: "c10-3-m12",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Betul. Sekarang awak cuba pegang tali.",
             en: "Correct. Now you try holding the string.",

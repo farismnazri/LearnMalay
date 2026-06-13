@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter07: ChapterContent = {
   id: 7,
-  revision: 1,
+  revision: 2,
   title: {
     ms: "Makanan & Kuih-muih",
     en: "Food & Snacks",
@@ -946,7 +946,7 @@ export const chapter07: ChapterContent = {
     {
       id: "c7-p6-chat-membeli-kuih",
       kind: "chat",
-      youId: "ahmad",
+      youId: "me",
       title: {
         ms: "Situasi 7.1 Membeli Kuih-muih",
         en: "Situation 7.1 Buying Kuih",
@@ -961,11 +961,10 @@ export const chapter07: ChapterContent = {
         {
           id: "azman",
           name: { ms: "Azman", en: "Azman", es: "Azman" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
         },
         {
-          id: "ahmad",
-          name: { ms: "Ahmad", en: "Ahmad", es: "Ahmad" },
+          id: "me",
+          name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
         },
       ],
       messages: [
@@ -973,14 +972,14 @@ export const chapter07: ChapterContent = {
           id: "c7-71-m1",
           from: "azman",
           text: {
-            ms: "Ahmad, gerai kuih ini nampak meriah.",
-            en: "Ahmad, this kuih stall looks lively.",
-            es: "Ahmad, este puesto de kuih se ve animado.",
+            ms: "{currentUsername}, gerai kuih ini nampak meriah.",
+            en: "{currentUsername}, this kuih stall looks lively.",
+            es: "{currentUsername}, este puesto de kuih se ve animado.",
           },
         },
         {
           id: "c7-71-m2",
-          from: "ahmad",
+          from: "me",
           text: {
             ms: "Betul. Kita pilih kuih untuk kawan-kawan di kolej.",
             en: "True. Let's choose kuih for our friends at the college.",
@@ -998,7 +997,7 @@ export const chapter07: ChapterContent = {
         },
         {
           id: "c7-71-m4",
-          from: "ahmad",
+          from: "me",
           text: {
             ms: "Aina suka onde-onde. Ravi suka karipap.",
             en: "Aina likes onde-onde. Ravi likes karipap.",
@@ -1016,7 +1015,7 @@ export const chapter07: ChapterContent = {
         },
         {
           id: "c7-71-m6",
-          from: "ahmad",
+          from: "me",
           text: {
             ms: "Berapa harga satu karipap?",
             en: "How much is one karipap?",
@@ -1034,7 +1033,7 @@ export const chapter07: ChapterContent = {
         },
         {
           id: "c7-71-m8",
-          from: "ahmad",
+          from: "me",
           text: {
             ms: "Onde-onde pula tiga biji dua ringgit.",
             en: "As for onde-onde, three pieces are two ringgit.",
@@ -1052,7 +1051,7 @@ export const chapter07: ChapterContent = {
         },
         {
           id: "c7-71-m10",
-          from: "ahmad",
+          from: "me",
           text: {
             ms: "Boleh. Saya bayar dahulu.",
             en: "Alright. I will pay first.",
@@ -1070,7 +1069,7 @@ export const chapter07: ChapterContent = {
         },
         {
           id: "c7-71-m12",
-          from: "ahmad",
+          from: "me",
           text: {
             ms: "Sedap! Jom bawa kepada kawan-kawan.",
             en: "Delicious! Let's bring them to our friends.",
@@ -1082,7 +1081,7 @@ export const chapter07: ChapterContent = {
     {
       id: "c7-p7-chat-beli-nasi-lauk",
       kind: "chat",
-      youId: "ahmad",
+      youId: "me",
       title: {
         ms: "Situasi 7.2 Membeli Nasi dan Lauk-pauk",
         en: "Situation 7.2 Buying Rice and Side Dishes",
@@ -1097,23 +1096,22 @@ export const chapter07: ChapterContent = {
         {
           id: "adam",
           name: { ms: "Adam", en: "Adam", es: "Adam" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
         },
         {
-          id: "ahmad",
-          name: { ms: "Ahmad", en: "Ahmad", es: "Ahmad" },
+          id: "me",
+          name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
         },
       ],
       messages: [
         {
           id: "c7-72-m1",
           from: "adam",
-          text: { ms: "Ahmad.", en: "Ahmad.", es: "Ahmad." },
+          text: { ms: "Hai, {currentUsername}.", en: "Hi, {currentUsername}.", es: "Hola, {currentUsername}." },
         },
         {
           id: "c7-72-m2",
-          from: "ahmad",
-          text: { ms: "Ya.", en: "Yes.", es: "Sí." },
+          from: "me",
+          text: { ms: "Hai, Adam.", en: "Hi, Adam.", es: "Hola, Adam." },
         },
         {
           id: "c7-72-m3",
@@ -1126,7 +1124,7 @@ export const chapter07: ChapterContent = {
         },
         {
           id: "c7-72-m4",
-          from: "ahmad",
+          from: "me",
           text: { ms: "Jom.", en: "Lets go.", es: "Vamos." },
         },
         {
@@ -1149,7 +1147,7 @@ export const chapter07: ChapterContent = {
         },
         {
           id: "c7-72-m7",
-          from: "ahmad",
+          from: "me",
           text: {
             ms: "Saya hendak nasi kerabu.",
             en: "I want nasi kerabu.",
@@ -1176,7 +1174,7 @@ export const chapter07: ChapterContent = {
         },
         {
           id: "c7-72-m10",
-          from: "ahmad",
+          from: "me",
           text: { ms: "Betul tu.", en: "Thats true.", es: "Es cierto." },
         },
       ],

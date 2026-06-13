@@ -16,6 +16,37 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.11.1",
+    date: "2026-06-13",
+    headline: {
+      ms: "Dialog bab kini mengenali pelajar aktif dengan lebih konsisten",
+      en: "Chapter conversations now recognize the active learner more consistently",
+      es: "Los diálogos de los capítulos ahora reconocen al estudiante activo de forma más consistente",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Dialog bab kini memaparkan pelajar aktif di sebelah kanan dengan nama pengguna dan avatar profil pilihan, manakala penutur lain menggunakan Aku Aku.",
+          en: "Chapter conversations now show the active learner on the right with their username and selected profile avatar, while other speakers use Aku Aku.",
+          es: "Los diálogos de los capítulos ahora muestran al estudiante activo a la derecha con su nombre de usuario y avatar elegido, mientras los demás hablantes usan Aku Aku.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Pemilikan penutur, rujukan nama pelajar dinamik, dan penjajaran gelembung mengikut konteks telah diperbetulkan untuk Bab 1 hingga 7 serta Bab 9 hingga 11.",
+          en: "Speaker ownership, dynamic learner-name references, and contextual bubble alignment were corrected across Chapters 1–7 and 9–11.",
+          es: "Se corrigieron la autoría de los hablantes, las referencias dinámicas al nombre del estudiante y la alineación contextual de las burbujas en los Capítulos 1–7 y 9–11.",
+        },
+        {
+          ms: "Semakan kandungan bab yang terjejas dinaikkan supaya pengguna lama boleh melihat notis kemas kini bab pilihan.",
+          en: "Affected chapter content revisions were increased so returning users can see the optional chapter update notices.",
+          es: "Se aumentaron las revisiones de contenido de los capítulos afectados para que los usuarios anteriores vean los avisos opcionales de actualización.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.11.0",
     date: "2026-06-13",
     headline: {

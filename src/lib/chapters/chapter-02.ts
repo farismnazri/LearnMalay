@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter02: ChapterContent = {
   id: 2,
-  revision: 3,
+  revision: 4,
   title: { ms: "Keluarga", en: "Family", es: "Familia" },
 
   pages: [
@@ -105,6 +105,7 @@ export const chapter02: ChapterContent = {
 {
   id: "p5-situasi-2-1",
   kind: "chat",
+  youId: "me",
   title: {
         ms: "Situasi 2.1: Menunjukkan gambar keluarga",
         en: "Situation 2.1: Showing a family photo",
@@ -117,13 +118,12 @@ export const chapter02: ChapterContent = {
   },
   participants: [
     {
-      id: "azman",
-      name: { ms: "Azman", en: "Azman", es: "Azman" },
+      id: "me",
+      name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
     },
     {
       id: "ayub", // keep this id for your UI
       name: { ms: "Muthu", en: "Muthu", es: "Muthu" },
-      avatarSrc: "/assets/characters/Bandicoot_Profile.png",
     },
   ],
   messages: [
@@ -131,14 +131,14 @@ export const chapter02: ChapterContent = {
       id: "s21-m1",
       from: "ayub",
       text: {
-        ms: "Hai, Azman. Ini keluarga awak?",
-        en: "Hi, Azman. Is this your family?",
-        es: "Hola, Azman. ¿Esta es tu familia?",
+        ms: "Hai, {currentUsername}. Ini keluarga awak?",
+        en: "Hi, {currentUsername}. Is this your family?",
+        es: "Hola, {currentUsername}. ¿Esta es tu familia?",
       },
     },
     {
       id: "s21-m2",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Hai, Muthu. Ya, ini keluarga saya.",
         en: "Hi, Muthu. Yes, this is my family.",
@@ -156,7 +156,7 @@ export const chapter02: ChapterContent = {
     },
     {
       id: "s21-m4",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Ini ibu dan bapa saya.",
         en: "These are my mother and father.",
@@ -174,7 +174,7 @@ export const chapter02: ChapterContent = {
     },
     {
       id: "s21-m6",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Ya, itu abang saya.",
         en: "Yes, that is my older brother.",
@@ -192,7 +192,7 @@ export const chapter02: ChapterContent = {
     },
     {
       id: "s21-m8",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Ya, ini adik saya.",
         en: "Yes, this is my younger sibling.",
@@ -209,6 +209,7 @@ export const chapter02: ChapterContent = {
 {
   id: "p6-situasi-2-2",
   kind: "chat",
+  youId: "me",
   title: {
     ms: "Situasi 2.2: Memperkenalkan keluarga",
     en: "Situation 2.2: Introducing family",
@@ -219,12 +220,10 @@ export const chapter02: ChapterContent = {
     en: "Setting: At Hassan’s house",
     es: "Lugar: En la casa de Hassan",
   },
-  youId: "azman",
   participants: [
     {
-      id: "azman",
-      name: { ms: "Azman", en: "Azman", es: "Azman" },
-      avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+      id: "me",
+      name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
     },
     {
       id: "ayub", // keep this id for your UI
@@ -246,23 +245,23 @@ export const chapter02: ChapterContent = {
       id: "s22-m1",
       from: "ayub",
       text: {
-        ms: "Hai, Azman. Ini ibu saya.",
-        en: "Hi, Azman. This is my mother.",
-        es: "Hola, Azman. Esta es mi madre.",
+        ms: "Hai, {currentUsername}. Ini ibu saya.",
+        en: "Hi, {currentUsername}. This is my mother.",
+        es: "Hola, {currentUsername}. Esta es mi madre.",
       },
     },
     {
       id: "s22-m2",
       from: "ibu",
       text: {
-        ms: "Hai, Azman.",
-        en: "Hi, Azman.",
-        es: "Hola, Azman.",
+        ms: "Hai, {currentUsername}.",
+        en: "Hi, {currentUsername}.",
+        es: "Hola, {currentUsername}.",
       },
     },
     {
       id: "s22-m3",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Hai, mak cik.",
         en: "Hi, ma’am.",
@@ -282,14 +281,14 @@ export const chapter02: ChapterContent = {
       id: "s22-m5",
       from: "bapa",
       text: {
-        ms: "Hai, Azman.",
-        en: "Hi, Azman.",
-        es: "Hola, Azman.",
+        ms: "Hai, {currentUsername}.",
+        en: "Hi, {currentUsername}.",
+        es: "Hola, {currentUsername}.",
       },
     },
     {
       id: "s22-m6",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Hai, pak cik.",
         en: "Hi, sir.",
@@ -307,7 +306,7 @@ export const chapter02: ChapterContent = {
     },
     {
       id: "s22-m8",
-      from: "azman",
+      from: "me",
       text: {
         ms: "Hai, Sara. Hai, Lina.",
         en: "Hi, Sara. Hi, Lina.",
@@ -322,39 +321,37 @@ export const chapter02: ChapterContent = {
 {
   id: "p7-situasi-2-3",
   kind: "chat",
+  youId: "me",
   title: {
     ms: "Situasi 2.3: Panggilan keluarga di rumah",
     en: "Situation 2.3: Family names used at home",
     es: "Situación 2.3: Nombres familiares usados en casa",
   },
   context: {
-    ms: "Latar tempat: Di rumah Azman",
-    en: "Setting: At Azman’s house",
-    es: "Lugar: En la casa de Azman",
+    ms: "Latar tempat: Di rumah {currentUsername}",
+    en: "Setting: At {currentUsername}’s house",
+    es: "Lugar: En la casa de {currentUsername}",
   },
   participants: [
     {
-      id: "azman",
-      name: { ms: "Azman", en: "Azman", es: "Azman" },
-      side: "left",
+      id: "me",
+      name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
     },
     {
       id: "muthu",
       name: { ms: "Muthu", en: "Muthu", es: "Muthu" },
-      avatarSrc: "/assets/characters/Bandicoot_Profile.png",
-      side: "right",
     },
     {
       id: "ayub", // keep this id for your UI
       name: { ms: "Ibu", en: "Mother", es: "Mamá" },
-      side: "left",
       tone: "aux",
+      alignment: "learner-side",
     },
   ],
   messages: [
   {
     id: "s23-m1",
-    from: "azman",
+    from: "me",
     text: {
       ms: "Mak, ini kawan saya, Muthu.",
       en: "Mum, this is my friend, Muthu.",
@@ -383,9 +380,9 @@ export const chapter02: ChapterContent = {
     id: "s23-m4",
     from: "ayub",
     text: {
-      ms: "Azman, ayah ada di ruang tamu.",
-      en: "Azman, Dad is in the living room.",
-      es: "Azman, papá está en la sala.",
+      ms: "{currentUsername}, ayah ada di ruang tamu.",
+      en: "{currentUsername}, Dad is in the living room.",
+      es: "{currentUsername}, papá está en la sala.",
     },
   },
   {
@@ -399,7 +396,7 @@ export const chapter02: ChapterContent = {
   },
   {
     id: "s23-m6",
-    from: "azman",
+    from: "me",
     text: {
       ms: "Ya. Saya panggil bapa saya “ayah”.",
       en: "Yes. I call my father ayah.",
@@ -417,7 +414,7 @@ export const chapter02: ChapterContent = {
   },
   {
     id: "s23-m8",
-    from: "azman",
+    from: "me",
     text: {
       ms: "Ya. Di rumah, saya panggil ibu saya “mak”.",
       en: "Yes. At home, I call my mother mak.",

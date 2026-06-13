@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter11: ChapterContent = {
   id: 11,
-  revision: 1,
+  revision: 2,
   title: {
     ms: "Cuti-Cuti Umum di Malaysia",
     en: "Public Holidays in Malaysia",
@@ -167,7 +167,7 @@ export const chapter11: ChapterContent = {
     {
       id: "c11-p3-chat-soalan-cuti",
       kind: "chat",
-      youId: "azman",
+      youId: "me",
       title: {
         ms: "Situasi 11 Mini Kuiz Siapa Pintar: Soalan Cuti Umum",
         en: "Situation 11 Siapa Pintar Mini Quiz: Public Holiday Questions",
@@ -188,9 +188,8 @@ export const chapter11: ChapterContent = {
           name: { ms: "Abu", en: "Abu", es: "Abu" },
         },
         {
-          id: "azman",
-          name: { ms: "Azman", en: "Azman", es: "Azman" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
+          id: "me",
+          name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
         },
       ],
       messages: [
@@ -214,7 +213,7 @@ export const chapter11: ChapterContent = {
         },
         {
           id: "c11-chat1-m3",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Saya pun bersedia.",
             en: "I am ready too.",
@@ -259,7 +258,7 @@ export const chapter11: ChapterContent = {
         },
         {
           id: "c11-chat1-m8",
-          from: "azman",
+          from: "me",
           text: {
             ms: "25 Disember.",
             en: "December 25.",
@@ -295,7 +294,7 @@ export const chapter11: ChapterContent = {
         },
         {
           id: "c11-chat1-m12",
-          from: "azman",
+          from: "me",
           text: {
             ms: "Seronok! Saya mahu main lagi.",
             en: "Fun! I want to play again.",

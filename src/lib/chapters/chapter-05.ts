@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter05: ChapterContent = {
   id: 5,
-  revision: 1,
+  revision: 2,
   title: { ms: "Nombor, Angka & Alamat", en: "Numbers & Addresses", es: "Números y Direcciones" },
   pages: [
 
@@ -280,7 +280,7 @@ export const chapter05: ChapterContent = {
     {
       id: "c5-p6-chat-bank",
       kind: "chat",
-      youId: "pelanggan",
+      youId: "me",
       title: {
         ms: "Situasi 5.1 Maklumat Diri (Kemas Kini Profil)",
         en: "Situation 5.1 Personal Info (Update a Profile)",
@@ -295,9 +295,8 @@ export const chapter05: ChapterContent = {
         {
           id: "pegawai",
           name: { ms: "Pegawai bank", en: "Bank officer", es: "Empleado del banco" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
         },
-        { id: "pelanggan", name: { ms: "Pelanggan", en: "Customer", es: "Cliente" } },
+        { id: "me", name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" } },
       ],
       messages: [
         {
@@ -311,7 +310,7 @@ export const chapter05: ChapterContent = {
         },
         {
           id: "c5-51-m2",
-          from: "pelanggan",
+          from: "me",
           text: {
             ms: "Selamat pagi. Saya mahu kemas kini profil bank saya.",
             en: "Good morning. I want to update my bank profile.",
@@ -329,7 +328,7 @@ export const chapter05: ChapterContent = {
         },
         {
           id: "c5-51-m4",
-          from: "pelanggan",
+          from: "me",
           text: {
             ms: "Saya mahu tukar e-mel dan pilihan bahasa.",
             en: "I want to change my email and language preference.",
@@ -347,7 +346,7 @@ export const chapter05: ChapterContent = {
         },
         {
           id: "c5-51-m6",
-          from: "pelanggan",
+          from: "me",
           text: {
             ms: "Baik. Ruang 'nama paparan' perlu diisi juga?",
             en: "Alright. Do I also need to fill in the 'display name' field?",
@@ -365,7 +364,7 @@ export const chapter05: ChapterContent = {
         },
         {
           id: "c5-51-m8",
-          from: "pelanggan",
+          from: "me",
           text: {
             ms: "Baik. Untuk bahasa, saya pilih Bahasa Melayu.",
             en: "Alright. For language, I choose Malay.",
@@ -383,7 +382,7 @@ export const chapter05: ChapterContent = {
         },
         {
           id: "c5-51-m10",
-          from: "pelanggan",
+          from: "me",
           text: {
             ms: "Mesej aplikasi, supaya lebih mudah saya semak.",
             en: "App messages, so it is easier for me to check.",
@@ -401,7 +400,7 @@ export const chapter05: ChapterContent = {
         },
         {
           id: "c5-51-m12",
-          from: "pelanggan",
+          from: "me",
           text: {
             ms: "Terima kasih kerana membantu.",
             en: "Thank you for helping.",
@@ -415,7 +414,7 @@ export const chapter05: ChapterContent = {
     {
       id: "c5-p7-chat-beli",
       kind: "chat",
-      youId: "pelanggan",
+      youId: "me",
       title: {
         ms: "Situasi 5.2 Membeli-belah",
         en: "Situation 5.2 Shopping",
@@ -427,22 +426,22 @@ export const chapter05: ChapterContent = {
         es: "Lugar: Un puesto de frutas en el mercado nocturno.",
       },
       participants: [
-        { id: "jurujual", name: { ms: "Jurujual", en: "Salesperson", es: "Vendedor" }, avatarSrc: "/assets/characters/Bandicoot_Profile.png" },
-        { id: "pelanggan", name: { ms: "Pelanggan", en: "Customer", es: "Cliente" } },
+        { id: "jurujual", name: { ms: "Jurujual", en: "Salesperson", es: "Vendedor" } },
+        { id: "me", name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" } },
       ],
       messages: [
         { id: "c5-52-m1", from: "jurujual", text: { ms: "Selamat malam. Cari buah apa?", en: "Good evening. What fruit are you looking for?", es: "Buenas noches. ¿Qué fruta buscas?" } },
-        { id: "c5-52-m2", from: "pelanggan", text: { ms: "Mangga ni berapa harga satu kilo?", en: "How much is this mango per kilo?", es: "¿Cuánto cuesta este mango por kilo?" } },
+        { id: "c5-52-m2", from: "me", text: { ms: "Mangga ni berapa harga satu kilo?", en: "How much is this mango per kilo?", es: "¿Cuánto cuesta este mango por kilo?" } },
         { id: "c5-52-m3", from: "jurujual", text: { ms: "RM9 satu kilo. Manis, baru sampai petang tadi.", en: "RM9 per kilo. Sweet, arrived this afternoon.", es: "RM9 por kilo. Es dulce, llegó esta tarde." } },
-        { id: "c5-52-m4", from: "pelanggan", text: { ms: "Kalau saya ambil dua kilo, boleh kurang?", en: "If I take two kilos, can the price be lower?", es: "Si llevo dos kilos, ¿puede bajar el precio?" } },
+        { id: "c5-52-m4", from: "me", text: { ms: "Kalau saya ambil dua kilo, boleh kurang?", en: "If I take two kilos, can the price be lower?", es: "Si llevo dos kilos, ¿puede bajar el precio?" } },
         { id: "c5-52-m5", from: "jurujual", text: { ms: "Boleh, saya bagi RM8 satu kilo.", en: "Sure, I can give RM8 per kilo.", es: "Sí, puedo darlo a RM8 por kilo." } },
-        { id: "c5-52-m6", from: "pelanggan", text: { ms: "Baik. Pisang pula berapa?", en: "Alright. How much is the banana?", es: "Bien. ¿Y cuánto cuesta el plátano?" } },
+        { id: "c5-52-m6", from: "me", text: { ms: "Baik. Pisang pula berapa?", en: "Alright. How much is the banana?", es: "Bien. ¿Y cuánto cuesta el plátano?" } },
         { id: "c5-52-m7", from: "jurujual", text: { ms: "Pisang RM10 satu kilo.", en: "Bananas are RM10 per kilo.", es: "El plátano cuesta RM10 por kilo." } },
-        { id: "c5-52-m8", from: "pelanggan", text: { ms: "Tambah setengah kilo pisang ya.", en: "Add half a kilo of bananas, please.", es: "Añade medio kilo de plátanos, por favor." } },
+        { id: "c5-52-m8", from: "me", text: { ms: "Tambah setengah kilo pisang ya.", en: "Add half a kilo of bananas, please.", es: "Añade medio kilo de plátanos, por favor." } },
         { id: "c5-52-m9", from: "jurujual", text: { ms: "Baik. Jumlah semua RM21.", en: "Alright. Total is RM21.", es: "Muy bien. El total es RM21." } },
-        { id: "c5-52-m10", from: "pelanggan", text: { ms: "Ini wangnya. Boleh asingkan dua beg?", en: "Here is the money. Can you separate into two bags?", es: "Aquí tienes el dinero. ¿Puedes separarlo en dos bolsas?" } },
+        { id: "c5-52-m10", from: "me", text: { ms: "Ini wangnya. Boleh asingkan dua beg?", en: "Here is the money. Can you separate into two bags?", es: "Aquí tienes el dinero. ¿Puedes separarlo en dos bolsas?" } },
         { id: "c5-52-m11", from: "jurujual", text: { ms: "Boleh. Ini baki dan dua beg buah encik.", en: "Sure. Here is your change and two fruit bags.", es: "Claro. Aquí está su cambio y dos bolsas de fruta." } },
-        { id: "c5-52-m12", from: "pelanggan", text: { ms: "Terima kasih, kak.", en: "Thank you, sis.", es: "Gracias, hermana." } },
+        { id: "c5-52-m12", from: "me", text: { ms: "Terima kasih, kak.", en: "Thank you, sis.", es: "Gracias, hermana." } },
       ],
     },
 

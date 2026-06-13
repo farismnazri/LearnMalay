@@ -3,6 +3,9 @@
 import Image from "next/image";
 import type { ChapterChatPage, Translated, UiLang } from "@/lib/chapters";
 
+const AKU_AKU_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
+const CURRENT_USERNAME_TOKEN = "{currentUsername}";
+
 type ChatCardProps = {
   page: ChapterChatPage;
   lang: UiLang;
@@ -16,35 +19,42 @@ export default function ChatCard({
   userName,
   userAvatarSrc,
 }: ChatCardProps) {
-  const titleTrans = lang === "ms" ? "" : lang === "en" ? page.title.en : page.title.es;
-  const contextTrans = !page.context ? "" : lang === "ms" ? "" : lang === "en" ? page.context.en : page.context.es;
-
-  const youId = page.youId ?? "azman";
   const participantsById = new Map(page.participants.map((participant) => [participant.id, participant]));
 
+  function resolvedUserName(textLang: UiLang) {
+    const cleanUserName = userName.trim();
+    if (cleanUserName) return cleanUserName;
+    if (textLang === "en") return "Learner";
+    if (textLang === "es") return "Estudiante";
+    return "Pelajar";
+  }
+
+  function interpolate(text: string, textLang: UiLang) {
+    return text.replaceAll(CURRENT_USERNAME_TOKEN, () => resolvedUserName(textLang));
+  }
+
   function msgText(t: Translated) {
-    if (lang === "ms") return { main: t.ms, sub: "" };
-    const sub = lang === "en" ? t.en : t.es;
-    return { main: t.ms, sub };
+    const main = interpolate(t.ms, "ms");
+    if (lang === "ms") return { main, sub: "" };
+    return { main, sub: interpolate(lang === "en" ? t.en : t.es, lang) };
   }
 
   function tr(t: Translated) {
-    return lang === "ms" ? t.ms : lang === "en" ? t.en : t.es;
+    return interpolate(lang === "ms" ? t.ms : lang === "en" ? t.en : t.es, lang);
   }
 
-  function initials(name: string) {
-    const parts = name.trim().split(/\s+/).slice(0, 2);
-    return parts.map((p) => p[0]?.toUpperCase() ?? "").join("");
-  }
+  const titleTrans = lang === "ms" ? "" : tr(page.title);
+  const contextMain = page.context ? interpolate(page.context.ms, "ms") : "";
+  const contextTrans = !page.context || lang === "ms" ? "" : tr(page.context);
 
   return (
     <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
-      <div className="text-2xl font-extrabold">{page.title.ms}</div>
+      <div className="text-2xl font-extrabold">{interpolate(page.title.ms, "ms")}</div>
       {lang !== "ms" && <div className="text-sm font-semibold opacity-70">{titleTrans}</div>}
 
       {page.context && (
         <div className="mt-3 rounded-2xl bg-black/5 p-4">
-          <div className="text-sm font-extrabold">{page.context.ms}</div>
+          <div className="text-sm font-extrabold">{contextMain}</div>
           {lang !== "ms" && <div className="text-xs font-semibold opacity-70">{contextTrans}</div>}
         </div>
       )}
@@ -52,10 +62,10 @@ export default function ChatCard({
       <div className="mt-5 space-y-3">
         {page.messages.map((m) => {
           const speaker = participantsById.get(m.from);
-          const isRight = speaker?.side ? speaker.side === "right" : m.from === youId;
+          const isUser = m.from === "me";
+          const isRight = isUser || speaker?.alignment === "learner-side";
           const isAux = speaker?.tone === "aux";
-          const speakerName = speaker ? tr(speaker.name) : m.from === youId ? userName : "Speaker";
-          const speakerAvatar = speaker?.avatarSrc ?? (m.from === youId ? userAvatarSrc : undefined);
+          const speakerName = isUser ? resolvedUserName(lang) : speaker ? tr(speaker.name) : "Speaker";
 
           const { main, sub } = msgText(m.text);
 
@@ -63,19 +73,13 @@ export default function ChatCard({
             <div key={m.id} className={`flex items-end gap-2 ${isRight ? "justify-end" : "justify-start"}`}>
               {!isRight && (
                 <div className="h-10 w-10 overflow-hidden rounded-full bg-white shadow">
-                  {speakerAvatar ? (
-                    <Image
-                      src={speakerAvatar}
-                      alt={speakerName}
-                      width={40}
-                      height={40}
-                      className="h-10 w-10 bg-[#fbf5df] object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-10 w-10 items-center justify-center text-xs font-black">
-                      {initials(speakerName) || "?"}
-                    </div>
-                  )}
+                  <Image
+                    src={AKU_AKU_IDLE_SRC}
+                    alt="Aku Aku"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 bg-[#fbf5df] object-contain"
+                  />
                 </div>
               )}
 
@@ -94,11 +98,11 @@ export default function ChatCard({
               {isRight && (
                 <div className="h-10 w-10 overflow-hidden rounded-full bg-white shadow">
                   <Image
-                    src={speakerAvatar ?? userAvatarSrc}
-                    alt={speakerName}
+                    src={isUser ? userAvatarSrc : AKU_AKU_IDLE_SRC}
+                    alt={isUser ? speakerName : "Aku Aku"}
                     width={40}
                     height={40}
-                    className="h-10 w-10 object-cover"
+                    className={`h-10 w-10 ${isUser ? "object-cover" : "bg-[#fbf5df] object-contain"}`}
                   />
                 </div>
               )}

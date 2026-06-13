@@ -198,13 +198,12 @@ export type ChapterChatPage = {
   kind: "chat";
   title: Translated;
   context?: Translated;
-  youId?: string; // optional: which participant is treated as “you” in UI (bubbles on the right)
+  youId: "me";
   participants: Array<{
-    id: string; // "azman", "ayub", etc.
+    id: string;
     name: Translated;
-    avatarSrc?: string;
-    side?: "left" | "right";
     tone?: "default" | "aux";
+    alignment?: "learner-side";
   }>;
   messages: Array<{
     id: string;
