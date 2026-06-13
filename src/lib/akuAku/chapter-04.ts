@@ -5,18 +5,18 @@ export const chapter04Intro = [
     id: "c4-intro-outcomes",
     ms:
       "Hasilnya, anda akan dapat belajar,\n" +
-      "✓ Cara menyebut masa dalam bahasa Melayu\n" +
-      "✓ Membezakan waktu pagi, petang, dan malam.\n" +
-      "✓ Cara menyatakan arah dalam bahasa Melayu",
+      "✓ Ungkapan masa yang mudah\n" +
+      "✓ Waktu pagi, tengah hari, petang, dan malam\n" +
+      "✓ Jalan terus, belok kiri, belok kanan, pusing balik, dan sampai",
     en:
       "By the end, you will be able to:\n" +
-      "✓ Say time expressions in Malay\n" +
-      "✓ Distinguish morning, evening, and night\n" +
-      "✓ Express directions in Malay",
+      "✓ Use simple time expressions\n" +
+      "✓ Recognize morning, midday, evening, and night\n" +
+      "✓ Follow simple route commands",
     es:
       "Al final, podrás:\n" +
-      "✓ Decir expresiones de hora en malayo\n" +
-      "✓ Diferenciar mañana, tarde y noche\n" +
-      "✓ Expresar direcciones en malayo",
+      "✓ Usar expresiones sencillas de tiempo\n" +
+      "✓ Reconocer mañana, mediodía, tarde y noche\n" +
+      "✓ Seguir instrucciones sencillas de ruta",
   },
 ];

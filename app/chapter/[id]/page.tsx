@@ -11,6 +11,8 @@ import FamilyCard from "@/components/game/FamilyCard";
 import FigureCard from "@/components/game/FigureCard";
 import FoodIntroCard from "@/components/game/FoodIntroCard";
 import IconRowsCard from "@/components/game/IconRowsCard";
+import ImageMatchCard from "@/components/game/ImageMatchCard";
+import ArahJalanPracticeCard from "@/components/game/ArahJalanPracticeCard";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import ChapterTitleHeader from "@/components/game/ChapterTitleHeader";
 import IconActionLink from "@/components/navigation/IconActionLink";
@@ -95,6 +97,7 @@ export default function ChapterPage() {
   // Page flow
   const [pageIdx, setPageIdx] = useState(0);
   const [markingDone, setMarkingDone] = useState(false);
+  const [completedGatedPages, setCompletedGatedPages] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     let alive = true;
@@ -115,6 +118,7 @@ export default function ChapterPage() {
   useEffect(() => {
     setShowIntro(true);
     setPageIdx(0);
+    setCompletedGatedPages({});
   }, [chapterId]);
 
   const content = useMemo(() => {
@@ -233,6 +237,8 @@ export default function ChapterPage() {
   const currentPage = (pages[safeIdx] as ChapterPage | undefined) ?? undefined;
 
   const isLastPage = totalPages > 0 && safeIdx === totalPages - 1;
+  const currentPageComplete =
+    currentPage?.kind !== "arahJalanPractice" || completedGatedPages[currentPage.id] === true;
 
   const isFinalChapter = chapterId >= MAX_CHAPTERS;
   const nextChapter = Math.min(MAX_CHAPTERS, chapterId + 1);
@@ -311,6 +317,16 @@ export default function ChapterPage() {
         return <CrosswordCard key={page.id} page={page} lang={lang} />;
       case "tick":
         return <TickCard page={page} lang={lang} />;
+      case "imageMatch":
+        return <ImageMatchCard page={page} lang={lang} />;
+      case "arahJalanPractice":
+        return (
+          <ArahJalanPracticeCard
+            page={page}
+            lang={lang}
+            onComplete={() => setCompletedGatedPages((current) => ({ ...current, [page.id]: true }))}
+          />
+        );
       case "figure":
         return <FigureCard page={page} lang={lang} />;
       case "foodintro":
@@ -408,7 +424,7 @@ export default function ChapterPage() {
                 </button>
                 <button
                   onClick={nextPage}
-                  disabled={safeIdx >= totalPages - 1}
+                  disabled={safeIdx >= totalPages - 1 || !currentPageComplete}
                   className="touch-target rounded-xl bg-emerald-600 px-3 py-2 text-sm font-black text-white shadow disabled:opacity-50"
                 >
                   Next

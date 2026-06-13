@@ -16,6 +16,50 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.11.0",
+    date: "2026-06-13",
+    headline: {
+      ms: "Bab 4 kini mengajar masa dan arah jalan dengan latihan yang lebih praktikal",
+      en: "Chapter 4 now teaches time and simple routes with more practical practice",
+      es: "El Capitulo 4 ahora ensena tiempo y rutas sencillas con practica mas util",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah aktiviti padan gambar, latihan laluan Arah Jalan dalam pelajaran, dan aset WebP serta AVIF Bab 4 yang dioptimumkan untuk konsep masa dan arah.",
+          en: "Added an image-match activity, an embedded Arah Jalan route-practice lesson, and optimized WebP and AVIF Chapter 4 assets for time and route concepts.",
+          es: "Se agregaron una actividad de emparejar imagenes, una practica de ruta de Arah Jalan dentro de la leccion y recursos WebP y AVIF optimizados del Capitulo 4 para conceptos de tiempo y ruta.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Bab 4 dibina semula dengan asas masa yang lebih mudah, kad waktu harian, contoh ayat yang diserlahkan, dan aliran tanya arah yang lebih kemas.",
+          en: "Chapter 4 was rebuilt around simpler time basics, times-of-day cards, highlighted sentence examples, and a cleaner asking-directions flow.",
+          es: "El Capitulo 4 se reconstruyo con bases de tiempo mas simples, tarjetas de momentos del dia, ejemplos destacados y un flujo mas claro para pedir direcciones.",
+        },
+        {
+          ms: "Objektif Aku-Aku Bab 4 dan perender pelajaran berkongsi turut dikemas kini supaya kad baharu dan latihan laluan berpagar sesuai dengan aliran pelajaran semasa.",
+          en: "Chapter 4's Aku-Aku goals and the shared lesson renderer were updated so the new cards and gated route practice fit the current lesson flow.",
+          es: "Los objetivos de Aku-Aku del Capitulo 4 y el renderizador compartido de lecciones se actualizaron para que las tarjetas nuevas y la practica de ruta con desbloqueo encajen en el flujo actual.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Semakan kandungan Bab 4 dinaikkan daripada 1 kepada 2 supaya pengguna lama boleh melihat notis kemas kini bab pilihan.",
+          en: "Chapter 4's content revision was increased from 1 to 2 so returning users can see the optional chapter update notice.",
+          es: "La revision de contenido del Capitulo 4 aumento de 1 a 2 para que los usuarios anteriores vean el aviso opcional de actualizacion.",
+        },
+      ],
+    },
+    technicalNotes: [
+      {
+        ms: "Perender bab kini menyokong aktiviti padan gambar, teks jadual yang boleh diserlahkan, dan latihan laluan Arah Jalan berpagar untuk pelajaran.",
+        en: "The chapter renderer now supports image-match activities, highlightable table text, and gated Arah Jalan lesson practice.",
+        es: "El renderizador de capitulos ahora admite actividades de emparejar imagenes, texto de tabla resaltable y practica guiada de Arah Jalan con desbloqueo.",
+      },
+    ],
+  },
+  {
     version: "0.10.0",
     date: "2026-06-09",
     headline: {

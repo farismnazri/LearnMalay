@@ -13,7 +13,11 @@ export type TableImageCell = {
   className?: string; // controls rendered size (Tailwind), e.g. "h-12 w-auto"
 };
 
-export type TableCellItem = Translated | TableImageCell;
+export type TableTextCell = Translated & {
+  highlight?: Translated;
+};
+
+export type TableCellItem = TableTextCell | TableImageCell;
 
 
 
@@ -279,6 +283,32 @@ export type TickPage = {
 };
 
 // -------------------------
+// Image matching page types
+// -------------------------
+export type ImageMatchPage = {
+  id: string;
+  kind: "imageMatch";
+  title: Translated;
+  instructions: Translated;
+  items: Array<{
+    id: string;
+    imageSrc: string;
+    imageAlt: Translated;
+    answer: Translated;
+  }>;
+};
+
+// -------------------------
+// Embedded Arah Jalan lesson practice
+// -------------------------
+export type ArahJalanPracticePage = {
+  id: string;
+  kind: "arahJalanPractice";
+  title: Translated;
+  instructions: Translated;
+};
+
+// -------------------------
 // BoxDrag page types
 // -------------------------
 export type BoxDragLine = {
@@ -406,7 +436,7 @@ export type FigurePage = {
   id: string;
   kind: "figure";
   title: Translated;
-  imageSrc: string;     // e.g. "/assets/chapters/ch4/kompas.webp"
+  imageSrc: string;
   alt: Translated;
   caption?: Translated;
   maxWidthPx?: number;  // optional, for nicer layout
@@ -425,6 +455,8 @@ export type ChapterPage =
   | DragFillPage
   | TypeInPage
   | TickPage
+  | ImageMatchPage
+  | ArahJalanPracticePage
   | BoxDragPage
   | WordSearchPage
   | CrosswordPage

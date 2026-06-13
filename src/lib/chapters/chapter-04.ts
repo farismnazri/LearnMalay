@@ -1,1250 +1,199 @@
 import type { ChapterContent } from "./types";
 
+const pagi = "/assets/chapters/ch4/pagi.webp";
+const tengahHari = "/assets/chapters/ch4/tengahhari.webp";
+const petang = "/assets/chapters/ch4/petang.webp";
+const malam = "/assets/chapters/ch4/malam.webp";
+
 export const chapter04: ChapterContent = {
   id: 4,
-  revision: 1,
-  title: { ms: "Masa\n& Arah", en: "Time & Directions", es: "Tiempo y Direcciones" },
-
+  revision: 2,
+  title: { ms: "Masa\n& Arah Jalan", en: "Time & Simple Routes", es: "Tiempo y Rutas Sencillas" },
   pages: [
-
-    // Page introduction
-
     {
       id: "c4-p1-masa",
-      kind: "intro",
-      sections: [
-        // ----------------------------
-        // MASA definition
-        // ----------------------------
-        {
-          kind: "list",
-          id: "c4-s1-def",
-          title: { ms: "MASA", en: "TIME", es: "TIEMPO" },
-          items: [
-            {
-              id: "c4-def-1",
-              ms: "Masa = waktu, ketika",
-              en: "Time = time, when",
-              es: "Tiempo = tiempo, cuando",
-            },
-          ],
-        },
-
-        // ----------------------------
-        // Tahun (as pairs so it looks like a table)
-        // ----------------------------
-        {
-          kind: "pairs",
-          id: "c4-s2-tahun",
-          title: { ms: "Tahun", en: "Year", es: "Año" },
-            pairs: [
-            {
-                id: "c4-year-2019",
-                q: { id: "q-2019", ms: "Contoh: 2019", en: "Example: 2019", es: "Ejemplo: 2019" },
-                a: {
-                id: "a-2019",
-                ms: "Tahun dua ribu sembilan belas",
-                en: "Year two thousand nineteen",
-                es: "Año dos mil diecinueve",
-                },
-            },
-
-            {
-                id: "c4-range-2009-2019",
-                q: { id: "q-2009-2019", ms: "Selang masa: 2009 – 2019", en: "Time span: 2009 – 2019", es: "Intervalo: 2009 – 2019" },
-                a: {
-                id: "a-2009-2019",
-                ms: "Sepuluh tahun = Satu dekad",
-                en: "Ten years = One decade",
-                es: "Diez años = Una década",
-                },
-            },
-
-            {
-                id: "c4-range-1919-2019",
-                q: { id: "q-1919-2019", ms: "Selang masa: 1919 – 2019", en: "Time span: 1919 – 2019", es: "Intervalo: 1919 – 2019" },
-                a: {
-                id: "a-1919-2019",
-                ms: "Seratus tahun = Satu abad",
-                en: "One hundred years = One century",
-                es: "Cien años = Un siglo",
-                },
-            },
-
-            {
-                id: "c4-range-1020-2020",
-                q: { id: "q-1020-2020", ms: "Selang masa: 1020 – 2020", en: "Time span: 1020 – 2020", es: "Intervalo: 1020 – 2020" },
-                a: {
-                id: "a-1020-2020",
-                ms: "Seribu tahun = Satu alaf",
-                en: "One thousand years = One millennium",
-                es: "Mil años = Un milenio",
-                },
-            },
-            ],
-
-        },
-
-        // ----------------------------
-        // Bulan (months)
-        // ----------------------------
-        {
-          kind: "list",
-          id: "c4-s3-bulan",
-          title: { ms: "Bulan", en: "Months", es: "Meses" },
-          items: [
-            { id: "m1", ms: "1 Januari",   en: "1 January",   es: "1 Enero" },
-            { id: "m2", ms: "2 Februari",  en: "2 February",  es: "2 Febrero" },
-            { id: "m3", ms: "3 Mac",       en: "3 March",     es: "3 Marzo" },
-            { id: "m4", ms: "4 April",     en: "4 April",     es: "4 Abril" },
-            { id: "m5", ms: "5 Mei",       en: "5 May",       es: "5 Mayo" },
-            { id: "m6", ms: "6 Jun",       en: "6 June",      es: "6 Junio" },
-            { id: "m7", ms: "7 Julai",     en: "7 July",      es: "7 Julio" },
-            { id: "m8", ms: "8 Ogos",      en: "8 August",    es: "8 Agosto" },
-            { id: "m9", ms: "9 September",en: "9 September", es: "9 Septiembre" },
-            { id: "m10", ms: "10 Oktober", en: "10 October",  es: "10 Octubre" },
-            { id: "m11", ms: "11 November", en: "11 November", es: "11 Noviembre" },
-            { id: "m12", ms: "12 Disember",  en: "12 December", es: "12 Diciembre" },
-          ],
-        },
-
-        // ----------------------------
-        // Hari (days)
-        // ----------------------------
-        {
-          kind: "list",
-          id: "c4-s4-hari",
-          title: { ms: "Hari", en: "Days", es: "Días" },
-          items: [
-            { id: "d1", ms: "Isnin",  en: "Monday",    es: "Lunes" },
-            { id: "d2", ms: "Selasa", en: "Tuesday",   es: "Martes" },
-            { id: "d3", ms: "Rabu",   en: "Wednesday", es: "Miércoles" },
-            { id: "d4", ms: "Khamis", en: "Thursday",  es: "Jueves" },
-            { id: "d5", ms: "Jumaat", en: "Friday",    es: "Viernes" },
-            { id: "d6", ms: "Sabtu",  en: "Saturday",  es: "Sábado" },
-            { id: "d7", ms: "Ahad",   en: "Sunday",    es: "Domingo" },
-            {
-              id: "d8",
-              ms: "7 Hari = 1 Minggu",
-              en: "7 Days = 1 Week",
-              es: "7 Días = 1 Semana",
-            },
-          ],
-        },
-
-        // ----------------------------
-        // Masa conversions (as pairs)
-        // ----------------------------
-        {
-          kind: "pairs",
-          id: "c4-s5-convert",
-          title: { ms: "Masa", en: "Time", es: "Tiempo" },
-          pairs: [
-            {
-              id: "c4-conv-1",
-              q: { id: "q-jam", ms: "1 JAM", en: "1 HOUR", es: "1 HORA" },
-              a: { id: "a-minit", ms: "60 minit", en: "60 minutes", es: "60 minutos" },
-            },
-            {
-              id: "c4-conv-2",
-              q: { id: "q-minit", ms: "1 MINIT", en: "1 MINUTE", es: "1 MINUTO" },
-              a: { id: "a-saat", ms: "60 saat", en: "60 seconds", es: "60 segundos" },
-            },
-          ],
-        },
-      ],
-    },
-
-    // Kata sendi masa
-
-    {
-  id: "p2-kata-sendi-nama-masa",
-  kind: "intro",
-  sections: [
-    // --- SECTION: quick concept (ke/dari/pada) ---
-    {
-      kind: "list",
-      id: "c4-sendi-concept",
-      title: {
-        ms: "Kata Sendi Nama & Masa",
-        en: "Prepositions for place & time",
-        es: "Preposiciones de lugar y tiempo",
-      },
-      items: [
-        {
-          id: "ks-ke",
-          ms: "ke — arah / menuju",
-          en: "ke — to / towards (direction)",
-          es: "ke — hacia / a (dirección)",
-        },
-        {
-          id: "ks-dari",
-          ms: "dari — asal / sejak",
-          en: "dari — from / since (starting point)",
-          es: "dari — de / desde (origen)",
-        },
-        {
-          id: "ks-pada",
-          ms: "pada — pada masa / pada waktu",
-          en: "pada — at / on (time reference)",
-          es: "pada — en (referencia de tiempo)",
-        },
-      ],
-    },
-
-    // --- SECTION: KE examples ---
-    {
-      kind: "pairs",
-      id: "c4-sendi-ke",
-      title: { ms: "ke", en: "ke (to / until)", es: "ke (a / hasta)" },
-      pairs: [
-        {
-          id: "ke-1",
-          q: {
-            id: "ke-q1",
-            ms: "Kami bersama hingga ke hari ini.",
-            en: "We are together until today.",
-            es: "Estamos juntos hasta hoy.",
-          },
-          a: {
-            id: "ke-a1",
-            ms: "ke hari ini",
-            en: "until today",
-            es: "hasta hoy",
-          },
-        },
-        {
-          id: "ke-2",
-          q: {
-            id: "ke-q2",
-            ms: "Panas hingga ke petang.",
-            en: "It is hot until the evening.",
-            es: "Hace calor hasta la tarde.",
-          },
-          a: {
-            id: "ke-a2",
-            ms: "ke petang",
-            en: "until evening",
-            es: "hasta la tarde",
-          },
-        },
-        {
-          id: "ke-3",
-          q: {
-            id: "ke-q3",
-            ms: "Dari tahun ke tahun, kita masih di sini.",
-            en: "Year after year, we are still here.",
-            es: "Año tras año, todavía estamos aquí.",
-          },
-          a: {
-            id: "ke-a3",
-            ms: "tahun ke tahun",
-            en: "year after year",
-            es: "año tras año",
-          },
-        },
-      ],
-    },
-
-    // --- SECTION: DARI examples ---
-    {
-      kind: "pairs",
-      id: "c4-sendi-dari",
-      title: { ms: "dari", en: "dari (from / since)", es: "dari (de / desde)" },
-      pairs: [
-        {
-          id: "dari-1",
-          q: {
-            id: "dari-q1",
-            ms: "Dari pagi saya di sini.",
-            en: "I have been here since morning.",
-            es: "Estoy aquí desde la mañana.",
-          },
-          a: {
-            id: "dari-a1",
-            ms: "dari pagi",
-            en: "since morning",
-            es: "desde la mañana",
-          },
-        },
-        {
-          id: "dari-2",
-          q: {
-            id: "dari-q2",
-            ms: "Saya belum makan dari semalam.",
-            en: "I haven't eaten since last night.",
-            es: "No he comido desde anoche.",
-          },
-          a: {
-            id: "dari-a2",
-            ms: "dari semalam",
-            en: "since last night",
-            es: "desde anoche",
-          },
-        },
-        {
-          id: "dari-3",
-          q: {
-            id: "dari-q3",
-            ms: "Saya tinggal di Kuala Lumpur dari bulan Januari.",
-            en: "I have lived in Kuala Lumpur since January.",
-            es: "Vivo en Kuala Lumpur desde enero.",
-          },
-          a: {
-            id: "dari-a3",
-            ms: "dari bulan Januari",
-            en: "since January",
-            es: "desde enero",
-          },
-        },
-        {
-          id: "dari-4",
-          q: {
-            id: "dari-q4",
-            ms: "Kita semakin tua dari hari ke hari.",
-            en: "We get older day by day.",
-            es: "Envejecemos día a día.",
-          },
-          a: {
-            id: "dari-a4",
-            ms: "dari hari ke hari",
-            en: "day by day",
-            es: "día a día",
-          },
-        },
-        {
-          id: "dari-5",
-          q: {
-            id: "dari-q5",
-            ms: "Dari pukul 5.30 petang saya sudah sampai.",
-            en: "By 5:30 PM, I had already arrived. (since 5:30 PM / from 5:30 PM)",
-            es: "Desde las 5:30 p. m., ya había llegado. (a partir de 5:30 p. m.)",
-          },
-          a: {
-            id: "dari-a5",
-            ms: "dari pukul 5.30 petang",
-            en: "from/since 5:30 PM",
-            es: "desde las 5:30 p. m.",
-          },
-        },
-      ],
-    },
-
-    // --- SECTION: PADA examples ---
-    {
-      kind: "pairs",
-      id: "c4-sendi-pada",
-      title: { ms: "pada", en: "pada (at / on)", es: "pada (en)" },
-      pairs: [
-        {
-          id: "pada-1",
-          q: {
-            id: "pada-q1",
-            ms: "Saya pergi ke sekolah pada pukul 7.00 pagi.",
-            en: "I go to school at 7:00 AM.",
-            es: "Voy a la escuela a las 7:00 a. m.",
-          },
-          a: {
-            id: "pada-a1",
-            ms: "pada pukul 7.00 pagi",
-            en: "at 7:00 AM",
-            es: "a las 7:00 a. m.",
-          },
-        },
-        {
-          id: "pada-2",
-          q: {
-            id: "pada-q2",
-            ms: "Emak pulang pada tahun lepas.",
-            en: "Mother returned last year.",
-            es: "Mamá regresó el año pasado.",
-          },
-          a: {
-            id: "pada-a2",
-            ms: "pada tahun lepas",
-            en: "last year",
-            es: "el año pasado",
-          },
-        },
-        {
-          id: "pada-3",
-          q: {
-            id: "pada-q3",
-            ms: "Cuaca panas pada waktu tengahari.",
-            en: "The weather is hot at noon.",
-            es: "Hace calor al mediodía.",
-          },
-          a: {
-            id: "pada-a3",
-            ms: "pada waktu tengahari",
-            en: "at noon",
-            es: "al mediodía",
-          },
-        },
-        {
-          id: "pada-4",
-          q: {
-            id: "pada-q4",
-            ms: "Pada 30 minit yang lepas, saya di sini.",
-            en: "In the last 30 minutes, I have been here.",
-            es: "En los últimos 30 minutos, he estado aquí.",
-          },
-          a: {
-            id: "pada-a4",
-            ms: "pada 30 minit yang lepas",
-            en: "in the last 30 minutes",
-            es: "en los últimos 30 minutos",
-          },
-        },
-      ],
-    },
-  ],
-},
-
-// kata arah
-
-{
-  id: "p5-kata-arah-gambar",
-  kind: "table",
-  title: {
-    ms: "Kata Arah",
-    en: "Direction words",
-    es: "Palabras de dirección",
-  },
-  columns: [
-    { key: "img", label: { ms: "Gambar", en: "Image", es: "Imagen" } },
-    { key: "word", label: { ms: "Perkataan", en: "Word", es: "Palabra" } },
-  ],
-  rows: [
-    {
-      id: "r-kanan",
-      cells: {
-        img: [
-          {
-            kind: "image",
-            src: "/assets/chapters/ch4/kanan.webp",
-            alt: { ms: "kanan", en: "right", es: "derecha" },
-            w: 420,
-            h: 420,
-            className: "w-full h-auto max-h-48 object-contain",
-          },
-        ],
-        word: [{ ms: "kanan", en: "right", es: "derecha" }],
-      },
-    },
-    {
-      id: "r-kiri",
-      cells: {
-        img: [
-          {
-            kind: "image",
-            src: "/assets/chapters/ch4/kiri.webp",
-            alt: { ms: "kiri", en: "left", es: "izquierda" },
-            w: 420,
-            h: 420,
-            className: "w-full h-auto max-h-48 object-contain",
-          },
-        ],
-        word: [{ ms: "kiri", en: "left", es: "izquierda" }],
-      },
-    },
-    {
-      id: "r-sini",
-      cells: {
-        img: [
-          {
-            kind: "image",
-            src: "/assets/chapters/ch4/sini.webp",
-            alt: { ms: "sini", en: "here", es: "aquí" },
-            w: 420,
-            h: 420,
-            className: "w-full h-auto max-h-48 object-contain",
-          },
-        ],
-        word: [{ ms: "sini", en: "here", es: "aquí" }],
-      },
-    },
-    {
-      id: "r-sana",
-      cells: {
-        img: [
-          {
-            kind: "image",
-            src: "/assets/chapters/ch4/sana.webp",
-            alt: { ms: "sana", en: "there", es: "allá" },
-            w: 640,
-            h: 360,
-            className: "w-full h-auto max-h-48 object-contain",
-          },
-        ],
-        word: [{ ms: "sana", en: "there", es: "allá" }],
-      },
-    },
-  ],
-},
-
-
-
-    ///kompas
-
-{
-  id: "p6-kompas-arah",
-  kind: "figure",
-  title: {
-    ms: "Kompas Arah",
-    en: "Compass Directions",
-    es: "Direcciones de la brújula",
-  },
-  imageSrc: "/assets/chapters/ch4/kompas.webp",
-  alt: {
-    ms: "Gambar kompas arah: utara, selatan, timur, barat",
-    en: "Compass diagram: north, south, east, west",
-    es: "Diagrama de brújula: norte, sur, este, oeste",
-  },
-  caption: {
-    ms: "Utara (atas), Selatan (bawah), Barat (kiri), Timur (kanan).",
-    en: "North (top), South (bottom), West (left), East (right).",
-    es: "Norte (arriba), Sur (abajo), Oeste (izquierda), Este (derecha).",
-  },
-  maxWidthPx: 720,
-},
-
-
-
-    // ------------------------------------------------------------
-    // Page 1: TIME EXPRESSIONS (table)
-    // ------------------------------------------------------------
-    {
-      id: "c4-p1-ungkapan-masa",
-      kind: "table",
-      title: {
-        ms: "Ungkapan Masa dalam Bahasa Melayu",
-        en: "Time expressions in Malay",
-        es: "Expresiones de tiempo en malayo",
-      },
-      columns: [
-        { key: "ungkapan", label: { ms: "Ungkapan", en: "Expression", es: "Expresión" } },
-        { key: "maksud", label: { ms: "Maksud", en: "Meaning", es: "Significado" } },
-      ],
+      kind: "iconRows",
+      title: { ms: "Asas Masa", en: "Time Basics", es: "Conceptos Básicos del Tiempo" },
       rows: [
         {
-          id: "c4-r1-pukul",
-          cells: {
-            ungkapan: [{ ms: "Pukul 3", en: "3 o’clock", es: "Las 3" }],
-            maksud: [
-              { ms: "Untuk menyebut masa (jam).", en: "Used to tell the time (hour).", es: "Se usa para decir la hora." },
-              { ms: "Contoh: Sekarang pukul 3.", en: "Example: It’s 3 o’clock now.", es: "Ejemplo: Ahora son las 3." },
-            ],
-          },
+          id: "c4-masa-def",
+          iconSrc: "/assets/chapters/ch4/ch4_hour.webp",
+          iconAlt: { ms: "Jam", en: "Clock", es: "Reloj" },
+          name: { ms: "Masa", en: "Time", es: "Tiempo" },
+          description: { ms: "Masa = waktu, ketika", en: "Masa means time or when.", es: "Masa significa tiempo o momento." },
         },
         {
-          id: "c4-r2-sekarang",
-          cells: {
-            ungkapan: [{ ms: "Sekarang", en: "Now", es: "Ahora" }],
-            maksud: [{ ms: "Masa ini.", en: "At this moment.", es: "En este momento." }],
-          },
+          id: "c4-jam-minit",
+          iconSrc: "/assets/chapters/ch4/ch4_hour.webp",
+          iconAlt: { ms: "Satu jam", en: "One hour", es: "Una hora" },
+          name: { ms: "1 jam = 60 minit", en: "1 hour = 60 minutes", es: "1 hora = 60 minutos" },
+          description: { ms: "Jam mengandungi minit.", en: "An hour contains minutes.", es: "Una hora contiene minutos." },
         },
         {
-          id: "c4-r3-hari-ini",
-          cells: {
-            ungkapan: [{ ms: "Hari ini", en: "Today", es: "Hoy" }],
-            maksud: [{ ms: "Pada hari ini.", en: "On this day.", es: "En el día de hoy." }],
-          },
+          id: "c4-minit-saat",
+          iconSrc: "/assets/chapters/ch4/ch4_minute.webp",
+          iconAlt: { ms: "Satu minit", en: "One minute", es: "Un minuto" },
+          name: { ms: "1 minit = 60 saat", en: "1 minute = 60 seconds", es: "1 minuto = 60 segundos" },
+          description: { ms: "Minit mengandungi saat.", en: "A minute contains seconds.", es: "Un minuto contiene segundos." },
         },
         {
-          id: "c4-r4-esok",
-          cells: {
-            ungkapan: [{ ms: "Esok", en: "Tomorrow", es: "Mañana" }],
-            maksud: [{ ms: "Hari selepas hari ini.", en: "The day after today.", es: "El día después de hoy." }],
-          },
+          id: "c4-hari-minggu",
+          iconSrc: "/assets/chapters/ch4/ch4_7hari.webp",
+          iconAlt: { ms: "Tujuh hari", en: "Seven days", es: "Siete días" },
+          name: { ms: "7 hari = 1 minggu", en: "7 days = 1 week", es: "7 días = 1 semana" },
+          description: { ms: "Tujuh hari membentuk satu minggu.", en: "Seven days make one week.", es: "Siete días forman una semana." },
         },
-        {
-          id: "c4-r5-semalam",
-          cells: {
-            ungkapan: [{ ms: "Semalam", en: "Yesterday", es: "Ayer" }],
-            maksud: [{ ms: "Hari sebelum hari ini.", en: "The day before today.", es: "El día antes de hoy." }],
-          },
-        },
-        {
-          id: "c4-r6-nanti",
-          cells: {
-            ungkapan: [{ ms: "Nanti", en: "Later", es: "Luego / más tarde" }],
-            maksud: [{ ms: "Pada masa kemudian.", en: "At a later time.", es: "En otro momento más tarde." }],
-          },
-        },
+        { id: "c4-day-isnin", iconSrc: "/assets/chapters/ch4/ch4_7hari.webp", iconAlt: { ms: "Isnin", en: "Monday", es: "Lunes" }, name: { ms: "Isnin", en: "Monday", es: "Lunes" }, description: { ms: "Isnin", en: "Monday", es: "Lunes" } },
+        { id: "c4-day-selasa", iconSrc: "/assets/chapters/ch4/ch4_7hari.webp", iconAlt: { ms: "Selasa", en: "Tuesday", es: "Martes" }, name: { ms: "Selasa", en: "Tuesday", es: "Martes" }, description: { ms: "Selasa", en: "Tuesday", es: "Martes" } },
+        { id: "c4-day-rabu", iconSrc: "/assets/chapters/ch4/ch4_7hari.webp", iconAlt: { ms: "Rabu", en: "Wednesday", es: "Miércoles" }, name: { ms: "Rabu", en: "Wednesday", es: "Miércoles" }, description: { ms: "Rabu", en: "Wednesday", es: "Miércoles" } },
+        { id: "c4-day-khamis", iconSrc: "/assets/chapters/ch4/ch4_7hari.webp", iconAlt: { ms: "Khamis", en: "Thursday", es: "Jueves" }, name: { ms: "Khamis", en: "Thursday", es: "Jueves" }, description: { ms: "Khamis", en: "Thursday", es: "Jueves" } },
+        { id: "c4-day-jumaat", iconSrc: "/assets/chapters/ch4/ch4_7hari.webp", iconAlt: { ms: "Jumaat", en: "Friday", es: "Viernes" }, name: { ms: "Jumaat", en: "Friday", es: "Viernes" }, description: { ms: "Jumaat", en: "Friday", es: "Viernes" } },
+        { id: "c4-day-sabtu", iconSrc: "/assets/chapters/ch4/ch4_7hari.webp", iconAlt: { ms: "Sabtu", en: "Saturday", es: "Sábado" }, name: { ms: "Sabtu", en: "Saturday", es: "Sábado" }, description: { ms: "Sabtu", en: "Saturday", es: "Sábado" } },
+        { id: "c4-day-ahad", iconSrc: "/assets/chapters/ch4/ch4_7hari.webp", iconAlt: { ms: "Ahad", en: "Sunday", es: "Domingo" }, name: { ms: "Ahad", en: "Sunday", es: "Domingo" }, description: { ms: "Ahad", en: "Sunday", es: "Domingo" } },
       ],
     },
-
-    // ------------------------------------------------------------
-    // Page 2: DIFFERENT TIMES OF DAY (table with images)
-    // ------------------------------------------------------------
     {
       id: "c4-p2-waktu-harian",
       kind: "table",
-      title: {
-        ms: "Waktu Pagi, Petang, dan Malam",
-        en: "Morning, evening, and night",
-        es: "Mañana, tarde y noche",
-      },
+      title: { ms: "Waktu dalam Sehari", en: "Times of Day", es: "Momentos del Día" },
       columns: [
-        { key: "pagi", label: { ms: "Pagi", en: "Morning", es: "Mañana" } },
-        { key: "tengahari", label: { ms: "Tengah hari", en: "Midday", es: "Mediodía" } },
-        { key: "petang", label: { ms: "Petang", en: "Evening", es: "Tarde" } },
-        { key: "malam", label: { ms: "Malam", en: "Night", es: "Noche" } },
+        { key: "gambar", label: { ms: "Gambar", en: "Image", es: "Imagen" } },
+        { key: "waktu", label: { ms: "Waktu", en: "Time of day", es: "Momento del día" } },
       ],
       rows: [
-        {
-          id: "row-gambar-waktu",
-          cells: {
-            pagi: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch4/pagi.webp",
-                alt: { ms: "Pagi", en: "Morning", es: "Mañana" },
-                w: 320,
-                h: 200,
-                className: "w-full h-auto max-h-44 object-contain",
-              },
-            ],
-            tengahari: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch4/tengahhari.webp",
-                alt: { ms: "Tengah hari", en: "Midday", es: "Mediodía" },
-                w: 320,
-                h: 200,
-                className: "w-full h-auto max-h-44 object-contain",
-              },
-            ],
-            petang: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch4/petang.webp",
-                alt: { ms: "Petang", en: "Evening", es: "Tarde" },
-                w: 320,
-                h: 200,
-                className: "w-full h-auto max-h-44 object-contain",
-              },
-            ],
-            malam: [
-              {
-                kind: "image",
-                src: "/assets/chapters/ch4/malam.webp",
-                alt: { ms: "Malam", en: "Night", es: "Noche" },
-                w: 320,
-                h: 200,
-                className: "w-full h-auto max-h-44 object-contain",
-              },
-            ],
-          },
-        },
-        {
-          id: "row-desc-waktu",
-          cells: {
-            pagi: [{ ms: "Pagi (±6:00–11:59)", en: "Morning (≈6:00–11:59)", es: "Mañana (≈6:00–11:59)" }],
-            tengahari: [{ ms: "Tengah hari (±12:00–1:59)", en: "Midday (≈12:00–1:59)", es: "Mediodía (≈12:00–13:59)" }],
-            petang: [{ ms: "Petang (±2:00–6:59)", en: "Evening (≈2:00–6:59)", es: "Tarde (≈14:00–18:59)" }],
-            malam: [{ ms: "Malam (±7:00–5:59)", en: "Night (≈7:00–5:59)", es: "Noche (≈19:00–5:59)" }],
-          },
-        },
+        { id: "c4-time-pagi", cells: { gambar: [{ kind: "image", src: pagi, alt: { ms: "pagi", en: "morning", es: "mañana" }, w: 360, h: 240, className: "h-full w-full object-contain" }], waktu: [{ ms: "pagi", en: "morning", es: "mañana" }, { ms: "1.00 pagi – 11.59 pagi", en: "1:00 a.m. – 11:59 a.m.", es: "1:00 a. m. – 11:59 a. m." }] } },
+        { id: "c4-time-tengah-hari", cells: { gambar: [{ kind: "image", src: tengahHari, alt: { ms: "tengah hari", en: "midday", es: "mediodía" }, w: 360, h: 240, className: "h-full w-full object-contain" }], waktu: [{ ms: "tengah hari", en: "midday", es: "mediodía" }, { ms: "12.00 tengah hari – 1.59 tengah hari", en: "12:00 midday – 1:59 p.m.", es: "12:00 del mediodía – 1:59 p. m." }] } },
+        { id: "c4-time-petang", cells: { gambar: [{ kind: "image", src: petang, alt: { ms: "petang", en: "evening", es: "tarde" }, w: 360, h: 240, className: "h-full w-full object-contain" }], waktu: [{ ms: "petang", en: "evening", es: "tarde" }, { ms: "2.00 petang – 6.59 petang", en: "2:00 p.m. – 6:59 p.m.", es: "2:00 p. m. – 6:59 p. m." }] } },
+        { id: "c4-time-malam", cells: { gambar: [{ kind: "image", src: malam, alt: { ms: "malam", en: "night", es: "noche" }, w: 360, h: 240, className: "h-full w-full object-contain" }], waktu: [{ ms: "malam", en: "night", es: "noche" }, { ms: "7.00 malam – 11.59 malam", en: "7:00 p.m. – 11:59 p.m.", es: "7:00 p. m. – 11:59 p. m." }] } },
       ],
     },
-
-    // ------------------------------------------------------------
-    // Page 3: DRAGFILL (choose pagi/petang/malam)
-    // ------------------------------------------------------------
     {
       id: "c4-p3-latihan-waktu",
-      kind: "dragfill",
-      title: {
-        ms: "Latihan: Pilih Waktu yang Betul",
-        en: "Exercise: Choose the correct time of day",
-        es: "Ejercicio: Elige el momento del día correcto",
-      },
-      instructions: {
-        ms: "Seret perkataan yang betul ke tempat kosong.",
-        en: "Drag the correct word into the blank.",
-        es: "Arrastra la palabra correcta al espacio en blanco.",
-      },
-      options: [
-        { id: "opt-pagi", ms: "pagi", en: "morning", es: "mañana" },
-        { id: "opt-petang", ms: "petang", en: "evening", es: "tarde" },
-        { id: "opt-malam", ms: "malam", en: "night", es: "noche" },
-      ],
+      kind: "imageMatch",
+      title: { ms: "Padankan Waktu", en: "Match the Time of Day", es: "Empareja el Momento del Día" },
+      instructions: { ms: "Padankan setiap gambar dengan perkataan yang betul.", en: "Match each image to the correct word.", es: "Empareja cada imagen con la palabra correcta." },
       items: [
-        {
-          id: "c4-q1",
-          n: 1,
-          q: {
-            kind: "blank",
-            before: { ms: "Saya pergi kerja pada waktu", en: "I go to work in the", es: "Yo voy al trabajo en la" },
-            after: { ms: ".", en: ".", es: "." },
-            correctOptionId: "opt-pagi",
-          },
-          a: {
-            kind: "text",
-            text: {
-              ms: "Contoh: pukul 8 pagi",
-              en: "Example: 8 a.m.",
-              es: "Ejemplo: 8 a.m.",
-            },
-          },
-        },
-        {
-          id: "c4-q2",
-          n: 2,
-          q: {
-            kind: "blank",
-            before: { ms: "Kami minum teh pada waktu", en: "We drink tea in the", es: "Tomamos té en la" },
-            after: { ms: ".", en: ".", es: "." },
-            correctOptionId: "opt-petang",
-          },
-          a: {
-            kind: "text",
-            text: {
-              ms: "Contoh: pukul 5 petang",
-              en: "Example: 5 p.m.",
-              es: "Ejemplo: 5 p.m.",
-            },
-          },
-        },
-        {
-          id: "c4-q3",
-          n: 3,
-          q: {
-            kind: "blank",
-            before: { ms: "Saya tidur pada waktu", en: "I sleep at", es: "Yo duermo en la" },
-            after: { ms: ".", en: ".", es: "." },
-            correctOptionId: "opt-malam",
-          },
-          a: {
-            kind: "text",
-            text: {
-              ms: "Contoh: pukul 11 malam",
-              en: "Example: 11 p.m.",
-              es: "Ejemplo: 11 p.m.",
-            },
-          },
-        },
+        { id: "petang", imageSrc: petang, imageAlt: { ms: "Gambar petang", en: "Evening image", es: "Imagen de la tarde" }, answer: { ms: "petang", en: "evening", es: "tarde" } },
+        { id: "pagi", imageSrc: pagi, imageAlt: { ms: "Gambar pagi", en: "Morning image", es: "Imagen de la mañana" }, answer: { ms: "pagi", en: "morning", es: "mañana" } },
+        { id: "malam", imageSrc: malam, imageAlt: { ms: "Gambar malam", en: "Night image", es: "Imagen de la noche" }, answer: { ms: "malam", en: "night", es: "noche" } },
+        { id: "tengah-hari", imageSrc: tengahHari, imageAlt: { ms: "Gambar tengah hari", en: "Midday image", es: "Imagen del mediodía" }, answer: { ms: "tengah hari", en: "midday", es: "mediodía" } },
       ],
     },
-
-    // ------------------------------------------------------------
-    // Page 4: TYPEIN (unscramble)
-    // ------------------------------------------------------------
     {
-      id: "c4-p4-latihan-susun",
-      kind: "typein",
-      title: {
-        ms: "Latihan: Susun Semula Huruf",
-        en: "Exercise: Unscramble the letters",
-        es: "Ejercicio: Ordena las letras",
-      },
-      instructions: {
-        ms: "Susun semula huruf menjadi perkataan yang betul.",
-        en: "Rearrange the letters to form the correct word.",
-        es: "Reordena las letras para formar la palabra correcta.",
-      },
-      caseSensitive: false,
-      items: [
-        { id: "c4-t1", n: 1, scrambled: "igap", answer: "pagi", meaning: { ms: "pagi", en: "morning", es: "mañana" } },
-        { id: "c4-t2", n: 2, scrambled: "gnatep", answer: "petang", meaning: { ms: "petang", en: "evening", es: "tarde" } },
-        { id: "c4-t3", n: 3, scrambled: "mmaal", answer: "malam", meaning: { ms: "malam", en: "night", es: "noche" } },
-        { id: "c4-t4", n: 4, scrambled: "gnaraeks", answer: "sekarang", meaning: { ms: "sekarang", en: "now", es: "ahora" } },
-        { id: "c4-t5", n: 5, scrambled: "kose", answer: "esok", meaning: { ms: "esok", en: "tomorrow", es: "mañana (mañana día siguiente)" } },
-      ],
-    },
-
-    // ------------------------------------------------------------
-    // Page 5: CHAT (situasi masa di perhentian bas)
-    // ------------------------------------------------------------
-    {
-      id: "c4-p5-chat-masa-arah",
+      id: "c4-p4-chat-masa",
       kind: "chat",
-      title: {
-        ms: "Situasi 4.1 Masa",
-        en: "Situation 4.1 Time",
-        es: "Situación 4.1 Tiempo",
-      },
-      context: {
-        ms: "Latar tempat: Sebuah perhentian bas.",
-        en: "Setting: A bus stop.",
-        es: "Lugar: Una parada de autobús.",
-      },
+      title: { ms: "Situasi 4.1: Masa", en: "Situation 4.1: Time", es: "Situación 4.1: Tiempo" },
+      youId: "a",
       participants: [
-        { id: "azman", name: { ms: "Azman", en: "Azman", es: "Azman" } },
-        {
-          id: "mohamad",
-          name: { ms: "Mohamad", en: "Mohamad", es: "Mohamad" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
-        },
+        { id: "a", name: { ms: "Ali", en: "Ali", es: "Ali" } },
+        { id: "b", name: { ms: "Muthu", en: "Muthu", es: "Muthu" } },
       ],
       messages: [
-        {
-          id: "c4-m1",
-          from: "azman",
-          text: {
-            ms: "Mohamad, pukul berapa sekarang?",
-            en: "Mohamad, what time is it now?",
-            es: "Mohamad, ¿qué hora es ahora?",
-          },
-        },
-        {
-          id: "c4-m2",
-          from: "mohamad",
-          text: {
-            ms: "Sekarang pukul 5.20 petang. Kenapa, Man?",
-            en: "It's 5:20 p.m. Why, Man?",
-            es: "Ahora son las 5:20 de la tarde. ¿Por qué, Man?",
-          },
-        },
-        {
-          id: "c4-m3",
-          from: "azman",
-          text: {
-            ms: "Saya janji jumpa Faris untuk latihan futsal pukul 5.30.",
-            en: "I promised to meet Faris for futsal practice at 5:30.",
-            es: "Quede con Faris para practica de futsal a las 5:30.",
-          },
-        },
-        {
-          id: "c4-m4",
-          from: "mohamad",
-          text: {
-            ms: "Awak nak ke gelanggang belakang dewan sukan, kan?",
-            en: "You're going to the court behind the sports hall, right?",
-            es: "Vas a la cancha detrás del pabellón deportivo, ¿verdad?",
-          },
-        },
-        {
-          id: "c4-m5",
-          from: "azman",
-          text: {
-            ms: "Ya. Saya lupa jalan paling cepat dari sini.",
-            en: "Yes. I forgot the fastest way from here.",
-            es: "Sí. Olvidé la ruta más rápida desde aquí.",
-          },
-        },
-        {
-          id: "c4-m6",
-          from: "mohamad",
-          text: {
-            ms: "Jalan terus ke kantin, kemudian belok kanan.",
-            en: "Walk straight to the canteen, then turn right.",
-            es: "Sigue recto hasta la cafeteria, luego gira a la derecha.",
-          },
-        },
-        {
-          id: "c4-m7",
-          from: "mohamad",
-          text: {
-            ms: "Selepas itu, dewan sukan ada di sebelah kiri awak.",
-            en: "After that, the sports hall is on your left.",
-            es: "Después de eso, el pabellón deportivo queda a tu izquierda.",
-          },
-        },
-        {
-          id: "c4-m8",
-          from: "azman",
-          text: {
-            ms: "Kalau saya naik bas kampus, sempat tak?",
-            en: "If I take the campus bus, will I make it?",
-            es: "Si tomo el bus del campus, ¿llego a tiempo?",
-          },
-        },
-        {
-          id: "c4-m9",
-          from: "mohamad",
-          text: {
-            ms: "Sempat. Bas biasanya datang dua minit lagi.",
-            en: "Yes, you can. The bus usually comes in two minutes.",
-            es: "Sí, alcanzas. El bus normalmente llega en dos minutos.",
-          },
-        },
-        {
-          id: "c4-m10",
-          from: "azman",
-          text: {
-            ms: "Bagus. Terima kasih, Mohamad. Jom cepat.",
-            en: "Great. Thanks, Mohamad. Let's hurry.",
-            es: "Bien. Gracias, Mohamad. Vamos rápido.",
-          },
-        },
+        { id: "c4-time-chat-1", from: "a", text: { ms: "Muthu, pukul berapa sekarang?", en: "Muthu, what time is it now?", es: "Muthu, ¿qué hora es ahora?" } },
+        { id: "c4-time-chat-2", from: "b", text: { ms: "Sekarang pukul lapan pagi.", en: "It is eight in the morning now.", es: "Ahora son las ocho de la mañana." } },
+        { id: "c4-time-chat-3", from: "a", text: { ms: "Kita jumpa pukul sembilan?", en: "Shall we meet at nine?", es: "¿Nos vemos a las nueve?" } },
+        { id: "c4-time-chat-4", from: "b", text: { ms: "Boleh. Jumpa pukul sembilan.", en: "Sure. See you at nine.", es: "Sí. Nos vemos a las nueve." } },
+        { id: "c4-time-chat-5", from: "a", text: { ms: "Kita jumpa di mana?", en: "Where shall we meet?", es: "¿Dónde nos vemos?" } },
+        { id: "c4-time-chat-6", from: "b", text: { ms: "Di sini saja.", en: "Just here.", es: "Aquí mismo." } },
+        { id: "c4-time-chat-7", from: "a", text: { ms: "Baik, jumpa nanti.", en: "Okay, see you later.", es: "Bueno, nos vemos luego." } },
+        { id: "c4-time-chat-8", from: "b", text: { ms: "Jumpa nanti.", en: "See you later.", es: "Nos vemos luego." } },
       ],
     },
-
-    // ------------------------------------------------------------
-    // Page 5b: CHAT (wayang)
-    // ------------------------------------------------------------
     {
-      id: "c4-p5b-chat-wayang",
+      id: "c4-p5-masa-dalam-ayat",
+      kind: "table",
+      title: { ms: "Masa dalam Ayat", en: "Time in Sentences", es: "El Tiempo en Oraciones" },
+      leadCard: {
+        heading: { ms: "Nota ringkas: sampai", en: "Quick note: sampai", es: "Nota breve: sampai" },
+        body: { ms: "Dengan masa: hingga. Dengan pergerakan atau arah: tiba / mencapai.", en: "With time: until. With movement or directions: arrive / reach.", es: "Con tiempo: hasta. Con movimiento o direcciones: llegar / alcanzar." },
+      },
+      columns: [
+        { key: "fokus", label: { ms: "Kata fokus", en: "Focus word", es: "Palabra clave" } },
+        { key: "contoh", label: { ms: "Contoh ayat", en: "Example sentences", es: "Oraciones de ejemplo" } },
+      ],
+      rows: [
+        { id: "c4-sampai", cells: { fokus: [{ kind: "image", src: "/assets/chapters/ch4/ch4_direction.webp", alt: { ms: "Ikon sampai", en: "Reach icon", es: "Icono de llegar" }, w: 96, h: 96, className: "h-16 w-16 object-contain" }, { ms: "sampai", en: "until / arrive", es: "hasta / llegar" }], contoh: [
+          { ms: "Saya belajar sampai petang.", en: "I study until the evening.", es: "Estudio hasta la tarde.", highlight: { ms: "sampai petang", en: "until the evening", es: "hasta la tarde" } },
+          { ms: "Kedai ini buka sampai pukul 10.00 malam.", en: "This shop is open until 10:00 at night.", es: "Esta tienda abre hasta las 10:00 de la noche.", highlight: { ms: "sampai pukul 10.00 malam", en: "until 10:00 at night", es: "hasta las 10:00 de la noche" } },
+          { ms: "Kami tunggu sampai tengah hari.", en: "We wait until midday.", es: "Esperamos hasta el mediodía.", highlight: { ms: "sampai tengah hari", en: "until midday", es: "hasta el mediodía" } },
+        ] } },
+        { id: "c4-dari", cells: { fokus: [{ kind: "image", src: "/assets/chapters/ch4/ch4_year.webp", alt: { ms: "Ikon dari", en: "From icon", es: "Icono de desde" }, w: 96, h: 96, className: "h-16 w-16 object-contain" }, { ms: "dari", en: "from / since", es: "de / desde" }], contoh: [
+          { ms: "Dari pagi saya di sini.", en: "I have been here since morning.", es: "Estoy aquí desde la mañana.", highlight: { ms: "Dari pagi", en: "since morning", es: "desde la mañana" } },
+          { ms: "Dia bekerja dari pukul 8.00 pagi.", en: "They work from 8:00 in the morning.", es: "Trabaja desde las 8:00 de la mañana.", highlight: { ms: "dari pukul 8.00 pagi", en: "from 8:00 in the morning", es: "desde las 8:00 de la mañana" } },
+          { ms: "Kami berjalan dari petang sampai malam.", en: "We walk from the evening until night.", es: "Caminamos desde la tarde hasta la noche.", highlight: { ms: "dari petang sampai malam", en: "from the evening until night", es: "desde la tarde hasta la noche" } },
+        ] } },
+        { id: "c4-pada", cells: { fokus: [{ kind: "image", src: "/assets/chapters/ch4/ch4_hour.webp", alt: { ms: "Ikon pada", en: "At-time icon", es: "Icono de hora" }, w: 96, h: 96, className: "h-16 w-16 object-contain" }, { ms: "pada", en: "at", es: "a / en" }], contoh: [
+          { ms: "Saya pergi ke sekolah pada pukul 7.00 pagi.", en: "I go to school at 7:00 in the morning.", es: "Voy a la escuela a las 7:00 de la mañana.", highlight: { ms: "pada pukul 7.00 pagi", en: "at 7:00 in the morning", es: "a las 7:00 de la mañana" } },
+          { ms: "Kami makan pada waktu tengah hari.", en: "We eat at midday.", es: "Comemos al mediodía.", highlight: { ms: "pada waktu tengah hari", en: "at midday", es: "al mediodía" } },
+          { ms: "Kelas bermula pada pukul 8.30 pagi.", en: "Class starts at 8:30 in the morning.", es: "La clase empieza a las 8:30 de la mañana.", highlight: { ms: "pada pukul 8.30 pagi", en: "at 8:30 in the morning", es: "a las 8:30 de la mañana" } },
+        ] } },
+      ],
+    },
+    {
+      id: "c4-p6-kata-arah",
+      kind: "table",
+      title: { ms: "Kata Arah Mudah", en: "Simple Direction Words", es: "Palabras Sencillas de Dirección" },
+      columns: [
+        { key: "gambar", label: { ms: "Gambar", en: "Image", es: "Imagen" } },
+        { key: "kata", label: { ms: "Kata", en: "Word", es: "Palabra" } },
+      ],
+      rows: [
+        { id: "c4-kiri", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/kiri.webp", alt: { ms: "kiri", en: "left", es: "izquierda" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "kiri", en: "left", es: "izquierda" }] } },
+        { id: "c4-kanan", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/kanan.webp", alt: { ms: "kanan", en: "right", es: "derecha" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "kanan", en: "right", es: "derecha" }] } },
+        { id: "c4-sini", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/sini.webp", alt: { ms: "sini", en: "here", es: "aquí" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "sini", en: "here", es: "aquí" }] } },
+        { id: "c4-sana", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/sana.webp", alt: { ms: "sana", en: "there", es: "allá" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "sana", en: "there", es: "allá" }] } },
+        { id: "c4-terus", cells: { gambar: [{ ms: "→", en: "→", es: "→" }], kata: [{ ms: "terus", en: "straight", es: "recto" }] } },
+      ],
+    },
+    {
+      id: "c4-p8-chat-arah",
       kind: "chat",
-      title: {
-        ms: "Situasi 4.2 Masa Menonton Wayang",
-        en: "Situation 4.2 Movie Time",
-        es: "Situación 4.2 Hora de cine",
-      },
-      context: {
-        ms: "Latar tempat: Kaunter tiket di sebuah panggung wayang.",
-        en: "Setting: Ticket counter at a cinema.",
-        es: "Lugar: Taquilla en un cine.",
-      },
+      title: { ms: "Situasi 4.2: Tanya Arah", en: "Situation 4.2: Asking Directions", es: "Situación 4.2: Pedir Direcciones" },
+      youId: "a",
       participants: [
-        { id: "azman", name: { ms: "Azman", en: "Azman", es: "Azman" } },
-        {
-          id: "jurukaunter",
-          name: { ms: "Jurukaunter", en: "Ticket clerk", es: "Taquillero" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
-        },
+        { id: "a", name: { ms: "Ali", en: "Ali", es: "Ali" } },
+        { id: "b", name: { ms: "Muthu", en: "Muthu", es: "Muthu" } },
       ],
       messages: [
-        {
-          id: "c4-42-m1",
-          from: "jurukaunter",
-          text: {
-            ms: "Selamat petang. Nak beli tiket cerita apa?",
-            en: "Good afternoon. Which movie ticket do you want?",
-            es: "Buenas tardes. ¿Qué película quieres ver?",
-          },
-        },
-        {
-          id: "c4-42-m2",
-          from: "azman",
-          text: {
-            ms: "Selamat petang. Saya nak tengok \"Upin & Ipin\".",
-            en: "Good afternoon. I want to watch \"Upin & Ipin\".",
-            es: "Buenas tardes. Quiero ver \"Upin & Ipin\".",
-          },
-        },
-        {
-          id: "c4-42-m3",
-          from: "jurukaunter",
-          text: {
-            ms: "Baik. Tayangan ada pukul 1.30, 4.30, dan 8.45 malam.",
-            en: "Alright. Showtimes are 1:30, 4:30, and 8:45 p.m.",
-            es: "Bien. Los horarios son 1:30, 4:30 y 8:45 p. m.",
-          },
-        },
-        {
-          id: "c4-42-m4",
-          from: "azman",
-          text: {
-            ms: "Kawan saya sampai pukul 4. Tayangan mana sesuai?",
-            en: "My friend arrives at 4. Which showtime is suitable?",
-            es: "Mi amigo llega a las 4. ¿Qué horario conviene?",
-          },
-        },
-        {
-          id: "c4-42-m5",
-          from: "jurukaunter",
-          text: {
-            ms: "Saya cadang 4.30 petang. Sempat beli makanan juga.",
-            en: "I suggest 4:30 p.m. You will have time to buy snacks too.",
-            es: "Sugiero las 4:30 p. m. También tendras tiempo para comprar comida.",
-          },
-        },
-        {
-          id: "c4-42-m6",
-          from: "azman",
-          text: {
-            ms: "Baik. Saya ambil dua tiket pukul 4.30. Berapa harga?",
-            en: "Alright. I will take two tickets for 4:30. How much?",
-            es: "Bien. Tomo dos boletos para las 4:30. ¿Cuánto cuesta?",
-          },
-        },
-        {
-          id: "c4-42-m7",
-          from: "jurukaunter",
-          text: {
-            ms: "Satu tiket RM12. Jumlah untuk dua tiket RM24.",
-            en: "One ticket is RM12. Total for two tickets is RM24.",
-            es: "Un boleto cuesta RM12. El total por dos boletos es RM24.",
-          },
-        },
-        {
-          id: "c4-42-m8",
-          from: "azman",
-          text: {
-            ms: "Boleh saya bayar guna e-dompet?",
-            en: "Can I pay by e-wallet?",
-            es: "¿Puedo pagar con billetera electrónica?",
-          },
-        },
-        {
-          id: "c4-42-m9",
-          from: "jurukaunter",
-          text: {
-            ms: "Boleh. Imbas kod ini. Pembayaran berjaya, ini dua tiket encik.",
-            en: "Sure. Scan this code. Payment successful, here are your two tickets.",
-            es: "Claro. Escanea este código. Pago exitoso, aquí están tus dos boletos.",
-          },
-        },
-        {
-          id: "c4-42-m10",
-          from: "azman",
-          text: {
-            ms: "Terima kasih. Saya tunggu kawan saya dulu.",
-            en: "Thank you. I will wait for my friend first.",
-            es: "Gracias. Esperare primero a mi amigo.",
-          },
-        },
-        {
-          id: "c4-42-m11",
-          from: "jurukaunter",
-          text: {
-            ms: "Sama-sama. Selamat menonton.",
-            en: "You're welcome. Enjoy the movie.",
-            es: "De nada. Disfruta la película.",
-          },
-        },
+        { id: "c4-dir-chat-1", from: "a", text: { ms: "Maaf, tandas di mana?", en: "Excuse me, where is the toilet?", es: "Disculpa, ¿dónde está el baño?" } },
+        { id: "c4-dir-chat-2", from: "b", text: { ms: "Tandas di sana.", en: "The toilet is over there.", es: "El baño está allá." } },
+        { id: "c4-dir-chat-3", from: "a", text: { ms: "Saya jalan terus?", en: "Do I go straight?", es: "¿Sigo recto?" } },
+        { id: "c4-dir-chat-4", from: "b", text: { ms: "Ya, jalan terus.", en: "Yes, go straight.", es: "Sí, sigue recto." } },
+        { id: "c4-dir-chat-5", from: "a", text: { ms: "Lepas itu?", en: "After that?", es: "¿Después de eso?" } },
+        { id: "c4-dir-chat-6", from: "b", text: { ms: "Belok kiri.", en: "Turn left.", es: "Gira a la izquierda." } },
+        { id: "c4-dir-chat-7", from: "a", text: { ms: "Oh, di sana?", en: "Oh, over there?", es: "Ah, ¿allá?" } },
+        { id: "c4-dir-chat-8", from: "b", text: { ms: "Ya, di sana.", en: "Yes, over there.", es: "Sí, allá." } },
       ],
     },
-
-    // ------------------------------------------------------------
-    // Page 5c: CHAT (penunjuk arah jalan)
-    // ------------------------------------------------------------
     {
-      id: "c4-p5c-chat-arah",
-      kind: "chat",
-      title: {
-        ms: "Situasi 4.3 Penunjuk Arah Jalan",
-        en: "Situation 4.3 Giving Directions",
-        es: "Situación 4.3 Dar indicaciones",
-      },
-      context: {
-        ms: "Latar tempat: Tepi jalan raya.",
-        en: "Setting: Roadside.",
-        es: "Lugar: Al borde de la carretera.",
-      },
-      participants: [
-        { id: "azman", name: { ms: "Azman", en: "Azman", es: "Azman" } },
-        {
-          id: "ahmad",
-          name: { ms: "Ahmad", en: "Ahmad", es: "Ahmad" },
-          avatarSrc: "/assets/characters/Bandicoot_Profile.png",
-        },
-      ],
-      messages: [
-        {
-          id: "c4-43-m1",
-          from: "ahmad",
-          text: {
-            ms: "Azman, boleh tanya? Di mana klinik komuniti?",
-            en: "Azman, may I ask? Where is the community clinic?",
-            es: "Azman, ¿puedo preguntar? ¿Dónde está la clínica comunitaria?",
-          },
-        },
-        {
-          id: "c4-43-m2",
-          from: "azman",
-          text: {
-            ms: "Boleh. Dari sini, jalan terus sampai lampu isyarat.",
-            en: "Sure. From here, walk straight until the traffic light.",
-            es: "Claro. Desde aquí, sigue recto hasta el semáforo.",
-          },
-        },
-        {
-          id: "c4-43-m3",
-          from: "azman",
-          text: {
-            ms: "Selepas lampu isyarat, belok kiri.",
-            en: "After the traffic light, turn left.",
-            es: "Después del semáforo, gira a la izquierda.",
-          },
-        },
-        {
-          id: "c4-43-m4",
-          from: "ahmad",
-          text: {
-            ms: "Belok kiri selepas lampu isyarat, betul?",
-            en: "Turn left after the traffic light, right?",
-            es: "Giro a la izquierda después del semáforo, ¿correcto?",
-          },
-        },
-        {
-          id: "c4-43-m5",
-          from: "azman",
-          text: {
-            ms: "Betul. Kemudian jalan sampai nampak kedai runcit.",
-            en: "Correct. Then walk until you see a grocery shop.",
-            es: "Correcto. Luego camina hasta ver una tienda de comestibles.",
-          },
-        },
-        {
-          id: "c4-43-m6",
-          from: "ahmad",
-          text: {
-            ms: "Kedai runcit itu di sebelah kanan?",
-            en: "Is the grocery shop on the right?",
-            es: "¿La tienda de comestibles está a la derecha?",
-          },
-        },
-        {
-          id: "c4-43-m7",
-          from: "azman",
-          text: {
-            ms: "Ya. Klinik ada di belakang kedai itu.",
-            en: "Yes. The clinic is behind that shop.",
-            es: "Sí. La clínica está detrás de esa tienda.",
-          },
-        },
-        {
-          id: "c4-43-m8",
-          from: "ahmad",
-          text: {
-            ms: "Oh, dekat sahaja.",
-            en: "Oh, it is nearby.",
-            es: "Ah, está cerca.",
-          },
-        },
-        {
-          id: "c4-43-m9",
-          from: "azman",
-          text: {
-            ms: "Ya, lebih kurang lima minit berjalan kaki.",
-            en: "Yes, about five minutes on foot.",
-            es: "Sí, unos cinco minutos caminando.",
-          },
-        },
-        {
-          id: "c4-43-m10",
-          from: "ahmad",
-          text: {
-            ms: "Terima kasih, Azman. Saya pergi dulu.",
-            en: "Thank you, Azman. I will go now.",
-            es: "Gracias, Azman. Me voy ahora.",
-          },
-        },
-        {
-          id: "c4-43-m11",
-          from: "azman",
-          text: {
-            ms: "Sama-sama. Hati-hati di jalan.",
-            en: "You're welcome. Be careful on the road.",
-            es: "De nada. Ten cuidado en la calle.",
-          },
-        },
-      ],
+      id: "c4-p9-arah-jalan-practice",
+      kind: "arahJalanPractice",
+      title: { ms: "Arah Jalan: Mod Mudah", en: "Arah Jalan: Easy Mode", es: "Arah Jalan: Modo Fácil" },
+      instructions: { ms: "Bina satu laluan dari Mula ke Destinasi. Tamatkan arahan dengan Sampai.", en: "Build one route from Start to Destination. Finish with Sampai.", es: "Crea una ruta de Inicio a Destino. Termina con Sampai." },
     },
-
-    // ------------------------------------------------------------
-    // Page 6: BOXDRAG (compass directions)
-    // ------------------------------------------------------------
     {
-      id: "c4-p6-boxdrag-kompas",
-      kind: "boxdrag",
-      title: {
-        ms: "Latihan: Arah Kompas",
-        en: "Exercise: Compass directions",
-        es: "Ejercicio: Direcciones de la brújula",
-      },
-      instructions: {
-        ms: "Seret perkataan ke tempat yang betul (utara/selatan/timur/barat).",
-        en: "Drag the words to the correct place (north/south/east/west).",
-        es: "Arrastra las palabras al lugar correcto (norte/sur/este/oeste).",
-      },
-      compact: true,
-      options: [
-        { id: "dir-utara", ms: "utara", en: "north", es: "norte" },
-        { id: "dir-selatan", ms: "selatan", en: "south", es: "sur" },
-        { id: "dir-timur", ms: "timur", en: "east", es: "este" },
-        { id: "dir-barat", ms: "barat", en: "west", es: "oeste" },
-      ],
-      nodes: [
-        {
-          id: "center",
-          shape: "oval",
-          xPct: 50,
-          yPct: 50,
-          fixedText: {
-            ms: "ANDA\nDI SINI",
-            en: "YOU\nARE HERE",
-            es: "TÚ\nESTÁS AQUÍ",
-          },
-        },
-        { id: "top", shape: "rect", xPct: 50, yPct: 18, correctOptionId: "dir-utara" },
-        { id: "right", shape: "rect", xPct: 82, yPct: 50, correctOptionId: "dir-timur" },
-        { id: "bottom", shape: "rect", xPct: 50, yPct: 82, correctOptionId: "dir-selatan" },
-        { id: "left", shape: "rect", xPct: 18, yPct: 50, correctOptionId: "dir-barat" },
-      ],
-      lines: [
-        { x1: 50, y1: 50, x2: 50, y2: 18 },
-        { x1: 50, y1: 50, x2: 82, y2: 50 },
-        { x1: 50, y1: 50, x2: 50, y2: 82 },
-        { x1: 50, y1: 50, x2: 18, y2: 50 },
-      ],
-    },
-
-    // ------------------------------------------------------------
-    // Page 7: WORDSEARCH (latihan kata)
-    // ------------------------------------------------------------
-    {
-      id: "c4-p7-wordsearch",
+      id: "c4-p11-wordsearch",
       kind: "wordsearch",
-      title: {
-        ms: "Latihan: Kata Bersilang (Masa & Arah)",
-        en: "Exercise: Word Search (Time & Directions)",
-        es: "Ejercicio: Sopa de letras (Tiempo y Direcciones)",
-      },
-      instructions: {
-        ms: "Cari dan tandakan perkataan yang tersembunyi.",
-        en: "Find and mark the hidden words.",
-        es: "Encuentra y marca las palabras escondidas.",
-      },
-      grid: [
-        "PAXLOMISBTNP",
-        "QARCUDYMLOVE",
-        "HZGJFQWERKYT",
-        "BLUIDOCVAIHA",
-        "MEPQZLTSORGN",
-        "RMALAMEWHIPG",
-        "JFCQVNOZLSUX",
-        "KREYAHBNDTGC",
-        "PTONWGJKQVAM",
-        "LIAUXMDEPANF",
-        "GKZSRELCHOQY",
-        "VBDWJIFPMCRK",
-      ],
-      targets: [
-        {
-          id: "ws-pagi",
-          word: "PAGI",
-          label: { ms: "Pagi", en: "Morning", es: "Mañana" },
-          meaning: { ms: "pagi", en: "morning", es: "mañana" },
-        },
-        {
-          id: "ws-petang",
-          word: "PETANG",
-          label: { ms: "Petang", en: "Evening", es: "Tarde" },
-          meaning: { ms: "petang", en: "evening", es: "tarde" },
-        },
-        {
-          id: "ws-malam",
-          word: "MALAM",
-          label: { ms: "Malam", en: "Night", es: "Noche" },
-          meaning: { ms: "malam", en: "night", es: "noche" },
-        },
-        {
-          id: "ws-kiri",
-          word: "KIRI",
-          label: { ms: "Kiri", en: "Left", es: "Izquierda" },
-          meaning: { ms: "kiri", en: "left", es: "izquierda" },
-        },
-        {
-          id: "ws-kanan",
-          word: "KANAN",
-          label: { ms: "Kanan", en: "Right", es: "Derecha" },
-          meaning: { ms: "kanan", en: "right", es: "derecha" },
-        },
-        {
-          id: "ws-depan",
-          word: "DEPAN",
-          label: { ms: "Depan", en: "Straight ahead / front", es: "Delante" },
-          meaning: { ms: "depan", en: "front / ahead", es: "delante" },
-        },
-      ],
+      title: { ms: "Cari Kata: Masa & Arah", en: "Word Search: Time & Routes", es: "Sopa de Letras: Tiempo y Rutas" },
+      instructions: { ms: "Cari perkataan yang sudah dipelajari.", en: "Find the words you learned.", es: "Encuentra las palabras que aprendiste." },
+      autoGenerate: true,
+      size: 12,
       allowDiagonal: true,
       allowReverse: true,
+      targets: [
+        { id: "ws-masa", word: "MASA", label: { ms: "Masa", en: "Time", es: "Tiempo" } },
+        { id: "ws-jam", word: "JAM", label: { ms: "Jam", en: "Hour", es: "Hora" } },
+        { id: "ws-minit", word: "MINIT", label: { ms: "Minit", en: "Minute", es: "Minuto" } },
+        { id: "ws-pagi", word: "PAGI", label: { ms: "Pagi", en: "Morning", es: "Mañana" } },
+        { id: "ws-petang", word: "PETANG", label: { ms: "Petang", en: "Evening", es: "Tarde" } },
+        { id: "ws-malam", word: "MALAM", label: { ms: "Malam", en: "Night", es: "Noche" } },
+        { id: "ws-kiri", word: "KIRI", label: { ms: "Kiri", en: "Left", es: "Izquierda" } },
+        { id: "ws-kanan", word: "KANAN", label: { ms: "Kanan", en: "Right", es: "Derecha" } },
+        { id: "ws-terus", word: "TERUS", label: { ms: "Terus", en: "Straight", es: "Recto" } },
+        { id: "ws-sampai", word: "SAMPAI", label: { ms: "Sampai", en: "Arrive", es: "Llegar" } },
+        { id: "ws-belok", word: "BELOK", label: { ms: "Belok", en: "Turn", es: "Girar" } },
+        { id: "ws-balik", word: "BALIK", label: { ms: "Balik", en: "Back", es: "Vuelta" } },
+      ],
     },
   ],
 };

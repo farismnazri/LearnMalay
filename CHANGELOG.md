@@ -11,6 +11,18 @@
 - Verified `DELETE /api/highscores` limiter (`10/min`): `1-10 => 200`, `11+ => 429`, `Retry-After: 60`.
 - Verified same-origin mutation defense: fake cross-origin `Origin` on `POST /api/highscores` returns `403 Forbidden`.
 
+## [0.11.0] - 2026-06-13
+
+### Added
+- Added a guided image-match activity, an embedded Arah Jalan route-practice lesson, and optimized WebP/AVIF Chapter 4 artwork for time and route concepts.
+
+### Changed
+- Rebuilt Chapter 4 around simpler time basics, times-of-day cards, highlighted sentence examples, and a cleaner asking-directions flow.
+- Refreshed the Chapter 4 Aku-Aku goals and shared chapter rendering so the new lesson cards and gated route practice fit the current lesson flow.
+
+### Fixed
+- Incremented the Chapter 4 content revision from `1` to `2` so returning learners can see the optional chapter update notice.
+
 ## [0.10.0] - 2026-06-09
 
 ### Added

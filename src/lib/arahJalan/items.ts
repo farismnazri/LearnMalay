@@ -1,6 +1,7 @@
 import type {
   ArahJalanCommandId,
   ArahJalanGraph,
+  ArahJalanScenario,
   LocalizedText,
 } from "./engine";
 
@@ -161,4 +162,43 @@ export const ARAH_JALAN_EASY_MAP: ArahJalanGraph = {
     "pasar",
     "stesen-bas",
   ],
+};
+
+export const ARAH_JALAN_LESSON_MAP: ArahJalanGraph = {
+  nodes: {
+    mula: {
+      id: "mula",
+      label: { ms: "mula", en: "start", es: "inicio" },
+      x: 18,
+      y: 20,
+      isLandmark: true,
+    },
+    simpang: {
+      id: "simpang",
+      label: { ms: "simpang", en: "junction", es: "cruce" },
+      x: 70,
+      y: 20,
+      isLandmark: false,
+    },
+    destinasi: {
+      id: "destinasi",
+      label: { ms: "destinasi", en: "destination", es: "destino" },
+      x: 70,
+      y: 62,
+      isLandmark: true,
+    },
+  },
+  connections: {
+    mula: { east: "simpang" },
+    simpang: { west: "mula", south: "destinasi" },
+    destinasi: { north: "simpang" },
+  },
+  startNodeIds: ["mula"],
+  destinationNodeIds: ["destinasi"],
+};
+
+export const ARAH_JALAN_LESSON_SCENARIO: ArahJalanScenario = {
+  startNodeId: "mula",
+  startFacing: "east",
+  destinationNodeId: "destinasi",
 };
