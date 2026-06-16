@@ -2,8 +2,19 @@
 
 ## [Unreleased]
 
+## [0.11.2] - 2026-06-16
+
 ### Security
 - Completed Phase 2A auth/rate-limit/CSRF hardening coverage for session-affecting mutations and abuse-prone score/progress routes.
+
+### Changed
+- Restored Chapter 1 page 2 as a short pronoun lesson that separates `Seorang` and `Ramai`, including combined `Kita / Kami` guidance and group pronoun cards.
+- Simplified Chapter 3 around three essential counter types with compact image-list lesson cards, focused counter phrases, and refreshed library/pharmacy practice situations.
+- Tightened Chapter 4's World 1 finale around simple meeting-time and route commands, with updated Aku-Aku outcomes and route vocabulary.
+
+### Fixed
+- Incremented Chapter 1, Chapter 3, and Chapter 4 content revisions so returning learners can see the optional chapter update notices.
+- Kept the Chapter 1 second exercise title consistent across Malay, English, and Spanish.
 
 ### QA
 - Verified `POST /api/highscores` limiter (`40/min`): `1-40 => 200`, `41+ => 429`, `Retry-After: 60`.

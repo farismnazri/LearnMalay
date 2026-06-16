@@ -53,6 +53,8 @@ export type ChapterSection =
       kind: "list";
       id: string;
       title: Translated;
+      columns?: 1 | 2 | 3;
+      listDisplay?: "default" | "imageCards" | "compactImageList";
       items: Array<
         ({ id: string } & Translated & {
           imageSrc?: string;

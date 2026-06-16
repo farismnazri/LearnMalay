@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter01: ChapterContent = {
   id: 1,
-  revision: 4,
+  revision: 5,
   title: { ms: "Sapaan", en: "Greetings", es: "Saludos" },
 
   pages: [
@@ -176,28 +176,28 @@ export const chapter01: ChapterContent = {
     },
 
     // -------------------------
-    // Page 2: core words for a simple introduction
+    // Page 2: pronouns for one person and groups
     // -------------------------
     {
       id: "p2-pronouns",
       kind: "pronounCards",
       title: {
-        ms: "Perkenalan ringkas",
-        en: "A simple introduction",
-        es: "Una presentación sencilla",
+        ms: "Kata ganti nama",
+        en: "Pronouns",
+        es: "Pronombres",
       },
       helper: {
-        ms: "Gunakan saya untuk diri sendiri, awak untuk orang yang diajak bercakap, dan dia untuk orang lain.",
-        en: "Use saya for yourself, awak for the person you are speaking to, and dia for another person.",
-        es: "Usa saya para ti, awak para la persona con quien hablas y dia para otra persona.",
+        ms: "Seorang ialah satu orang. Ramai ialah lebih daripada satu orang.",
+        en: "Seorang means one person. Ramai means more than one person.",
+        es: "Seorang significa una persona. Ramai significa más de una persona.",
       },
       sections: [
         {
           id: "seorang",
           label: {
-            ms: "Tiga kata penting",
-            en: "Three useful words",
-            es: "Tres palabras útiles",
+            ms: "Seorang",
+            en: "One person",
+            es: "Una persona",
           },
           iconSrc: "/assets/chapters/ch1/ch1_seorang.webp",
           iconAlt: {
@@ -214,9 +214,9 @@ export const chapter01: ChapterContent = {
                 es: "Saya",
               },
               description: {
-                ms: "untuk bercakap tentang diri sendiri",
-                en: "for talking about yourself",
-                es: "para hablar de ti",
+                ms: "untuk diri sendiri",
+                en: "for yourself",
+                es: "para ti",
               },
               imageSrc: "/assets/chapters/ch1/ch1_saya.webp",
               imageAlt: {
@@ -242,9 +242,9 @@ export const chapter01: ChapterContent = {
                 es: "Awak",
               },
               description: {
-                ms: "untuk bercakap dengan seorang kawan",
-                en: "for speaking to one friend",
-                es: "para hablar con un amigo",
+                ms: "untuk orang yang diajak bercakap",
+                en: "for the person you are speaking to",
+                es: "para la persona con quien hablas",
               },
               imageSrc: "/assets/chapters/ch1/ch1_awak.webp",
               imageAlt: {
@@ -270,7 +270,7 @@ export const chapter01: ChapterContent = {
                 es: "Dia",
               },
               description: {
-                ms: "untuk bercakap tentang orang lain",
+                ms: "untuk orang lain",
                 en: "for talking about another person",
                 es: "para hablar de otra persona",
               },
@@ -288,6 +288,106 @@ export const chapter01: ChapterContent = {
               translation: {
                 en: "This person is my friend.",
                 es: "Esta persona es mi amiga.",
+              },
+            },
+          ],
+        },
+        {
+          id: "ramai",
+          label: {
+            ms: "Ramai",
+            en: "More than one person",
+            es: "Más de una persona",
+          },
+          iconSrc: "/assets/chapters/ch1/ch1_ramai.webp",
+          iconAlt: {
+            ms: "Ikon ramai orang",
+            en: "Group of people icon",
+            es: "Icono de un grupo de personas",
+          },
+          cards: [
+            {
+              id: "kita-kami",
+              title: {
+                ms: "Kita / Kami",
+                en: "Kita / Kami",
+                es: "Kita / Kami",
+              },
+              description: {
+                ms: "Kita\nsaya + awak / kamu semua\nKita termasuk orang yang mendengar.",
+                en: "Kita\nme + you / all of you\nKita includes the listener.",
+                es: "Kita\nyo + tú / ustedes\nKita incluye a quien escucha.",
+              },
+              imageSrc: "/assets/chapters/ch1/ch1_kita.webp",
+              imageAlt: {
+                ms: "Komik Kita dan Kami",
+                en: "Comic for Kita and Kami",
+                es: "Cómic para Kita y Kami",
+              },
+              info: {
+                ms: "Kami\nsaya + orang lain, bukan awak\nKami tidak termasuk orang yang mendengar.",
+                en: "Kami\nme + other people, but not you\nKami does not include the listener.",
+                es: "Kami\nyo + otras personas, pero no tú\nKami no incluye a quien escucha.",
+              },
+              translation: {
+                en: "Kita: us together. Kami: us, but not you.",
+                es: "Kita: nosotros juntos. Kami: nosotros, sin incluirte.",
+              },
+            },
+            {
+              id: "kamu-semua",
+              title: {
+                ms: "Kamu semua",
+                en: "Kamu semua",
+                es: "Kamu semua",
+              },
+              description: {
+                ms: "awak + orang lain",
+                en: "you + other people",
+                es: "tú + otras personas",
+              },
+              imageSrc: "/assets/chapters/ch1/ch1_kamu.webp",
+              imageAlt: {
+                ms: "Komik Kamu semua",
+                en: "Comic for Kamu semua",
+                es: "Cómic para Kamu semua",
+              },
+              info: {
+                ms: "Kamu semua sihat?",
+                en: "Kamu semua sihat?",
+                es: "Kamu semua sihat?",
+              },
+              translation: {
+                en: "Are all of you well?",
+                es: "¿Están todos bien?",
+              },
+            },
+            {
+              id: "mereka",
+              title: {
+                ms: "Mereka",
+                en: "Mereka",
+                es: "Mereka",
+              },
+              description: {
+                ms: "orang lain",
+                en: "other people",
+                es: "otras personas",
+              },
+              imageSrc: "/assets/chapters/ch1/ch1_mereka.webp",
+              imageAlt: {
+                ms: "Komik Mereka",
+                en: "Comic for Mereka",
+                es: "Cómic para Mereka",
+              },
+              info: {
+                ms: "Mereka kawan saya.",
+                en: "Mereka kawan saya.",
+                es: "Mereka kawan saya.",
+              },
+              translation: {
+                en: "They are my friends.",
+                es: "Son mis amigos.",
               },
             },
           ],
@@ -512,7 +612,7 @@ export const chapter01: ChapterContent = {
     {
   id: "p-latihan-3",
   kind: "tick",
-  title: { ms: "Latihan 3", en: "Exercise 3", es: "Ejercicio 3" },
+  title: { ms: "Latihan 2", en: "Exercise 2", es: "Ejercicio 2" },
   instructions: {
     ms: "Tandakan (✓) ayat yang sesuai untuk menyapa atau berpisah.",
     en: "Tick (✓) the sentences suitable for greeting or saying goodbye.",

@@ -1,7 +1,7 @@
 import type { ChapterContent } from "./types";
 export const chapter03: ChapterContent = {
   id: 3,
-  revision: 3,
+  revision: 4,
   title: { ms: "Kaunter", en: "Counter", es: "Mostrador" },
 
 
@@ -10,94 +10,105 @@ pages: [
 // Page 1: JENIS KAUNTER DI MALAYSIA
 {
   id: "p1-jenis-kaunter",
-  kind: "iconRows",
-  title: {
-    ms: "Jenis Kaunter di Malaysia",
-    en: "Types of counters in Malaysia",
-    es: "Tipos de mostradores en Malasia",
-  },
-  rows: [
+  kind: "intro",
+  sections: [
     {
-      id: "r-kaunter-perpustakaan",
-      iconSrc: "/assets/chapters/ch3/ch3_Icon_Perpustakaan.webp",
-      iconAlt: {
-        ms: "Ikon kaunter perpustakaan",
-        en: "Library counter icon",
-        es: "Icono del mostrador de biblioteca",
+      kind: "list",
+      id: "kaunter-utama",
+      title: {
+        ms: "Kaunter utama: gunakan dalam bab ini",
+        en: "Essential counters: use these in this chapter",
+        es: "Mostradores esenciales: úsalos en este capítulo",
       },
-      name: { ms: "Kaunter perpustakaan", en: "Library counter", es: "Mostrador de biblioteca" },
-      description: {
-        ms: "Untuk meminjam dan memulangkan buku",
-        en: "To borrow and return books",
-        es: "Para pedir prestados y devolver libros",
-      },
+      columns: 2,
+      listDisplay: "compactImageList",
+      items: [
+        {
+          id: "r-kaunter-pertanyaan",
+          ms: "Kaunter pertanyaan — untuk bertanya atau meminta bantuan",
+          en: "Information counter — to ask a question or request help",
+          es: "Mostrador de información — para preguntar o pedir ayuda",
+          imageSrc: "/assets/chapters/ch3/ch3_Icon_Pertanyaan.webp",
+          imageAlt: {
+            ms: "Ikon kaunter pertanyaan",
+            en: "Information counter icon",
+            es: "Icono del mostrador de información",
+          },
+        },
+        {
+          id: "r-kaunter-pos",
+          ms: "Kaunter pos — untuk menghantar surat atau bungkusan",
+          en: "Post office counter — to send a letter or parcel",
+          es: "Mostrador de correos — para enviar una carta o un paquete",
+          imageSrc: "/assets/chapters/ch3/ch3_Icon_Pos.webp",
+          imageAlt: {
+            ms: "Ikon kaunter pos",
+            en: "Post office counter icon",
+            es: "Icono del mostrador de correos",
+          },
+        },
+        {
+          id: "r-kaunter-ubat-farmasi",
+          ms: "Kaunter ubat/farmasi — untuk meminta bantuan tentang ubat",
+          en: "Pharmacy counter — to ask for help with medicine",
+          es: "Mostrador de farmacia — para pedir ayuda con medicamentos",
+          imageSrc: "/assets/chapters/ch3/ch3_Icon_Farmasi.webp",
+          imageAlt: {
+            ms: "Ikon kaunter ubat atau farmasi",
+            en: "Medicine or pharmacy counter icon",
+            es: "Icono del mostrador de medicamentos o farmacia",
+          },
+        },
+      ],
     },
     {
-      id: "r-kaunter-pertanyaan",
-      iconSrc: "/assets/chapters/ch3/ch3_Icon_Pertanyaan.webp",
-      iconAlt: {
-        ms: "Ikon kaunter pertanyaan",
-        en: "Information counter icon",
-        es: "Icono del mostrador de información",
+      kind: "list",
+      id: "kaunter-tambahan",
+      title: {
+        ms: "Kaunter tambahan: kenal sahaja",
+        en: "Extra counters: recognize these",
+        es: "Mostradores adicionales: solo reconócelos",
       },
-      name: { ms: "Kaunter pertanyaan", en: "Information counter", es: "Mostrador de información" },
-      description: {
-        ms: "Untuk bertanya tentang sesuatu yang berkaitan",
-        en: "To ask about something related",
-        es: "Para preguntar sobre algo relacionado",
-      },
-    },
-    {
-      id: "r-kaunter-tiket-bas",
-      iconSrc: "/assets/chapters/ch3/ch3_Icon_Bas.webp",
-      iconAlt: {
-        ms: "Ikon kaunter tiket bas",
-        en: "Bus ticket counter icon",
-        es: "Icono del mostrador de boletos de autobús",
-      },
-      name: { ms: "Kaunter tiket bas", en: "Bus ticket counter", es: "Mostrador de boletos de autobús" },
-      description: { ms: "Untuk membeli tiket bas", en: "To buy bus tickets", es: "Para comprar boletos de autobús" },
-    },
-    {
-      id: "r-kaunter-pembayaran",
-      iconSrc: "/assets/chapters/ch3/ch3_Icon_Bayar.webp",
-      iconAlt: {
-        ms: "Ikon kaunter pembayaran",
-        en: "Payment counter icon",
-        es: "Icono del mostrador de pagos",
-      },
-      name: { ms: "Kaunter pembayaran", en: "Payment counter", es: "Mostrador de pagos" },
-      description: { ms: "Untuk membuat pembayaran", en: "To make a payment", es: "Para realizar un pago" },
-    },
-    {
-      id: "r-kaunter-pos",
-      iconSrc: "/assets/chapters/ch3/ch3_Icon_Pos.webp",
-      iconAlt: {
-        ms: "Ikon kaunter pos",
-        en: "Post office counter icon",
-        es: "Icono del mostrador de correos",
-      },
-      name: { ms: "Kaunter pos", en: "Post office counter", es: "Mostrador de correos" },
-      description: {
-        ms: "Untuk sebarang urusan pos dan pembayaran bil",
-        en: "For postal matters and bill payments",
-        es: "Para trámites postales y pago de facturas",
-      },
-    },
-    {
-      id: "r-kaunter-ubat-farmasi",
-      iconSrc: "/assets/chapters/ch3/ch3_Icon_Farmasi.webp",
-      iconAlt: {
-        ms: "Ikon kaunter ubat atau farmasi",
-        en: "Medicine or pharmacy counter icon",
-        es: "Icono del mostrador de medicamentos o farmacia",
-      },
-      name: { ms: "Kaunter ubat/farmasi", en: "Pharmacy counter", es: "Mostrador de farmacia" },
-      description: {
-        ms: "Untuk sebarang urusan klinikal",
-        en: "For clinical matters",
-        es: "Para trámites clínicos",
-      },
+      columns: 2,
+      listDisplay: "compactImageList",
+      items: [
+        {
+          id: "r-kaunter-perpustakaan",
+          ms: "Kaunter perpustakaan — untuk meminjam atau memulangkan buku",
+          en: "Library counter — to borrow or return books",
+          es: "Mostrador de biblioteca — para pedir prestados o devolver libros",
+          imageSrc: "/assets/chapters/ch3/ch3_Icon_Perpustakaan.webp",
+          imageAlt: {
+            ms: "Ikon kaunter perpustakaan",
+            en: "Library counter icon",
+            es: "Icono del mostrador de biblioteca",
+          },
+        },
+        {
+          id: "r-kaunter-tiket",
+          ms: "Kaunter tiket",
+          en: "Ticket counter",
+          es: "Mostrador de boletos",
+          imageSrc: "/assets/chapters/ch3/ch3_Icon_Bas.webp",
+          imageAlt: {
+            ms: "Ikon kaunter tiket",
+            en: "Ticket counter icon",
+            es: "Icono del mostrador de boletos",
+          },
+        },
+        {
+          id: "r-kaunter-bayaran",
+          ms: "Kaunter bayaran",
+          en: "Payment counter",
+          es: "Mostrador de pagos",
+          imageSrc: "/assets/chapters/ch3/ch3_Icon_Bayar.webp",
+          imageAlt: {
+            ms: "Ikon kaunter bayaran",
+            en: "Payment counter icon",
+            es: "Icono del mostrador de pagos",
+          },
+        },
+      ],
     },
   ],
 },
@@ -107,80 +118,70 @@ pages: [
   id: "p2-perbualan-di-kaunter",
   kind: "table",
   title: {
-    ms: "Perbualan di Kaunter",
-    en: "Conversation at the counter",
-    es: "Conversación en el mostrador",
+    ms: "Frasa Berguna di Kaunter",
+    en: "Useful Phrases at a Counter",
+    es: "Frases Útiles en un Mostrador",
+  },
+  leadCard: {
+    heading: {
+      ms: "Gunakan frasa yang sesuai",
+      en: "Choose a useful phrase",
+      es: "Elige una frase útil",
+    },
+    body: {
+      ms: "Mulakan dengan sopan, nyatakan apa yang mahu ditanya, kemudian ucap terima kasih.",
+      en: "Start politely, say what you want to ask, then say thank you.",
+      es: "Empieza con cortesía, di qué quieres preguntar y luego da las gracias.",
+    },
   },
   columns: [
-    { key: "jenis", label: { ms: "Jenis", en: "Type", es: "Tipo" } },
-    { key: "pelanggan", label: { ms: "Pelanggan", en: "Customer", es: "Cliente" } },
-    { key: "jurukaunter", label: { ms: "Jurukaunter", en: "Counter staff", es: "Personal del mostrador" } },
+    { key: "jenis", label: { ms: "Kegunaan", en: "Use", es: "Uso" } },
+    { key: "frasa", label: { ms: "Frasa berguna", en: "Useful phrases", es: "Frases útiles" } },
   ],
   rows: [
     {
       id: "r-ucapan-sapaan",
       cells: {
-        jenis: [{ ms: "Ucapan sapaan", en: "Greeting", es: "Saludo" }],
-        pelanggan: [
-          { ms: "Selamat pagi", en: "Good morning", es: "Buenos días" },
-          { ms: "Selamat tengah hari", en: "Good afternoon (midday)", es: "Buenas tardes (mediodía)" },
-          { ms: "Selamat petang", en: "Good evening", es: "Buenas tardes/noche" },
-          { ms: "Assalamualaikum", en: "Assalamualaikum", es: "Assalamualaikum" },
-        ],
-        jurukaunter: [
-          { ms: "Selamat pagi", en: "Good morning", es: "Buenos días" },
-          { ms: "Selamat tengah hari", en: "Good afternoon (midday)", es: "Buenas tardes (mediodía)" },
-          { ms: "Selamat petang", en: "Good evening", es: "Buenas tardes/noche" },
-          { ms: "Waalaikumsalam", en: "Waalaikumsalam", es: "Waalaikumsalam" },
-        ],
+        jenis: [{ ms: "Mulakan dengan sopan", en: "Start politely", es: "Empieza con cortesía" }],
+        frasa: [{ ms: "Maaf, saya mahu tanya.", en: "Excuse me, I would like to ask something.", es: "Disculpe, quisiera hacer una pregunta." }],
       },
     },
     {
       id: "r-gelaran-sesuai",
       cells: {
-        jenis: [{ ms: "Gunakan gelaran yang sesuai", en: "Use an appropriate title", es: "Usa un trato apropiado" }],
-        pelanggan: [
-          { ms: "Saya", en: "I", es: "Yo" },
-          { ms: "Encik", en: "Mr. (sir)", es: "Señor" },
-          { ms: "Puan", en: "Mrs./Ms. (madam)", es: "Señora" },
-        ],
-        jurukaunter: [
-          { ms: "Saya", en: "I", es: "Yo" },
-          { ms: "Encik", en: "Mr. (sir)", es: "Señor" },
-          { ms: "Puan", en: "Mrs./Ms. (madam)", es: "Señora" },
-        ],
+        jenis: [{ ms: "Minta izin untuk bertanya", en: "Ask permission to speak", es: "Pide permiso para preguntar" }],
+        frasa: [{ ms: "Boleh saya tanya?", en: "May I ask a question?", es: "¿Puedo hacer una pregunta?" }],
       },
     },
     {
       id: "r-memulakan-urusan",
       cells: {
-        jenis: [{ ms: "Memulakan urusan", en: "Starting the request", es: "Iniciar el trámite" }],
-        pelanggan: [
-          { ms: "Saya ingin ____________", en: "I would like to ____________", es: "Quisiera ____________" },
-        ],
-        jurukaunter: [
-          {
-            ms: "(Bersesuaian dengan permintaan pelanggan)",
-            en: "(Responds according to the customer’s request)",
-            es: "(Responde según la solicitud del cliente)",
-          },
+        jenis: [{ ms: "Nyatakan soalan atau keperluan", en: "State your question or need", es: "Expresa tu pregunta o necesidad" }],
+        frasa: [
+          { ms: "Saya mahu tanya tentang buku ini.", en: "I want to ask about this book.", es: "Quiero preguntar por este libro." },
+          { ms: "Saya perlukan bantuan tentang ubat ini.", en: "I need help with this medicine.", es: "Necesito ayuda con este medicamento." },
         ],
       },
     },
     {
       id: "r-pertanyaan-jika-ada",
       cells: {
-        jenis: [{ ms: "Pertanyaan (jika ada)", en: "Question (if any)", es: "Pregunta (si hay)" }],
-        pelanggan: [{ ms: "Bolehkah saya ____________?", en: "May I ____________?", es: "¿Puedo ____________?" }],
-        jurukaunter: [{ ms: "Boleh.", en: "Yes, you may.", es: "Sí." }],
+        jenis: [{ ms: "Jawapan petugas kaunter", en: "Counter staff responses", es: "Respuestas del personal" }],
+        frasa: [
+          { ms: "Boleh, silakan.", en: "Yes, go ahead.", es: "Sí, adelante." },
+          { ms: "Ya, boleh saya bantu?", en: "Yes, how can I help?", es: "Sí, ¿en qué puedo ayudar?" },
+          { ms: "Baik, apa yang awak mahu tanya?", en: "Alright, what would you like to ask?", es: "Bien, ¿qué quieres preguntar?" },
+        ],
       },
     },
     {
       id: "r-ucapan-penghargaan",
       cells: {
-        jenis: [{ ms: "Ucapan penghargaan", en: "Appreciation", es: "Agradecimiento" }],
-        pelanggan: [{ ms: "Terima kasih.", en: "Thank you.", es: "Gracias." }],
-        jurukaunter: [{ ms: "Sama-sama.", en: "You're welcome.", es: "De nada." }],
+        jenis: [{ ms: "Tutup dengan sopan", en: "Close politely", es: "Termina con cortesía" }],
+        frasa: [
+          { ms: "Terima kasih.", en: "Thank you.", es: "Gracias." },
+          { ms: "Sama-sama.", en: "You're welcome.", es: "De nada." },
+        ],
       },
     },
   ],
@@ -193,14 +194,14 @@ pages: [
   kind: "chat",
   youId: "me",
   title: {
-    ms: "Situasi 3.1 Bertanya lokasi tandas",
-    en: "Situation 3.1 Asking where the toilet is",
-    es: "Situación 3.1 Preguntar dónde está el baño",
+    ms: "Situasi 3.1 Bertanya di perpustakaan",
+    en: "Situation 3.1 Asking at the library",
+    es: "Situación 3.1 Preguntar en la biblioteca",
   },
   context: {
-    ms: "Latar tempat: Di kaunter pertanyaan sebuah pusat membeli-belah",
-    en: "Setting: At a shopping mall information counter",
-    es: "Lugar: En el mostrador de información de un centro comercial",
+    ms: "Latar tempat: Di kaunter perpustakaan",
+    en: "Setting: At the library counter",
+    es: "Lugar: En el mostrador de la biblioteca",
   },
   participants: [
     {
@@ -221,54 +222,54 @@ pages: [
       id: "m1",
       from: "me",
       text: {
-        ms: "Selamat pagi. Tumpang tanya, tandas di mana?",
-        en: "Good morning. Excuse me, where is the toilet?",
-        es: "Buenos días. Disculpe, ¿dónde está el baño?",
+        ms: "Selamat pagi. Boleh saya tanya?",
+        en: "Good morning. May I ask a question?",
+        es: "Buenos días. ¿Puedo hacer una pregunta?",
       },
     },
     {
       id: "m2",
       from: "pegawai",
       text: {
-        ms: "Selamat pagi. Tandas di tingkat satu, dekat lif.",
-        en: "Good morning. The toilet is on the first floor, near the lift.",
-        es: "Buenos días. El baño está en el primer piso, cerca del ascensor.",
+        ms: "Selamat pagi. Boleh, silakan.",
+        en: "Good morning. Yes, go ahead.",
+        es: "Buenos días. Sí, adelante.",
       },
     },
     {
       id: "m3",
       from: "me",
       text: {
-        ms: "Baik. Selepas keluar lif, saya perlu belok ke mana?",
-        en: "Alright. After getting out of the lift, where should I turn?",
-        es: "Bien. Después de salir del ascensor, ¿hacia dónde debo girar?",
+        ms: "Saya mahu tanya tentang buku ini.",
+        en: "I want to ask about this book.",
+        es: "Quiero preguntar por este libro.",
       },
     },
     {
       id: "m4",
       from: "pegawai",
       text: {
-        ms: "Belok kiri. Tandas di sebelah surau.",
-        en: "Turn left. The toilet is next to the prayer room.",
-        es: "Gire a la izquierda. El baño está al lado de la sala de oración.",
+        ms: "Baik. Awak mahu pinjam buku ini?",
+        en: "Alright. Do you want to borrow this book?",
+        es: "Bien. ¿Quiere pedir prestado este libro?",
       },
     },
     {
       id: "m5",
       from: "me",
       text: {
-        ms: "Oh, dekat surau. Jauh tak dari sini?",
-        en: "Oh, near the prayer room. Is it far from here?",
-        es: "Ah, cerca de la sala de oración. ¿Está lejos de aquí?",
+        ms: "Ya. Boleh saya pinjam?",
+        en: "Yes. May I borrow it?",
+        es: "Sí. ¿Puedo pedirlo prestado?",
       },
     },
     {
       id: "m6",
       from: "pegawai",
       text: {
-        ms: "Tak jauh. Naik lif, kemudian jalan terus sedikit.",
-        en: "Not far. Take the lift, then walk straight a little.",
-        es: "No está lejos. Tome el ascensor y luego camine un poco recto.",
+        ms: "Boleh. Berikan buku ini kepada saya.",
+        en: "Yes. Give me the book.",
+        es: "Sí. Déme el libro.",
       },
     },
     {
@@ -299,14 +300,14 @@ pages: [
   kind: "chat",
   youId: "me",
   title: {
-    ms: "Situasi 3.2 Membayar di restoran",
-    en: "Situation 3.2 Paying at a restaurant",
-    es: "Situación 3.2 Pagar en un restaurante",
+    ms: "Situasi 3.2 Meminta bantuan di farmasi",
+    en: "Situation 3.2 Asking for help at a pharmacy",
+    es: "Situación 3.2 Pedir ayuda en una farmacia",
   },
   context: {
-    ms: "Latar tempat: Di kaunter pembayaran sebuah restoran",
-    en: "Setting: At a restaurant payment counter",
-    es: "Lugar: En el mostrador de pago de un restaurante",
+    ms: "Latar tempat: Di kaunter farmasi",
+    en: "Setting: At a pharmacy counter",
+    es: "Lugar: En el mostrador de una farmacia",
   },
   participants: [
     {
@@ -315,7 +316,7 @@ pages: [
     },
     {
       id: "juruwang",
-      name: { ms: "Juruwang", en: "Cashier", es: "Cajero/a" },
+      name: { ms: "Petugas farmasi", en: "Pharmacy staff", es: "Personal de farmacia" },
     },
   ],
   messages: [
@@ -323,54 +324,54 @@ pages: [
       id: "m1",
       from: "me",
       text: {
-        ms: "Selamat petang. Saya nak bayar nasi lemak satu.",
-        en: "Good evening. I want to pay for one nasi lemak.",
-        es: "Buenas tardes. Quiero pagar un nasi lemak.",
+        ms: "Maaf. Boleh saya tanya?",
+        en: "Excuse me. May I ask a question?",
+        es: "Disculpe. ¿Puedo hacer una pregunta?",
       },
     },
     {
       id: "m2",
       from: "juruwang",
       text: {
-        ms: "Baik. Jumlahnya RM4.50. Bayar tunai atau QR?",
-        en: "Alright. The total is RM4.50. Cash or QR?",
-        es: "Muy bien. El total es RM4.50. ¿Efectivo o QR?",
+        ms: "Boleh. Silakan.",
+        en: "Yes. Go ahead.",
+        es: "Sí. Adelante.",
       },
     },
     {
       id: "m3",
       from: "me",
       text: {
-        ms: "Tunai. Ini RM5.",
-        en: "Cash. Here is RM5.",
-        es: "En efectivo. Aquí tiene RM5.",
+        ms: "Saya perlukan ubat batuk.",
+        en: "I need cough medicine.",
+        es: "Necesito medicina para la tos.",
       },
     },
     {
       id: "m4",
       from: "juruwang",
       text: {
-        ms: "Terima kasih. Ada 50 sen?",
-        en: "Thank you. Do you have 50 sen?",
-        es: "Gracias. ¿Tiene 50 sen?",
+        ms: "Baik. Ubat untuk orang dewasa?",
+        en: "Alright. Medicine for an adult?",
+        es: "Bien. ¿Medicina para un adulto?",
       },
     },
     {
       id: "m5",
       from: "me",
       text: {
-        ms: "Tak ada. Baki 50 sen pun boleh.",
-        en: "No. 50 sen change is fine too.",
-        es: "No. El cambio de 50 sen está bien.",
+        ms: "Ya, untuk saya.",
+        en: "Yes, for me.",
+        es: "Sí, para mí.",
       },
     },
     {
       id: "m6",
       from: "juruwang",
       text: {
-        ms: "Baik. Ini baki 50 sen.",
-        en: "Alright. Here is your 50 sen change.",
-        es: "Muy bien. Aquí tiene sus 50 sen de cambio.",
+        ms: "Baik. Saya akan bantu.",
+        en: "Alright. I will help.",
+        es: "Bien. Le ayudaré.",
       },
     },
     {
@@ -401,50 +402,29 @@ pages: [
   kind: "typein",
   title: { ms: "Latihan 1", en: "Exercise 1", es: "Ejercicio 1" },
   instructions: {
-    ms: "Susun semula huruf untuk membentuk nama enam jenis kaunter. Taip jawapan anda.",
-    en: "Unscramble the letters to form the names of the six counter types. Type your answers.",
-    es: "Ordena las letras para formar los nombres de los seis tipos de mostrador. Escribe tus respuestas.",
+    ms: "Susun semula huruf untuk membentuk nama tiga jenis kaunter utama. Taip jawapan anda.",
+    en: "Unscramble the letters to form the names of the three essential counter types. Type your answers.",
+    es: "Ordena las letras para formar los nombres de los tres tipos de mostrador principales. Escribe tus respuestas.",
   },
   caseSensitive: false,
   items: [
     {
-      id: "l1-1",
-      n: 1,
-      scrambled: "retunka naakatsuprep",
-      answer: "kaunter perpustakaan",
-      meaning: { ms: "Kaunter perpustakaan", en: "Library counter", es: "Mostrador de biblioteca" },
-    },
-    {
       id: "l1-2",
-      n: 2,
+      n: 1,
       scrambled: "retunka nayaantrep",
       answer: "kaunter pertanyaan",
       meaning: { ms: "Kaunter pertanyaan", en: "Information counter", es: "Mostrador de información" },
     },
     {
-      id: "l1-3",
-      n: 3,
-      scrambled: "retunka tekit sab",
-      answer: "kaunter tiket bas",
-      meaning: { ms: "Kaunter tiket bas", en: "Bus ticket counter", es: "Mostrador de boletos de autobús" },
-    },
-    {
-      id: "l1-4",
-      n: 4,
-      scrambled: "retunka narayabmep",
-      answer: "kaunter pembayaran",
-      meaning: { ms: "Kaunter pembayaran", en: "Payment counter", es: "Mostrador de pagos" },
-    },
-    {
       id: "l1-5",
-      n: 5,
+      n: 2,
       scrambled: "retunka sop",
       answer: "kaunter pos",
       meaning: { ms: "Kaunter pos", en: "Post office counter", es: "Mostrador de correos" },
     },
     {
       id: "l1-6",
-      n: 6,
+      n: 3,
       scrambled: "retunka tabu/isamraf",
       answer: "kaunter ubat/farmasi",
       meaning: { ms: "Kaunter ubat/farmasi", en: "Pharmacy counter", es: "Mostrador de farmacia" },
@@ -462,35 +442,17 @@ pages: [
     es: "Ejercicio 2: Sopa de letras",
   },
   instructions: {
-    ms: "Tandakan lima jenis kaunter yang ditemui dalam kata bersilang di bawah.",
-    en: "Find and mark the five types of counters hidden in the word search below.",
-    es: "Encuentra y marca los cinco tipos de mostrador escondidos en la sopa de letras.",
+    ms: "Cari tiga jenis kaunter utama yang sudah dipelajari.",
+    en: "Find the three essential counter types you learned.",
+    es: "Encuentra los tres tipos de mostrador principales que aprendiste.",
   },
-  grid: [
-    "LGIMTHARSAREK",
-    "EPAPUTKGERUNT",
-    "SEKOLAMIKYADI",
-    "DAGSINGNYABAK",
-    "FARMASILMTADE",
-    "KLHAIBELISNAT",
-    "NURSILGKAYKPA",
-    "PERPUSTAKAANP",
-  ],
+  autoGenerate: true,
+  size: 12,
   targets: [
-    {
-      id: "perpustakaan",
-      words: ["PERPUSTAKAAN"],
-      label: { ms: "Perpustakaan", en: "Library counter", es: "Mostrador de biblioteca" },
-    },
     {
       id: "farmasi",
       words: ["FARMASI"],
       label: { ms: "Farmasi", en: "Pharmacy counter", es: "Mostrador de farmacia" },
-    },
-    {
-      id: "bank",
-      words: ["BANK"],
-      label: { ms: "Bank", en: "Bank counter", es: "Mostrador de banco" },
     },
     {
       id: "pos",
@@ -498,9 +460,9 @@ pages: [
       label: { ms: "Pos", en: "Post office counter", es: "Mostrador de correos" },
     },
     {
-      id: "tiket-bas",
-      words: ["TIKET", "BAS"], // user must find BOTH to complete this target
-      label: { ms: "Tiket bas", en: "Bus ticket counter", es: "Mostrador de boletos de bus" },
+      id: "pertanyaan",
+      words: ["PERTANYAAN"],
+      label: { ms: "Pertanyaan", en: "Information counter", es: "Mostrador de información" },
     },
   ],
   allowDiagonal: true,

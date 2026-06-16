@@ -16,6 +16,54 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.11.2",
+    date: "2026-06-16",
+    headline: {
+      ms: "Bab Dunia 1 kini lebih fokus untuk ulang kaji awal",
+      en: "World 1 chapters are now more focused for early review",
+      es: "Los capítulos del Mundo 1 ahora están más enfocados para el repaso inicial",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Bab 1 halaman kata ganti nama kini memisahkan `Seorang` dan `Ramai`, termasuk panduan ringkas untuk `Kita`, `Kami`, `Kamu semua`, dan `Mereka`.",
+          en: "Chapter 1's pronoun page now separates `Seorang` and `Ramai`, including short guidance for `Kita`, `Kami`, `Kamu semua`, and `Mereka`.",
+          es: "La página de pronombres del Capítulo 1 ahora separa `Seorang` y `Ramai`, con una guía breve para `Kita`, `Kami`, `Kamu semua` y `Mereka`.",
+        },
+        {
+          ms: "Bab 3 kini memberi tumpuan kepada tiga kaunter utama dengan kad gambar yang lebih padat, frasa kaunter yang mudah, dan latihan yang lebih fokus.",
+          en: "Chapter 3 now focuses on three essential counters with tighter image cards, simpler counter phrases, and more focused practice.",
+          es: "El Capítulo 3 ahora se centra en tres mostradores esenciales con tarjetas de imagen más compactas, frases más sencillas y práctica más enfocada.",
+        },
+        {
+          ms: "Bab 4 kini menutup Dunia 1 dengan arahan jalan dan masa berjumpa yang lebih ringkas.",
+          en: "Chapter 4 now closes World 1 with simpler route commands and meeting-time language.",
+          es: "El Capítulo 4 ahora cierra el Mundo 1 con instrucciones de ruta y lenguaje para quedar más sencillos.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Semakan kandungan Bab 1, Bab 3, dan Bab 4 dinaikkan supaya pengguna lama boleh melihat notis kemas kini bab pilihan.",
+          en: "Chapter 1, Chapter 3, and Chapter 4 content revisions were increased so returning learners can see the optional chapter update notices.",
+          es: "Se aumentaron las revisiones de contenido de los Capítulos 1, 3 y 4 para que los usuarios anteriores vean los avisos opcionales de actualización.",
+        },
+        {
+          ms: "Tajuk latihan kedua Bab 1 kini selaras dalam bahasa Melayu, Inggeris, dan Sepanyol.",
+          en: "Chapter 1's second exercise title is now consistent across Malay, English, and Spanish.",
+          es: "El título del segundo ejercicio del Capítulo 1 ahora es coherente en malayo, inglés y español.",
+        },
+      ],
+    },
+    technicalNotes: [
+      {
+        ms: "Kawalan keselamatan Phase 2A untuk had kadar dan pertahanan mutasi asal-sama telah disahkan sebelum keluaran ini.",
+        en: "Phase 2A security coverage for rate limits and same-origin mutation defenses was verified before this release.",
+        es: "La cobertura de seguridad de la Fase 2A para límites de frecuencia y defensas de mutación de mismo origen se verificó antes de esta versión.",
+      },
+    ],
+  },
+  {
     version: "0.11.1",
     date: "2026-06-13",
     headline: {

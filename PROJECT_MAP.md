@@ -205,7 +205,16 @@ public/assets/chapters/ch2/ch2-keluarga-saya.webp
 public/assets/chapters/ch2/ch2-keluarga.webp
 public/assets/chapters/ch4/kanan.webp
 public/assets/chapters/ch4/kiri.webp
-public/assets/chapters/ch4/kompas.webp
+public/assets/chapters/ch4/ch4_7hari.avif
+public/assets/chapters/ch4/ch4_7hari.webp
+public/assets/chapters/ch4/ch4_direction.avif
+public/assets/chapters/ch4/ch4_direction.webp
+public/assets/chapters/ch4/ch4_hour.avif
+public/assets/chapters/ch4/ch4_hour.webp
+public/assets/chapters/ch4/ch4_minute.avif
+public/assets/chapters/ch4/ch4_minute.webp
+public/assets/chapters/ch4/ch4_year.avif
+public/assets/chapters/ch4/ch4_year.webp
 public/assets/chapters/ch4/malam.webp
 public/assets/chapters/ch4/pagi.webp
 public/assets/chapters/ch4/petang.webp

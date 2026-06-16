@@ -535,7 +535,17 @@ function SectionCard({ section, lang }: { section: ChapterSection; lang: UiLang 
 
   const titleTrans = lang === "en" ? section.title.en : lang === "es" ? section.title.es : section.title.ms;
   const isImageCardList =
-    section.kind === "list" && section.items.some((it) => typeof it.imageSrc === "string" && it.imageSrc.length > 0);
+    section.kind === "list" &&
+    (section.listDisplay === "imageCards" ||
+      (section.listDisplay !== "compactImageList" &&
+        section.items.some((it) => typeof it.imageSrc === "string" && it.imageSrc.length > 0)));
+  const isCompactImageList = section.kind === "list" && section.listDisplay === "compactImageList";
+  const listGridClass =
+    section.kind === "list" && section.columns === 3
+      ? "sm:grid-cols-2 lg:grid-cols-3"
+      : section.kind === "list" && section.columns === 1
+        ? "sm:grid-cols-1"
+        : "sm:grid-cols-2";
 
   return (
     <section className="rounded-3xl bg-white/90 p-6 shadow-xl">
@@ -562,7 +572,7 @@ function SectionCard({ section, lang }: { section: ChapterSection; lang: UiLang 
           })}
         </div>
       ) : isImageCardList ? (
-        <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className={`mt-4 grid gap-4 ${listGridClass}`}>
           {section.items.map((it) => {
             const t = lang === "en" ? it.en : lang === "es" ? it.es : it.ms;
             const label = it.cardLabel
@@ -609,8 +619,43 @@ function SectionCard({ section, lang }: { section: ChapterSection; lang: UiLang 
             );
           })}
         </ul>
+      ) : isCompactImageList ? (
+        <ul className={`mt-4 grid gap-3 ${listGridClass}`}>
+          {section.items.map((it) => {
+            const t = lang === "en" ? it.en : lang === "es" ? it.es : it.ms;
+            const alt = it.imageAlt
+              ? lang === "en"
+                ? it.imageAlt.en
+                : lang === "es"
+                ? it.imageAlt.es
+                : it.imageAlt.ms
+              : it.ms;
+
+            return (
+              <li key={it.id} className="rounded-2xl bg-black/5 p-3 sm:p-4">
+                <div className="flex items-start gap-3">
+                  {it.imageSrc ? (
+                    <div className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-white shadow-sm ring-1 ring-black/10">
+                      <Image
+                        src={it.imageSrc}
+                        alt={alt}
+                        width={40}
+                        height={40}
+                        className="h-10 w-10 object-contain"
+                      />
+                    </div>
+                  ) : null}
+                  <div className="min-w-0">
+                    <div className="text-base font-extrabold leading-tight">{it.ms}</div>
+                    {lang !== "ms" && <div className="mt-1 text-sm font-semibold opacity-70">{t}</div>}
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       ) : (
-        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+        <ul className={`mt-4 grid gap-3 ${listGridClass}`}>
           {section.items.map((it) => {
             const t = lang === "en" ? it.en : lang === "es" ? it.es : it.ms;
             return (

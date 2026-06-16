@@ -4,19 +4,19 @@ export const chapter04Intro = [
   {
     id: "c4-intro-outcomes",
     ms:
-      "Hasilnya, anda akan dapat belajar,\n" +
+      "Cabaran akhir Dunia 1! Hasilnya, anda akan dapat belajar,\n" +
       "✓ Ungkapan masa yang mudah\n" +
-      "✓ Waktu pagi, tengah hari, petang, dan malam\n" +
-      "✓ Jalan terus, belok kiri, belok kanan, pusing balik, dan sampai",
+      "✓ Bertanya bila hendak berjumpa\n" +
+      "✓ Mengikuti satu laluan mudah",
     en:
-      "By the end, you will be able to:\n" +
+      "World 1 final challenge! By the end, you will be able to:\n" +
       "✓ Use simple time expressions\n" +
-      "✓ Recognize morning, midday, evening, and night\n" +
-      "✓ Follow simple route commands",
+      "✓ Ask when to meet\n" +
+      "✓ Follow one simple route",
     es:
-      "Al final, podrás:\n" +
+      "¡Desafío final del Mundo 1! Al final, podrás:\n" +
       "✓ Usar expresiones sencillas de tiempo\n" +
-      "✓ Reconocer mañana, mediodía, tarde y noche\n" +
-      "✓ Seguir instrucciones sencillas de ruta",
+      "✓ Preguntar cuándo quedar\n" +
+      "✓ Seguir una ruta sencilla",
   },
 ];

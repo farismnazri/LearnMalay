@@ -7,7 +7,7 @@ const malam = "/assets/chapters/ch4/malam.webp";
 
 export const chapter04: ChapterContent = {
   id: 4,
-  revision: 3,
+  revision: 4,
   title: { ms: "Masa\n& Arah Jalan", en: "Time & Simple Routes", es: "Tiempo y Rutas Sencillas" },
   pages: [
     {
@@ -100,49 +100,21 @@ export const chapter04: ChapterContent = {
       ],
     },
     {
-      id: "c4-p5-masa-dalam-ayat",
-      kind: "table",
-      title: { ms: "Masa dalam Ayat", en: "Time in Sentences", es: "El Tiempo en Oraciones" },
-      leadCard: {
-        heading: { ms: "Nota ringkas: sampai", en: "Quick note: sampai", es: "Nota breve: sampai" },
-        body: { ms: "Dengan masa: hingga. Dengan pergerakan atau arah: tiba / mencapai.", en: "With time: until. With movement or directions: arrive / reach.", es: "Con tiempo: hasta. Con movimiento o direcciones: llegar / alcanzar." },
-      },
-      columns: [
-        { key: "fokus", label: { ms: "Kata fokus", en: "Focus word", es: "Palabra clave" } },
-        { key: "contoh", label: { ms: "Contoh ayat", en: "Example sentences", es: "Oraciones de ejemplo" } },
-      ],
-      rows: [
-        { id: "c4-sampai", cells: { fokus: [{ kind: "image", src: "/assets/chapters/ch4/ch4_direction.webp", alt: { ms: "Ikon sampai", en: "Reach icon", es: "Icono de llegar" }, w: 96, h: 96, className: "h-16 w-16 object-contain" }, { ms: "sampai", en: "until / arrive", es: "hasta / llegar" }], contoh: [
-          { ms: "Saya belajar sampai petang.", en: "I study until the evening.", es: "Estudio hasta la tarde.", highlight: { ms: "sampai petang", en: "until the evening", es: "hasta la tarde" } },
-          { ms: "Kedai ini buka sampai pukul 10.00 malam.", en: "This shop is open until 10:00 at night.", es: "Esta tienda abre hasta las 10:00 de la noche.", highlight: { ms: "sampai pukul 10.00 malam", en: "until 10:00 at night", es: "hasta las 10:00 de la noche" } },
-          { ms: "Kami tunggu sampai tengah hari.", en: "We wait until midday.", es: "Esperamos hasta el mediodía.", highlight: { ms: "sampai tengah hari", en: "until midday", es: "hasta el mediodía" } },
-        ] } },
-        { id: "c4-dari", cells: { fokus: [{ kind: "image", src: "/assets/chapters/ch4/ch4_year.webp", alt: { ms: "Ikon dari", en: "From icon", es: "Icono de desde" }, w: 96, h: 96, className: "h-16 w-16 object-contain" }, { ms: "dari", en: "from / since", es: "de / desde" }], contoh: [
-          { ms: "Dari pagi saya di sini.", en: "I have been here since morning.", es: "Estoy aquí desde la mañana.", highlight: { ms: "Dari pagi", en: "since morning", es: "desde la mañana" } },
-          { ms: "Dia bekerja dari pukul 8.00 pagi.", en: "They work from 8:00 in the morning.", es: "Trabaja desde las 8:00 de la mañana.", highlight: { ms: "dari pukul 8.00 pagi", en: "from 8:00 in the morning", es: "desde las 8:00 de la mañana" } },
-          { ms: "Kami berjalan dari petang sampai malam.", en: "We walk from the evening until night.", es: "Caminamos desde la tarde hasta la noche.", highlight: { ms: "dari petang sampai malam", en: "from the evening until night", es: "desde la tarde hasta la noche" } },
-        ] } },
-        { id: "c4-pada", cells: { fokus: [{ kind: "image", src: "/assets/chapters/ch4/ch4_hour.webp", alt: { ms: "Ikon pada", en: "At-time icon", es: "Icono de hora" }, w: 96, h: 96, className: "h-16 w-16 object-contain" }, { ms: "pada", en: "at", es: "a / en" }], contoh: [
-          { ms: "Saya pergi ke sekolah pada pukul 7.00 pagi.", en: "I go to school at 7:00 in the morning.", es: "Voy a la escuela a las 7:00 de la mañana.", highlight: { ms: "pada pukul 7.00 pagi", en: "at 7:00 in the morning", es: "a las 7:00 de la mañana" } },
-          { ms: "Kami makan pada waktu tengah hari.", en: "We eat at midday.", es: "Comemos al mediodía.", highlight: { ms: "pada waktu tengah hari", en: "at midday", es: "al mediodía" } },
-          { ms: "Kelas bermula pada pukul 8.30 pagi.", en: "Class starts at 8:30 in the morning.", es: "La clase empieza a las 8:30 de la mañana.", highlight: { ms: "pada pukul 8.30 pagi", en: "at 8:30 in the morning", es: "a las 8:30 de la mañana" } },
-        ] } },
-      ],
-    },
-    {
       id: "c4-p6-kata-arah",
       kind: "table",
-      title: { ms: "Kata Arah Mudah", en: "Simple Direction Words", es: "Palabras Sencillas de Dirección" },
+      title: { ms: "Arahan Jalan Mudah", en: "Simple Route Commands", es: "Instrucciones Sencillas de Ruta" },
       columns: [
         { key: "gambar", label: { ms: "Gambar", en: "Image", es: "Imagen" } },
         { key: "kata", label: { ms: "Kata", en: "Word", es: "Palabra" } },
       ],
       rows: [
-        { id: "c4-kiri", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/kiri.webp", alt: { ms: "kiri", en: "left", es: "izquierda" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "kiri", en: "left", es: "izquierda" }] } },
-        { id: "c4-kanan", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/kanan.webp", alt: { ms: "kanan", en: "right", es: "derecha" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "kanan", en: "right", es: "derecha" }] } },
+        { id: "c4-kiri", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/kiri.webp", alt: { ms: "Belok kiri", en: "Turn left", es: "Gira a la izquierda" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "Belok kiri", en: "Turn left", es: "Gira a la izquierda" }] } },
+        { id: "c4-kanan", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/kanan.webp", alt: { ms: "Belok kanan", en: "Turn right", es: "Gira a la derecha" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "Belok kanan", en: "Turn right", es: "Gira a la derecha" }] } },
+        { id: "c4-terus", cells: { gambar: [{ ms: "↑", en: "↑", es: "↑" }], kata: [{ ms: "Jalan terus", en: "Go straight", es: "Sigue recto" }] } },
+        { id: "c4-pusing-balik", cells: { gambar: [{ ms: "↩", en: "↩", es: "↩" }], kata: [{ ms: "Pusing balik", en: "Turn back", es: "Date la vuelta" }] } },
+        { id: "c4-sampai", cells: { gambar: [{ ms: "✓", en: "✓", es: "✓" }], kata: [{ ms: "Sampai", en: "Arrive", es: "Llegar" }] } },
         { id: "c4-sini", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/sini.webp", alt: { ms: "sini", en: "here", es: "aquí" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "sini", en: "here", es: "aquí" }] } },
         { id: "c4-sana", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/sana.webp", alt: { ms: "sana", en: "there", es: "allá" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "sana", en: "there", es: "allá" }] } },
-        { id: "c4-terus", cells: { gambar: [{ ms: "→", en: "→", es: "→" }], kata: [{ ms: "terus", en: "straight", es: "recto" }] } },
       ],
     },
     {
