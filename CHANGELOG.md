@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [0.11.3] - 2026-06-16
+
+### Changed
+- Reworked Chapter 3 around seven counter names with a clearer Page 1 card layout, one-to-one `Saya mahu...` action cards, and three short chats aligned to the important counters.
+- Expanded Chapter 3 practice so `Latihan 1` now uses seven noun-only scrambles and `Latihan 2` now includes all seven counter names in the wordsearch.
+
+### Fixed
+- Incremented the Chapter 3 content revision from `4` to `5` so returning learners can see the optional chapter update notice for the new lesson flow and practice set.
+
 ## [0.11.2] - 2026-06-16
 
 ### Security

@@ -16,6 +16,37 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.11.3",
+    date: "2026-06-16",
+    headline: {
+      ms: "Bab 3 kini lebih jelas untuk belajar nama kaunter dan ayat mudah",
+      en: "Chapter 3 is now clearer for learning counter names and simple phrases",
+      es: "El Capítulo 3 ahora es más claro para aprender nombres de mostradores y frases simples",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Bab 3 kini menggunakan susun atur kad yang lebih jelas untuk kaunter penting, pola ayat `Saya mahu...`, dan tiga dialog ringkas di kaunter pertanyaan, kaunter tiket, dan kaunter bayaran.",
+          en: "Chapter 3 now uses a clearer card layout for the important counters, the `I want to...` sentence pattern, and three short chats at the information, ticket, and payment counters.",
+          es: "El Capítulo 3 ahora usa un diseño de tarjetas más claro para los mostradores importantes, el patrón `Quiero...` y tres diálogos breves en los mostradores de información, boletos y pagos.",
+        },
+        {
+          ms: "Latihan Bab 3 kini meliputi semua tujuh nama kaunter dengan susun huruf tanpa perkataan `kaunter` dan carian kata yang merangkumi semua kosa kata kaunter.",
+          en: "Chapter 3 practice now covers all seven counter names with noun-only scrambles and a wordsearch that includes the full counter vocabulary.",
+          es: "La práctica del Capítulo 3 ahora cubre los siete nombres de mostrador con anagramas solo del sustantivo y una sopa de letras con todo el vocabulario de mostradores.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Semakan kandungan Bab 3 dinaikkan daripada 4 kepada 5 supaya pengguna lama boleh melihat notis kemas kini bab pilihan.",
+          en: "Chapter 3 content revision was increased from 4 to 5 so returning learners can see the optional chapter update notice.",
+          es: "La revisión de contenido del Capítulo 3 aumentó de 4 a 5 para que los usuarios anteriores vean el aviso opcional de actualización.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.11.2",
     date: "2026-06-16",
     headline: {
