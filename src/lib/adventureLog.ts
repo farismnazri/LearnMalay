@@ -16,6 +16,26 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.11.4",
+    date: "2026-06-16",
+    headline: {
+      ms: "Footer halaman utama kini lebih kemas dan seimbang",
+      en: "The landing-page footer is now cleaner and better balanced",
+      es: "El pie de la pagina principal ahora esta mas limpio y equilibrado",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Footer halaman utama kini meletakkan cip dua baris `Adventure Log` sejajar dengan bar pengakuan supaya susun atur iPad, telefon, dan desktop kelihatan lebih kemas.",
+          en: "The landing-page footer now places the two-line `Adventure Log` chip alongside the acknowledgment bar so the iPad, phone, and desktop layout reads more cleanly.",
+          es: "El pie de la pagina principal ahora coloca la ficha de dos lineas de `Adventure Log` junto a la barra de reconocimiento para que el diseno en iPad, movil y escritorio se vea mas limpio.",
+        },
+      ],
+      fixed: [],
+    },
+  },
+  {
     version: "0.11.3",
     date: "2026-06-16",
     headline: {

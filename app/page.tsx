@@ -138,58 +138,63 @@ export default function TitleScreen() {
       <footer className="title-screen-footer absolute bottom-[max(1.25rem,var(--safe-area-bottom))] left-0 right-0 z-10 px-4 text-center">
         <p className="text-xs font-black tracking-[0.22em] text-[#f8efcb]/88">By FN for NF ❤︎</p>
 
-        <div className="mx-auto mt-2 w-full max-w-[56rem]">
-          <div className="rounded-2xl bg-[#efe2bf]/82 shadow-[0_8px_20px_rgba(11,30,20,0.2)] ring-1 ring-[#203428]/30 backdrop-blur-sm">
-            <button
-              type="button"
-              onClick={() => setAckOpen((open) => !open)}
-              aria-expanded={ackOpen}
-              aria-controls="title-screen-acknowledgement"
-              className="w-full px-2 py-2 text-center text-[10px] font-medium leading-[1.45] text-[#2c392f] transition duration-200 active:scale-[0.995] sm:px-3 sm:text-[10.5px] md:px-4 md:text-[11px] md:leading-[1.35] md:whitespace-nowrap"
-            >
-              Acknowledgement: This app and its lesson flow were inspired by Bahasa Melayu untuk
-              Penutur Asing: Tahap Asas by Yusmaniza Mohd Yusoff.
-            </button>
+        <div className="mx-auto mt-2 grid w-full max-w-[64rem] gap-2 md:grid-cols-[minmax(0,1fr)_minmax(0,46rem)_auto] md:items-center md:gap-3">
+          <div className="hidden md:block" aria-hidden="true" />
 
-            <div
-              id="title-screen-acknowledgement"
-              className={[
-                "grid px-4 transition-[grid-template-rows,opacity,padding] duration-300 ease-out",
-                ackOpen ? "grid-rows-[1fr] pb-3 opacity-100" : "grid-rows-[0fr] pb-0 opacity-0",
-              ].join(" ")}
-            >
-              <div className="overflow-hidden">
-                <div className="border-t border-[#7d8d75]/35 pt-2 text-[11px] leading-[1.5] text-[#2f3f34]/90">
-                  Acknowledgement: This app was developed independently as a supplementary practice
-                  tool for Malay learners. Its lesson flow was inspired by Bahasa Melayu untuk
-                  Penutur Asing: Tahap Asas by Yusmaniza Mohd Yusoff. All rights to the original
-                  book, its contents, and its teaching materials remain with the respective author
-                  and publisher. This app is not affiliated with, endorsed by, or published by
-                  them. Users are encouraged to refer to the original author and source material
-                  here:{" "}
-                  <a
-                    href="https://anyflip.com/qivri/smcl/basic"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-semibold text-[#214e37] underline decoration-[#b4882a] decoration-2 underline-offset-2"
-                  >
-                    View the original publication
-                  </a>
+          <div className="min-w-0">
+            <div className="rounded-2xl bg-[#efe2bf]/82 shadow-[0_8px_20px_rgba(11,30,20,0.2)] ring-1 ring-[#203428]/30 backdrop-blur-sm">
+              <button
+                type="button"
+                onClick={() => setAckOpen((open) => !open)}
+                aria-expanded={ackOpen}
+                aria-controls="title-screen-acknowledgement"
+                className="w-full px-2 py-2 text-center text-[10px] font-medium leading-[1.45] text-[#2c392f] transition duration-200 active:scale-[0.995] sm:px-3 sm:text-[10.5px] md:px-4 md:text-[11px] md:leading-[1.35] md:whitespace-nowrap"
+              >
+                Acknowledgement: This app and its lesson flow were inspired by Bahasa Melayu untuk
+                Penutur Asing: Tahap Asas by Yusmaniza Mohd Yusoff.
+              </button>
+
+              <div
+                id="title-screen-acknowledgement"
+                className={[
+                  "grid px-4 transition-[grid-template-rows,opacity,padding] duration-300 ease-out",
+                  ackOpen ? "grid-rows-[1fr] pb-3 opacity-100" : "grid-rows-[0fr] pb-0 opacity-0",
+                ].join(" ")}
+              >
+                <div className="overflow-hidden">
+                  <div className="border-t border-[#7d8d75]/35 pt-2 text-[11px] leading-[1.5] text-[#2f3f34]/90">
+                    Acknowledgement: This app was developed independently as a supplementary
+                    practice tool for Malay learners. Its lesson flow was inspired by Bahasa Melayu
+                    untuk Penutur Asing: Tahap Asas by Yusmaniza Mohd Yusoff. All rights to the
+                    original book, its contents, and its teaching materials remain with the
+                    respective author and publisher. This app is not affiliated with, endorsed by,
+                    or published by them. Users are encouraged to refer to the original author and
+                    source material here:{" "}
+                    <a
+                      href="https://anyflip.com/qivri/smcl/basic"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-semibold text-[#214e37] underline decoration-[#b4882a] decoration-2 underline-offset-2"
+                    >
+                      View the original publication
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <div className="justify-self-end md:self-center">
+            <Link
+              href="/updates"
+              className="flex min-h-11 min-w-20 flex-col items-center justify-center rounded-xl border border-[#d7b45c]/45 bg-[#1e2e21]/60 px-2.5 py-1.5 text-center text-[10px] font-black leading-[1.1] tracking-[0.12em] text-[#f8efcb]/80 underline decoration-[#d7b45c]/70 decoration-2 underline-offset-2 shadow-[0_5px_0_rgba(0,0,0,0.28)] backdrop-blur-sm transition hover:-translate-y-0.5 hover:text-[#fff4cf] active:translate-y-0.5"
+            >
+              <span>{APP_VERSION_LABEL}</span>
+              <span>Adventure Log</span>
+            </Link>
+          </div>
         </div>
       </footer>
-
-      <div className="absolute bottom-[max(0.85rem,var(--safe-area-bottom))] right-[max(0.85rem,var(--safe-area-right))] z-20">
-        <Link
-          href="/updates"
-          className="rounded-full border border-[#d7b45c]/40 bg-[#1e2e21]/55 px-2.5 py-1 text-[10px] font-black tracking-[0.14em] text-[#f8efcb]/75 underline decoration-[#d7b45c]/70 decoration-2 underline-offset-2 backdrop-blur-sm transition hover:text-[#fff4cf]"
-        >
-          {APP_VERSION_LABEL} • Adventure Log
-        </Link>
-      </div>
     </main>
   );
 }

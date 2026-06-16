@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.11.4] - 2026-06-16
+
+### Changed
+- Refined the landing-page footer so the two-line Adventure Log chip sits beside the acknowledgment bar without overlap on tablet, mobile, or desktop widths.
+
 ## [0.11.3] - 2026-06-16
 
 ### Changed
