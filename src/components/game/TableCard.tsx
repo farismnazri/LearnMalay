@@ -36,6 +36,95 @@ export default function TableCard({ page, lang }: { page: ChapterTablePage; lang
   const titleSub = lang === "ms" ? "" : tr(lang, page.title);
   const isOccupationTable = page.id === "c9-p3-jenis-pekerjaan";
 
+  if (page.id === "c5-p2-syiling" || page.id === "c5-p3-not") {
+    const isNotesPage = page.id === "c5-p3-not";
+    const leadImage = page.rows[0]?.cells.img?.find(isImageCell);
+    const tip =
+      page.id === "c5-p2-syiling"
+        ? {
+            ms: "Tip: Kenali nilai setiap syiling supaya mudah kira dan guna dalam kehidupan harian.",
+            en: "Tip: Know each coin value so it is easier to count and use in daily life.",
+            es: "Consejo: Aprende el valor de cada moneda para contar y usar el dinero con mas facilidad.",
+          }
+        : {
+            ms: "Tip: Kenali warna dan nilai wang kertas supaya mudah membeli dan membayar.",
+            en: "Tip: Learn the colors and values of banknotes so it is easier to buy and pay.",
+            es: "Consejo: Aprende los colores y valores de los billetes para comprar y pagar con mas facilidad.",
+          };
+
+    return (
+      <section className="rounded-3xl bg-white/95 p-4 shadow-xl sm:p-6">
+        <div className="text-center">
+          <h2 className="text-3xl font-black tracking-wide text-[#222] sm:text-4xl">{page.title.ms}</h2>
+          {lang !== "ms" && <p className="mt-1 text-lg font-extrabold text-black/45 sm:text-xl">{titleSub}</p>}
+        </div>
+
+        {page.leadCard && (
+          <article className="mt-5 grid items-center gap-3 rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 sm:grid-cols-[7.5rem_minmax(0,1fr)]">
+            {leadImage && (
+              <div className="grid h-20 place-items-center rounded-xl bg-white/60 p-2">
+                <Image
+                  src={leadImage.src}
+                  alt={tr(lang, leadImage.alt)}
+                  width={leadImage.w ?? 160}
+                  height={leadImage.h ?? 100}
+                  className="h-full w-full object-contain"
+                  draggable={false}
+                />
+              </div>
+            )}
+            <div>
+              <h3 className="text-base font-black text-[#25140c]">{page.leadCard.heading.ms}</h3>
+              {lang !== "ms" && <p className="mt-0.5 text-sm font-bold text-[#25140c]/55">{tr(lang, page.leadCard.heading)}</p>}
+              <p className="mt-1 text-sm font-bold text-[#25140c]/70">{page.leadCard.body.ms}</p>
+              {lang !== "ms" && <p className="mt-0.5 text-sm font-semibold text-[#25140c]/50">{tr(lang, page.leadCard.body)}</p>}
+            </div>
+          </article>
+        )}
+
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          {page.rows.map((row) => {
+            const image = row.cells.img?.find(isImageCell);
+            const value = row.cells.nilai?.find((item): item is TableTextCell => !isImageCell(item));
+            if (!image || !value) return null;
+            const valueText = tr(lang, value);
+            const badge = value.ms.match(/\(([^)]+)\)/)?.[1] ?? value.ms;
+
+            return (
+              <article
+                key={row.id}
+                className="relative grid min-h-36 items-center gap-4 overflow-hidden rounded-2xl border border-amber-300 bg-white px-4 py-4 shadow-sm sm:grid-cols-[minmax(8rem,12rem)_minmax(0,1fr)]"
+              >
+                <div className="absolute right-3 top-3 rounded-xl bg-amber-300 px-3 py-1 text-sm font-black text-[#25140c] shadow-sm">
+                  {badge}
+                </div>
+                <div className={["grid place-items-center rounded-full bg-amber-100/55 p-3", isNotesPage ? "aspect-[5/3]" : "aspect-square"].join(" ")}>
+                  <Image
+                    src={image.src}
+                    alt={tr(lang, image.alt)}
+                    width={image.w ?? 420}
+                    height={image.h ?? 260}
+                    className="h-full w-full object-contain"
+                    draggable={false}
+                  />
+                </div>
+                <div className="min-w-0 pr-16">
+                  <h3 className="text-lg font-black leading-tight text-[#25140c] sm:text-xl">{value.ms}</h3>
+                  {lang !== "ms" && <p className="mt-1 text-sm font-bold leading-snug text-black/50 sm:text-base">{valueText}</p>}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        <article className="mt-5 rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-bold text-[#25140c]">
+          {tip.ms}
+          {lang !== "ms" && <p className="mt-1 font-semibold text-[#25140c]/55">{tr(lang, tip)}</p>}
+        </article>
+      </section>
+    );
+  }
+
   if (page.id === "c4-p2-waktu-harian") {
     return (
       <section className="rounded-3xl bg-white/95 p-4 shadow-xl sm:p-6">

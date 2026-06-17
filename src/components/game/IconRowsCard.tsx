@@ -8,6 +8,8 @@ function tr(text: Translated, lang: UiLang) {
 }
 
 export default function IconRowsCard({ page, lang }: { page: ChapterIconRowsPage; lang: UiLang }) {
+  const isChapter5AddressBuilder = page.id === "c5-p9-alamat-builder";
+
   if (page.id === "c4-p1-masa") {
     const definition = page.rows[0];
     const units = page.rows.slice(1, 3);
@@ -84,14 +86,19 @@ export default function IconRowsCard({ page, lang }: { page: ChapterIconRowsPage
         {page.rows.map((row) => (
           <article
             key={row.id}
-            className="grid grid-cols-[4.75rem_minmax(0,1fr)] items-center gap-3 rounded-2xl border-[3px] border-[#2b160a] bg-[#fff8df] p-3 shadow-[inset_0_0_0_3px_rgba(255,255,255,0.45),0_5px_0_rgba(0,0,0,0.22)] phone-lg:grid-cols-[5.5rem_minmax(0,1fr)] phone-lg:gap-4 phone-lg:p-4"
+            className={[
+              "grid items-center rounded-2xl border-[3px] border-[#2b160a] bg-[#fff8df] p-3 shadow-[inset_0_0_0_3px_rgba(255,255,255,0.45),0_5px_0_rgba(0,0,0,0.22)] phone-lg:gap-4 phone-lg:p-4",
+              isChapter5AddressBuilder
+                ? "grid-cols-[7.5rem_minmax(0,1fr)] gap-4 phone-lg:grid-cols-[9rem_minmax(0,1fr)]"
+                : "grid-cols-[4.75rem_minmax(0,1fr)] gap-3 phone-lg:grid-cols-[5.5rem_minmax(0,1fr)]",
+            ].join(" ")}
           >
             <div className="grid aspect-square place-items-center rounded-2xl border-[3px] border-[#2b160a] bg-white/90 p-1.5 shadow-[inset_0_-5px_0_rgba(0,0,0,0.06),0_3px_0_rgba(0,0,0,0.18)]">
               <Image
                 src={row.iconSrc}
                 alt={tr(row.iconAlt, lang)}
-                width={88}
-                height={88}
+                width={isChapter5AddressBuilder ? 160 : 88}
+                height={isChapter5AddressBuilder ? 160 : 88}
                 className="h-full w-full object-contain"
                 draggable={false}
               />

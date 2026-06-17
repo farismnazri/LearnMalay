@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-06-17
+
+### Changed
+- Reworked Chapter 5 into a clearer mission-style flow for money, prices, shopping, and addresses, with updated currency practice and larger address-builder visuals.
+
+### Fixed
+- Incremented the Chapter 5 content revision from `2` to `3` so returning learners can see the optional chapter update notice for the reworked lesson flow.
+
 ## [0.11.5] - 2026-06-17
 
 ### Changed

@@ -3,20 +3,8 @@
 export const chapter05Intro = [
   {
     id: "c5-intro-outcomes",
-    ms:
-      "Anda akan dapat belajar mengenai:\n" +
-      "✓ Penggunaan nombor dan angka yang betul\n" +
-      "✓ Penggunaan nombor dan angka dalam harga dan alamat\n" +
-      "✓ Cara menyatakan alamat tempat tinggal",
-    en:
-      "You will learn about:\n" +
-      "✓ Using numbers and digits correctly\n" +
-      "✓ Using numbers and digits in prices and addresses\n" +
-      "✓ How to state a home address",
-    es:
-      "Aprenderás sobre:\n" +
-      "✓ Usar números y dígitos correctamente\n" +
-      "✓ Usar números y dígitos en precios y direcciones\n" +
-      "✓ Cómo indicar una dirección",
+    ms: "Jom guna nombor dalam kehidupan sebenar: kenal duit, baca harga, dan bina alamat.",
+    en: "Let us use numbers in real life: recognize money, read prices, and build an address.",
+    es: "Vamos a usar los numeros en la vida real: reconocer dinero, leer precios y formar una direccion.",
   },
 ];

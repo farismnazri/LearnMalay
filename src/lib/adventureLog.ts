@@ -16,6 +16,37 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.12.0",
+    date: "2026-06-17",
+    headline: {
+      ms: "Bab 5 kini lebih jelas untuk duit, harga, dan alamat",
+      en: "Chapter 5 is now clearer for money, prices, and addresses",
+      es: "El Capitulo 5 ahora es mas claro para dinero, precios y direcciones",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Bab 5 kini mempunyai aliran misi yang lebih jelas untuk duit, harga, membeli-belah, dan alamat, dengan latihan nilai wang yang lebih fokus.",
+          en: "Chapter 5 now has a clearer mission flow for money, prices, shopping, and addresses, with more focused currency value practice.",
+          es: "El Capitulo 5 ahora tiene una secuencia de mision mas clara sobre dinero, precios, compras y direcciones, con practica de valores de moneda mas enfocada.",
+        },
+        {
+          ms: "Kad duit dan pembina alamat Bab 5 kini lebih mudah dilihat, termasuk visual alamat yang lebih besar.",
+          en: "Chapter 5's money cards and address builder are now easier to read, including larger address visuals.",
+          es: "Las tarjetas de dinero y el constructor de direcciones del Capitulo 5 ahora se leen mejor, con imagenes de direccion mas grandes.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Semakan kandungan Bab 5 dinaikkan daripada 2 kepada 3 supaya pengguna lama boleh melihat notis kemas kini bab pilihan.",
+          en: "Chapter 5 content revision was increased from 2 to 3 so returning learners can see the optional chapter update notice.",
+          es: "La revision de contenido del Capitulo 5 aumento de 2 a 3 para que los usuarios anteriores vean el aviso opcional de actualizacion.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.11.5",
     date: "2026-06-17",
     headline: {

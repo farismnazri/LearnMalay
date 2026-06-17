@@ -1,7 +1,7 @@
 # Learn Malay Product Roadmap
 
 Updated: 2026-06-17
-Current version baseline: `0.11.5`
+Current version baseline: `0.12.0`
 
 ## Purpose
 `ROADMAP.md` is the maintainer-facing planning and execution doc.
