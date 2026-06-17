@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [0.11.5] - 2026-06-17
+
+### Changed
+- Refined Chapter 1 page 2 so `Kita` and `Kami` use separate pronoun cards with clearer beginner explanations and updated WEBP artwork.
+
+### Fixed
+- Incremented the Chapter 1 content revision from `5` to `6` so returning learners can see the optional chapter update notice for the refined pronoun lesson.
+
 ## [0.11.4] - 2026-06-16
 
 ### Changed

@@ -16,6 +16,32 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.11.5",
+    date: "2026-06-17",
+    headline: {
+      ms: "Bab 1 kini membezakan Kita dan Kami dengan lebih jelas",
+      en: "Chapter 1 now separates Kita and Kami more clearly",
+      es: "El Capítulo 1 ahora separa Kita y Kami con más claridad",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Bab 1 kini memisahkan `Kita` dan `Kami` kepada dua kad kata ganti nama yang lebih jelas dengan karya WEBP baharu dan penerangan ringkas untuk pemula.",
+          en: "Chapter 1 now separates `Kita` and `Kami` into two clearer pronoun cards with updated WEBP artwork and short beginner-friendly explanations.",
+          es: "El Capítulo 1 ahora separa `Kita` y `Kami` en dos tarjetas de pronombres más claras, con arte WEBP actualizado y explicaciones breves para principiantes.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Semakan kandungan Bab 1 dinaikkan daripada 5 kepada 6 supaya pengguna lama boleh melihat notis kemas kini bab pilihan.",
+          en: "Chapter 1 content revision was increased from 5 to 6 so returning learners can see the optional chapter update notice.",
+          es: "La revisión de contenido del Capítulo 1 aumentó de 5 a 6 para que los usuarios anteriores vean el aviso opcional de actualización.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.11.4",
     date: "2026-06-16",
     headline: {

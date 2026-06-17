@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter01: ChapterContent = {
   id: 1,
-  revision: 5,
+  revision: 6,
   title: { ms: "Sapaan", en: "Greetings", es: "Saludos" },
 
   pages: [
@@ -307,31 +307,59 @@ export const chapter01: ChapterContent = {
           },
           cards: [
             {
-              id: "kita-kami",
+              id: "kita",
               title: {
-                ms: "Kita / Kami",
-                en: "Kita / Kami",
-                es: "Kita / Kami",
+                ms: "Kita",
+                en: "Kita",
+                es: "Kita",
               },
               description: {
-                ms: "Kita\nsaya + awak / kamu semua\nKita termasuk orang yang mendengar.",
-                en: "Kita\nme + you / all of you\nKita includes the listener.",
-                es: "Kita\nyo + tú / ustedes\nKita incluye a quien escucha.",
+                ms: "saya + awak / kamu semua",
+                en: "me + you / all of you",
+                es: "yo + tú / ustedes",
               },
-              imageSrc: "/assets/chapters/ch1/ch1_kita.webp",
+              imageSrc: "/assets/chapters/ch1/ch1_kita_v2.webp",
               imageAlt: {
-                ms: "Komik Kita dan Kami",
-                en: "Comic for Kita and Kami",
-                es: "Cómic para Kita y Kami",
+                ms: "Komik Kita",
+                en: "Comic for Kita",
+                es: "Cómic para Kita",
               },
               info: {
-                ms: "Kami\nsaya + orang lain, bukan awak\nKami tidak termasuk orang yang mendengar.",
-                en: "Kami\nme + other people, but not you\nKami does not include the listener.",
-                es: "Kami\nyo + otras personas, pero no tú\nKami no incluye a quien escucha.",
+                ms: "Kita digunakan apabila orang yang mendengar termasuk dalam kumpulan.",
+                en: "Use kita when the listener is included in the group.",
+                es: "Usa kita cuando quien escucha está incluido en el grupo.",
               },
               translation: {
-                en: "Kita: us together. Kami: us, but not you.",
-                es: "Kita: nosotros juntos. Kami: nosotros, sin incluirte.",
+                en: "We/us, including you.",
+                es: "Nosotros/as, incluyéndote.",
+              },
+            },
+            {
+              id: "kami",
+              title: {
+                ms: "Kami",
+                en: "Kami",
+                es: "Kami",
+              },
+              description: {
+                ms: "saya + orang lain, bukan awak",
+                en: "me + other people, not you",
+                es: "yo + otras personas, no tú",
+              },
+              imageSrc: "/assets/chapters/ch1/ch1_kami_v2.webp",
+              imageAlt: {
+                ms: "Komik Kami",
+                en: "Comic for Kami",
+                es: "Cómic para Kami",
+              },
+              info: {
+                ms: "Kami digunakan apabila orang yang mendengar tidak termasuk dalam kumpulan.",
+                en: "Use kami when the listener is not included in the group.",
+                es: "Usa kami cuando quien escucha no está incluido en el grupo.",
+              },
+              translation: {
+                en: "We/us, not including you.",
+                es: "Nosotros/as, sin incluirte.",
               },
             },
             {
