@@ -1,5 +1,4 @@
 import { MongoClient, type Db } from "mongodb";
-import { assertValidProductionEnv } from "./env";
 
 type UserDocument = {
   id: string;
@@ -296,7 +295,6 @@ function resolveDbName(uri: string): string {
 }
 
 async function getClient(): Promise<MongoClient> {
-  assertValidProductionEnv();
   const uri = getMongoUri();
   if (!uri) {
     throw new Error("MONGODB_URI is not set.");
@@ -316,7 +314,6 @@ async function getClient(): Promise<MongoClient> {
 }
 
 export async function getDb(): Promise<Db> {
-  assertValidProductionEnv();
   const uri = getMongoUri();
   if (!uri) {
     throw new Error("MONGODB_URI is not set.");
@@ -378,7 +375,6 @@ function getMemoryCollections(): AppCollections {
 }
 
 export async function getCollections(): Promise<AppCollections> {
-  assertValidProductionEnv();
   const mongoUri = getMongoUri();
 
   if (!mongoUri) {

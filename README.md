@@ -46,16 +46,12 @@ The actual app root is:
 
 ## Storage And Environment
 
-Server storage uses MongoDB when `MONGODB_URI` is set. Without `MONGODB_URI`, local development falls back to an in-memory store. The in-memory fallback resets when the server restarts and is blocked in production.
+Server storage uses MongoDB when `MONGODB_URI` is set. Without `MONGODB_URI`, local development falls back to an in-memory store. The in-memory fallback resets when the server restarts and is not safe for production or real user data.
 
 Environment variables:
 
-- `MONGODB_URI` - recommended for development and required in production. Production values must be valid `mongodb://` or `mongodb+srv://` connection strings.
-- `MONGODB_DB_NAME` - optional database name override. If omitted, the database name is read from `MONGODB_URI` or falls back to `learnmalay`.
-- `LEARN_MALAY_ADMIN_PASSWORD` - required in production and outside development. Production values must be at least 12 characters and cannot use the development/default password.
-- `LEARN_MALAY_DEMO_PASSWORD` - optional demo account bootstrap password. If set in production, it must be at least 12 characters, cannot use the development/default password, and must differ from the admin password.
-
-Production startup validates these rules before using server storage or auth bootstrap paths. Invalid production configuration fails with a grouped `ProductionEnvValidationError`.
+- `MONGODB_URI` - recommended for development and required for reliable persistent storage in production.
+- `LEARN_MALAY_ADMIN_PASSWORD` - required outside development. In development, the server falls back to a temporary admin password if this is not set.
 
 ### Admin Password Rotation
 

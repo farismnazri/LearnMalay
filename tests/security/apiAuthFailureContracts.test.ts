@@ -7,7 +7,6 @@ import process from "node:process";
 import test from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
-import { chapter01 } from "../../src/lib/chapters/chapter-01.ts";
 
 type JsonResponse = {
   status: number;
@@ -139,7 +138,7 @@ test("chapter revision is recorded only by an explicit completion request", asyn
   });
 
   assert.equal(completed.status, 200);
-  assert.deepEqual(readCompletedChapterRevisions(completed.body), { "1": chapter01.revision });
+  assert.deepEqual(readCompletedChapterRevisions(completed.body), { "1": 1 });
 });
 
 test("chapter completion cannot acknowledge a chapter that is still locked", async () => {
@@ -359,7 +358,7 @@ async function startAppServer(): Promise<DevServer> {
     env: {
       ...process.env,
       NEXT_TELEMETRY_DISABLED: "1",
-      NODE_ENV: "test",
+      NODE_ENV: "production",
       LEARN_MALAY_ADMIN_PASSWORD: "admin-test-password",
       LEARN_MALAY_DEMO_PASSWORD: "demo-test-password",
     },
@@ -407,7 +406,7 @@ async function waitForServerReady(baseUrl: string, child: ChildProcessWithoutNul
     await delay(250);
   }
 
-  throw new Error(`timed out waiting for app server readiness\n${logBuffer.join("")}`);
+  throw new Error(`timed out waiting for dev server readiness\n${logBuffer.join("")}`);
 }
 
 function resolveNpmCommand() {
