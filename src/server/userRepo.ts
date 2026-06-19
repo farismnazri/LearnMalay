@@ -1,5 +1,6 @@
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { getCollections, type UserDocument } from "./db";
+import { assertValidProductionEnv } from "./env";
 import {
   ADMIN_ID,
   DEMO_DISPLAY_NAME,
@@ -20,6 +21,7 @@ import { USERNAME_SAFETY_REJECTION_MESSAGE, validateUsernameSafety } from "@/lib
 const MAX_PROGRESS_PAGE = 10_000;
 
 function resolveAdminBootstrapPassword(): string {
+  assertValidProductionEnv();
   const fromEnv = process.env.LEARN_MALAY_ADMIN_PASSWORD?.trim();
   if (fromEnv) return fromEnv;
 
@@ -34,6 +36,7 @@ function resolveAdminBootstrapPassword(): string {
 }
 
 function resolveAdminRotationPassword(): string {
+  assertValidProductionEnv();
   const fromEnv = process.env.LEARN_MALAY_ADMIN_PASSWORD?.trim();
   if (!fromEnv) {
     throw new Error("LEARN_MALAY_ADMIN_PASSWORD must be set to rotate the admin password.");
@@ -42,6 +45,7 @@ function resolveAdminRotationPassword(): string {
 }
 
 function resolveDemoBootstrapPassword(): string | null {
+  assertValidProductionEnv();
   const fromEnv = process.env.LEARN_MALAY_DEMO_PASSWORD?.trim();
   if (fromEnv) return fromEnv;
 
