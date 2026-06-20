@@ -172,6 +172,172 @@ body {
     linear-gradient(180deg, rgba(0, 0, 0, 0.24) 0%, rgba(0, 0, 0, 0.38) 56%, rgba(10, 32, 20, 0.88) 82%, rgba(10, 32, 20, 1) 100%);
 }
 
+@media (max-width: 47.999rem) {
+  .map-mobile-header {
+    gap: 0.6rem;
+  }
+
+  .map-player-plaque {
+    border-radius: 1.25rem;
+    padding: 0.8rem 0.75rem 0.95rem;
+    background-size: 100% 100%;
+  }
+
+  .map-player-plaque-inner {
+    padding-left: 0;
+  }
+
+  .map-player-plaque-inner > div {
+    margin-inline: 0;
+    width: 100%;
+  }
+
+  .map-player-plaque-main {
+    align-items: flex-start;
+    gap: 0.55rem;
+  }
+
+  .map-player-identity {
+    align-items: flex-start;
+    gap: 0.55rem;
+  }
+
+  .map-player-avatar {
+    width: 2.75rem !important;
+    height: 2.75rem !important;
+    margin-top: 0.15rem;
+  }
+
+  .map-player-copy {
+    flex: 1 1 auto;
+    padding-top: 0.1rem;
+  }
+
+  .map-world-title .crash-chapter-title {
+    width: max-content;
+    max-width: 100%;
+    font-size: clamp(2rem, 8.4vw, 2.5rem);
+    line-height: 0.84;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .map-world-title .crash-chapter-title-line {
+    white-space: nowrap;
+  }
+
+  .map-world-title .crash-chapter-title-line::before {
+    -webkit-text-stroke-width: 3px;
+    text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 3px 0 0 #000,
+      -3px 0 0 #000, 0 3px 0 #000, 0 -3px 0 #000;
+    transform: translate(1px, 1px);
+  }
+
+  .map-player-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem 0.35rem;
+    margin-top: 0.2rem;
+    font-size: 0.68rem;
+    line-height: 1.25;
+  }
+
+  .map-player-meta-separator {
+    display: none;
+  }
+
+  .map-player-meta-item {
+    min-width: 0;
+  }
+
+  .map-chapter-badge {
+    min-height: 3rem;
+    min-width: 3.5rem;
+    padding: 0.45rem 0.55rem;
+    border-radius: 0.7rem;
+  }
+
+  .map-chapter-badge span {
+    font-size: 1rem;
+  }
+
+  .map-mode-badges {
+    justify-content: flex-start;
+    margin-top: 0.45rem;
+    min-height: 0;
+  }
+
+  .map-progress-row {
+    margin-top: 0.8rem;
+    padding-inline: 0.2rem;
+    padding-bottom: 0.1rem;
+  }
+
+  .map-top-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border-radius: 0.95rem !important;
+    padding: 0.25rem 0.55rem !important;
+  }
+
+  .map-audio-control {
+    margin-bottom: 0;
+  }
+
+  .map-nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding-top: 0;
+  }
+
+  .map-top-controls .touch-target {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+
+  .map-top-controls img {
+    width: 1.95rem !important;
+    height: 1.95rem !important;
+    max-width: 1.95rem;
+    max-height: 1.95rem;
+  }
+}
+
+@media (max-width: 22.499rem) {
+  .map-player-plaque {
+    padding-inline: 0.6rem;
+  }
+
+  .map-player-avatar {
+    width: 2.45rem !important;
+    height: 2.45rem !important;
+  }
+
+  .map-player-identity {
+    gap: 0.45rem;
+  }
+
+  .map-world-title .crash-chapter-title {
+    font-size: clamp(1.8rem, 8vw, 2rem);
+  }
+
+  .map-player-meta {
+    font-size: 0.64rem;
+  }
+
+  .map-chapter-badge {
+    min-width: 3.15rem;
+    padding-inline: 0.45rem;
+  }
+
+  .map-chapter-badge span {
+    font-size: 0.9rem;
+  }
+}
+
 @media (min-width: 48rem) and (max-width: 90rem) and (orientation: landscape) {
   .chapter2-family-tree-card {
     width: min(100% - 20px, clamp(52rem, 80vw, 64rem));

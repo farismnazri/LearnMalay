@@ -105,40 +105,45 @@ export default function MapPage() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-5xl">
-        <div className="flex flex-wrap items-start justify-between gap-2.5 phone-lg:gap-3">
+        <div className="map-mobile-header flex flex-wrap items-start justify-between gap-2.5 phone-lg:gap-3">
           <div
-            className="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-cover bg-center bg-no-repeat p-3.5 shadow-[0_20px_55px_rgba(0,0,0,0.45)] phone-lg:p-4 xl:p-5"
+            className="map-player-plaque relative w-full max-w-2xl overflow-hidden rounded-3xl bg-cover bg-center bg-no-repeat p-3.5 shadow-[0_20px_55px_rgba(0,0,0,0.45)] phone-lg:p-4 xl:p-5"
             style={{ backgroundImage: "url('/assets/borders/Worldmap.png')" }}
           >
             <div className="absolute inset-0 bg-[#1b2f20]/38" />
-            <div className="relative z-10 pl-1 phone-lg:pl-2.5 sm:pl-3">
+            <div className="map-player-plaque-inner relative z-10 pl-1 phone-lg:pl-2.5 sm:pl-3">
               <div className="mx-1 w-[calc(100%-2rem)]">
-                <div className="flex items-center justify-between gap-2.5 phone-lg:gap-3">
-                  <div className="flex min-w-0 flex-1 items-center gap-2.5 phone-lg:gap-3">
+                <div className="map-player-plaque-main flex items-center justify-between gap-2.5 phone-lg:gap-3">
+                  <div className="map-player-identity flex min-w-0 flex-1 items-center gap-2.5 phone-lg:gap-3">
                     <Image
                       src={getProfileAvatarSrc(user.avatarId)}
                       alt={`${user.name} avatar`}
                       width={60}
                       height={60}
-                      className="h-14 w-14 rounded-full border-2 border-[#f8da72]/75 bg-white/95 object-cover shadow-lg"
+                      className="map-player-avatar h-14 w-14 rounded-full border-2 border-[#f8da72]/75 bg-white/95 object-cover shadow-lg"
                     />
 
-                    <div className="min-w-0">
-                      <StylizedTitle title="WORLD MAP" />
-                      <p className="mt-1 text-xs font-bold text-[#eef8da] phone-lg:text-sm">
-                        Explorer: <span className="text-[#ffe98e]">{user.name}</span> • Current Chapter:{" "}
-                        <span className="text-[#ffe98e]">{currentChapter}</span>
+                    <div className="map-player-copy min-w-0">
+                      <StylizedTitle title="WORLD MAP" className="map-world-title" />
+                      <p className="map-player-meta mt-1 text-xs font-bold text-[#eef8da] phone-lg:text-sm">
+                        <span className="map-player-meta-item">
+                          Explorer: <span className="text-[#ffe98e]">{user.name}</span>
+                        </span>
+                        <span className="map-player-meta-separator"> • </span>
+                        <span className="map-player-meta-item">
+                          Current Chapter: <span className="text-[#ffe98e]">{currentChapter}</span>
+                        </span>
                       </p>
                     </div>
                   </div>
-                  <div className="flex min-h-[66px] items-center justify-center rounded-xl border border-[#88a967]/80 bg-gradient-to-b from-[#4f733a]/95 via-[#345c34]/95 to-[#274a2d]/95 px-4 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_-2px_0_rgba(0,0,0,0.2)] phone-lg:min-h-[74px] phone-lg:px-5">
+                  <div className="map-chapter-badge flex min-h-[66px] items-center justify-center rounded-xl border border-[#88a967]/80 bg-gradient-to-b from-[#4f733a]/95 via-[#345c34]/95 to-[#274a2d]/95 px-4 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_-2px_0_rgba(0,0,0,0.2)] phone-lg:min-h-[74px] phone-lg:px-5">
                     <span className="whitespace-nowrap text-xl font-black leading-none tracking-wide text-[#fff7d6] phone-lg:text-2xl">
                       {unlockedCount}/{totalChapters}
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-2 flex justify-end">
+                <div className="map-mode-badges mt-2 flex justify-end">
                   {isAdminMode && (
                     <span className="rounded-full border border-rose-300/70 bg-rose-100 px-3 py-0.5 text-[11px] font-black tracking-wide text-rose-900">
                       ADMIN MODE
@@ -151,7 +156,7 @@ export default function MapPage() {
                   )}
                 </div>
 
-                <div className="mt-2.5 flex items-center gap-2">
+                <div className="map-progress-row mt-2.5 flex items-center gap-2">
                   <span className="inline-flex h-5 min-w-[44px] items-center justify-center rounded-md border border-[#3f642c] bg-[#6f9f3f] px-2 text-[11px] font-black leading-none text-[#fff7d6] shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
                     {completionPct}%
                   </span>
@@ -167,12 +172,15 @@ export default function MapPage() {
           </div>
 
           {/* TOP RIGHT CONTROLS */}
-          <div className="w-full rounded-2xl border border-[#c6dca8]/45 bg-[#163726]/75 p-3 shadow-xl backdrop-blur-md md:w-auto md:shrink-0 xl:p-4">
-            <div className="mb-2.5">
-              <BackgroundAudioControls />
+          <div className="map-top-controls w-full rounded-2xl border border-[#c6dca8]/45 bg-[#163726]/75 p-3 shadow-xl backdrop-blur-md md:w-auto md:shrink-0 xl:p-4">
+            <div className="map-audio-control mb-2.5">
+              <BackgroundAudioControls
+                variant="icon"
+                iconClassName="brightness-0 invert"
+              />
             </div>
 
-            <div className="grid grid-cols-2 gap-2 pt-1 md:flex md:gap-3">
+            <div className="map-nav-icons grid grid-cols-2 gap-2 pt-1 md:flex md:gap-3">
               <IconActionLink
                 href="/minigames"
                 kind="minigames"
