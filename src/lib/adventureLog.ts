@@ -16,6 +16,43 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.13.0",
+    date: "2026-06-20",
+    headline: {
+      ms: "Learn Malay kini lebih selesa digunakan pada iPhone",
+      en: "Learn Malay is now more comfortable on iPhone",
+      es: "Learn Malay ahora es mas comodo en iPhone",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah panduan ringkas untuk memasang Learn Malay pada skrin utama iPhone daripada Safari.",
+          en: "Added a simple guide for adding Learn Malay to the iPhone home screen from Safari.",
+          es: "Se agrego una guia sencilla para poner Learn Malay en la pantalla de inicio del iPhone desde Safari.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Halaman utama, panel pengguna, peta, dan bab kini mempunyai ruang yang lebih kemas supaya lebih mudah dibaca dan disentuh pada telefon.",
+          en: "The landing page, user panels, map, and chapters now have cleaner spacing so they are easier to read and tap on phones.",
+          es: "La pagina principal, los paneles de usuario, el mapa y los capitulos ahora tienen mejor espacio para leer y tocar con mas facilidad en telefonos.",
+        },
+        {
+          ms: "Kawalan bab pada telefon kini lebih mudah dicapai, termasuk butang bunyi, peta, Replay Intro, kemajuan halaman, pilihan bahasa, dan Prev/Next bawah.",
+          en: "Chapter controls on phones are now easier to reach, including sound, map, Replay Intro, page progress, language choice, and bottom Prev/Next buttons.",
+          es: "Los controles de capitulos en telefonos ahora son mas faciles de usar, incluidos sonido, mapa, Replay Intro, progreso de pagina, idioma y botones Prev/Next abajo.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Popup Aku-Aku dan plak peta/bab kini lebih kemas pada skrin kecil, dengan tindakan penting kekal lebih jelas.",
+          en: "Aku-Aku popups and map/chapter plaques now fit small screens more cleanly, with important actions staying clearer.",
+          es: "Las ventanas de Aku-Aku y las placas del mapa/capitulo ahora caben mejor en pantallas pequenas, con acciones importantes mas claras.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.12.0",
     date: "2026-06-17",
     headline: {

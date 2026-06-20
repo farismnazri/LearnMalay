@@ -1,7 +1,7 @@
 # Learn Malay Product Roadmap
 
-Updated: 2026-06-17
-Current version baseline: `0.12.0`
+Updated: 2026-06-20
+Current version baseline: `0.13.0`
 
 ## Purpose
 `ROADMAP.md` is the maintainer-facing planning and execution doc.
@@ -51,6 +51,7 @@ It does **not** replace release notes.
 
 ### 3) Mobile, Responsive, And Visual Stabilization
 - Completed mobile roadmap execution (responsive/touch hardening across major routes and minigames).
+- Shipped the `0.13.0` mobile adaptation release for iPhone portrait usability across landing, user, map, chapter, PWA, and Aku-Aku surfaces.
 - Ran and stored Phase 6 mobile QA report coverage for core user flow and minigame checks.
 - Refined iPad Safari/title/chapter layouts and minigame readability on constrained viewports.
 - Unified app-wide page background behavior to chapter-style scenic layer treatment.
@@ -74,12 +75,6 @@ It does **not** replace release notes.
      - Chapter 9 and Chapter 10 placeholder visuals are replaced with final assets.
      - A quick chapter content QA pass confirms no obvious placeholder copy/media remains in published chapter flow.
      - Visual/copy updates are reflected in the next release notes without version-drift.
-
-2. Goal: Finish outstanding mobile roadmap release closure.
-   - Why: Roadmap still showed incomplete ship/monitor closure language from earlier mobile plan.
-   - Done when:
-     - Mobile completion status is explicitly closed in roadmap/release notes for the shipped baseline.
-     - Any critical regression from current mobile pass is patched or documented as deferred.
 
 ### Next
 1. Goal: Add repeatable release and QA automation.

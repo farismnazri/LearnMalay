@@ -2,6 +2,22 @@
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-06-20
+
+### Added
+- Added iPhone add-to-home-screen guidance so mobile learners can install the app from Safari more easily.
+
+### Changed
+- Adapted the landing page, user auth panels, map screen, and chapter screens for better iPhone portrait readability and touch spacing.
+- Tightened chapter mobile navigation into a one-line control bar with sound/map controls, clearer Replay Intro and page-progress placement, aligned language switching, and persistent bottom Prev/Next controls.
+- Optimized the Aku-Aku popup and chapter/map plaque layouts so important actions stay visible on smaller mobile screens.
+
+### Fixed
+- Reduced cramped spacing on landing and user panels, mobile map navigation, and chapter lesson surfaces so phone layouts feel steadier and easier to scan.
+
+### Internal
+- Stopped tracking local ChatGPT context files as repository content.
+
 ## [0.12.0] - 2026-06-17
 
 ### Changed
