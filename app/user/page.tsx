@@ -353,13 +353,9 @@ export default function UserSelectPage() {
       <div className="user-page-content relative z-10 mx-auto max-w-4xl">
         <div className="user-page-header flex flex-col items-start justify-between gap-3 phone-lg:flex-row phone-lg:gap-4">
           <div className="min-w-0 text-left">
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#f6f3d8]/75">Learn Malay</p>
-            <h1 className="crash-text crash-outline-fallback mt-2 text-4xl font-black leading-none phone-lg:text-5xl md:text-6xl">
-              PLAYER LOGIN
-            </h1>
-            <p className="mt-3 max-w-xl text-sm font-semibold text-[#f2edd4]/90">
-              Sign in if you already have an account, or create a new one to start learning.
-            </p>
+          <h1 className="crash-text crash-outline-fallback mt-2 !text-[3rem] font-black leading-none phone-lg:!text-[4.8rem] md:!text-[4.5rem]">
+            PLAYER LOGIN
+          </h1>
           </div>
 
           <IconActionLink href="/" kind="home" tooltip="Back to Home" iconClassName="brightness-0 invert" />
@@ -371,8 +367,8 @@ export default function UserSelectPage() {
               className="user-auth-panel mx-auto w-full bg-[length:100%_100%] bg-center bg-no-repeat px-0 py-6"
               style={semiWidePlankStyle}
             >
-              <div className="mx-auto w-[92%] px-1 pb-4 phone-lg:w-[86%] phone-lg:px-2 sm:w-[82%] sm:px-3">
-                <div className="flex justify-center">
+              <div className="user-auth-panel-inner mx-auto w-[92%] px-1 pb-4 phone-lg:w-[86%] phone-lg:px-2 sm:w-[82%] sm:px-3">
+                <div className="user-auth-panel-tabs flex justify-center">
                   <div className="inline-flex rounded-2xl border border-[#8f5e31]/45 bg-[#f4d6a1]/90 p-1">
                     <button
                       type="button"
@@ -381,7 +377,7 @@ export default function UserSelectPage() {
                         setErr(null);
                       }}
                       className={[
-                        "touch-target rounded-xl px-4 py-2 text-sm font-black transition",
+                        "user-auth-panel-tab touch-target rounded-xl px-4 py-2 text-sm font-black transition",
                         mode === "login"
                           ? "bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] text-[#f3ffe9] shadow-[0_4px_10px_rgba(22,91,42,0.35)]"
                           : "text-[#4a2f15]/85 hover:text-[#2f1909]",
@@ -396,7 +392,7 @@ export default function UserSelectPage() {
                         setErr(null);
                       }}
                       className={[
-                        "touch-target rounded-xl px-4 py-2 text-sm font-black transition",
+                        "user-auth-panel-tab touch-target rounded-xl px-4 py-2 text-sm font-black transition",
                         mode === "create"
                           ? "bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] text-[#f3ffe9] shadow-[0_4px_10px_rgba(22,91,42,0.35)]"
                           : "text-[#4a2f15]/85 hover:text-[#2f1909]",
@@ -407,20 +403,20 @@ export default function UserSelectPage() {
                   </div>
                 </div>
 
-                <div className="mt-5 grid gap-3">
-                  <label className="grid gap-2">
+                <div className="user-auth-panel-form mt-5 grid gap-3">
+                  <label className="user-auth-panel-field grid gap-2">
                     <span className="text-xs font-black uppercase text-center tracking-wide text-[#000000]/85">Username</span>
                     <input
                       value={name}
                       onChange={(e) => setNameInput(e.target.value)}
                       autoComplete="username"
-                      className="w-full rounded-2xl border border-[#9d6e44]/70 bg-[#fff8e7] px-4 py-3 text-sm font-bold text-[#2d1c0d] outline-none placeholder:text-[#91745a] focus:border-[#d28f45]"
+                      className="user-auth-panel-input w-full rounded-2xl border border-[#9d6e44]/70 bg-[#fff8e7] px-4 py-3 text-sm font-bold text-[#2d1c0d] outline-none placeholder:text-[#91745a] focus:border-[#d28f45]"
                       placeholder="Enter your username"
                       maxLength={32}
                     />
                   </label>
 
-                  <label className="grid gap-2">
+                  <label className="user-auth-panel-field grid gap-2">
                     <span className="text-xs font-black text-center uppercase tracking-wide text-[#000000]/85">
                       Password {mode === "login" && isAdminName(cleanName) ? "(admin popup)" : ""}
                     </span>
@@ -429,18 +425,18 @@ export default function UserSelectPage() {
                       onChange={(e) => setPasswordInput(e.target.value)}
                       autoComplete={mode === "login" ? "current-password" : "new-password"}
                       type="password"
-                      className="w-full rounded-2xl border border-[#9d6e44]/70 bg-[#fff8e7] px-4 py-3 text-sm font-bold text-[#2d1c0d] outline-none placeholder:text-[#91745a] focus:border-[#d28f45]"
+                      className="user-auth-panel-input w-full rounded-2xl border border-[#9d6e44]/70 bg-[#fff8e7] px-4 py-3 text-sm font-bold text-[#2d1c0d] outline-none placeholder:text-[#91745a] focus:border-[#d28f45]"
                       placeholder={mode === "create" ? "Set any password" : "Enter your password"}
                       maxLength={256}
                     />
                   </label>
 
                   {mode === "create" && (
-                    <div className="grid gap-2">
-                      <span className="text-xs font-black uppercase tracking-wide text-[#533417]/85">
+                    <div className="user-auth-panel-icons grid gap-2">
+                      <span className="user-auth-panel-icons-title text-xs font-black uppercase tracking-wide text-[#533417]/85">
                         Choose Your Icon
                       </span>
-                      <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
+                      <div className="user-auth-panel-avatar-grid grid grid-cols-3 gap-2 sm:grid-cols-6">
                         {PROFILE_AVATARS.map((avatar) => {
                           const selected = avatar.id === avatarId;
                           return (
@@ -449,7 +445,7 @@ export default function UserSelectPage() {
                               type="button"
                               onClick={() => setAvatarId(avatar.id)}
                               className={[
-                                "rounded-2xl border p-2 transition",
+                                "user-auth-panel-avatar-card rounded-2xl border p-2 transition",
                                 selected
                                   ? "border-[#b3743c] bg-[#ffe2b6]"
                                   : "border-[#a5774f]/65 bg-[#fff8e7] hover:border-[#b3743c]",
@@ -461,9 +457,9 @@ export default function UserSelectPage() {
                                 alt={avatar.label}
                                 width={56}
                                 height={56}
-                                className="mx-auto h-12 w-12 rounded-full object-cover"
+                                className="user-auth-panel-avatar-image mx-auto h-12 w-12 rounded-full object-cover"
                               />
-                              <div className="mt-1 text-center text-[11px] font-black text-[#3e230c]">
+                              <div className="user-auth-panel-avatar-label mt-1 text-center text-[11px] font-black text-[#3e230c]">
                                 {avatar.label}
                               </div>
                             </button>
@@ -484,7 +480,7 @@ export default function UserSelectPage() {
                   type="button"
                   onClick={handleAuthSubmit}
                   disabled={isActionDisabled}
-                  className="touch-target mt-4 w-full rounded-2xl bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] px-5 py-3 text-sm font-black text-[#f3ffe9] shadow-lg transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="user-auth-panel-submit touch-target mt-4 w-full rounded-2xl bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] px-5 py-3 text-sm font-black text-[#f3ffe9] shadow-lg transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {submitting ? "Please wait..." : mode === "login" ? "Login" : "Create Account"}
                 </button>
