@@ -358,25 +358,69 @@ export default function ChapterPage() {
         title="Aku-Aku"
       />
 
-      <div className="relative z-10 mx-auto max-w-5xl">
+      <div className="relative z-10 mx-auto max-w-5xl pb-24 md:pb-0">
         {/* top bar */}
         <div className="grid items-start gap-4 md:grid-cols-[minmax(0,1fr)_16rem] md:gap-5 lg:grid-cols-[minmax(0,1fr)_16.5rem]">
           <div className="min-w-0 md:pr-1">
             <ChapterTitleHeader chapterId={content.id} title={titleMs} />
 
             {lang !== "ms" && <div className="mt-1 text-lg font-extrabold text-white/90">{titleTrans}</div>}
-
-            {totalPages > 0 && (
-              <div className="mt-2 text-sm font-semibold text-white/80">
-                Page {safeIdx + 1} / {totalPages}
-              </div>
-            )}
           </div>
 
           {/* user card */}
-          <div className="w-full max-w-sm rounded-2xl bg-white/85 p-3 shadow md:w-64 md:max-w-none md:justify-self-end">
+          <div className="w-full rounded-2xl bg-white/90 p-2 shadow backdrop-blur md:w-64 md:max-w-none md:justify-self-end md:bg-white/85 md:p-3">
+            <div className="grid grid-cols-[2.75rem_2.75rem_minmax(4.5rem,1fr)_7.5rem] items-center gap-1.5 md:hidden">
+              <BackgroundAudioControls
+                className="[&>button]:h-11 [&>button]:w-11"
+                buttonClassName="rounded-xl bg-[#fffaf0] shadow ring-2 ring-[#e7d5ad]"
+                iconClassName="h-8 w-8"
+              />
 
-            <div className="grid grid-cols-3 gap-2">
+              <IconActionLink
+                href="/map"
+                kind="map"
+                tooltip="Back to Map"
+                className="h-11 w-11 rounded-xl bg-[#fffaf0] shadow ring-2 ring-[#e7d5ad]"
+                iconClassName="h-9 w-9 brightness-0"
+              />
+
+              {safeIdx === 0 ? (
+                <button
+                  onClick={() => setShowIntro(true)}
+                  className="touch-target h-11 min-w-0 rounded-xl border-2 border-[#b98118] bg-amber-300 px-2 text-sm font-black shadow"
+                  title="Show Aku-Aku intro again"
+                >
+                  <span className="block truncate">Replay Intro</span>
+                </button>
+              ) : (
+                <div className="flex h-11 min-w-0 items-center justify-center rounded-xl bg-white/70 px-2 text-base font-black text-black/65">
+                  {safeIdx + 1}/{totalPages}
+                </div>
+              )}
+
+              <div className="grid h-11 grid-cols-3 overflow-hidden rounded-xl border-2 border-[#e0cfaa] bg-white shadow">
+                <button
+                  onClick={() => pickLang("ms")}
+                  className={`min-w-10 px-2 text-xs font-black ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
+                >
+                  BM
+                </button>
+                <button
+                  onClick={() => pickLang("en")}
+                  className={`min-w-10 border-x border-[#ddd7ca] px-2 text-xs font-black ${lang === "en" ? "bg-amber-300" : "bg-white"}`}
+                >
+                  EN
+                </button>
+                <button
+                  onClick={() => pickLang("es")}
+                  className={`min-w-10 px-2 text-xs font-black ${lang === "es" ? "bg-amber-300" : "bg-white"}`}
+                >
+                  ES
+                </button>
+              </div>
+            </div>
+
+            <div className="hidden grid-cols-3 gap-2 md:grid">
               <button
                 onClick={() => pickLang("ms")}
                 className={`touch-target rounded-full px-3 py-1 text-sm font-black shadow ${lang === "ms" ? "bg-amber-300" : "bg-white"}`}
@@ -397,7 +441,7 @@ export default function ChapterPage() {
               </button>
             </div>
 
-            <div className="mt-2 grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2">
+            <div className="mt-2 hidden grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 md:grid">
               <button
                 onClick={() => setShowIntro(true)}
                 className="touch-target rounded-xl bg-amber-300 px-2.5 py-2 text-xs font-black shadow"
@@ -422,7 +466,7 @@ export default function ChapterPage() {
 
             {/* page navigation */}
             {totalPages > 0 && (
-              <div className="mt-3 grid grid-cols-2 gap-2">
+              <div className="mt-3 hidden grid-cols-2 gap-2 md:grid">
                 <button
                   onClick={prevPage}
                   disabled={safeIdx === 0}
@@ -443,7 +487,7 @@ export default function ChapterPage() {
         </div>
 
         {/* PAGE CONTENT */}
-        <div className="mt-8 grid gap-5">
+        <div className="mt-4 md:mt-8 grid gap-5">
           {!currentPage ? (
             <div className="rounded-3xl bg-white/90 p-6 shadow-xl">No pages yet.</div>
           ) : (
@@ -524,6 +568,27 @@ export default function ChapterPage() {
           </section>
         )}
       </div>
+
+      {totalPages > 0 && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/40 bg-white/80 px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] shadow-[0_-8px_20px_rgba(0,0,0,0.18)] backdrop-blur md:hidden">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-2">
+            <button
+              onClick={prevPage}
+              disabled={safeIdx === 0}
+              className="touch-target rounded-xl bg-white px-3 py-2 text-sm font-bold shadow disabled:opacity-50"
+            >
+              Prev
+            </button>
+            <button
+              onClick={nextPage}
+              disabled={safeIdx >= totalPages - 1 || !currentPageComplete}
+              className="touch-target rounded-xl bg-emerald-600 px-3 py-2 text-sm font-black text-white shadow disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

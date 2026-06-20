@@ -53,7 +53,7 @@ export default function AkuAkuPopup({ open, onClose, dialogs, title }: Props) {
   }
 
 return (
-  <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
+  <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
     <div
       className="absolute inset-0 bg-black/50"
       onClick={onClose}
@@ -61,21 +61,21 @@ return (
     />
 
     {/* WRAPPER: relative so the character can overlap */}
-    <div className="relative w-full max-w-3xl">
-      {/* CHARACTER (overlapping, bigger, left) */}
-    <div className="pointer-events-none absolute -left-20 -top-10 z-10 sm:-left-[150px] sm:-top-[140px]">
+    <div className="relative w-full max-w-xl sm:max-w-3xl">
+      {/* CHARACTER (smaller on mobile, overlapping on larger screens) */}
+    <div className="pointer-events-none absolute left-3 top-3 z-10 sm:-left-[150px] sm:-top-[140px]">
         <Image
           src="/assets/characters/Akuaku_idle.png"
           alt="Aku-Aku"
           width={300}
           height={300}
-          className="select-none drop-shadow-2xl"
+          className="h-auto w-24 select-none drop-shadow-2xl sm:w-[300px]"
           priority
         />
       </div>
 
       {/* CARD (shift right so text doesn't collide with character) */}
-      <div className="relative rounded-3xl bg-white/90 p-5 pl-28 shadow-2xl backdrop-blur sm:pl-36">
+      <div className="relative max-h-[82dvh] overflow-y-auto rounded-2xl bg-white/90 p-4 pl-28 shadow-2xl backdrop-blur sm:max-h-none sm:overflow-visible sm:rounded-3xl sm:p-5 sm:pl-36">
         <div className="flex items-start justify-between gap-3">
           <div>
             <div className="text-sm font-extrabold opacity-80">
