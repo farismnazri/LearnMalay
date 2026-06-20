@@ -137,7 +137,7 @@ export default function TitleScreen() {
         <footer className="title-screen-footer mt-auto w-full px-0 pt-6 text-center">
           <p className="text-xs font-black tracking-[0.22em] text-[#f8efcb]/88">By FN for NF ❤︎</p>
 
-          <div className="mx-auto mt-2 grid w-full max-w-[64rem] gap-2 md:grid-cols-[minmax(0,1fr)_minmax(0,46rem)_auto] md:items-center md:gap-3">
+          <div className="mx-auto mt-2 grid w-full max-w-[64rem] gap-2 md:grid-cols-[minmax(0,1fr)_minmax(0,34rem)_auto] md:items-center md:gap-3">
             <div className="hidden md:block" aria-hidden="true" />
 
             <div className="min-w-0">
@@ -147,7 +147,7 @@ export default function TitleScreen() {
                   onClick={() => setAckOpen((open) => !open)}
                   aria-expanded={ackOpen}
                   aria-controls="title-screen-acknowledgement"
-                  className="w-full px-2 py-2 text-center text-[10px] font-medium leading-[1.45] text-[#2c392f] transition duration-200 active:scale-[0.995] sm:px-3 sm:text-[10.5px] md:px-4 md:text-[11px] md:leading-[1.35] md:whitespace-nowrap"
+                  className="w-full px-2 py-2 text-center text-[10px] font-medium leading-[1.45] text-[#2c392f] transition duration-200 active:scale-[0.995] sm:px-3 sm:text-[10.5px] md:px-4 md:text-[10.5px] md:leading-[1.35] md:whitespace-normal lg:text-[11px]"
                 >
                   Acknowledgement: This app and its lesson flow were inspired by Bahasa Melayu untuk
                   Penutur Asing: Tahap Asas by Yusmaniza Mohd Yusoff.
