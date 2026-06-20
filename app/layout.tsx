@@ -3,6 +3,7 @@ import { crashFont } from "@/lib/fonts";
 import type { Metadata, Viewport } from "next";
 
 import BackgroundAudio from "@/components/game/BackgroundAudio";
+import AddToHomeScreenPrompt from "@/components/game/AddToHomeScreenPrompt";
 
 export const metadata: Metadata = {
   applicationName: "Learn Malay",
@@ -34,6 +35,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${crashFont.variable} antialiased`}>
         <BackgroundAudio src="/assets/audio/bgm.m4a" showControls={false} />
+        <AddToHomeScreenPrompt />
         {children}
       </body>
     </html>
