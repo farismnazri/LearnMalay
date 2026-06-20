@@ -344,15 +344,15 @@ export default function UserSelectPage() {
     submitting || !cleanName || (mode === "create" && (!cleanPassword || !usernameSafety.ok));
 
   return (
-    <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad text-[#fbf7e8]">
+    <main className="chapter-page-shell user-page-shell relative min-h-screen overflow-x-hidden app-page-pad text-[#fbf7e8]">
       <div className="chapter-viewport-bg" aria-hidden="true">
-        <div className="chapter-viewport-bg-image landing-page-bg-image" />
+        <div className="chapter-viewport-bg-image landing-page-bg-image landing-user-mobile-bg-image" />
         <div className="chapter-viewport-bg-fade" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-4xl">
-        <div className="flex flex-col items-start justify-between gap-3 phone-lg:flex-row phone-lg:gap-4">
-          <div className="min-w-0">
+      <div className="user-page-content relative z-10 mx-auto max-w-4xl">
+        <div className="user-page-header flex flex-col items-start justify-between gap-3 phone-lg:flex-row phone-lg:gap-4">
+          <div className="min-w-0 text-left">
             <p className="text-xs font-black uppercase tracking-[0.3em] text-[#f6f3d8]/75">Learn Malay</p>
             <h1 className="crash-text crash-outline-fallback mt-2 text-4xl font-black leading-none phone-lg:text-5xl md:text-6xl">
               PLAYER LOGIN
@@ -365,10 +365,10 @@ export default function UserSelectPage() {
           <IconActionLink href="/" kind="home" tooltip="Back to Home" iconClassName="brightness-0 invert" />
         </div>
 
-        <div className="mt-6 grid gap-4 phone-lg:gap-6 lg:grid-cols-[1.12fr_0.88fr]">
-          <section className="text-[#2a1708]">
+        <div className="user-page-grid mt-6 grid gap-4 phone-lg:gap-6 lg:grid-cols-[1.12fr_0.88fr]">
+          <section className={["text-[#2a1708]", me ? "hidden md:block" : ""].join(" ")}>
             <div
-              className="mx-auto w-full bg-[length:100%_100%] bg-center bg-no-repeat px-0 py-6"
+              className="user-auth-panel mx-auto w-full bg-[length:100%_100%] bg-center bg-no-repeat px-0 py-6"
               style={semiWidePlankStyle}
             >
               <div className="mx-auto w-[92%] px-1 pb-4 phone-lg:w-[86%] phone-lg:px-2 sm:w-[82%] sm:px-3">
@@ -492,33 +492,44 @@ export default function UserSelectPage() {
             </div>
           </section>
 
-          <section className="space-y-3 phone-lg:space-y-4">
+          <section className={["user-status-panel space-y-3 phone-lg:space-y-4", !me ? "hidden md:block" : ""].join(" ")}>
             <div
-              className="relative overflow-hidden rounded-2xl bg-[length:105%_100%] bg-center bg-no-repeat px-4 py-4 text-[#2a1708]"
+              className="user-active-card relative overflow-hidden rounded-2xl bg-[length:105%_100%] bg-center bg-no-repeat px-4 py-4 text-[#2a1708]"
               style={longPlankStyle}
             >
-              <div className="flex flex-col items-start gap-3 phone-lg:flex-row phone-lg:items-center">
-                <div className="h-[68px] w-[68px] shrink-0 rounded-full bg-[#fff8e8]/95 p-[10px] shadow-[inset_0_0_0_2px_rgba(255,255,255,0.65),0_6px_14px_rgba(0,0,0,0.2)] phone-lg:h-[76px] phone-lg:w-[76px]">
-                  <Image
-                    src={getProfileAvatarSrc(me?.avatarId ?? DEFAULT_USER_AVATAR_ID)}
-                    alt={me ? `${me.name} avatar` : "Default avatar"}
-                    width={56}
-                    height={56}
-                    className="h-full w-full rounded-full object-cover"
-                  />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#633f1f]/80">Active User</div>
-                  <div className="mt-0.5 truncate text-xl font-black text-[#2c1808] phone-lg:text-2xl">
-                    {me ? me.name : "NO ACTIVE USER"}
-                    {isAdmin(me) ? <span className="ml-2 text-sm text-[#7c2f1d]">ADMIN</span> : null}
-                    {isDemo(me) ? <span className="ml-2 text-sm text-[#7c5a1d]">DEMO</span> : null}
+              <div className="flex flex-col gap-3 phone-lg:flex-row phone-lg:items-center phone-lg:justify-between">
+                <div className="flex min-w-0 flex-col items-center gap-3 phone-lg:flex-row phone-lg:items-center">
+                  <div className="h-[68px] w-[68px] shrink-0 rounded-full bg-[#fff8e8]/95 p-[10px] shadow-[inset_0_0_0_2px_rgba(255,255,255,0.65),0_6px_14px_rgba(0,0,0,0.2)] phone-lg:h-[76px] phone-lg:w-[76px]">
+                    <Image
+                      src={getProfileAvatarSrc(me?.avatarId ?? DEFAULT_USER_AVATAR_ID)}
+                      alt={me ? `${me.name} avatar` : "Default avatar"}
+                      width={56}
+                      height={56}
+                      className="h-full w-full rounded-full object-cover"
+                    />
+                  </div>
+                  <div className="min-w-0 text-center phone-lg:text-left">
+                    <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#633f1f]/80">Active User</div>
+                    <div className="mt-0.5 truncate text-xl font-black text-[#2c1808] phone-lg:text-2xl">
+                      {me ? me.name : "NO ACTIVE USER"}
+                      {isAdmin(me) ? <span className="ml-2 text-sm text-[#7c2f1d]">ADMIN</span> : null}
+                      {isDemo(me) ? <span className="ml-2 text-sm text-[#7c5a1d]">DEMO</span> : null}
+                    </div>
                   </div>
                 </div>
+                {me ? (
+                  <button
+                    type="button"
+                    onClick={handleSwitchUser}
+                    className="touch-target mx-auto w-full rounded-xl border border-[#bfe6a8]/70 bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] px-4 py-2 text-sm font-black text-[#f3ffe9] shadow-[0_4px_10px_rgba(22,91,42,0.28)] phone-lg:mx-0 phone-lg:w-auto md:hidden"
+                  >
+                    Sign Out
+                  </button>
+                ) : null}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-3 phone-lg:grid-cols-[1fr_auto]">
+            <div className="user-progress-grid grid grid-cols-1 gap-3 md:grid-cols-[1fr_auto]">
               <div
                 className="relative overflow-hidden rounded-xl bg-[length:100%_108%] bg-center bg-no-repeat px-3 py-2 text-[#2a1708]"
                 style={shortPlankStyle}
@@ -538,7 +549,7 @@ export default function UserSelectPage() {
                 className="relative overflow-hidden rounded-xl bg-[length:100%_100%] bg-center bg-no-repeat px-2 py-2 text-[#2a1708]"
                 style={squarePlankStyle}
               >
-                <div className="flex min-h-[110px] w-full flex-col items-center justify-center text-center phone-lg:w-[110px] sm:min-h-[120px] sm:w-[120px]">
+                <div className="flex min-h-[110px] w-full flex-col items-center justify-center text-center sm:min-h-[120px] md:w-[120px]">
                   <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#7a4d27]/85">Progress</div>
                   <div className="mt-1 text-4xl font-black leading-none text-[#2c1808]">{progressPct}%</div>
                 </div>
@@ -546,7 +557,7 @@ export default function UserSelectPage() {
             </div>
 
             {me ? (
-              <div className="flex flex-col gap-2 phone-lg:flex-row phone-lg:flex-wrap">
+              <div className="hidden flex-col gap-2 md:flex md:flex-row md:flex-wrap">
                 <Link
                   href="/map"
                   className="touch-target w-full rounded-xl bg-[#f3b14f] px-4 py-2 text-sm font-black text-[#3f230a] phone-lg:w-auto"
@@ -577,13 +588,13 @@ export default function UserSelectPage() {
             ) : null}
 
             {!canManageUsers(me) && (
-              <div className="text-xs font-semibold text-[#f2e3c8]">
+              <div className="hidden text-xs font-semibold text-[#f2e3c8] md:block">
                 Enter your username and password to login, or create a new account.
               </div>
             )}
 
             {canManageUsers(me) && (
-              <div className="pt-2">
+              <div className="hidden pt-2 md:block">
                 <div className="text-xs font-black uppercase tracking-[0.25em] text-[#ffd59c]/90">Manage Users</div>
                 <p className="mt-1 text-xs font-semibold text-[#f2e3c8]/95">
                   Admin view of all accounts. Passwords are hidden and never shown.

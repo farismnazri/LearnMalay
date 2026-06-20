@@ -148,6 +148,18 @@ body {
   );
 }
 
+@media (max-width: 47.999rem) {
+  .landing-user-mobile-bg-image {
+    background-image: url("/assets/backgrounds/landingpage_user_background_mobile.png");
+    background-position: center top;
+    background-size: cover;
+  }
+
+  .title-screen-adventure-log {
+    display: none;
+  }
+}
+
 .chapter-viewport-bg-fade {
   position: absolute;
   inset: 0;
@@ -217,10 +229,80 @@ body {
   min-height: 100dvh;
 }
 
+@media (max-width: 47.999rem) {
+  .landing-audio-control {
+    right: max(0.75rem, var(--safe-area-right));
+    top: max(0.75rem, var(--safe-area-top));
+  }
+
+  .title-screen-logo {
+    width: min(86vw, 23rem) !important;
+  }
+
+  .title-screen-user-plaque {
+    margin-top: clamp(0.75rem, 2.4dvh, 1.25rem);
+    max-width: min(92vw, 24rem);
+    padding-block: clamp(0.65rem, 1.8dvh, 0.95rem);
+    background-size: 100% 100% !important;
+  }
+
+  .title-screen-actions {
+    margin-top: clamp(0.85rem, 2.4dvh, 1.35rem);
+    width: min(88vw, 24rem);
+    gap: clamp(0.35rem, 1.4dvh, 0.75rem);
+  }
+
+  .title-screen-footer {
+    padding-bottom: max(0.75rem, var(--safe-area-bottom));
+  }
+
+  .user-page-shell {
+    padding-top: max(1rem, var(--safe-area-top));
+    padding-bottom: max(1.25rem, var(--safe-area-bottom));
+  }
+
+  .user-page-content {
+    width: min(100%, 30rem);
+  }
+
+  .user-page-header {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .user-page-header h1 {
+    font-size: clamp(2.25rem, 10vw, 3rem);
+  }
+
+  .user-page-grid {
+    margin-top: clamp(1.75rem, 7dvh, 4.25rem);
+  }
+
+  .user-auth-panel,
+  .user-status-panel {
+    max-width: min(92vw, 25.5rem);
+    margin-inline: auto;
+  }
+
+  .user-auth-panel {
+    padding-block: clamp(1.25rem, 3dvh, 1.75rem);
+  }
+
+  .user-auth-panel input {
+    min-height: 3.25rem;
+    font-size: 1rem;
+  }
+
+  .user-active-card,
+  .user-progress-grid > div {
+    background-size: 100% 100% !important;
+  }
+}
+
 @media (min-width: 48rem) and (max-width: 90rem) and (orientation: landscape) {
   .title-screen-stack {
     padding-top: max(4.75rem, var(--safe-area-top));
-    padding-bottom: max(calc(var(--safe-area-bottom) + 8.75rem), clamp(8rem, 17dvh, 11rem));
+    padding-bottom: max(1rem, var(--safe-area-bottom));
   }
 
   .title-screen-logo {
@@ -237,7 +319,7 @@ body {
   }
 
   .title-screen-footer {
-    bottom: max(0.75rem, var(--safe-area-bottom));
+    padding-bottom: max(0.75rem, var(--safe-area-bottom));
   }
 }
 
