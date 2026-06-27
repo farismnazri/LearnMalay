@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [0.13.1] - 2026-06-27
+
+### Added
+- Added repeatable checks that keep map chapter summaries aligned with canonical chapter metadata and make optimized PWA icon generation reproducible.
+
+### Changed
+- Reduced initial page transfer size by tightening landing-title image sizing and optimizing app/PWA icon assets.
+- Standardized runtime asset paths for Chapter 7 food artwork, profile avatars, and Misi Membeli assets.
+
+### Internal
+- Added repo-local GPT context guidance and updated the asset replacement workflow notes for maintainers.
+
 ## [0.13.0] - 2026-06-20
 
 ### Added

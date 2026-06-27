@@ -1,7 +1,7 @@
 # Learn Malay Product Roadmap
 
-Updated: 2026-06-20
-Current version baseline: `0.13.0`
+Updated: 2026-06-27
+Current version baseline: `0.13.1`
 
 ## Purpose
 `ROADMAP.md` is the maintainer-facing planning and execution doc.
@@ -65,6 +65,7 @@ It does **not** replace release notes.
 - Shipped `0.7.1` as a patch release for the Arah Jalan minigame hub visual update.
 - Added `AGENTS.md` release discipline to standardize commit/release/tag behavior.
 - Ignored local planning context folders to reduce accidental noise in release commits.
+- Shipped `0.13.1` as a patch release for page-load transfer-size optimization, reproducible chapter-summary/PWA icon checks, and runtime asset path hygiene.
 
 ## Future Lanes
 

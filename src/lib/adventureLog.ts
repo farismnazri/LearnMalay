@@ -16,6 +16,37 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.13.1",
+    date: "2026-06-27",
+    headline: {
+      ms: "Learn Malay kini memuat halaman dengan lebih ringan",
+      en: "Learn Malay now loads pages with lighter transfers",
+      es: "Learn Malay ahora carga paginas con transferencias mas ligeras",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah semakan supaya ringkasan bab peta dan ikon PWA boleh dijana semula dengan konsisten.",
+          en: "Added checks so map chapter summaries and PWA icons can be regenerated consistently.",
+          es: "Se agregaron comprobaciones para regenerar de forma consistente los resumenes de capitulos del mapa y los iconos PWA.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Mengurangkan saiz pemindahan awal halaman dengan tetapan imej tajuk dan ikon aplikasi yang lebih ringan.",
+          en: "Reduced initial page transfer size with lighter title image sizing and app icons.",
+          es: "Se redujo el tamano de transferencia inicial con ajustes de imagen de titulo e iconos de app mas ligeros.",
+        },
+        {
+          ms: "Menyeragamkan laluan aset runtime untuk karya Bab 7, avatar profil, dan Misi Membeli.",
+          en: "Standardized runtime asset paths for Chapter 7 artwork, profile avatars, and Misi Membeli.",
+          es: "Se estandarizaron las rutas de recursos runtime para el arte del Capitulo 7, avatares de perfil y Misi Membeli.",
+        },
+      ],
+      fixed: [],
+    },
+  },
+  {
     version: "0.13.0",
     date: "2026-06-20",
     headline: {
