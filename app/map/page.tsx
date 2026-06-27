@@ -7,9 +7,7 @@ import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import IconActionLink from "@/components/navigation/IconActionLink";
 import StylizedTitle from "@/components/game/StylizedTitle";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
-import {
-  CHAPTERS,
-} from "@/lib/chapters";
+import { CHAPTER_SUMMARIES } from "@/lib/chapters/summaries";
 import {
   getCurrentUser,
   type UserProfile,
@@ -36,7 +34,7 @@ function chapterToWorldLevel(chapter: number) {
 }
 
 function buildChapters(): ChapterCard[] {
-  return CHAPTERS.map((chapter) => {
+  return CHAPTER_SUMMARIES.map((chapter) => {
     const wl = chapterToWorldLevel(chapter.id);
     return {
       chapter: chapter.id,
@@ -224,7 +222,7 @@ export default function MapPage() {
                   const isCurrent = c.chapter === currentChapter;
                   const lockHint = c.chapter === 1 ? "Start here" : `Finish Chapter ${c.chapter - 1}`;
                   const unlocksMinigame = CHAPTERS_WITH_MINIGAME_UNLOCK.has(c.chapter);
-                  const chapterContent = CHAPTERS.find((chapter) => chapter.id === c.chapter);
+                  const chapterContent = CHAPTER_SUMMARIES.find((chapter) => chapter.id === c.chapter);
                   const showUpdateBadge =
                     canShowChapterUpdates &&
                     chapterContent !== undefined &&

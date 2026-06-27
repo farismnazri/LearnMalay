@@ -1,13 +1,17 @@
-import type { ChapterContent } from "./chapters";
 import type { UserProfile } from "./userStoreTypes";
 
 const FINAL_CHAPTER = 11;
+
+type ChapterRevisionInfo = {
+  id: number;
+  revision: number;
+};
 
 export function getCompletedChapterRevision(user: UserProfile | null, chapterId: number) {
   return user?.completedChapterRevisions?.[String(chapterId)] ?? 0;
 }
 
-export function hasChapterUpdate(user: UserProfile | null, chapter: ChapterContent) {
+export function hasChapterUpdate(user: UserProfile | null, chapter: ChapterRevisionInfo) {
   if (!user) return false;
   const completed = chapter.id === FINAL_CHAPTER
     ? user.progress.chapter >= FINAL_CHAPTER

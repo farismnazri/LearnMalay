@@ -6,6 +6,7 @@
     "generate:project-map": "node scripts/generate-project-map.mjs",
     "check:release-drift": "node scripts/check-release-drift.mjs",
     "check:release-metadata": "node scripts/check-release-drift.mjs --metadata-only",
+    "check:chapter-summaries": "node scripts/check-chapter-summaries.mjs",
     "release:plan": "node scripts/release.mjs plan",
     "release:publish": "node scripts/release.mjs publish",
     "dev": "next dev",

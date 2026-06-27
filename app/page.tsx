@@ -66,6 +66,7 @@ export default function TitleScreen() {
             width={1536}
             height={1024}
             priority
+            sizes="(max-width: 837px) 86vw, 720px"
             className="title-screen-logo title-drop-bounce mx-auto h-auto w-[min(86vw,720px)] select-none"
           />
 
@@ -114,6 +115,7 @@ export default function TitleScreen() {
               width={1536}
               height={1024}
               priority
+              sizes="(max-width: 767px) 100vw, 430px"
               className="h-auto w-full select-none drop-shadow-[0_10px_24px_rgba(0,0,0,0.45)]"
             />
           </button>
@@ -129,6 +131,7 @@ export default function TitleScreen() {
               width={1536}
               height={1024}
               priority
+              sizes="(max-width: 767px) 100vw, 430px"
               className="h-auto w-full select-none drop-shadow-[0_10px_24px_rgba(0,0,0,0.45)]"
             />
           </Link>
