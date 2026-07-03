@@ -57,13 +57,16 @@ Current cleaned examples:
 
 ## Integrate
 
-- Preserve an existing referenced filename only for a direct replacement.
-- Use descriptive app-facing filenames for new assets. New runtime filenames and folders should follow lowercase kebab-case unless an existing canonical pattern already governs that area.
-- Confirm app references still use public paths beginning with `/assets/...`; do not use filesystem paths or `public/assets/...` URLs in app code.
-- Keep case-sensitive filenames and references aligned.
-- Do not leave editable or source-only files such as `.ai`, `.psd`, `.xcf`, `.fig`, `.sketch`, or large source PNG/JPG files inside `public/assets` unless explicitly required.
-- Avoid changing app logic unless asset references must be updated.
-- Keep artwork original or safely inspired; do not add direct copyrighted/franchise-copy assets.
+* Preserve an existing referenced filename only for a direct replacement.
+* Use descriptive app-facing filenames for new assets. New runtime filenames and folders should follow lowercase kebab-case unless an existing canonical pattern already governs that area.
+* Confirm app references still use public paths beginning with `/assets/...`; do not use filesystem paths or `public/assets/...` URLs in app code.
+* Keep case-sensitive filenames and references aligned.
+* Do not leave editable or source-only files such as `.ai`, `.psd`, `.xcf`, `.fig`, `.sketch`, or large source PNG/JPG files inside `public/assets` unless explicitly required.
+* Avoid changing app logic unless asset references must be updated.
+* Keep artwork original or safely inspired; do not add direct copyrighted/franchise-copy assets.
+* For a visual refresh of an existing asset, preserve the existing app-facing runtime filename and replace the file in place after conversion. Do not create `_v2`, `V2`, `current`, or version-suffixed runtime filenames unless both old and new assets must remain referenced by app content at the same time.
+* Before changing any filename, search current references with `rg` and prefer keeping existing referenced filenames to avoid unnecessary code churn.
+* Treat source filenames as hints, not final app-facing names. Correct obvious typo, case, or camelCase mismatches only after comparing against existing runtime filenames and references.
 
 ## Archive Mirror
 
@@ -73,6 +76,9 @@ Current cleaned examples:
 4. Create missing archive folders when needed.
 5. Do not include `.DS_Store` files in runtime assets or archive mirror rules.
 6. Do not update unrelated archive branches during a targeted asset task.
+7. If the archive mirror destination already exists, do not overwrite it silently. Move the existing archived source into a sibling `_history/` folder with a clear suffix such as `.v1` or a timestamp, then place the new source at the canonical mirrored path.
+8. Keep the latest source file at the exact mirror path. Keep older sources only under `_history/`.
+
 
 Mirror example:
 
