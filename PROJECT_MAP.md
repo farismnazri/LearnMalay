@@ -182,10 +182,8 @@ public/assets/chapters/ch1/ch1_dia.webp
 public/assets/chapters/ch1/ch1_goodbye.webp
 public/assets/chapters/ch1/ch1_greeting.webp
 public/assets/chapters/ch1/ch1_kami.webp
-public/assets/chapters/ch1/ch1_kami_v2.webp
 public/assets/chapters/ch1/ch1_kamu.webp
 public/assets/chapters/ch1/ch1_kita.webp
-public/assets/chapters/ch1/ch1_kita_v2.webp
 public/assets/chapters/ch1/ch1_mereka.webp
 public/assets/chapters/ch1/ch1_ramai.webp
 public/assets/chapters/ch1/ch1_s1_khabar.webp
@@ -193,7 +191,6 @@ public/assets/chapters/ch1/ch1_s1_sihat.webp
 public/assets/chapters/ch1/ch1_s2_jumpaLagi.webp
 public/assets/chapters/ch1/ch1_s2_pergiDulu.webp
 public/assets/chapters/ch1/ch1_s2_selamatJalan.webp
-public/assets/chapters/ch1/ch1_s2_selamatTinggal.webp
 public/assets/chapters/ch1/ch1_s3_terimaKasih.webp
 public/assets/chapters/ch1/ch1_saya.webp
 public/assets/chapters/ch1/ch1_seorang.webp

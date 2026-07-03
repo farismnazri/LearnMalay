@@ -318,7 +318,7 @@ export const chapter01: ChapterContent = {
                 en: "me + you / all of you",
                 es: "yo + tú / ustedes",
               },
-              imageSrc: "/assets/chapters/ch1/ch1_kita_v2.webp",
+              imageSrc: "/assets/chapters/ch1/ch1_kita.webp",
               imageAlt: {
                 ms: "Komik Kita",
                 en: "Comic for Kita",
@@ -346,7 +346,7 @@ export const chapter01: ChapterContent = {
                 en: "me + other people, not you",
                 es: "yo + otras personas, no tú",
               },
-              imageSrc: "/assets/chapters/ch1/ch1_kami_v2.webp",
+              imageSrc: "/assets/chapters/ch1/ch1_kami.webp",
               imageAlt: {
                 ms: "Komik Kami",
                 en: "Comic for Kami",

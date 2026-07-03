@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.13.2] - 2026-07-03
+
+### Changed
+- Refreshed and optimized Chapter 1, 2, and 4 runtime artwork, normalized Chapter 1 kita/kami asset paths, and removed superseded runtime variants.
+
 ## [0.13.1] - 2026-06-27
 
 ### Added

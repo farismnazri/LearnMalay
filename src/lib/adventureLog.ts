@@ -16,6 +16,32 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.13.2",
+    date: "2026-07-03",
+    headline: {
+      ms: "Bab 1, 2, dan 4 kini menggunakan aset runtime yang lebih kemas",
+      en: "Chapters 1, 2, and 4 now use cleaner runtime assets",
+      es: "Los Capítulos 1, 2 y 4 ahora usan recursos runtime más limpios",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Menyegarkan dan mengoptimumkan aset WebP runtime untuk Bab 1, Bab 2, dan Bab 4 supaya visual bab lebih konsisten.",
+          en: "Refreshed and optimized the Chapter 1, Chapter 2, and Chapter 4 runtime WebP assets so chapter visuals are more consistent.",
+          es: "Se actualizaron y optimizaron los recursos WebP runtime de los Capítulos 1, 2 y 4 para que los visuales sean más consistentes.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Menyeragamkan laluan aset kata ganti nama Bab 1 untuk kita dan kami dengan membuang rujukan varian _v2 yang lama.",
+          en: "Standardized the Chapter 1 pronoun asset paths for kita and kami by removing the older _v2 variant references.",
+          es: "Se estandarizaron las rutas de recursos de pronombres del Capítulo 1 para kita y kami al quitar las referencias antiguas con variante _v2.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.13.1",
     date: "2026-06-27",
     headline: {
