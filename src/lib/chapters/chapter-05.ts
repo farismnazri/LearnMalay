@@ -531,7 +531,7 @@ export const chapter05: ChapterContent = {
       rows: [
         {
           id: "addr-rumah",
-          iconSrc: "/assets/chapters/ch5/Rumah.png",
+          iconSrc: "/assets/chapters/ch5/rumah.webp",
           iconAlt: { ms: "rumah", en: "house", es: "casa" },
           name: { ms: "Rumah atau lot", en: "House or lot", es: "Casa o lote" },
           description: { ms: "Mulakan dengan nombor rumah atau lot.", en: "Start with the house or lot number.", es: "Empieza con el numero de casa o lote." },
@@ -539,7 +539,7 @@ export const chapter05: ChapterContent = {
         },
         {
           id: "addr-blok",
-          iconSrc: "/assets/chapters/ch5/Blok.png",
+          iconSrc: "/assets/chapters/ch5/blok.webp",
           iconAlt: { ms: "blok", en: "block", es: "bloque" },
           name: { ms: "Blok", en: "Block", es: "Bloque" },
           description: { ms: "Tambah blok jika rumah berada dalam kawasan berblok.", en: "Add the block if the home is in a block area.", es: "Anade el bloque si la vivienda esta en una zona con bloques." },
@@ -547,7 +547,7 @@ export const chapter05: ChapterContent = {
         },
         {
           id: "addr-jalan",
-          iconSrc: "/assets/chapters/ch5/Jalan.png",
+          iconSrc: "/assets/chapters/ch5/jalan.webp",
           iconAlt: { ms: "jalan", en: "street", es: "calle" },
           name: { ms: "Jalan", en: "Street", es: "Calle" },
           description: { ms: "Jalan menunjukkan nama atau nombor jalan.", en: "Jalan shows the street name or number.", es: "Jalan indica el nombre o numero de la calle." },
@@ -555,7 +555,7 @@ export const chapter05: ChapterContent = {
         },
         {
           id: "addr-pangsapuri",
-          iconSrc: "/assets/chapters/ch5/Pangsapuri.png",
+          iconSrc: "/assets/chapters/ch5/pangsapuri.webp",
           iconAlt: { ms: "pangsapuri", en: "apartment", es: "apartamento" },
           name: { ms: "Pangsapuri atau nama perumahan", en: "Apartment or housing name", es: "Apartamento o nombre de vivienda" },
           description: { ms: "Letakkan nama pangsapuri, taman, atau kawasan perumahan.", en: "Add the apartment, garden, or housing area name.", es: "Anade el nombre del apartamento, taman o zona residencial." },
@@ -563,7 +563,7 @@ export const chapter05: ChapterContent = {
         },
         {
           id: "addr-daerah",
-          iconSrc: "/assets/chapters/ch5/Daerah.png",
+          iconSrc: "/assets/chapters/ch5/daerah.webp",
           iconAlt: { ms: "daerah", en: "district", es: "distrito" },
           name: { ms: "Kawasan atau daerah", en: "Area or district", es: "Zona o distrito" },
           description: { ms: "Daerah membantu orang tahu kawasan alamat itu.", en: "The district helps people know the address area.", es: "El distrito ayuda a ubicar la zona de la direccion." },
@@ -571,7 +571,7 @@ export const chapter05: ChapterContent = {
         },
         {
           id: "addr-poskod",
-          iconSrc: "/assets/chapters/ch5/Poskod.png",
+          iconSrc: "/assets/chapters/ch5/poskod.webp",
           iconAlt: { ms: "poskod", en: "postcode", es: "codigo postal" },
           name: { ms: "Poskod", en: "Postcode", es: "Codigo postal" },
           description: { ms: "Poskod ialah nombor untuk kawasan penghantaran.", en: "A postcode is the number for a delivery area.", es: "El codigo postal es el numero de una zona de entrega." },
@@ -579,7 +579,7 @@ export const chapter05: ChapterContent = {
         },
         {
           id: "addr-negeri",
-          iconSrc: "/assets/chapters/ch5/Negeri.png",
+          iconSrc: "/assets/chapters/ch5/negeri.webp",
           iconAlt: { ms: "negeri", en: "state", es: "estado" },
           name: { ms: "Negeri", en: "State", es: "Estado" },
           description: { ms: "Akhiri alamat dengan nama negeri.", en: "Finish the address with the state name.", es: "Termina la direccion con el nombre del estado." },

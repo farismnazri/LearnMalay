@@ -110,7 +110,7 @@ export const chapter04: ChapterContent = {
       rows: [
         { id: "c4-kiri", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/kiri.webp", alt: { ms: "Belok kiri", en: "Turn left", es: "Gira a la izquierda" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "Belok kiri", en: "Turn left", es: "Gira a la izquierda" }] } },
         { id: "c4-kanan", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/kanan.webp", alt: { ms: "Belok kanan", en: "Turn right", es: "Gira a la derecha" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "Belok kanan", en: "Turn right", es: "Gira a la derecha" }] } },
-        { id: "c4-terus", cells: { gambar: [{ ms: "↑", en: "↑", es: "↑" }], kata: [{ ms: "Jalan terus", en: "Go straight", es: "Sigue recto" }] } },
+        { id: "c4-terus", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/terus.webp", alt: { ms: "Jalan terus", en: "Go straight", es: "Sigue recto" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "Jalan terus", en: "Go straight", es: "Sigue recto" }] } },
         { id: "c4-pusing-balik", cells: { gambar: [{ ms: "↩", en: "↩", es: "↩" }], kata: [{ ms: "Pusing balik", en: "Turn back", es: "Date la vuelta" }] } },
         { id: "c4-sampai", cells: { gambar: [{ ms: "✓", en: "✓", es: "✓" }], kata: [{ ms: "Sampai", en: "Arrive", es: "Llegar" }] } },
         { id: "c4-sini", cells: { gambar: [{ kind: "image", src: "/assets/chapters/ch4/sini.webp", alt: { ms: "sini", en: "here", es: "aquí" }, w: 320, h: 200, className: "w-full h-auto max-h-44 object-cover rounded-xl" }], kata: [{ ms: "sini", en: "here", es: "aquí" }] } },

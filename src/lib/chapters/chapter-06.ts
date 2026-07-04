@@ -20,7 +20,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/Pantai.png",
+                src: "/assets/chapters/ch6/pantai.webp",
                 alt: { ms: "pantai", en: "beach", es: "playa" },
                 w: 720,
                 h: 420,
@@ -36,7 +36,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/Pasir.png",
+                src: "/assets/chapters/ch6/pasir.webp",
                 alt: { ms: "pasir", en: "sand", es: "arena" },
                 w: 720,
                 h: 420,
@@ -52,7 +52,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/Pokok.png",
+                src: "/assets/chapters/ch6/pokok.webp",
                 alt: { ms: "pokok kelapa", en: "coconut tree", es: "palmera" },
                 w: 720,
                 h: 720,
@@ -68,7 +68,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/Hutan.png",
+                src: "/assets/chapters/ch6/hutan.webp",
                 alt: { ms: "hutan", en: "forest", es: "bosque" },
                 w: 720,
                 h: 420,
@@ -84,7 +84,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/Bukit.png",
+                src: "/assets/chapters/ch6/bukit.webp",
                 alt: { ms: "bukit", en: "hill", es: "colina" },
                 w: 720,
                 h: 420,
@@ -100,7 +100,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/Sungai.png",
+                src: "/assets/chapters/ch6/sungai.webp",
                 alt: { ms: "sungai", en: "river", es: "río" },
                 w: 720,
                 h: 420,
@@ -116,7 +116,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/Laut.png",
+                src: "/assets/chapters/ch6/laut.webp",
                 alt: { ms: "laut", en: "sea", es: "mar" },
                 w: 720,
                 h: 420,
@@ -132,7 +132,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/Air Terjun.png",
+                src: "/assets/chapters/ch6/air-terjun.webp",
                 alt: { ms: "air terjun", en: "waterfall", es: "cascada" },
                 w: 720,
                 h: 420,
@@ -148,7 +148,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/JalanRaya.png",
+                src: "/assets/chapters/ch6/jalan-raya.webp",
                 alt: { ms: "jalan raya", en: "road", es: "carretera" },
                 w: 720,
                 h: 420,
@@ -176,7 +176,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/Panas.png",
+                src: "/assets/chapters/ch6/panas.webp",
                 alt: { ms: "panas", en: "hot", es: "caluroso" },
                 w: 720,
                 h: 420,
@@ -192,7 +192,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/Mendung.png",
+                src: "/assets/chapters/ch6/mendung.webp",
                 alt: { ms: "mendung", en: "overcast", es: "nublado" },
                 w: 720,
                 h: 420,
@@ -208,7 +208,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/Hujan.png",
+                src: "/assets/chapters/ch6/hujan.webp",
                 alt: { ms: "hujan", en: "rain", es: "lluvia" },
                 w: 720,
                 h: 420,
@@ -224,7 +224,7 @@ export const chapter06: ChapterContent = {
             img: [
               {
                 kind: "image",
-                src: "/assets/chapters/ch6/Berangin.png",
+                src: "/assets/chapters/ch6/berangin.webp",
                 alt: { ms: "berangin", en: "windy", es: "ventoso" },
                 w: 720,
                 h: 420,
