@@ -178,6 +178,7 @@ export default function ArahJalanIntroPage() {
 
             <div className="mt-3 flex items-center gap-2">
               <IconActionLink href="/minigames/arah-jalan/play" kind="start-game" tooltip="Start Game" />
+              <IconActionLink href="/minigames/highscores" kind="highscores" tooltip="High Scores" />
               <IconActionLink href="/map" kind="map" tooltip="Back to Map" />
               <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
               <BackgroundAudioControls variant="icon" />

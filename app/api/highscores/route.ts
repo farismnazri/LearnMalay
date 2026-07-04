@@ -48,7 +48,7 @@ export async function POST(req: Request) {
   if (!isValidHighscoreGameId(body.gameId)) {
     return NextResponse.json({ error: "Invalid highscore payload" }, { status: 400 });
   }
-  if (!isPlainObject(body.entry) || !hasOnlyKeys(body.entry, ["name", "avatarId", "accuracy", "timeMs", "meta"])) {
+  if (!isPlainObject(body.entry) || !hasOnlyKeys(body.entry, ["name", "avatarId", "score", "accuracy", "timeMs", "meta"])) {
     return NextResponse.json({ error: "Invalid highscore payload" }, { status: 400 });
   }
 

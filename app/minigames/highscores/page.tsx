@@ -5,6 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 
 import type { GameId, ScoreEntry } from "@/lib/highscores";
 import { clearHighScores, loadHighScores } from "@/lib/highscores";
+import {
+  arahJalanDifficulty,
+  compareArahJalanHighscoreRows,
+  highscoreNumericScore,
+  type ArahJalanDifficulty,
+  type ArahJalanDifficultyFilter,
+} from "@/lib/highscoreRanking";
 import IconActionLink from "@/components/navigation/IconActionLink";
 import { getProfileAvatarSrc, type ProfileAvatarId } from "@/lib/profileAvatars";
 import { getCurrentUser, listUsers, verifyAdminPassword } from "@/lib/userStore";
@@ -77,6 +84,13 @@ function wordsearchDifficultyLabel(d: WordsearchDifficultyFilter) {
   return "Unknown";
 }
 
+function arahJalanDifficultyLabel(d: ArahJalanDifficultyFilter) {
+  if (d === ALL_DIFFICULTIES) return "All difficulties";
+  if (d === "hard") return "Hard";
+  if (d === "easy") return "Easy";
+  return "Unknown";
+}
+
 function wordMatchResultRank(s: ScoreEntry) {
   const meta = (s.meta ?? {}) as Record<string, unknown>;
   return meta.result === "win" ? 1 : 0;
@@ -110,6 +124,7 @@ function formatDate(iso: string) {
 export default function HighScoresPage() {
   const [gameId, setGameId] = useState<GameId>("numbers");
   const isWordsearchGame = WORDSEARCH_GAME_IDS.has(gameId);
+  const isArahJalanGame = gameId === "arah-jalan";
 
   const [me, setMe] = useState<Awaited<ReturnType<typeof getCurrentUser>>>(null);
   const [store, setStore] = useState<Record<GameId, ScoreEntry[]>>({
@@ -119,12 +134,14 @@ export default function HighScoresPage() {
     currency: [],
     "makan-apa": [],
     "misi-membeli": [],
+    "arah-jalan": [],
   });
   const [users, setUsers] = useState<Awaited<ReturnType<typeof listUsers>>>([]);
 
   const [userFilter, setUserFilter] = useState<string>(ALL_USERS);
   const [numbersDifficultyFilter, setNumbersDifficultyFilter] = useState<NumbersDifficultyFilter>(ALL_DIFFICULTIES);
   const [wordsearchDifficultyFilter, setWordsearchDifficultyFilter] = useState<WordsearchDifficultyFilter>(ALL_DIFFICULTIES);
+  const [arahJalanDifficultyFilter, setArahJalanDifficultyFilter] = useState<ArahJalanDifficultyFilter>(ALL_DIFFICULTIES);
 
   useEffect(() => {
     async function load() {
@@ -172,8 +189,20 @@ export default function HighScoresPage() {
     if (isWordsearchGame && wordsearchDifficultyFilter !== ALL_DIFFICULTIES) {
       return byUser.filter((r) => wordsearchDifficulty(r) === wordsearchDifficultyFilter);
     }
+    if (isArahJalanGame && arahJalanDifficultyFilter !== ALL_DIFFICULTIES) {
+      return byUser.filter((r) => arahJalanDifficulty(r) === arahJalanDifficultyFilter);
+    }
     return byUser;
-  }, [baseRows, userFilter, gameId, isWordsearchGame, numbersDifficultyFilter, wordsearchDifficultyFilter]);
+  }, [
+    baseRows,
+    userFilter,
+    gameId,
+    isWordsearchGame,
+    isArahJalanGame,
+    numbersDifficultyFilter,
+    wordsearchDifficultyFilter,
+    arahJalanDifficultyFilter,
+  ]);
 
   const sortedRows = useMemo(() => {
     return [...filteredRows].sort((a, b) => {
@@ -207,6 +236,11 @@ export default function HighScoresPage() {
         if (a.timeMs !== b.timeMs) return a.timeMs - b.timeMs;
         return b.dateISO.localeCompare(a.dateISO);
       }
+      if (isArahJalanGame) {
+        return compareArahJalanHighscoreRows(a, b, {
+          allDifficulties: arahJalanDifficultyFilter === ALL_DIFFICULTIES,
+        });
+      }
 
       const act = activityCount(b) - activityCount(a);
       if (act !== 0) return act;
@@ -215,12 +249,13 @@ export default function HighScoresPage() {
       if (a.timeMs !== b.timeMs) return a.timeMs - b.timeMs;
       return b.dateISO.localeCompare(a.dateISO);
     });
-  }, [filteredRows, gameId, isWordsearchGame, wordsearchDifficultyFilter]);
+  }, [filteredRows, gameId, isWordsearchGame, isArahJalanGame, wordsearchDifficultyFilter, arahJalanDifficultyFilter]);
 
   function pickGame(next: GameId) {
     setGameId(next);
     setNumbersDifficultyFilter(ALL_DIFFICULTIES);
     setWordsearchDifficultyFilter(ALL_DIFFICULTIES);
+    setArahJalanDifficultyFilter(ALL_DIFFICULTIES);
   }
 
   function showMine() {
@@ -260,9 +295,16 @@ export default function HighScoresPage() {
   const activeUserLabel = userFilter === ALL_USERS ? "All users" : userFilter;
   const showNumbersDifficultyFilter = gameId === "numbers";
   const showWordsearchDifficultyFilter = isWordsearchGame;
-  const showDifficultyFilter = showNumbersDifficultyFilter || showWordsearchDifficultyFilter;
-  const showDifficultyColumn = gameId === "numbers";
-  const activityLabel = gameId === "word-match" ? "Attempts" : isWordsearchGame ? "Difficulty" : "Activities";
+  const showArahJalanDifficultyFilter = isArahJalanGame;
+  const showDifficultyFilter = showNumbersDifficultyFilter || showWordsearchDifficultyFilter || showArahJalanDifficultyFilter;
+  const showDifficultyColumn = gameId === "numbers" || isArahJalanGame;
+  const activityLabel = isArahJalanGame
+    ? "Streak"
+    : gameId === "word-match"
+    ? "Attempts"
+    : isWordsearchGame
+    ? "Difficulty"
+    : "Activities";
 
   return (
     <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad">
@@ -301,7 +343,11 @@ export default function HighScoresPage() {
               </span>
               {showDifficultyFilter && (
                 <span className="rounded-full border border-[#d6cb95]/70 bg-[#fff2c9] px-3 py-1 text-[11px] font-black tracking-wide text-[#4f3a00]">
-                  Difficulty: {showNumbersDifficultyFilter ? difficultyLabel(numbersDifficultyFilter) : wordsearchDifficultyLabel(wordsearchDifficultyFilter)}
+                  Difficulty: {showNumbersDifficultyFilter
+                    ? difficultyLabel(numbersDifficultyFilter)
+                    : showWordsearchDifficultyFilter
+                    ? wordsearchDifficultyLabel(wordsearchDifficultyFilter)
+                    : arahJalanDifficultyLabel(arahJalanDifficultyFilter)}
                 </span>
               )}
               {isAdmin(me) && (
@@ -422,6 +468,19 @@ export default function HighScoresPage() {
               >
                 Misi Membeli
               </button>
+
+              <button
+                type="button"
+                onClick={() => pickGame("arah-jalan")}
+                className={[
+                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
+                  gameId === "arah-jalan"
+                    ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
+                    : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
+                ].join(" ")}
+              >
+                Arah Jalan
+              </button>
                 </div>
               </div>
             </div>
@@ -483,6 +542,21 @@ export default function HighScoresPage() {
                 </select>
               </div>
             )}
+            {showArahJalanDifficultyFilter && (
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="text-xs font-black tracking-wide opacity-65">DIFFICULTY</div>
+                <select
+                  value={arahJalanDifficultyFilter}
+                  onChange={(e) => setArahJalanDifficultyFilter(e.target.value as ArahJalanDifficultyFilter)}
+                  className="touch-target rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
+                >
+                  <option value={ALL_DIFFICULTIES}>All difficulties</option>
+                  <option value="hard">Hard</option>
+                  <option value="easy">Easy</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </div>
+            )}
           </div>
 
           <div className="mt-3 text-xs font-semibold text-[#2c431f]/75">
@@ -492,6 +566,10 @@ export default function HighScoresPage() {
               ? wordsearchDifficultyFilter === ALL_DIFFICULTIES
                 ? "Ranked by difficulty for All difficulties, then faster time."
                 : "For a selected difficulty, ranked by faster time."
+              : showArahJalanDifficultyFilter
+              ? arahJalanDifficultyFilter === ALL_DIFFICULTIES
+                ? "Ranked by highest streak, then difficulty for All difficulties (Hard > Easy)."
+                : "Ranked by highest streak for the selected difficulty."
               : gameId === "word-match"
               ? "Ranked by result, progress, accuracy, time, then fewer attempts."
               : "Ranked by activities, then accuracy, then time."}
@@ -527,12 +605,20 @@ export default function HighScoresPage() {
                   <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-bold text-[#2f421f]">
                     {isWordsearchGame ? (
                       <div>Difficulty: {wordsearchDifficultyLabel(wordsearchDifficulty(r))}</div>
+                    ) : isArahJalanGame ? (
+                      <div>Streak: {highscoreNumericScore(r)}</div>
                     ) : (
                       <div>{activityLabel}: {activityCount(r)}</div>
                     )}
                     <div>Accuracy: {Math.round(r.accuracy)}%</div>
                     <div>Time: {formatDuration(r.timeMs)}</div>
-                    {showDifficultyColumn && <div>Difficulty: {difficultyLabel(scoreDifficulty(r))}</div>}
+                    {showDifficultyColumn && (
+                      <div>
+                        Difficulty: {isArahJalanGame
+                          ? arahJalanDifficultyLabel(arahJalanDifficulty(r) as ArahJalanDifficulty | "unknown")
+                          : difficultyLabel(scoreDifficulty(r))}
+                      </div>
+                    )}
                   </div>
                   <div className="mt-2 text-xs font-semibold text-[#2d431e]/80">{formatDate(r.dateISO)}</div>
                 </article>
@@ -601,13 +687,21 @@ export default function HighScoresPage() {
 
                       <td className="border border-black/10 p-4 align-top">
                         <div className="text-sm font-black text-[#273d1e]">
-                          {isWordsearchGame ? wordsearchDifficultyLabel(wordsearchDifficulty(r)) : activityCount(r)}
+                          {isWordsearchGame
+                            ? wordsearchDifficultyLabel(wordsearchDifficulty(r))
+                            : isArahJalanGame
+                            ? highscoreNumericScore(r)
+                            : activityCount(r)}
                         </div>
                       </td>
 
                       {showDifficultyColumn && (
                         <td className="border border-black/10 p-4 align-top">
-                          <div className="text-sm font-black text-[#273d1e]">{difficultyLabel(scoreDifficulty(r))}</div>
+                          <div className="text-sm font-black text-[#273d1e]">
+                            {isArahJalanGame
+                              ? arahJalanDifficultyLabel(arahJalanDifficulty(r) as ArahJalanDifficulty | "unknown")
+                              : difficultyLabel(scoreDifficulty(r))}
+                          </div>
                         </td>
                       )}
 
@@ -638,6 +732,10 @@ export default function HighScoresPage() {
                 ? wordsearchDifficultyFilter === ALL_DIFFICULTIES
                 ? "Difficulty (Hard > Medium > Easy), then time (lower)."
                   : "For a selected difficulty, ranked by faster time."
+                : showArahJalanDifficultyFilter
+                ? arahJalanDifficultyFilter === ALL_DIFFICULTIES
+                  ? "Streak (higher), difficulty (Hard > Easy), accuracy (higher), time (lower), then newest."
+                  : "Streak (higher), accuracy (higher), time (lower), then newest."
                 : gameId === "word-match"
                 ? "Result (win first), then progress, accuracy (higher), time (lower), and attempts (lower)."
                 : "Ranked by activities (higher), then accuracy (higher), then time (lower)."}

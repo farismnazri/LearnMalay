@@ -1,4 +1,5 @@
 import { getCollections, type HighscoreDocument } from "./db";
+import { compareArahJalanHighscoreRows } from "@/lib/highscoreRanking";
 import type { GameId, ScoreEntry } from "@/lib/highscoresTypes";
 import { isProfileAvatarId } from "@/lib/profileAvatars";
 
@@ -6,6 +7,10 @@ const NUMBERS_DIFFICULTY_WEIGHT: Record<string, number> = {
   ultrahard: 4,
   hard: 3,
   medium: 2,
+  easy: 1,
+};
+const ARAH_JALAN_DIFFICULTY_WEIGHT: Record<string, number> = {
+  hard: 2,
   easy: 1,
 };
 
@@ -26,6 +31,7 @@ const CURRENCY_DIFFICULTIES = ["easy", "medium", "hard", "ultra"] as const;
 const MAKAN_APA_DIFFICULTIES = ["easy", "hard"] as const;
 const MISI_DIFFICULTIES = ["easy", "medium", "hard"] as const;
 const MISI_THEME_IDS = ["buah-sayur", "daging-laut", "barangan-kering", "peti-sejuk"] as const;
+const ARAH_JALAN_DIFFICULTIES = ["easy", "hard"] as const;
 
 export class HighscoreValidationError extends Error {
   constructor(message = "Invalid highscore payload") {
@@ -35,6 +41,7 @@ export class HighscoreValidationError extends Error {
 }
 
 type IncomingScoreEntry = Omit<ScoreEntry, "id" | "dateISO"> & Partial<Pick<ScoreEntry, "id" | "dateISO">>;
+type HighscoreDocumentWithScore = HighscoreDocument & { score?: number | null };
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
@@ -171,6 +178,14 @@ function normalizeMetaForMisiMembeli(meta: Record<string, unknown>) {
   return meta;
 }
 
+function normalizeMetaForArahJalan(meta: Record<string, unknown>) {
+  const allowed = ["difficulty"] as const;
+  if (!hasOnlyAllowedKeys(meta, allowed)) throw new HighscoreValidationError();
+
+  if (!assertEnum(meta.difficulty, ARAH_JALAN_DIFFICULTIES)) throw new HighscoreValidationError();
+  return meta;
+}
+
 function normalizeHighscoreMeta(gameId: GameId, rawMeta: unknown): Record<string, unknown> | undefined {
   if (typeof rawMeta === "undefined") return undefined;
   if (!isPlainObject(rawMeta)) throw new HighscoreValidationError();
@@ -187,7 +202,9 @@ function normalizeHighscoreMeta(gameId: GameId, rawMeta: unknown): Record<string
       ? normalizeMetaForCurrency(rawMeta)
       : gameId === "makan-apa"
       ? normalizeMetaForMakanApa(rawMeta)
-      : normalizeMetaForMisiMembeli(rawMeta);
+      : gameId === "misi-membeli"
+      ? normalizeMetaForMisiMembeli(rawMeta)
+      : normalizeMetaForArahJalan(rawMeta);
 
   const serialized = JSON.stringify(normalized);
   if (!serialized || Buffer.byteLength(serialized, "utf8") > MAX_HIGHSCORE_META_BYTES) {
@@ -200,7 +217,7 @@ function normalizeHighscoreMeta(gameId: GameId, rawMeta: unknown): Record<string
 export function normalizeIncomingHighscoreEntry(gameId: GameId, rawEntry: unknown): IncomingScoreEntry {
   if (!isPlainObject(rawEntry)) throw new HighscoreValidationError();
 
-  const allowedEntryKeys = ["id", "dateISO", "name", "avatarId", "accuracy", "timeMs", "meta"] as const;
+  const allowedEntryKeys = ["id", "dateISO", "name", "avatarId", "score", "accuracy", "timeMs", "meta"] as const;
   if (!hasOnlyAllowedKeys(rawEntry, allowedEntryKeys)) throw new HighscoreValidationError();
 
   if (typeof rawEntry.name !== "string") throw new HighscoreValidationError();
@@ -216,13 +233,25 @@ export function normalizeIncomingHighscoreEntry(gameId: GameId, rawEntry: unknow
     throw new HighscoreValidationError();
   }
 
+  let score: number | undefined;
+  if (gameId === "arah-jalan") {
+    if (!assertIntegerInRange(rawEntry.score, 1, MAX_HIGHSCORE_COUNTER)) {
+      throw new HighscoreValidationError();
+    }
+    score = Number(rawEntry.score);
+  } else if (typeof rawEntry.score !== "undefined") {
+    throw new HighscoreValidationError();
+  }
+
   const cleanAvatarId =
     typeof rawEntry.avatarId === "string" && isProfileAvatarId(rawEntry.avatarId) ? rawEntry.avatarId : undefined;
   const cleanMeta = normalizeHighscoreMeta(gameId, rawEntry.meta);
+  if (gameId === "arah-jalan" && !cleanMeta) throw new HighscoreValidationError();
 
   return {
     name: cleanName,
     avatarId: cleanAvatarId,
+    score,
     accuracy,
     timeMs,
     meta: cleanMeta,
@@ -230,12 +259,17 @@ export function normalizeIncomingHighscoreEntry(gameId: GameId, rawEntry: unknow
 }
 
 function difficultyWeightFor(gameId: GameId, meta: ScoreEntry["meta"]): number {
-  if (gameId !== "numbers") return 0;
-
   const raw = meta && typeof meta === "object" ? meta.difficulty : undefined;
   if (typeof raw !== "string") return 0;
 
-  return NUMBERS_DIFFICULTY_WEIGHT[raw.toLowerCase()] ?? 0;
+  if (gameId === "numbers") return NUMBERS_DIFFICULTY_WEIGHT[raw.toLowerCase()] ?? 0;
+  if (gameId === "arah-jalan") return ARAH_JALAN_DIFFICULTY_WEIGHT[raw.toLowerCase()] ?? 0;
+  return 0;
+}
+
+function scoreFromRow(row: HighscoreDocument): number | undefined {
+  const score = (row as HighscoreDocumentWithScore).score;
+  return typeof score === "number" && Number.isFinite(score) ? score : undefined;
 }
 
 function rowToEntry(row: HighscoreDocument): ScoreEntry {
@@ -243,6 +277,7 @@ function rowToEntry(row: HighscoreDocument): ScoreEntry {
     id: row.id,
     name: row.name,
     avatarId: row.avatar_id && isProfileAvatarId(row.avatar_id) ? row.avatar_id : undefined,
+    score: scoreFromRow(row),
     accuracy: Number(row.accuracy),
     timeMs: Number(row.time_ms),
     dateISO: row.date_iso,
@@ -271,6 +306,7 @@ export async function listHighScores(): Promise<Record<GameId, ScoreEntry[]>> {
     currency: [],
     "makan-apa": [],
     "misi-membeli": [],
+    "arah-jalan": [],
   };
 
   for (const r of rows) {
@@ -278,6 +314,8 @@ export async function listHighScores(): Promise<Record<GameId, ScoreEntry[]>> {
       store[r.game_id as GameId].push(rowToEntry(r));
     }
   }
+
+  store["arah-jalan"].sort((a, b) => compareArahJalanHighscoreRows(a, b, { allDifficulties: true }));
 
   return store;
 }
@@ -294,23 +332,27 @@ export async function addHighScore(
     dateISO: entry.dateISO ?? new Date().toISOString(),
     name: safeEntry.name,
     avatarId: safeEntry.avatarId,
+    score: safeEntry.score,
     accuracy: safeEntry.accuracy,
     timeMs: safeEntry.timeMs,
     meta: safeEntry.meta,
   };
 
-  await highscores.insertOne({
+  const doc: HighscoreDocumentWithScore = {
     id: full.id,
     game_id: gameId,
     name: full.name,
     avatar_id: full.avatarId ?? null,
+    score: full.score ?? null,
     accuracy: full.accuracy,
     time_ms: full.timeMs,
     date_iso: full.dateISO,
     meta_json: full.meta ? JSON.stringify(full.meta) : null,
     difficulty_weight: difficultyWeightFor(gameId, full.meta),
     created_at: new Date().toISOString(),
-  });
+  };
+
+  await highscores.insertOne(doc);
 
   await trimTop(gameId, 20);
 }
@@ -328,6 +370,25 @@ export async function clearHighScores(gameId?: GameId): Promise<void> {
 
 async function trimTop(gameId: GameId, max: number): Promise<void> {
   const { highscores } = await getCollections();
+
+  if (gameId === "arah-jalan") {
+    const rows = await highscores.find({ game_id: gameId }).toArray();
+    const rowsToDelete = rows
+      .map((row) => ({ id: row.id, entry: rowToEntry(row) }))
+      .sort((left, right) =>
+        compareArahJalanHighscoreRows(left.entry, right.entry, { allDifficulties: true })
+      )
+      .slice(max);
+
+    if (rowsToDelete.length === 0) return;
+
+    await highscores.deleteMany({
+      id: {
+        $in: rowsToDelete.map((row) => row.id),
+      },
+    });
+    return;
+  }
 
   const rowsToDelete = await highscores
     .find({ game_id: gameId }, { projection: { id: 1 }, sort: sortSpec(), skip: max })

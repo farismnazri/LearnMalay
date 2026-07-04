@@ -10,6 +10,8 @@ import StylizedTitle from "@/components/game/StylizedTitle";
 import IconActionLink from "@/components/navigation/IconActionLink";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
+import { addHighScore, loadHighScores } from "@/lib/highscores";
+import { canSaveHighscores } from "@/lib/userCapabilities";
 import {
   ARAH_JALAN_COMMAND_LABELS,
   ARAH_JALAN_COMMAND_ORDER,
@@ -35,6 +37,7 @@ import {
   type ArahJalanNode,
   type Facing,
 } from "@/lib/arahJalan/engine";
+import { resolveArahJalanStreakAfterMistake } from "@/lib/arahJalan/streakScoring";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
@@ -194,8 +197,14 @@ export default function ArahJalanPlayPage() {
   const [runs, setRuns] = useState(0);
   const [wins, setWins] = useState(0);
   const [fails, setFails] = useState(0);
+  const [currentStreak, setCurrentStreak] = useState(0);
+  const [sessionBestStreak, setSessionBestStreak] = useState(0);
+  const [bestSavedStreak, setBestSavedStreak] = useState(0);
 
   const runTimersRef = useRef<number[]>([]);
+  const runIdRef = useRef(0);
+  const savedFailedRunIdsRef = useRef<Set<number>>(new Set());
+  const currentStreakStartedAtRef = useRef<number | null>(null);
   const { board, scenario } = round;
 
   const startNode = board.graph.nodes[scenario.startNodeId];
@@ -226,6 +235,29 @@ export default function ArahJalanPlayPage() {
   }, []);
 
   useEffect(() => {
+    if (!user?.name) return;
+
+    let alive = true;
+    loadHighScores()
+      .then((store) => {
+        if (!alive || !store) return;
+        const mine = (store["arah-jalan"] ?? []).filter((entry) => entry.name === user.name);
+        const best = mine.reduce((max, entry) => {
+          const score = typeof entry.score === "number" && Number.isFinite(entry.score) ? entry.score : 0;
+          return Math.max(max, score);
+        }, 0);
+        setBestSavedStreak(best);
+      })
+      .catch((error) => {
+        console.error("Failed to load Arah Jalan highscores", error);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, [user?.name]);
+
+  useEffect(() => {
     return () => {
       for (const timer of runTimersRef.current) window.clearTimeout(timer);
       runTimersRef.current = [];
@@ -237,7 +269,16 @@ export default function ArahJalanPlayPage() {
     runTimersRef.current = [];
   }
 
-  function startScenario(nextDifficultyId: ArahJalanDifficultyId = difficultyId) {
+  function resetStreak() {
+    setCurrentStreak(0);
+    currentStreakStartedAtRef.current = null;
+  }
+
+  function startScenario(
+    nextDifficultyId: ArahJalanDifficultyId = difficultyId,
+    options: { resetStreak?: boolean } = {},
+  ) {
+    const shouldResetStreak = options.resetStreak ?? true;
     clearTimers();
     const nextRound = createArahJalanRound(nextDifficultyId);
     setRound(nextRound);
@@ -248,12 +289,13 @@ export default function ArahJalanPlayPage() {
     });
     setLastResult(null);
     setFeedback(null);
+    if (shouldResetStreak) resetStreak();
   }
 
   function changeDifficulty(nextDifficultyId: ArahJalanDifficultyId) {
     if (isRunning || nextDifficultyId === difficultyId) return;
     setDifficultyId(nextDifficultyId);
-    startScenario(nextDifficultyId);
+    startScenario(nextDifficultyId, { resetStreak: true });
   }
 
   function pickLang(next: UiLang) {
@@ -306,6 +348,37 @@ export default function ArahJalanPlayPage() {
     setFeedback(null);
   }
 
+  function saveEndedStreakOnce(runId: number, streak: number, streakDifficultyId: ArahJalanDifficultyId) {
+    const endedStreak = resolveArahJalanStreakAfterMistake(streak);
+    const endedAt = Date.now();
+    const startedAt = currentStreakStartedAtRef.current ?? endedAt;
+    setCurrentStreak(endedStreak.nextCurrentStreak);
+    currentStreakStartedAtRef.current = null;
+
+    if (!endedStreak.scoreToSave || savedFailedRunIdsRef.current.has(runId)) return;
+    savedFailedRunIdsRef.current.add(runId);
+
+    setSessionBestStreak((best) => Math.max(best, endedStreak.scoreToSave ?? 0));
+    if (!canSaveHighscores(user)) return;
+
+    const timeMs = Math.min(21_600_000, Math.max(0, endedAt - startedAt));
+
+    void addHighScore("arah-jalan", {
+      name: user?.name ?? "GUEST",
+      avatarId: user?.avatarId,
+      score: endedStreak.scoreToSave,
+      accuracy: 100,
+      timeMs,
+      meta: { difficulty: streakDifficultyId },
+    })
+      .then((response) => {
+        if (response) setBestSavedStreak((best) => Math.max(best, endedStreak.scoreToSave ?? 0));
+      })
+      .catch((error) => {
+        console.error("Failed to save Arah Jalan highscore", error);
+      });
+  }
+
   function runQueue() {
     if (isRunning) return;
     if (queue.length === 0) {
@@ -326,6 +399,8 @@ export default function ArahJalanPlayPage() {
     setFeedback(null);
     setLastResult(null);
 
+    const runId = ++runIdRef.current;
+    const runStartedAt = Date.now();
     const result = simulateArahJalanRun(board.graph, scenario, queue);
     const startingState: ArahJalanState = {
       nodeId: scenario.startNodeId,
@@ -344,6 +419,10 @@ export default function ArahJalanPlayPage() {
       setLastResult(result);
       setRuns((v) => v + 1);
       if (result.success) {
+        const nextStreak = currentStreak + 1;
+        if (currentStreak === 0) currentStreakStartedAtRef.current = runStartedAt;
+        setCurrentStreak(nextStreak);
+        setSessionBestStreak((best) => Math.max(best, nextStreak));
         setWins((v) => v + 1);
         setFeedback({
           tone: "ok",
@@ -356,12 +435,13 @@ export default function ArahJalanPlayPage() {
         });
 
         const nextTimer = window.setTimeout(() => {
-          startScenario();
+          startScenario(difficultyId, { resetStreak: false });
           setIsRunning(false);
         }, 1200);
         runTimersRef.current.push(nextTimer);
       } else {
         setFails((v) => v + 1);
+        saveEndedStreakOnce(runId, currentStreak, difficultyId);
         setFeedback({
           tone: "bad",
           text: failureMessage(result.failureReason, lang),
@@ -424,6 +504,7 @@ export default function ArahJalanPlayPage() {
       : "RUTA\nDIRECCIONES";
 
   const winRate = runs > 0 ? Math.round((wins / runs) * 100) : 0;
+  const bestAvailableStreak = Math.max(bestSavedStreak, sessionBestStreak, currentStreak);
 
   return (
     <main className="chapter-page-shell relative min-h-screen overflow-x-hidden overflow-y-auto app-page-pad">
@@ -472,6 +553,7 @@ export default function ArahJalanPlayPage() {
                 tooltip={lang === "ms" ? "Misi Baharu" : lang === "en" ? "New Mission" : "Nueva Misión"}
                 disabled={isRunning}
               />
+              <IconActionLink href="/minigames/highscores" kind="highscores" tooltip="High Scores" />
               <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" />
               <BackgroundAudioControls variant="icon" />
             </div>
@@ -696,8 +778,28 @@ export default function ArahJalanPlayPage() {
               )}
 
               <div className="mt-3 rounded-2xl border border-[#e1d19f] bg-white/85 p-3 text-xs font-black text-[#5c4711]">
+                <div className="mb-2 grid grid-cols-3 gap-2">
+                  <div className="rounded-xl border border-[#e7ca69] bg-[#fff1b8] px-2 py-2 text-center shadow-sm">
+                    <div className="text-[10px] uppercase tracking-wide text-[#70530a]/70">
+                      {lang === "ms" ? "Streak kini" : lang === "en" ? "Current" : "Actual"}
+                    </div>
+                    <div className="text-lg text-[#382700]">{currentStreak}</div>
+                  </div>
+                  <div className="rounded-xl border border-[#d7c58d] bg-white px-2 py-2 text-center shadow-sm">
+                    <div className="text-[10px] uppercase tracking-wide text-[#70530a]/70">
+                      {lang === "ms" ? "Tersimpan" : lang === "en" ? "Saved" : "Guardado"}
+                    </div>
+                    <div className="text-lg text-[#382700]">{bestSavedStreak}</div>
+                  </div>
+                  <div className="rounded-xl border border-[#b9d88f] bg-[#ecffd7] px-2 py-2 text-center shadow-sm">
+                    <div className="text-[10px] uppercase tracking-wide text-[#415d13]/70">
+                      {lang === "ms" ? "Terbaik" : lang === "en" ? "Best" : "Mejor"}
+                    </div>
+                    <div className="text-lg text-[#243900]">{bestAvailableStreak}</div>
+                  </div>
+                </div>
                 <div>
-                  {lang === "ms" ? "Skor" : lang === "en" ? "Score" : "Puntuación"}:{" "}
+                  {lang === "ms" ? "Betul" : lang === "en" ? "Correct" : "Correctas"}:{" "}
                   <span className="text-[#382700]">{wins}</span>
                 </div>
                 <div>

@@ -7,6 +7,7 @@ import process from "node:process";
 import test from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
+import { CHAPTER_SUMMARIES } from "../../src/lib/chapters/summaries.ts";
 
 type JsonResponse = {
   status: number;
@@ -108,6 +109,7 @@ test("read-only routes are not blocked by CSRF origin policy", async () => {
 
 test("chapter revision is recorded only by an explicit completion request", async () => {
   const user = await createUserAndSessionCookie();
+  const chapterOneRevision = currentChapterRevision(1);
 
   const progressOnly = await requestJson("/api/users/progress", {
     method: "POST",
@@ -138,7 +140,7 @@ test("chapter revision is recorded only by an explicit completion request", asyn
   });
 
   assert.equal(completed.status, 200);
-  assert.deepEqual(readCompletedChapterRevisions(completed.body), { "1": 1 });
+  assert.deepEqual(readCompletedChapterRevisions(completed.body), { "1": chapterOneRevision });
 });
 
 test("chapter completion cannot acknowledge a chapter that is still locked", async () => {
@@ -218,6 +220,34 @@ test("auth failure responses do not leak credentials or internal auth/session de
   assert.equal(lowered.includes("password_salt"), false);
   assert.equal(lowered.includes("sessionid"), false);
   assert.equal(lowered.includes("stack"), false);
+});
+
+test("admin login and password verification use configured admin password", async () => {
+  const login = await requestJson("/api/users/login", {
+    method: "POST",
+    headers: sameOriginHeaders(),
+    body: JSON.stringify({
+      name: "admin",
+      password: "admin-test-password",
+    }),
+  });
+
+  assert.equal(login.status, 200);
+  assert.equal(readUserId(login.body), "ADMIN");
+
+  const verify = await requestJson("/api/users/verify-admin", {
+    method: "POST",
+    headers: {
+      ...sameOriginHeaders(),
+      cookie: readSessionCookieFromResponse(login.headers),
+    },
+    body: JSON.stringify({
+      password: "admin-test-password",
+    }),
+  });
+
+  assert.equal(verify.status, 200);
+  assert.deepEqual(verify.body, { ok: true });
 });
 
 test("unsafe signup usernames are rejected without starting a session", async () => {
@@ -339,6 +369,12 @@ function readCompletedChapterRevisions(body: unknown): Record<string, number> {
   return revisions as Record<string, number>;
 }
 
+function currentChapterRevision(id: number): number {
+  const chapter = CHAPTER_SUMMARIES.find((summary) => summary.id === id);
+  if (!chapter) throw new Error(`chapter ${id} does not exist`);
+  return chapter.revision;
+}
+
 function readSessionCookieFromResponse(headers: Headers): string {
   const setCookies = getSetCookieHeaders(headers);
   for (const cookie of setCookies) {
@@ -359,6 +395,8 @@ async function startAppServer(): Promise<DevServer> {
       ...process.env,
       NEXT_TELEMETRY_DISABLED: "1",
       NODE_ENV: "production",
+      MONGODB_URI: "",
+      MONGODB_DB_NAME: "",
       LEARN_MALAY_ADMIN_PASSWORD: "admin-test-password",
       LEARN_MALAY_DEMO_PASSWORD: "demo-test-password",
     },
