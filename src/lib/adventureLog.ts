@@ -16,6 +16,37 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.13.3",
+    date: "2026-07-05",
+    headline: {
+      ms: "Bab 4, 5, 6, 8, dan 9 kini menggunakan karya bab yang lebih kemas",
+      en: "Chapters 4, 5, 6, 8, and 9 now use cleaner chapter artwork",
+      es: "Los Capítulos 4, 5, 6, 8 y 9 ahora usan arte de capítulo más limpio",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Menyegarkan dan mengoptimumkan aset WebP runtime untuk Bab 4, 5, 6, 8, dan 9, termasuk imej arah `terus` baharu dalam Bab 4 dan laluan aset bab yang lebih seragam.",
+          en: "Refreshed and optimized the Chapter 4, 5, 6, 8, and 9 runtime WebP assets, including a new `terus` route image in Chapter 4 and more consistent chapter asset paths.",
+          es: "Se actualizaron y optimizaron los recursos WebP runtime de los Capítulos 4, 5, 6, 8 y 9, incluida una nueva imagen de ruta `terus` en el Capítulo 4 y rutas de recursos más uniformes.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Membuang aset placeholder lama Bab 7, 8, dan 9 serta PNG runtime Bab 5 dan 6 yang telah diganti supaya hanya aset bab aktif yang tinggal.",
+          en: "Removed the old Chapter 7, 8, and 9 placeholder assets and the superseded Chapter 5 and 6 runtime PNGs so only the active chapter assets remain.",
+          es: "Se eliminaron los antiguos recursos placeholder de los Capítulos 7, 8 y 9 y los PNG runtime reemplazados de los Capítulos 5 y 6 para dejar solo los recursos activos.",
+        },
+        {
+          ms: "Semakan kandungan Bab 4, 5, 6, 8, dan 9 dinaikkan supaya pengguna lama boleh melihat notis kemas kini bab pilihan untuk karya yang disegarkan.",
+          en: "Chapter 4, 5, 6, 8, and 9 content revisions were increased so returning learners can see the optional chapter update notices for the refreshed artwork.",
+          es: "Se aumentaron las revisiones de contenido de los Capítulos 4, 5, 6, 8 y 9 para que los usuarios anteriores vean los avisos opcionales de actualización por el arte renovado.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.13.2",
     date: "2026-07-03",
     headline: {

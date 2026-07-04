@@ -1,7 +1,7 @@
 # Learn Malay Product Roadmap
 
-Updated: 2026-07-03
-Current version baseline: `0.13.2`
+Updated: 2026-07-05
+Current version baseline: `0.13.3`
 
 ## Purpose
 `ROADMAP.md` is the maintainer-facing planning and execution doc.
@@ -29,7 +29,7 @@ It does **not** replace release notes.
   - MongoDB-backed storage when configured, with in-memory fallback in dev.
   - Roles and controls: `user`, `demo`, `admin`; admin security hardening in place.
 - Current priorities:
-  - `Now`: close content quality gaps (especially Ch9/Ch10 placeholder assets/content polish).
+  - `Now`: close the remaining content quality gaps (especially Ch10 placeholder assets/content polish).
   - `Next`: add repeatable release and QA automation.
   - `Later`: expand gameplay/features after quality + process baseline.
 
@@ -66,14 +66,15 @@ It does **not** replace release notes.
 - Added `AGENTS.md` release discipline to standardize commit/release/tag behavior.
 - Ignored local planning context folders to reduce accidental noise in release commits.
 - Shipped `0.13.1` as a patch release for page-load transfer-size optimization, reproducible chapter-summary/PWA icon checks, and runtime asset path hygiene.
+- Shipped `0.13.3` as a patch release for refreshed Chapter 4, 5, 6, 8, and 9 artwork, cleaned chapter runtime paths, and placeholder retirement in the affected chapter asset sets.
 
 ## Future Lanes
 
 ### Now
-1. Goal: Close learner-facing content quality gaps (focus: Ch9/Ch10 placeholders and related polish).
-   - Why: Placeholder assets reduce trust and perceived completeness in core learning paths.
+1. Goal: Close learner-facing content quality gaps (focus: Ch10 placeholders and related polish).
+   - Why: Remaining placeholder assets still reduce trust and perceived completeness in core learning paths.
    - Done when:
-     - Chapter 9 and Chapter 10 placeholder visuals are replaced with final assets.
+     - Chapter 10 placeholder visuals are replaced with final assets.
      - A quick chapter content QA pass confirms no obvious placeholder copy/media remains in published chapter flow.
      - Visual/copy updates are reflected in the next release notes without version-drift.
 

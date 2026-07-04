@@ -7,7 +7,7 @@ const malam = "/assets/chapters/ch4/malam.webp";
 
 export const chapter04: ChapterContent = {
   id: 4,
-  revision: 4,
+  revision: 5,
   title: { ms: "Masa\n& Arah Jalan", en: "Time & Simple Routes", es: "Tiempo y Rutas Sencillas" },
   pages: [
     {

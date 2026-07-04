@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter06: ChapterContent = {
   id: 6,
-  revision: 2,
+  revision: 3,
   title: { ms: "Alam Sekitar & Cuaca", en: "Environment & Weather", es: "Medioambiente y Clima" },
   pages: [
     {

@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [0.13.3] - 2026-07-05
+
+### Changed
+- Refreshed and optimized the learner-facing runtime artwork for Chapters 4, 5, 6, 8, and 9, added the Chapter 4 `terus` route image, and normalized the affected runtime chapter asset paths to the current WebP set.
+
+### Fixed
+- Removed obsolete Chapter 5 and Chapter 6 runtime PNGs and the unused Chapter 7, 8, and 9 placeholder assets after confirming the active chapter references no longer depend on them.
+- Incremented the Chapter 4, 5, 6, 8, and 9 content revisions so returning learners can see the optional chapter update notices for the refreshed artwork.
+
 ## [0.13.2] - 2026-07-03
 
 ### Changed

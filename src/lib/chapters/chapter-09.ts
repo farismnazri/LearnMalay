@@ -145,7 +145,7 @@ const occupationRows = [
 
 export const chapter09: ChapterContent = {
   id: 9,
-  revision: 2,
+  revision: 3,
   title: {
     ms: "Pekerjaan di Sekitar Kita",
     en: "Jobs Around Us",
