@@ -16,6 +16,38 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.14.0",
+    date: "2026-07-05",
+    headline: {
+      ms: "Arah Jalan kini menggunakan peta runtime dinamik yang lebih jelas",
+      en: "Arah Jalan now uses a clearer dynamic runtime map",
+      es: "Arah Jalan ahora usa un mapa runtime dinámico más claro",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah peta runtime dinamik untuk Arah Jalan dengan papan Mudah dan Sukar, penempatan lokasi rawak, dan aset WebP khusus bagi setiap lokasi.",
+          en: "Added a dynamic runtime map for Arah Jalan with Easy and Hard boards, randomized location placement, and dedicated WebP artwork for each location.",
+          es: "Se agregó un mapa runtime dinámico para Arah Jalan con tableros Fácil y Difícil, colocación aleatoria de ubicaciones y arte WebP dedicado para cada ubicación.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Paparan Arah Jalan kini merender peta dengan grid React/CSS, lokasi yang lebih jelas dibaca, serta kawalan arahan yang lebih kemas untuk BM, EN, dan ES.",
+          en: "Arah Jalan now renders its map with a React/CSS grid, clearer readable locations, and cleaner command controls across BM, EN, and ES.",
+          es: "Arah Jalan ahora renderiza su mapa con una cuadrícula React/CSS, ubicaciones más legibles y controles de comandos más limpios en BM, EN y ES.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Menghapus kebergantungan pada imej peta tetap dan membaiki kebolehbacaan peta dengan penanda, garis sambung, dan saiz karya lokasi yang lebih seimbang.",
+          en: "Removed the dependency on a fixed map image and improved map readability with better-balanced markers, connector lines, and location artwork sizing.",
+          es: "Se eliminó la dependencia de una imagen de mapa fija y se mejoró la legibilidad del mapa con marcadores, líneas de conexión y tamaños de arte de ubicación mejor equilibrados.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.13.3",
     date: "2026-07-05",
     headline: {

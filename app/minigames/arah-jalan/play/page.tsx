@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { UiLang } from "@/lib/chapters";
+import ArahJalanDynamicMap from "@/components/game/ArahJalanDynamicMap";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import StylizedTitle from "@/components/game/StylizedTitle";
 import IconActionLink from "@/components/navigation/IconActionLink";
@@ -12,10 +13,16 @@ import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import {
   ARAH_JALAN_COMMAND_LABELS,
   ARAH_JALAN_COMMAND_ORDER,
-  ARAH_JALAN_EASY_MAP,
   ARAH_JALAN_MISSION_PREFIX,
   ARAH_JALAN_PLAY_HELPER,
 } from "@/lib/arahJalan/items";
+import {
+  ARAH_JALAN_DIFFICULTIES,
+  ARAH_JALAN_DIFFICULTY_IDS,
+  createRandomArahJalanBoard,
+  type ArahJalanBoard,
+  type ArahJalanDifficultyId,
+} from "@/lib/arahJalan/board";
 import {
   canAppendCommand,
   pickRandomScenario,
@@ -37,7 +44,11 @@ const STEP_DELAY_MS = 460;
 type Translated = { ms: string; en: string; es: string };
 type FeedbackTone = "ok" | "bad" | "warn";
 type FeedbackState = { tone: FeedbackTone; text: string };
-type RoadSegment = { id: string; from: ArahJalanNode; to: ArahJalanNode };
+type ArahJalanRound = {
+  board: ArahJalanBoard;
+  scenario: ArahJalanScenario;
+};
+type ActionIconKind = "run" | "undo" | "clear";
 
 function readUiLang(): UiLang {
   if (typeof window === "undefined") return "ms";
@@ -59,6 +70,47 @@ function commandSecondaryLabel(commandId: ArahJalanCommandId, lang: UiLang) {
   return lang === "es" ? label.es : label.en;
 }
 
+function actionLabel(kind: ActionIconKind, lang: UiLang): string {
+  if (kind === "run") {
+    return lang === "ms" ? "Jalankan" : lang === "en" ? "Run" : "Ejecutar";
+  }
+  if (kind === "undo") {
+    return lang === "ms"
+      ? "Undur satu langkah"
+      : lang === "en"
+      ? "Undo one step"
+      : "Deshacer un paso";
+  }
+  return lang === "ms" ? "Kosongkan arahan" : lang === "en" ? "Clear commands" : "Vaciar comandos";
+}
+
+function ActionIcon({ kind }: { kind: ActionIconKind }) {
+  if (kind === "run") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4.5 w-4.5 fill-current">
+        <path d="M8 5.5v13l10-6.5z" />
+      </svg>
+    );
+  }
+  if (kind === "undo") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4.5 w-4.5 fill-none stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 7H4v5" />
+        <path d="M4 12c1.8-3.9 5.5-6 9.6-6 4.6 0 8.4 2.7 9.4 7" />
+      </svg>
+    );
+  }
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4.5 w-4.5 fill-none stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 3h6" />
+      <path d="M10 8v8" />
+      <path d="M14 8v8" />
+      <path d="M5 6h14" />
+      <path d="M7 6l1 14h8l1-14" />
+    </svg>
+  );
+}
+
 function facingLabel(facing: Facing): Translated {
   switch (facing) {
     case "north":
@@ -69,19 +121,6 @@ function facingLabel(facing: Facing): Translated {
       return { ms: "Selatan", en: "South", es: "Sur" };
     case "west":
       return { ms: "Barat", en: "West", es: "Oeste" };
-  }
-}
-
-function facingAngle(facing: Facing) {
-  switch (facing) {
-    case "north":
-      return 0;
-    case "east":
-      return 90;
-    case "south":
-      return 180;
-    case "west":
-      return 270;
   }
 }
 
@@ -121,33 +160,18 @@ function failureMessage(reason: ArahJalanFailureReason | null, lang: UiLang): st
     : "Fallo: el comando final debe ser 'Sampai'.";
 }
 
-function buildRoadSegments(): RoadSegment[] {
-  const out: RoadSegment[] = [];
-  const seen = new Set<string>();
-
-  for (const [fromId, directions] of Object.entries(ARAH_JALAN_EASY_MAP.connections)) {
-    const fromNode = ARAH_JALAN_EASY_MAP.nodes[fromId];
-    if (!fromNode) continue;
-
-    for (const toId of Object.values(directions)) {
-      if (!toId) continue;
-      const toNode = ARAH_JALAN_EASY_MAP.nodes[toId];
-      if (!toNode) continue;
-
-      const key = [fromId, toId].sort().join("--");
-      if (seen.has(key)) continue;
-      seen.add(key);
-      out.push({ id: key, from: fromNode, to: toNode });
-    }
-  }
-
-  return out;
-}
-
 function buildMissionText(destination: ArahJalanNode, lang: UiLang) {
   if (lang === "ms") return `${ARAH_JALAN_MISSION_PREFIX.ms} ${destination.label.ms}.`;
   if (lang === "en") return `${ARAH_JALAN_MISSION_PREFIX.en} the ${destination.label.en}.`;
   return `${ARAH_JALAN_MISSION_PREFIX.es} ${destination.label.es}.`;
+}
+
+function createArahJalanRound(difficultyId: ArahJalanDifficultyId): ArahJalanRound {
+  const board = createRandomArahJalanBoard(difficultyId);
+  return {
+    board,
+    scenario: pickRandomScenario(board.graph),
+  };
 }
 
 export default function ArahJalanPlayPage() {
@@ -155,10 +179,11 @@ export default function ArahJalanPlayPage() {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
 
-  const [scenario, setScenario] = useState<ArahJalanScenario>(() => pickRandomScenario(ARAH_JALAN_EASY_MAP));
+  const [difficultyId, setDifficultyId] = useState<ArahJalanDifficultyId>("easy");
+  const [round, setRound] = useState<ArahJalanRound>(() => createArahJalanRound("easy"));
   const [playerState, setPlayerState] = useState<ArahJalanState>(() => ({
-    nodeId: scenario.startNodeId,
-    facing: scenario.startFacing,
+    nodeId: round.scenario.startNodeId,
+    facing: round.scenario.startFacing,
   }));
 
   const [queue, setQueue] = useState<ArahJalanCommandId[]>([]);
@@ -171,18 +196,19 @@ export default function ArahJalanPlayPage() {
   const [fails, setFails] = useState(0);
 
   const runTimersRef = useRef<number[]>([]);
-  const roads = useMemo(() => buildRoadSegments(), []);
+  const { board, scenario } = round;
 
-  const startNode = ARAH_JALAN_EASY_MAP.nodes[scenario.startNodeId];
-  const destinationNode = ARAH_JALAN_EASY_MAP.nodes[scenario.destinationNodeId];
-  const playerNode = ARAH_JALAN_EASY_MAP.nodes[playerState.nodeId];
+  const startNode = board.graph.nodes[scenario.startNodeId];
+  const destinationNode = board.graph.nodes[scenario.destinationNodeId];
+  const playerNode = board.graph.nodes[playerState.nodeId];
 
   const requiredChapter = MINIGAME_PREREQUISITES["arah-jalan"];
   const unlocked = isMinigameUnlocked(user, "arah-jalan");
 
   const secondaryHelperLang: UiLang = lang === "es" ? "es" : "en";
   const missionMs = destinationNode ? `${ARAH_JALAN_MISSION_PREFIX.ms} ${destinationNode.label.ms}.` : "";
-  const missionSecondary = destinationNode ? buildMissionText(destinationNode, secondaryHelperLang) : "";
+  const missionSecondary =
+    lang === "ms" || !destinationNode ? "" : buildMissionText(destinationNode, secondaryHelperLang);
 
   useEffect(() => {
     let alive = true;
@@ -211,16 +237,23 @@ export default function ArahJalanPlayPage() {
     runTimersRef.current = [];
   }
 
-  function startScenario(nextScenario = pickRandomScenario(ARAH_JALAN_EASY_MAP)) {
+  function startScenario(nextDifficultyId: ArahJalanDifficultyId = difficultyId) {
     clearTimers();
-    setScenario(nextScenario);
+    const nextRound = createArahJalanRound(nextDifficultyId);
+    setRound(nextRound);
     setQueue([]);
     setPlayerState({
-      nodeId: nextScenario.startNodeId,
-      facing: nextScenario.startFacing,
+      nodeId: nextRound.scenario.startNodeId,
+      facing: nextRound.scenario.startFacing,
     });
     setLastResult(null);
     setFeedback(null);
+  }
+
+  function changeDifficulty(nextDifficultyId: ArahJalanDifficultyId) {
+    if (isRunning || nextDifficultyId === difficultyId) return;
+    setDifficultyId(nextDifficultyId);
+    startScenario(nextDifficultyId);
   }
 
   function pickLang(next: UiLang) {
@@ -293,7 +326,7 @@ export default function ArahJalanPlayPage() {
     setFeedback(null);
     setLastResult(null);
 
-    const result = simulateArahJalanRun(ARAH_JALAN_EASY_MAP, scenario, queue);
+    const result = simulateArahJalanRun(board.graph, scenario, queue);
     const startingState: ArahJalanState = {
       nodeId: scenario.startNodeId,
       facing: scenario.startFacing,
@@ -450,7 +483,7 @@ export default function ArahJalanPlayPage() {
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
               <div>
                 <div className="text-[11px] font-black uppercase tracking-wide text-[#5d4a13]/70">
-                  {lang === "ms" ? "Peta Mudah Tetap" : lang === "en" ? "Fixed Easy Map" : "Mapa fijo fácil"}
+                  {lang === "ms" ? "Peta Dinamik" : lang === "en" ? "Dynamic Map" : "Mapa dinámico"}
                 </div>
                 <div className="text-sm font-black text-[#4a380b]">
                   {lang === "ms"
@@ -458,6 +491,29 @@ export default function ArahJalanPlayPage() {
                     : lang === "en"
                     ? "Left: West • Right: East • Up: North • Down: South"
                     : "Izquierda: Oeste • Derecha: Este • Arriba: Norte • Abajo: Sur"}
+                </div>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {ARAH_JALAN_DIFFICULTY_IDS.map((id) => {
+                    const difficulty = ARAH_JALAN_DIFFICULTIES[id];
+                    const selected = difficultyId === id;
+                    return (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => changeDifficulty(id)}
+                        disabled={isRunning || selected}
+                        className={[
+                          "touch-target rounded-full border px-3 py-1.5 text-xs font-black shadow-sm transition",
+                          selected
+                            ? "border-[#9b6a0c] bg-[#ffc94f] text-[#3d2d00]"
+                            : "border-[#d6bd78] bg-white text-[#5a430b] hover:bg-[#fff0c7]",
+                          isRunning ? "cursor-not-allowed opacity-70" : "",
+                        ].join(" ")}
+                      >
+                        {pick(difficulty.label, lang)} · {difficulty.gridSize}x{difficulty.gridSize}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-[#d8c792] bg-[#fff5d5] px-2.5 py-1.5 text-xs font-black text-[#5b4510]">
@@ -476,76 +532,12 @@ export default function ArahJalanPlayPage() {
               </div>
             </div>
 
-            <div className="relative overflow-hidden rounded-2xl border border-[#d6c48d] bg-[#e8e8e8] p-2">
-              <svg viewBox="0 0 100 90" className="h-[420px] w-full phone-lg:h-[520px]">
-                <rect x={0} y={0} width={100} height={90} fill="#cfd2d6" />
-                <rect x={2} y={2} width={96} height={86} fill="#d8dade" stroke="#a9adb4" strokeWidth={0.8} />
-
-                <g stroke="#6e7580" strokeWidth={5.2} strokeLinecap="round">
-                  {roads.map((road) => (
-                    <line
-                      key={road.id}
-                      x1={road.from.x}
-                      y1={road.from.y}
-                      x2={road.to.x}
-                      y2={road.to.y}
-                    />
-                  ))}
-                </g>
-
-                {destinationNode && (
-                  <g>
-                    <circle
-                      cx={destinationNode.x}
-                      cy={destinationNode.y}
-                      r={6.6}
-                      fill="none"
-                      stroke="#f8c94a"
-                      strokeWidth={1.6}
-                    />
-                    <circle
-                      cx={destinationNode.x}
-                      cy={destinationNode.y}
-                      r={8.8}
-                      fill="none"
-                      stroke="#7f5f0a"
-                      strokeDasharray="1.2 1.4"
-                      strokeWidth={0.8}
-                    />
-                  </g>
-                )}
-
-                {Object.values(ARAH_JALAN_EASY_MAP.nodes).map((node) => (
-                  <g key={node.id}>
-                    <circle
-                      cx={node.x}
-                      cy={node.y}
-                      r={node.isLandmark ? 3.8 : 3}
-                      fill={node.isLandmark ? "#f9f2dc" : "#f2f4f6"}
-                      stroke="#4a4f57"
-                      strokeWidth={0.8}
-                    />
-                    <text
-                      x={node.x}
-                      y={node.y - 5.3}
-                      textAnchor="middle"
-                      fontSize={2.3}
-                      fontWeight={800}
-                      fill="#2b3138"
-                    >
-                      {node.label.ms}
-                    </text>
-                  </g>
-                ))}
-
-                {playerNode && (
-                  <g transform={`translate(${playerNode.x} ${playerNode.y}) rotate(${facingAngle(playerState.facing)})`}>
-                    <circle cx={0} cy={0} r={3.6} fill="#ffffff" stroke="#1f2937" strokeWidth={0.9} />
-                    <polygon points="0,-6.6 4.2,4.6 -4.2,4.6" fill="#ef4444" stroke="#111827" strokeWidth={0.7} />
-                  </g>
-                )}
-              </svg>
-            </div>
+            <ArahJalanDynamicMap
+              board={board}
+              playerState={playerState}
+              destinationNodeId={scenario.destinationNodeId}
+              stepDelayMs={STEP_DELAY_MS}
+            />
           </div>
 
           <aside className="space-y-4 lg:sticky lg:top-3 lg:self-start">
@@ -554,7 +546,7 @@ export default function ArahJalanPlayPage() {
                 {lang === "ms" ? "Misi" : lang === "en" ? "Mission" : "Misión"}
               </div>
               <div className="mt-1 text-base font-black text-[#3d2d00]">{missionMs}</div>
-              <div className="mt-1 text-xs font-bold text-[#6b5415]">{missionSecondary}</div>
+              {missionSecondary ? <div className="mt-1 text-xs font-bold text-[#6b5415]">{missionSecondary}</div> : null}
 
               <div className="mt-3 space-y-2 rounded-2xl border border-[#e0d1a2] bg-white/80 p-3 text-xs font-black text-[#5f4a13]">
                 <div>
@@ -594,7 +586,9 @@ export default function ArahJalanPlayPage() {
                       ].join(" ")}
                     >
                       <div className="text-xs font-black">{label.ms}</div>
-                      <div className="text-[10px] font-semibold opacity-75">{commandSecondaryLabel(commandId, lang)}</div>
+                      {lang === "ms" ? null : (
+                        <div className="text-[10px] font-semibold opacity-75">{commandSecondaryLabel(commandId, lang)}</div>
+                      )}
                     </button>
                   );
                 })}
@@ -643,40 +637,46 @@ export default function ArahJalanPlayPage() {
                   type="button"
                   onClick={runQueue}
                   disabled={isRunning || queue.length === 0}
+                  aria-label={actionLabel("run", lang)}
+                  title={actionLabel("run", lang)}
                   className={[
-                    "touch-target rounded-xl border px-3 py-2 text-xs font-black shadow",
+                    "touch-target flex items-center justify-center rounded-xl border px-3 py-2 text-xs font-black shadow",
                     isRunning || queue.length === 0
                       ? "cursor-not-allowed border-[#d9cea7] bg-[#ece7d8] text-[#807159]"
                       : "border-[#3a7a35] bg-[#65b559] text-white hover:bg-[#5aac4e]",
                   ].join(" ")}
                 >
-                  Run
+                  <ActionIcon kind="run" />
                 </button>
                 <button
                   type="button"
                   onClick={undoCommand}
                   disabled={isRunning || queue.length === 0}
+                  aria-label={actionLabel("undo", lang)}
+                  title={actionLabel("undo", lang)}
                   className={[
-                    "touch-target rounded-xl border px-3 py-2 text-xs font-black shadow",
+                    "touch-target flex items-center justify-center rounded-xl border px-3 py-2 text-xs font-black shadow",
                     isRunning || queue.length === 0
                       ? "cursor-not-allowed border-[#d9cea7] bg-[#ece7d8] text-[#807159]"
                       : "border-[#d1bc82] bg-white text-[#5a430b] hover:bg-[#fff0c7]",
                   ].join(" ")}
                 >
-                  Undo
+                  <ActionIcon kind="undo" />
                 </button>
                 <button
                   type="button"
                   onClick={clearQueue}
                   disabled={isRunning || queue.length === 0}
+                  aria-label={actionLabel("clear", lang)}
+                  title={actionLabel("clear", lang)}
                   className={[
-                    "touch-target rounded-xl border px-3 py-2 text-xs font-black shadow",
+                    "touch-target flex items-center justify-center rounded-xl border px-3 py-2 text-xs font-black shadow",
                     isRunning || queue.length === 0
                       ? "cursor-not-allowed border-[#d9cea7] bg-[#ece7d8] text-[#807159]"
                       : "border-[#d1bc82] bg-white text-[#5a430b] hover:bg-[#fff0c7]",
                   ].join(" ")}
                 >
-                  Clear
+                  <ActionIcon kind="clear" />
                 </button>
               </div>
 

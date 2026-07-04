@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-07-05
+
+### Added
+- Added a dynamic runtime map for Arah Jalan with Easy and Hard boards, randomized location placement, and dedicated WebP artwork for each location.
+
+### Changed
+- Arah Jalan now renders its play map with a React/CSS grid, clearer readable location overlays, and cleaner BM/EN/ES command controls.
+
+### Fixed
+- Removed the dependency on a fixed stitched-style map image and improved Arah Jalan map readability with better-balanced markers, connector lines, and location artwork sizing.
+
 ## [0.13.3] - 2026-07-05
 
 ### Changed

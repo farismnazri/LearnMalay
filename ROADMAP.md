@@ -1,7 +1,7 @@
 # Learn Malay Product Roadmap
 
 Updated: 2026-07-05
-Current version baseline: `0.13.3`
+Current version baseline: `0.14.0`
 
 ## Purpose
 `ROADMAP.md` is the maintainer-facing planning and execution doc.
@@ -67,6 +67,7 @@ It does **not** replace release notes.
 - Ignored local planning context folders to reduce accidental noise in release commits.
 - Shipped `0.13.1` as a patch release for page-load transfer-size optimization, reproducible chapter-summary/PWA icon checks, and runtime asset path hygiene.
 - Shipped `0.13.3` as a patch release for refreshed Chapter 4, 5, 6, 8, and 9 artwork, cleaned chapter runtime paths, and placeholder retirement in the affected chapter asset sets.
+- Shipped `0.14.0` as a minor release for the Arah Jalan dynamic runtime map, dedicated minigame WebP assets, and readability-focused play UI polish.
 
 ## Future Lanes
 
