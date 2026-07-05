@@ -168,7 +168,12 @@ export type PronounCardItem = {
   description: Translated;
   imageSrc: string;
   imageAlt: Translated;
-  info?: Translated;
+  info?:
+    | Translated
+    | {
+        example: Translated;
+        description: Translated;
+      };
   translation?: {
     en: string;
     es: string;

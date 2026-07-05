@@ -2,7 +2,7 @@ import type { ChapterContent } from "./types";
 
 export const chapter01: ChapterContent = {
   id: 1,
-  revision: 6,
+  revision: 7,
   title: { ms: "Sapaan", en: "Greetings", es: "Saludos" },
 
   pages: [
@@ -325,9 +325,16 @@ export const chapter01: ChapterContent = {
                 es: "Cómic para Kita",
               },
               info: {
-                ms: "Kita digunakan apabila orang yang mendengar termasuk dalam kumpulan.",
-                en: "Use kita when the listener is included in the group.",
-                es: "Usa kita cuando quien escucha está incluido en el grupo.",
+                example: {
+                  ms: "Kita pergi sekarang.",
+                  en: "Kita pergi sekarang.",
+                  es: "Kita pergi sekarang.",
+                },
+                description: {
+                  ms: "Kita digunakan apabila orang yang mendengar termasuk dalam kumpulan.",
+                  en: "Use kita when the listener is included in the group.",
+                  es: "Usa kita cuando quien escucha está incluido en el grupo.",
+                },
               },
               translation: {
                 en: "We/us, including you.",
@@ -353,9 +360,16 @@ export const chapter01: ChapterContent = {
                 es: "Cómic para Kami",
               },
               info: {
-                ms: "Kami digunakan apabila orang yang mendengar tidak termasuk dalam kumpulan.",
-                en: "Use kami when the listener is not included in the group.",
-                es: "Usa kami cuando quien escucha no está incluido en el grupo.",
+                example: {
+                  ms: "Kami pergi sekarang.",
+                  en: "Kami pergi sekarang.",
+                  es: "Kami pergi sekarang.",
+                },
+                description: {
+                  ms: "Kami digunakan apabila orang yang mendengar tidak termasuk dalam kumpulan.",
+                  en: "Use kami when the listener is not included in the group.",
+                  es: "Usa kami cuando quien escucha no está incluido en el grupo.",
+                },
               },
               translation: {
                 en: "We/us, not including you.",
@@ -381,13 +395,20 @@ export const chapter01: ChapterContent = {
                 es: "Cómic para Kamu semua",
               },
               info: {
-                ms: "Kamu semua sihat?",
-                en: "Kamu semua sihat?",
-                es: "Kamu semua sihat?",
+                example: {
+                  ms: "Kamu semua faham?",
+                  en: "Kamu semua faham?",
+                  es: "Kamu semua faham?",
+                },
+                description: {
+                  ms: "Kamu semua digunakan apabila bercakap kepada lebih daripada seorang pendengar.",
+                  en: "Use kamu semua when speaking to more than one listener.",
+                  es: "Usa kamu semua cuando hablas con más de una persona.",
+                },
               },
               translation: {
-                en: "Are all of you well?",
-                es: "¿Están todos bien?",
+                en: "Do all of you understand?",
+                es: "¿Entienden todos ustedes?",
               },
             },
             {
@@ -409,13 +430,20 @@ export const chapter01: ChapterContent = {
                 es: "Cómic para Mereka",
               },
               info: {
-                ms: "Mereka kawan saya.",
-                en: "Mereka kawan saya.",
-                es: "Mereka kawan saya.",
+                example: {
+                  ms: "Mereka di sekolah.",
+                  en: "Mereka di sekolah.",
+                  es: "Mereka di sekolah.",
+                },
+                description: {
+                  ms: "Mereka digunakan untuk orang lain yang sedang dibualkan, bukan orang yang bercakap atau orang yang mendengar.",
+                  en: "Use mereka for other people being talked about, not the speaker or the listener.",
+                  es: "Usa mereka para otras personas de quienes se habla, no para quien habla ni para quien escucha.",
+                },
               },
               translation: {
-                en: "They are my friends.",
-                es: "Son mis amigos.",
+                en: "They are at school.",
+                es: "Ellos están en la escuela.",
               },
             },
           ],

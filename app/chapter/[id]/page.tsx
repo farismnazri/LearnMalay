@@ -63,6 +63,7 @@ import {
   type UiLang,
   type ChapterPage,
   type ChapterSection,
+  type PronounCardItem,
   type Translated,
 } from "@/lib/chapters";
 
@@ -748,6 +749,23 @@ function tr(text: Translated, lang: UiLang) {
   return lang === "en" ? text.en : lang === "es" ? text.es : text.ms;
 }
 
+function PronounInfo({ info, lang }: { info: NonNullable<PronounCardItem["info"]>; lang: UiLang }) {
+  if ("example" in info) {
+    return (
+      <div className="rounded-lg border-2 border-[#25140c]/30 bg-[#fff1b3] px-2.5 py-2 text-xs leading-snug text-[#25140c]/80">
+        <div className="font-black">{tr(info.example, lang)}</div>
+        <div className="mt-1 italic">{tr(info.description, lang)}</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-lg border-2 border-[#25140c]/30 bg-[#fff1b3] px-2.5 py-2 text-xs font-black leading-snug text-[#25140c]/80">
+      {tr(info, lang)}
+    </div>
+  );
+}
+
 function PronounLessonCard({
   page,
   lang,
@@ -821,11 +839,7 @@ function PronounLessonCard({
                   </div>
 
                   <div className="mt-2 grid flex-1 content-start gap-2">
-                    {card.info && (
-                      <div className="rounded-lg border-2 border-[#25140c]/30 bg-[#fff1b3] px-2.5 py-2 text-xs font-black leading-snug text-[#25140c]/80">
-                        {tr(card.info, lang)}
-                      </div>
-                    )}
+                    {card.info && <PronounInfo info={card.info} lang={lang} />}
                     {lang !== "ms" && card.translation && (
                       <div className="rounded-lg border-2 border-[#25140c]/25 bg-white px-2.5 py-2 text-sm font-extrabold leading-snug text-[#25140c]/75">
                         {lang === "en" ? card.translation.en : card.translation.es}
