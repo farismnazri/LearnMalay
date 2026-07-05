@@ -1,7 +1,7 @@
 # Learn Malay Product Roadmap
 
 Updated: 2026-07-05
-Current version baseline: `0.15.0`
+Current version baseline: `0.15.1`
 
 ## Purpose
 `ROADMAP.md` is the maintainer-facing planning and execution doc.
@@ -69,6 +69,7 @@ It does **not** replace release notes.
 - Shipped `0.13.3` as a patch release for refreshed Chapter 4, 5, 6, 8, and 9 artwork, cleaned chapter runtime paths, and placeholder retirement in the affected chapter asset sets.
 - Shipped `0.14.0` as a minor release for the Arah Jalan dynamic runtime map, dedicated minigame WebP assets, and readability-focused play UI polish.
 - Shipped `0.15.0` as a minor release for streak-based Arah Jalan highscores, game-specific ranking support, and the admin-login regression fix plus coverage for the shared auth flow.
+- Shipped `0.15.1` as a patch release for clearer Chapter 1 plural pronoun-card examples, explanations, and returning-learner update notice coverage.
 
 ## Future Lanes
 

@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [0.15.1] - 2026-07-05
+
+### Changed
+- Refined the Chapter 1 plural pronoun cards so `kita`, `kami`, `kamu semua`, and `mereka` show clearer examples and beginner-friendly usage guidance.
+
+### Fixed
+- Incremented the Chapter 1 content revision from `6` to `7` so returning learners can see the optional update notice for the pronoun-card refinement.
+
 ## [0.15.0] - 2026-07-05
 
 ### Added

@@ -16,6 +16,32 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.15.1",
+    date: "2026-07-05",
+    headline: {
+      ms: "Kad kata ganti nama jamak Bab 1 kini lebih jelas",
+      en: "Chapter 1 plural pronoun cards are clearer",
+      es: "Las tarjetas de pronombres plurales del Capitulo 1 son mas claras",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Memperkemas kad kata ganti nama jamak Bab 1 supaya kita, kami, kamu semua, dan mereka memaparkan contoh ayat yang lebih jelas serta penerangan penggunaan yang lebih mudah difahami.",
+          en: "Refined the Chapter 1 plural pronoun cards so kita, kami, kamu semua, and mereka show clearer example sentences and easier beginner guidance.",
+          es: "Se ajustaron las tarjetas de pronombres plurales del Capitulo 1 para que kita, kami, kamu semua y mereka muestren ejemplos mas claros y una guia de uso mas facil para principiantes.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Menaikkan semakan kandungan Bab 1 daripada 6 kepada 7 supaya pelajar lama menerima notis kemas kini pilihan untuk penambahbaikan kata ganti nama ini.",
+          en: "Increased the Chapter 1 content revision from 6 to 7 so returning learners receive the optional update notice for this pronoun refinement.",
+          es: "Se aumento la revision de contenido del Capitulo 1 de 6 a 7 para que quienes regresan reciban el aviso opcional de actualizacion por este ajuste de pronombres.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.15.0",
     date: "2026-07-05",
     headline: {
