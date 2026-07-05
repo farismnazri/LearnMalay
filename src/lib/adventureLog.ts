@@ -16,6 +16,38 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.15.0",
+    date: "2026-07-05",
+    headline: {
+      ms: "Arah Jalan kini menyimpan highscore streak dan log masuk admin kembali stabil",
+      en: "Arah Jalan now saves streak highscores and admin login is stable again",
+      es: "Arah Jalan ahora guarda highscores por racha y el inicio de sesion de admin vuelve a ser estable",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah highscore berasaskan streak untuk Arah Jalan, termasuk simpanan skor terbaik, ranking mengikut kesukaran, dan paparan highscore yang dikemas kini.",
+          en: "Added streak-based highscores for Arah Jalan, including best-score saving, difficulty-aware ranking, and updated highscore displays.",
+          es: "Se agregaron highscores basados en rachas para Arah Jalan, con guardado de mejor puntuacion, ranking segun dificultad y pantallas de highscores actualizadas.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Paparan Arah Jalan dan halaman highscores kini menunjukkan streak terbaik dengan susunan ranking yang sesuai untuk mod ini.",
+          en: "The Arah Jalan play flow and highscores page now show best streaks with ranking tailored to this mode.",
+          es: "El flujo de juego de Arah Jalan y la pagina de highscores ahora muestran las mejores rachas con un ranking adaptado a este modo.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Membaiki regresi yang menyebabkan log masuk admin gagal selepas perubahan highscore, serta menambah ujian untuk pengesahan kata laluan admin.",
+          en: "Fixed the regression that broke admin login after the highscore changes and added tests for admin password verification.",
+          es: "Se corrigio la regresion que rompia el inicio de sesion de admin tras los cambios de highscores y se agregaron pruebas para la verificacion de la contrasena de admin.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.14.0",
     date: "2026-07-05",
     headline: {

@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [0.15.0] - 2026-07-05
+
+### Added
+- Added streak-based highscores for Arah Jalan, including score saving, difficulty-aware ranking, and highscores page support.
+
+### Fixed
+- Fixed the admin-login regression introduced during the Arah Jalan highscore work and added regression coverage for admin password verification.
+
 ## [0.14.0] - 2026-07-05
 
 ### Added
