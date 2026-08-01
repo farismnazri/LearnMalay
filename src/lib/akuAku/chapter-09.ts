@@ -4,20 +4,19 @@ export const chapter09Intro = [
   {
     id: "c9-intro-outcomes",
     ms:
-      "Anda akan dapat belajar mengenai:\n" +
-      "✓ Jenis-jenis pekerjaan.\n" +
-      "✓ Pekerjaan seorang guru.\n" +
-      "✓ Cita-cita menjadi seorang askar.",
+      "Dalam bab ini, anda akan belajar untuk:\n" +
+      "✓ Mengenal pekerjaan dan tugas mudah.\n" +
+      "✓ Bertanya tentang pekerjaan.\n" +
+      "✓ Bercerita tentang pekerjaan yang diminati.",
     en:
-      "You will learn about:\n" +
-      "✓ Types of jobs.\n" +
-      "✓ A teacher's job.\n" +
-      "✓ The aspiration to become a soldier.",
+      "In this chapter, you will learn to:\n" +
+      "✓ Recognise jobs and simple duties.\n" +
+      "✓ Ask about jobs.\n" +
+      "✓ Talk about a job that interests you.",
     es:
-      "Aprenderas sobre:\n" +
-      "✓ Tipos de trabajos.\n" +
-      "✓ El trabajo de un/a profesor/a.\n" +
-      "✓ La aspiración de convertirse en soldado.",
+      "En este capítulo aprenderás a:\n" +
+      "✓ Reconocer trabajos y tareas sencillas.\n" +
+      "✓ Preguntar sobre trabajos.\n" +
+      "✓ Hablar sobre un trabajo que te interesa.",
   },
-  
 ];

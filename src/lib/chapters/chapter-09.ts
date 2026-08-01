@@ -6,19 +6,19 @@ const occupationRows = [
   {
     id: "c9-row-guru",
     cells: {
-      perkara: [{ ms: "Saya seorang guru.", en: "I am a teacher.", es: "Soy maestro." }],
+      perkara: [{ ms: "Guru", en: "Teacher", es: "Docente" }],
       butiran: [
         {
-          ms: "Saya mengajar murid di sekolah.",
-          en: "I teach students at school.",
-          es: "Enseño a los estudiantes en la escuela.",
+          ms: "Guru mengajar murid di sekolah.",
+          en: "A teacher teaches students at school.",
+          es: "Un docente enseña a los alumnos en la escuela.",
         },
       ],
       gambar: [
         {
           kind: "image",
           src: "/assets/chapters/ch9/ch9_cikgu.webp",
-          alt: { ms: "guru mengajar", en: "teacher teaching", es: "maestro enseñando" },
+          alt: { ms: "guru mengajar", en: "teacher teaching", es: "docente enseñando" },
           w: 640,
           h: 360,
           className: occupationImageClassName,
@@ -29,19 +29,19 @@ const occupationRows = [
   {
     id: "c9-row-doktor",
     cells: {
-      perkara: [{ ms: "Saya seorang doktor.", en: "I am a doctor.", es: "Soy doctor." }],
+      perkara: [{ ms: "Doktor", en: "Doctor", es: "Médico o médica" }],
       butiran: [
         {
-          ms: "Saya merawat pesakit.",
-          en: "I treat patients.",
-          es: "Atiendo a los pacientes.",
+          ms: "Doktor merawat pesakit.",
+          en: "A doctor treats patients.",
+          es: "Un médico o una médica atiende a los pacientes.",
         },
       ],
       gambar: [
         {
           kind: "image",
           src: "/assets/chapters/ch9/ch9_doktor.webp",
-          alt: { ms: "doktor merawat pesakit", en: "doctor treating patients", es: "doctor atendiendo pacientes" },
+          alt: { ms: "doktor merawat pesakit", en: "doctor treating patients", es: "médico atendiendo a pacientes" },
           w: 640,
           h: 360,
           className: occupationImageClassName,
@@ -52,19 +52,19 @@ const occupationRows = [
   {
     id: "c9-row-tukang-masak",
     cells: {
-      perkara: [{ ms: "Saya seorang tukang masak.", en: "I am a cook.", es: "Soy cocinero." }],
+      perkara: [{ ms: "Tukang masak", en: "Cook", es: "Cocinero o cocinera" }],
       butiran: [
         {
-          ms: "Saya memasak makanan.",
-          en: "I cook food.",
-          es: "Cocino comida.",
+          ms: "Tukang masak memasak makanan.",
+          en: "A cook prepares food.",
+          es: "Un cocinero o una cocinera prepara comida.",
         },
       ],
       gambar: [
         {
           kind: "image",
           src: "/assets/chapters/ch9/ch9_tukangMasak.webp",
-          alt: { ms: "tukang masak menyediakan kari", en: "cook preparing curry", es: "cocinero preparando curry" },
+          alt: { ms: "tukang masak menyediakan kari", en: "cook preparing curry", es: "cocinero preparando un curry" },
           w: 640,
           h: 360,
           className: occupationImageClassName,
@@ -75,19 +75,19 @@ const occupationRows = [
   {
     id: "c9-row-petani",
     cells: {
-      perkara: [{ ms: "Saya seorang petani.", en: "I am a farmer.", es: "Soy agricultor." }],
+      perkara: [{ ms: "Petani", en: "Farmer", es: "Agricultor o agricultora" }],
       butiran: [
         {
-          ms: "Saya menanam padi di sawah.",
-          en: "I plant rice in the paddy field.",
-          es: "Siembro arroz en el arrozal.",
+          ms: "Petani menanam sayur di kebun.",
+          en: "A farmer grows vegetables on a farm.",
+          es: "Un agricultor o una agricultora cultiva verduras en una granja.",
         },
       ],
       gambar: [
         {
           kind: "image",
           src: "/assets/chapters/ch9/ch9_petani.webp",
-          alt: { ms: "petani di kebun", en: "farmer in the garden", es: "agricultor en el huerto" },
+          alt: { ms: "petani di kebun sayur", en: "farmer in a vegetable garden", es: "agricultor en un huerto" },
           w: 640,
           h: 360,
           className: occupationImageClassName,
@@ -98,19 +98,19 @@ const occupationRows = [
   {
     id: "c9-row-polis",
     cells: {
-      perkara: [{ ms: "Saya seorang anggota polis.", en: "I am a police officer.", es: "Soy policía." }],
+      perkara: [{ ms: "Anggota polis", en: "Police officer", es: "Agente de policía" }],
       butiran: [
         {
-          ms: "Saya membantu orang awam.",
-          en: "I help the public.",
-          es: "Ayudo a la comunidad.",
+          ms: "Anggota polis membantu orang awam.",
+          en: "A police officer helps the public.",
+          es: "Un agente de policía ayuda al público.",
         },
       ],
       gambar: [
         {
           kind: "image",
           src: "/assets/chapters/ch9/ch9_polis.webp",
-          alt: { ms: "polis membuat rondaan", en: "police officer patrolling", es: "policía patrullando" },
+          alt: { ms: "polis membuat rondaan", en: "police officer patrolling", es: "agente de policía patrullando" },
           w: 640,
           h: 360,
           className: occupationImageClassName,
@@ -121,19 +121,19 @@ const occupationRows = [
   {
     id: "c9-row-bomba",
     cells: {
-      perkara: [{ ms: "Saya seorang anggota bomba.", en: "I am a firefighter.", es: "Soy bombero." }],
+      perkara: [{ ms: "Anggota bomba", en: "Firefighter", es: "Bombero o bombera" }],
       butiran: [
         {
-          ms: "Saya memadamkan api kecil.",
-          en: "I put out a small fire.",
-          es: "Apago un fuego pequeño.",
+          ms: "Anggota bomba memadamkan api.",
+          en: "A firefighter puts out fires.",
+          es: "Un bombero o una bombera apaga incendios.",
         },
       ],
       gambar: [
         {
           kind: "image",
           src: "/assets/chapters/ch9/ch9_bomba.webp",
-          alt: { ms: "bomba memadam api", en: "firefighter extinguishing flames", es: "bombero apagando fuego" },
+          alt: { ms: "bomba memadam api", en: "firefighter putting out a fire", es: "bombero apagando un incendio" },
           w: 640,
           h: 360,
           className: occupationImageClassName,
@@ -145,7 +145,7 @@ const occupationRows = [
 
 export const chapter09: ChapterContent = {
   id: 9,
-  revision: 3,
+  revision: 4,
   title: {
     ms: "Pekerjaan di Sekitar Kita",
     en: "Jobs Around Us",
@@ -153,16 +153,54 @@ export const chapter09: ChapterContent = {
   },
   pages: [
     {
+      id: "c9-p1-kenali-pekerjaan",
+      kind: "intro",
+      sections: [
+        {
+          kind: "list",
+          id: "c9-p1-pekerjaan-tambahan",
+          title: {
+            ms: "KENALI PEKERJAAN INI",
+            en: "GET TO KNOW THESE JOBS",
+            es: "CONOCE ESTOS TRABAJOS",
+          },
+          items: [
+            {
+              id: "c9-occupation-askar",
+              ms: "Askar menjaga keselamatan negara.",
+              en: "A soldier protects the country.",
+              es: "Un soldado protege el país.",
+              cardLabel: { ms: "Askar", en: "Soldier", es: "Soldado" },
+            },
+            {
+              id: "c9-occupation-nelayan",
+              ms: "Nelayan menangkap ikan di laut.",
+              en: "A fisher catches fish at sea.",
+              es: "Un pescador pesca en el mar.",
+              cardLabel: { ms: "Nelayan", en: "Fisher", es: "Pescador" },
+            },
+            {
+              id: "c9-occupation-pelakon",
+              ms: "Pelakon berlakon dalam drama atau filem.",
+              en: "An actor performs in dramas or films.",
+              es: "Un actor o una actriz actúa en dramas o películas.",
+              cardLabel: { ms: "Pelakon", en: "Actor", es: "Actor o actriz" },
+            },
+          ],
+        },
+      ],
+    },
+    {
       id: "c9-p3-jenis-pekerjaan",
       kind: "table",
       title: {
-        ms: "Sila baca dan faham ayat di bawah dengan merujuk kepada gambar tersebut.",
-        en: "Read and understand the sentences below while looking at the pictures.",
-        es: "Lee y comprende las oraciones de abajo mientras miras las imágenes.",
+        ms: "Kenali pekerjaan dan tugas mudahnya dengan merujuk kepada gambar.",
+        en: "Learn about jobs and their simple duties by looking at the pictures.",
+        es: "Conoce los trabajos y sus tareas sencillas observando las imágenes.",
       },
       columns: [
-        { key: "perkara", label: { ms: "Ayat", en: "Sentence", es: "Oración" } },
-        { key: "butiran", label: { ms: "Kerja saya", en: "My work", es: "Mi trabajo" } },
+        { key: "perkara", label: { ms: "Pekerjaan", en: "Job", es: "Trabajo" } },
+        { key: "butiran", label: { ms: "Tugas", en: "Duty", es: "Tarea" } },
         { key: "gambar", label: { ms: "Gambar", en: "Image", es: "Imagen" } },
       ],
       rows: occupationRows,
@@ -172,9 +210,9 @@ export const chapter09: ChapterContent = {
       kind: "chat",
       youId: "me",
       title: {
-        ms: "Situasi 9.1 Cita-cita menjadi seorang askar",
-        en: "Situation 9.1 Ambition to become a soldier",
-        es: "Situación 9.1 Aspiración de ser soldado",
+        ms: "Situasi 9.1: Bertanya tentang pekerjaan",
+        en: "Situation 9.1: Asking about jobs",
+        es: "Situación 9.1: Preguntar sobre trabajos",
       },
       context: {
         ms: "Latar tempat: sebuah sekolah",
@@ -184,109 +222,75 @@ export const chapter09: ChapterContent = {
       participants: [
         {
           id: "cikgu",
-          name: { ms: "Cikgu", en: "Teacher", es: "Profesora" },
+          name: { ms: "Cikgu", en: "Teacher", es: "Docente" },
         },
         { id: "me", name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" } },
       ],
       messages: [
-        { id: "c9-chat1-m1", from: "cikgu", text: { ms: "{currentUsername}, cikgu nak tanya.", en: "{currentUsername}, I have a question.", es: "{currentUsername}, tengo una pregunta." } },
         {
-          id: "c9-chat1-m2",
+          id: "c9-chat1-m1",
           from: "cikgu",
           text: {
-            ms: "Apakah cita-cita awak?",
-            en: "What is your ambition?",
-            es: "¿Cuál es tu aspiración?",
+            ms: "Hari ini kita bercakap tentang pekerjaan. Apakah cita-cita awak?",
+            en: "Today we are talking about jobs. What job would you like to do?",
+            es: "Hoy hablamos de trabajos. ¿Qué trabajo te gustaría tener?",
           },
+        },
+        {
+          id: "c9-chat1-m2",
+          from: "me",
+          text: { ms: "Saya mahu menjadi askar, cikgu.", en: "I want to be a soldier, teacher.", es: "Quiero ser soldado, profe." },
         },
         {
           id: "c9-chat1-m3",
-          from: "me",
-          text: {
-            ms: "Saya bercita-cita ingin menjadi seorang askar, cikgu.",
-            en: "I aspire to become a soldier, teacher.",
-            es: "Aspiro a ser soldado, profesora.",
-          },
+          from: "cikgu",
+          text: { ms: "Apakah tugas seorang askar?", en: "What does a soldier do?", es: "¿Qué hace un soldado?" },
         },
         {
           id: "c9-chat1-m4",
-          from: "cikgu",
+          from: "me",
           text: {
-            ms: "Kenapa awak ingin menjadi seorang askar?",
-            en: "Why do you want to become a soldier?",
-            es: "¿Por qué quieres ser soldado?",
+            ms: "Askar menjaga keselamatan negara.",
+            en: "A soldier protects the country.",
+            es: "Un soldado protege el país.",
           },
         },
         {
           id: "c9-chat1-m5",
-          from: "me",
-          text: {
-            ms: "Saya ingin menjaga keamanan negara, cikgu.",
-            en: "I want to protect the country's safety, teacher.",
-            es: "Quiero cuidar la seguridad del país, profesora.",
-          },
+          from: "cikgu",
+          text: { ms: "Bagus. Apakah pekerjaan ayah awak?", en: "Good. What is your father's job?", es: "Bien. ¿En qué trabaja tu padre?" },
         },
         {
           id: "c9-chat1-m6",
-          from: "cikgu",
-          text: {
-            ms: "Awak memang seorang yang sangat berani.",
-            en: "You truly are a very brave person.",
-            es: "Eres una persona muy valiente.",
-          },
+          from: "me",
+          text: { ms: "Ayah saya seorang anggota polis.", en: "My father is a police officer.", es: "Mi padre es agente de policía." },
         },
         {
           id: "c9-chat1-m7",
-          from: "me",
-          text: {
-            ms: "Saya ingin menjadi berani seperti ayah saya, cikgu.",
-            en: "I want to be brave like my father, teacher.",
-            es: "Quiero ser valiente como mi padre, profesora.",
-          },
+          from: "cikgu",
+          text: { ms: "Apakah tugas anggota polis?", en: "What does a police officer do?", es: "¿Qué hace un agente de policía?" },
         },
         {
           id: "c9-chat1-m8",
-          from: "cikgu",
+          from: "me",
           text: {
-            ms: "Apakah pekerjaan ayah awak?",
-            en: "What is your father's job?",
-            es: "¿Cuál es el trabajo de tu padre?",
+            ms: "Anggota polis membantu orang awam.",
+            en: "A police officer helps the public.",
+            es: "Un agente de policía ayuda al público.",
           },
         },
         {
           id: "c9-chat1-m9",
-          from: "me",
-          text: {
-            ms: "Ayah saya seorang anggota polis.",
-            en: "My father is a police officer.",
-            es: "Mi padre es un policía.",
-          },
+          from: "cikgu",
+          text: { ms: "Bagus. Apakah pekerjaan ibu awak?", en: "Good. What is your mother's job?", es: "Bien. ¿En qué trabaja tu madre?" },
         },
         {
           id: "c9-chat1-m10",
-          from: "cikgu",
-          text: {
-            ms: "Baguslah. Semoga cita-cita awak tercapai.",
-            en: "Good. May your ambition come true.",
-            es: "Bien. Ojalá se cumpla tu aspiración.",
-          },
-        },
-        {
-          id: "c9-chat1-m11",
           from: "me",
           text: {
-            ms: "Terima kasih cikgu.",
-            en: "Thank you, teacher.",
-            es: "Gracias, profesora.",
-          },
-        },
-        {
-          id: "c9-chat1-m12",
-          from: "cikgu",
-          text: {
-            ms: "Sama-sama.",
-            en: "You're welcome.",
-            es: "De nada.",
+            ms: "Ibu saya seorang doktor. Doktor merawat pesakit.",
+            en: "My mother is a doctor. A doctor treats patients.",
+            es: "Mi madre es médica. Una médica atiende a los pacientes.",
           },
         },
       ],
@@ -296,99 +300,73 @@ export const chapter09: ChapterContent = {
       kind: "chat",
       youId: "me",
       title: {
-        ms: "Situasi 9.2 Pekerjaan Seorang Guru",
-        en: "Situation 9.2 Work of a Teacher",
-        es: "Situación 9.2 Trabajo de una maestra",
+        ms: "Situasi 9.2: Berbual tentang pekerjaan di kelas",
+        en: "Situation 9.2: Talking about jobs in class",
+        es: "Situación 9.2: Hablar de trabajos en clase",
       },
       context: {
-        ms: "Latar tempat: Sebuah bilik darjah",
-        en: "Setting: A classroom",
-        es: "Lugar: Un aula",
+        ms: "Latar tempat: Anda ({currentUsername}) ialah guru di sebuah bilik darjah.",
+        en: "Setting: You ({currentUsername}) are the teacher in a classroom.",
+        es: "Lugar: Tú ({currentUsername}) eres el docente en un aula.",
       },
       participants: [
-        { id: "ketua", name: { ms: "Ketua kelas", en: "Class monitor", es: "Jefe de clase" } },
+        { id: "ketua", name: { ms: "Ketua kelas", en: "Class monitor", es: "Representante de la clase" } },
         { id: "murid", name: { ms: "Semua murid", en: "All students", es: "Todos los alumnos" } },
         {
           id: "me",
-          name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
+          name: { ms: "Cikgu {currentUsername}", en: "Teacher {currentUsername}", es: "Docente {currentUsername}" },
         },
         { id: "finah", name: { ms: "Finah", en: "Finah", es: "Finah" } },
       ],
       messages: [
-        { id: "c9-chat2-m1", from: "ketua", text: { ms: "Selamat pagi, cikgu.", en: "Good morning, teacher.", es: "Buenos días, profesora." } },
-        { id: "c9-chat2-m2", from: "murid", text: { ms: "Selamat pagi, cikgu.", en: "Good morning, teacher.", es: "Buenos días, profesora." } },
+        { id: "c9-chat2-m1", from: "ketua", text: { ms: "Selamat pagi, cikgu.", en: "Good morning, teacher.", es: "Buenos días, profe." } },
+        { id: "c9-chat2-m2", from: "murid", text: { ms: "Selamat pagi, cikgu.", en: "Good morning, teacher.", es: "Buenos días, profe." } },
         {
           id: "c9-chat2-m3",
           from: "me",
           text: {
-            ms: "Selamat pagi. Hari ini kita buat aktiviti cari kata kerja.",
-            en: "Good morning. Today we will do an activity to find action words.",
-            es: "Buenos días. Hoy haremos una actividad para encontrar palabras de acción.",
+            ms: "Selamat pagi. Hari ini kita bercakap tentang pekerjaan dan tugasnya.",
+            en: "Good morning. Today we are talking about jobs and their duties.",
+            es: "Buenos días. Hoy hablamos de trabajos y sus tareas.",
           },
         },
-        { id: "c9-chat2-m4", from: "murid", text: { ms: "Baik, cikgu.", en: "Okay, teacher.", es: "Está bien, profesora." } },
+        {
+          id: "c9-chat2-m4",
+          from: "me",
+          text: { ms: "Finah, apakah pekerjaan ibu awak?", en: "Finah, what is your mother's job?", es: "Finah, ¿en qué trabaja tu madre?" },
+        },
         {
           id: "c9-chat2-m5",
-          from: "me",
-          text: {
-            ms: "Dengar ayat ini: Aina menyusun buku di atas meja.",
-            en: "Listen to this sentence: Aina arranges books on the table.",
-            es: "Escuchen esta oración: Aina ordena libros sobre la mesa.",
-          },
+          from: "finah",
+          text: { ms: "Ibu saya seorang doktor.", en: "My mother is a doctor.", es: "Mi madre es médica." },
         },
-        { id: "c9-chat2-m6", from: "murid", text: { ms: "Aina menyusun buku di atas meja.", en: "Aina arranges books on the table.", es: "Aina ordena libros sobre la mesa." } },
+        {
+          id: "c9-chat2-m6",
+          from: "me",
+          text: { ms: "Apakah tugas seorang doktor?", en: "What does a doctor do?", es: "¿Qué hace un médico o una médica?" },
+        },
         {
           id: "c9-chat2-m7",
-          from: "me",
-          text: {
-            ms: "Bagus. Finah, mana satu kata kerja?",
-            en: "Good. Finah, which one is the action word?",
-            es: "Bien. Finah, ¿cuál es la palabra de acción?",
-          },
+          from: "finah",
+          text: { ms: "Doktor merawat pesakit.", en: "A doctor treats patients.", es: "Un médico o una médica atiende a los pacientes." },
         },
         {
           id: "c9-chat2-m8",
-          from: "finah",
-          text: {
-            ms: "Kata kerja ialah menyusun.",
-            en: "The action word is arranges.",
-            es: "La palabra de acción es ordena.",
-          },
+          from: "me",
+          text: { ms: "Betul. Semua murid, apakah tugas seorang guru?", en: "Correct. Students, what does a teacher do?", es: "Correcto. Alumnos, ¿qué hace un docente?" },
         },
         {
           id: "c9-chat2-m9",
-          from: "me",
-          text: {
-            ms: "Betul. Menyusun ialah perbuatan.",
-            en: "Correct. Arranging is an action.",
-            es: "Correcto. Ordenar es una acción.",
-          },
+          from: "murid",
+          text: { ms: "Guru mengajar murid di sekolah.", en: "A teacher teaches students at school.", es: "Un docente enseña a los alumnos en la escuela." },
         },
         {
           id: "c9-chat2-m10",
           from: "me",
           text: {
-            ms: "Sekarang cuba ayat kedua: Amir melukis peta kecil.",
-            en: "Now try the second sentence: Amir draws a small map.",
-            es: "Ahora prueben la segunda oracion: Amir dibuja un mapa pequeno.",
-          },
-        },
-        {
-          id: "c9-chat2-m11",
-          from: "murid",
-          text: {
-            ms: "Kata kerja ialah melukis.",
-            en: "The action word is draws.",
-            es: "La palabra de acción es dibuja.",
-          },
-        },
-        {
-          id: "c9-chat2-m12",
-          from: "me",
-          text: {
-            ms: "Bagus. Hari ini semua sudah pandai cari kata kerja.",
-            en: "Good. Today everyone can find action words.",
-            es: "Bien. Hoy todos ya saben encontrar palabras de acción.",
+            ms: "Bagus. Sekarang kamu boleh bertanya tentang pekerjaan dan tugasnya.",
+            en: "Good. Now you can ask about jobs and their duties.",
+            es: "Muy bien. Ahora pueden preguntar sobre trabajos y sus tareas.",
           },
         },
       ],
@@ -402,22 +380,22 @@ export const chapter09: ChapterContent = {
         es: "Actividad: Sopa de letras de trabajos",
       },
       instructions: {
-        ms: "Cari dan tandakan 7 perkataan pekerjaan dalam petak huruf. Tiada garisan serong atau terbalik.",
-        en: "Find and mark the 7 job words in the grid. No diagonal or backwards words.",
-        es: "Busca y marca los 7 nombres de trabajos en la cuadrícula. Sin diagonales ni palabras al revés.",
+        ms: "Cari dan tandakan tujuh perkataan pekerjaan dalam petak huruf. Tiada perkataan serong atau terbalik.",
+        en: "Find and mark the seven job words in the grid. There are no diagonal or backwards words.",
+        es: "Busca y marca las siete palabras de trabajos en la cuadrícula. No hay palabras en diagonal ni al revés.",
       },
       size: 12,
       autoGenerate: true,
       allowDiagonal: false,
       allowReverse: false,
       targets: [
-        { id: "ws-guru", word: "GURU", label: { ms: "guru", en: "teacher", es: "maestro" } },
-        { id: "ws-doktor", word: "DOKTOR", label: { ms: "doktor", en: "doctor", es: "doctor" } },
-        { id: "ws-polis", word: "POLIS", label: { ms: "polis", en: "police", es: "policía" } },
+        { id: "ws-guru", word: "GURU", label: { ms: "guru", en: "teacher", es: "docente" } },
+        { id: "ws-doktor", word: "DOKTOR", label: { ms: "doktor", en: "doctor", es: "médico/a" } },
+        { id: "ws-polis", word: "POLIS", label: { ms: "polis", en: "police officer", es: "agente de policía" } },
         { id: "ws-askar", word: "ASKAR", label: { ms: "askar", en: "soldier", es: "soldado" } },
-        { id: "ws-petani", word: "PETANI", label: { ms: "petani", en: "farmer", es: "agricultor" } },
-        { id: "ws-nelayan", word: "NELAYAN", label: { ms: "nelayan", en: "fisherman", es: "pescador" } },
-        { id: "ws-pelakon", word: "PELAKON", label: { ms: "pelakon", en: "actor", es: "actor" } },
+        { id: "ws-petani", word: "PETANI", label: { ms: "petani", en: "farmer", es: "agricultor/a" } },
+        { id: "ws-nelayan", word: "NELAYAN", label: { ms: "nelayan", en: "fisher", es: "pescador" } },
+        { id: "ws-pelakon", word: "PELAKON", label: { ms: "pelakon", en: "actor", es: "actor o actriz" } },
       ],
     },
     {
@@ -446,7 +424,7 @@ export const chapter09: ChapterContent = {
           revealed: [0, 3, 5],
           clue: {
             ms: "__________ merawat pesakit.",
-            en: "__________ treats patients.",
+            en: "A __________ treats patients.",
             es: "__________ atiende a los pacientes.",
           },
         },
@@ -456,12 +434,12 @@ export const chapter09: ChapterContent = {
           dir: "across",
           row: 3,
           col: 0,
-          answer: "PELAKUN",
+          answer: "PELAKON",
           revealed: [2, 3, 4, 6],
           clue: {
-            ms: "Abang dia seorang ________ kerana selalu muncul di kaca TV.",
-            en: "Her elder brother is a ________ because he often appears on TV.",
-            es: "Su hermano mayor es ________ porque aparece a menudo en la TV.",
+            ms: "Abangnya seorang ________ kerana muncul dalam drama atau filem.",
+            en: "Her older brother is an __________ because he appears in dramas or films.",
+            es: "Su hermano mayor es __________ porque aparece en dramas o películas.",
           },
         },
         {
@@ -473,9 +451,9 @@ export const chapter09: ChapterContent = {
           answer: "POLIS",
           revealed: [0, 3, 4],
           clue: {
-            ms: "__________ tangkap pencuri.",
-            en: "__________ catches thieves.",
-            es: "__________ atrapa ladrones.",
+            ms: "__________ menangkap pencuri.",
+            en: "A __________ catches thieves.",
+            es: "__________ atrapa a los ladrones.",
           },
         },
         {
@@ -487,9 +465,9 @@ export const chapter09: ChapterContent = {
           answer: "PETANI",
           revealed: [1, 2, 3, 5],
           clue: {
-            ms: "Setiap pagi ayahnya pergi ke kebun.",
-            en: "Every morning his father goes to the farm.",
-            es: "Cada manana su padre va a la huerta.",
+            ms: "Seorang __________ bekerja di kebun.",
+            en: "A __________ works on a farm.",
+            es: "__________ trabaja en una granja.",
           },
         },
         {
@@ -501,9 +479,9 @@ export const chapter09: ChapterContent = {
           answer: "GURU",
           revealed: [0, 2],
           clue: {
-            ms: "Tugasnya ialah mengajar.",
-            en: "The duty is to teach.",
-            es: "Su tarea es ensenar.",
+            ms: "Seorang __________ mengajar murid di sekolah.",
+            en: "A __________ teaches students at school.",
+            es: "__________ enseña a los alumnos en la escuela.",
           },
         },
       ],
