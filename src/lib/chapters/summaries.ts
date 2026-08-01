@@ -11,7 +11,7 @@ export const CHAPTER_SUMMARIES: readonly ChapterSummary[] = [
   { id: 2, revision: 4, title: { ms: "Keluarga" } },
   { id: 3, revision: 5, title: { ms: "Kaunter" } },
   { id: 4, revision: 5, title: { ms: "Masa\n& Arah Jalan" } },
-  { id: 5, revision: 4, title: { ms: "Nombor, Angka & Alamat" } },
+  { id: 5, revision: 5, title: { ms: "Nombor, Angka & Alamat" } },
   { id: 6, revision: 3, title: { ms: "Alam Sekitar & Cuaca" } },
   { id: 7, revision: 2, title: { ms: "Makanan & Kuih-muih" } },
   { id: 8, revision: 2, title: { ms: "Perayaan di Malaysia" } },

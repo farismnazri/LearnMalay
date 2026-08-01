@@ -6,19 +6,48 @@ const totalImageClass = "w-full h-auto object-contain";
 
 export const chapter05: ChapterContent = {
   id: 5,
-  revision: 4,
-  title: { ms: "Nombor, Angka & Alamat", en: "Numbers & Addresses", es: "Numeros y Direcciones" },
+  revision: 5,
+  title: { ms: "Nombor, Angka & Alamat", en: "Numbers & Addresses", es: "Números y direcciones" },
   pages: [
+    {
+      id: "c5-p1-nombor",
+      kind: "table",
+      title: { ms: "Nombor untuk Wang", en: "Numbers for Money", es: "Números para el dinero" },
+      leadCard: {
+        heading: { ms: "Kenali nombor sebelum membaca harga.", en: "Learn the numbers before reading prices.", es: "Aprende los números antes de leer precios." },
+        body: {
+          ms: "Nombor di sebelah kanan digunakan untuk menyebut harga, ringgit dan sen dalam bab ini.",
+          en: "The numbers on the right are used to say prices, ringgit, and sen in this chapter.",
+          es: "Los números de la derecha se usan para decir precios, ringgit y sen en este capítulo.",
+        },
+      },
+      columns: [
+        { key: "asas", label: { ms: "Nombor asas", en: "Basic numbers", es: "Números básicos" } },
+        { key: "harga", label: { ms: "Nombor untuk harga", en: "Numbers for prices", es: "Números para precios" } },
+      ],
+      rows: [
+        { id: "c5-num-1-12", cells: { asas: [{ ms: "1 — satu", en: "1 — one", es: "1 — uno" }], harga: [{ ms: "12 — dua belas", en: "12 — twelve", es: "12 — doce" }] } },
+        { id: "c5-num-2-15", cells: { asas: [{ ms: "2 — dua", en: "2 — two", es: "2 — dos" }], harga: [{ ms: "15 — lima belas", en: "15 — fifteen", es: "15 — quince" }] } },
+        { id: "c5-num-3-20", cells: { asas: [{ ms: "3 — tiga", en: "3 — three", es: "3 — tres" }], harga: [{ ms: "20 — dua puluh", en: "20 — twenty", es: "20 — veinte" }] } },
+        { id: "c5-num-4-24", cells: { asas: [{ ms: "4 — empat", en: "4 — four", es: "4 — cuatro" }], harga: [{ ms: "24 — dua puluh empat", en: "24 — twenty-four", es: "24 — veinticuatro" }] } },
+        { id: "c5-num-5-27", cells: { asas: [{ ms: "5 — lima", en: "5 — five", es: "5 — cinco" }], harga: [{ ms: "27 — dua puluh tujuh", en: "27 — twenty-seven", es: "27 — veintisiete" }] } },
+        { id: "c5-num-6-30", cells: { asas: [{ ms: "6 — enam", en: "6 — six", es: "6 — seis" }], harga: [{ ms: "30 — tiga puluh", en: "30 — thirty", es: "30 — treinta" }] } },
+        { id: "c5-num-7-40", cells: { asas: [{ ms: "7 — tujuh", en: "7 — seven", es: "7 — siete" }], harga: [{ ms: "40 — empat puluh", en: "40 — forty", es: "40 — cuarenta" }] } },
+        { id: "c5-num-8-50", cells: { asas: [{ ms: "8 — lapan", en: "8 — eight", es: "8 — ocho" }], harga: [{ ms: "50 — lima puluh", en: "50 — fifty", es: "50 — cincuenta" }] } },
+        { id: "c5-num-9-80", cells: { asas: [{ ms: "9 — sembilan", en: "9 — nine", es: "9 — nueve" }], harga: [{ ms: "80 — lapan puluh", en: "80 — eighty", es: "80 — ochenta" }] } },
+        { id: "c5-num-10-100", cells: { asas: [{ ms: "10 — sepuluh", en: "10 — ten", es: "10 — diez" }], harga: [{ ms: "100 — seratus", en: "100 — one hundred", es: "100 — cien" }] } },
+      ],
+    },
     {
       id: "c5-p2-syiling",
       kind: "table",
-      title: { ms: "Mata Wang Malaysia (RM)", en: "Malaysian Currency (RM)", es: "Moneda de Malasia (RM)" },
+      title: { ms: "Syiling Malaysia", en: "Malaysian Coins", es: "Monedas de Malasia" },
       leadCard: {
-        heading: { ms: "Wang syiling digunakan untuk jumlah kecil.", en: "Coins are used for small amounts.", es: "Las monedas se usan para cantidades pequenas." },
+        heading: { ms: "Syiling digunakan untuk jumlah kecil.", en: "Coins are used for small amounts.", es: "Las monedas se usan para cantidades pequeñas." },
         body: {
-          ms: "Kenali nilai setiap syiling sebelum kira jumlah.",
-          en: "Learn each coin value before calculating totals.",
-          es: "Aprende el valor de cada moneda antes de calcular totales.",
+          ms: "Baca nombor dahulu, kemudian sebut nilai dengan perkataan sen.",
+          en: "Read the number first, then say the value with the word sen.",
+          es: "Lee primero el número y después di el valor con la palabra sen.",
         },
       },
       columns: [
@@ -96,7 +125,7 @@ export const chapter05: ChapterContent = {
     {
       id: "c5-p3-not",
       kind: "table",
-      title: { ms: "Mata Wang Malaysia (RM)", en: "Malaysian Banknotes (RM)", es: "Billetes de Malasia (RM)" },
+      title: { ms: "Wang Kertas Malaysia", en: "Malaysian Banknotes", es: "Billetes de Malasia" },
       leadCard: {
         heading: { ms: "Wang kertas digunakan untuk jumlah yang lebih besar.", en: "Banknotes are used for larger amounts.", es: "Los billetes se usan para cantidades mayores." },
         body: {
@@ -214,34 +243,41 @@ export const chapter05: ChapterContent = {
       kind: "table",
       title: { ms: "Tanda Harga", en: "Price Tags", es: "Etiquetas de precio" },
       leadCard: {
-        heading: { ms: "Cara sebut harga", en: "How to say prices", es: "Como decir precios" },
+        heading: { ms: "Pecahkan harga kepada ringgit dan sen", en: "Split a price into ringgit and sen", es: "Divide un precio entre ringgit y sen" },
         body: {
-          ms: "Baca RM sebagai ringgit. Jika harga berakhir dengan .00, biasanya sebut ringgit sahaja.",
-          en: "Read RM as ringgit. If the price ends in .00, usually say only the ringgit amount.",
-          es: "Lee RM como ringgit. Si el precio termina en .00, normalmente se dice solo la cantidad en ringgit.",
+          ms: "Baca nombor sebelum titik sebagai ringgit dan nombor selepas titik sebagai sen. Jika harga berakhir dengan .00, sebut ringgit sahaja.",
+          en: "Read the number before the decimal point as ringgit and the number after it as sen. If a price ends in .00, say only the ringgit amount.",
+          es: "Lee el número antes del punto decimal como ringgit y el número después como sen. Si un precio termina en .00, di solo la cantidad en ringgit.",
         },
       },
       columns: [
         { key: "harga", label: { ms: "Harga", en: "Price", es: "Precio" } },
-        { key: "sebutan", label: { ms: "Sebutan", en: "How to say it", es: "Como decirlo" } },
+        { key: "sebutan", label: { ms: "Sebutan", en: "How to say it", es: "Cómo decirlo" } },
       ],
       rows: [
         {
           id: "h1",
+          cells: {
+            harga: [{ ms: "RM5.00", en: "RM5.00", es: "RM5.00" }],
+            sebutan: [{ ms: "lima ringgit", en: "five ringgit", es: "cinco ringgit" }],
+          },
+        },
+        {
+          id: "h2",
           cells: {
             harga: [{ ms: "RM5.20", en: "RM5.20", es: "RM5.20" }],
             sebutan: [{ ms: "lima ringgit dua puluh sen", en: "five ringgit twenty sen", es: "cinco ringgit con veinte sen" }],
           },
         },
         {
-          id: "h2",
+          id: "h3",
           cells: {
             harga: [{ ms: "RM12.00", en: "RM12.00", es: "RM12.00" }],
             sebutan: [{ ms: "dua belas ringgit", en: "twelve ringgit", es: "doce ringgit" }],
           },
         },
         {
-          id: "h3",
+          id: "h4",
           cells: {
             harga: [{ ms: "RM24.50", en: "RM24.50", es: "RM24.50" }],
             sebutan: [{ ms: "dua puluh empat ringgit lima puluh sen", en: "twenty-four ringgit fifty sen", es: "veinticuatro ringgit con cincuenta sen" }],
@@ -253,11 +289,11 @@ export const chapter05: ChapterContent = {
     {
       id: "c5-p5-latihan-harga",
       kind: "dragfill",
-      title: { ms: "Latihan Harga", en: "Price Practice", es: "Practica de precios" },
+      title: { ms: "Latihan Harga", en: "Price Practice", es: "Práctica de precios" },
       instructions: {
-        ms: "Padankan tanda harga dengan sebutan yang betul.",
-        en: "Match each price tag with the correct spoken form.",
-        es: "Empareja cada etiqueta de precio con la forma oral correcta.",
+        ms: "Baca ringgit dahulu, kemudian sen. Padankan setiap tanda harga dengan sebutan yang betul.",
+        en: "Read the ringgit first, then the sen. Match each price tag with the correct spoken form.",
+        es: "Lee primero los ringgit y después los sen. Empareja cada etiqueta de precio con la forma oral correcta.",
       },
       options: [
         {
@@ -323,7 +359,7 @@ export const chapter05: ChapterContent = {
       title: {
         ms: "Situasi 5.1: Beli Buah di Pasar Malam",
         en: "Situation 5.1: Buying Fruit at a Night Market",
-        es: "Situacion 5.1: Comprar fruta en un mercado nocturno",
+        es: "Situación 5.1: Comprar fruta en un mercado nocturno",
       },
       context: {
         ms: "Latar tempat: Gerai buah di pasar malam.",
@@ -338,12 +374,12 @@ export const chapter05: ChapterContent = {
         {
           id: "c5-52-m1",
           from: "jurujual",
-          text: { ms: "Selamat malam. Nak cari buah apa?", en: "Good evening. What fruit are you looking for?", es: "Buenas noches. Que fruta busca?" },
+          text: { ms: "Selamat malam. Nak cari buah apa?", en: "Good evening. What fruit are you looking for?", es: "Buenas noches. ¿Qué fruta busca?" },
         },
         {
           id: "c5-52-m2",
           from: "me",
-          text: { ms: "Mangga ini berapa harga satu kilo?", en: "How much are these mangoes per kilo?", es: "Cuanto cuestan estos mangos por kilo?" },
+          text: { ms: "Mangga ini berapa harga satu kilo?", en: "How much are these mangoes per kilo?", es: "¿Cuánto cuestan estos mangos por kilo?" },
         },
         {
           id: "c5-52-m3",
@@ -353,27 +389,27 @@ export const chapter05: ChapterContent = {
         {
           id: "c5-52-m4",
           from: "me",
-          text: { ms: "Kalau saya ambil dua kilo, boleh kurang?", en: "If I take two kilos, can you lower the price?", es: "Si llevo dos kilos, puede bajar el precio?" },
+          text: { ms: "Kalau saya ambil dua kilo, boleh kurang?", en: "If I take two kilos, can you lower the price?", es: "Si llevo dos kilos, ¿puede bajar el precio?" },
         },
         {
           id: "c5-52-m5",
           from: "jurujual",
-          text: { ms: "Boleh. Saya bagi RM8 satu kilo.", en: "Sure. I can give RM8 per kilo.", es: "Si. Se lo dejo a RM8 por kilo." },
+          text: { ms: "Boleh. Saya bagi RM8 satu kilo.", en: "Sure. I can give RM8 per kilo.", es: "Sí. Se los dejo a RM8 por kilo." },
         },
         {
           id: "c5-52-m6",
           from: "me",
-          text: { ms: "Baik, saya ambil dua kilo mangga. Pisang pula berapa?", en: "Alright, I will take two kilos of mangoes. How much are the bananas?", es: "Bien, llevo dos kilos de mangos. Y cuanto cuestan los platanos?" },
+          text: { ms: "Baik, saya ambil dua kilo mangga. Pisang pula berapa?", en: "Alright, I will take two kilos of mangoes. How much are the bananas?", es: "Bien, llevo dos kilos de mangos. ¿Y cuánto cuestan los plátanos?" },
         },
         {
           id: "c5-52-m7",
           from: "jurujual",
-          text: { ms: "Pisang RM10 satu kilo.", en: "Bananas are RM10 per kilo.", es: "Los platanos cuestan RM10 por kilo." },
+          text: { ms: "Pisang RM10 satu kilo.", en: "Bananas are RM10 per kilo.", es: "Los plátanos cuestan RM10 por kilo." },
         },
         {
           id: "c5-52-m8",
           from: "me",
-          text: { ms: "Tambah setengah kilo pisang, ya.", en: "Add half a kilo of bananas, please.", es: "Anada medio kilo de platanos, por favor." },
+          text: { ms: "Tambah lagi setengah kilo pisang, ya.", en: "Please add another half kilo of bananas.", es: "Añada medio kilo más de plátanos, por favor." },
         },
         {
           id: "c5-52-m9",
@@ -383,7 +419,7 @@ export const chapter05: ChapterContent = {
         {
           id: "c5-52-m10",
           from: "me",
-          text: { ms: "Ini wangnya. Terima kasih.", en: "Here is the money. Thank you.", es: "Aqui tiene el dinero. Gracias." },
+          text: { ms: "Ini wangnya. Terima kasih.", en: "Here is the money. Thank you.", es: "Aquí tiene el dinero. Gracias." },
         },
       ],
     },
@@ -394,7 +430,7 @@ export const chapter05: ChapterContent = {
       title: {
         ms: "Misi Duit: Taip Nilai Wang",
         en: "Money Mission: Type the Currency Value",
-        es: "Mision dinero: Escribe el valor",
+        es: "Misión de dinero: Escribe el valor",
       },
       instructions: {
         ms: "Taipkan nilai wang dalam BM bagi setiap gambar. Contoh: lima sen atau sepuluh ringgit.",
@@ -451,12 +487,12 @@ export const chapter05: ChapterContent = {
       title: {
         ms: "Misi Duit: Kira Jumlah",
         en: "Money Mission: Calculate the Total",
-        es: "Mision dinero: Calcula el total",
+        es: "Misión de dinero: Calcula el total",
       },
       instructions: {
         ms: "Taip jumlah dalam RM, nombor sahaja tanpa RM. Contoh: 5.20",
         en: "Type the total in RM, numbers only without RM. Example: 5.20",
-        es: "Escribe el total en RM, solo numeros sin RM. Ejemplo: 5.20",
+        es: "Escribe el total en RM, solo números y sin RM. Ejemplo: 5.20",
       },
       items: [
         {
@@ -485,7 +521,7 @@ export const chapter05: ChapterContent = {
             { src: "/assets/chapters/ch5/Malaysian_Money_Front_Only_5_Sen.webp", alt: "5 sen", w: 160, h: 120, className: totalImageClass },
           ],
           answer: "24.65",
-          meaning: { ms: "RM20 + 4 x RM1 + 50 sen + 10 sen + 5 sen", en: "20 + four 1s + 0.50 + 0.10 + 0.05", es: "20 + cuatro billetes de 1 + 0.50 + 0.10 + 0.05" },
+          meaning: { ms: "RM20 + 4 × RM1 + 50 sen + 10 sen + 5 sen", en: "RM20 + 4 × RM1 + 50 sen + 10 sen + 5 sen", es: "RM20 + 4 × RM1 + 50 sen + 10 sen + 5 sen" },
         },
         {
           id: "c5-sum-3",
@@ -519,7 +555,7 @@ export const chapter05: ChapterContent = {
             { src: "/assets/chapters/ch5/Malaysian_Money_Front_Only_5_Sen.webp", alt: "5 sen", w: 160, h: 120, className: totalImageClass },
           ],
           answer: "118.85",
-          meaning: { ms: "RM100 + RM10 + RM5 + 3 x RM1 + 50 sen + 20 sen + 10 sen + 5 sen", en: "100 + 10 + 5 + 3 x 1 + 0.50 + 0.20 + 0.10 + 0.05", es: "100 + 10 + 5 + 3 x 1 + 0.50 + 0.20 + 0.10 + 0.05" },
+          meaning: { ms: "RM100 + RM10 + RM5 + 3 × RM1 + 50 sen + 20 sen + 10 sen + 5 sen", en: "RM100 + RM10 + RM5 + 3 × RM1 + 50 sen + 20 sen + 10 sen + 5 sen", es: "RM100 + RM10 + RM5 + 3 × RM1 + 50 sen + 20 sen + 10 sen + 5 sen" },
         },
       ],
     },
@@ -527,22 +563,22 @@ export const chapter05: ChapterContent = {
     {
       id: "c5-p9-alamat-builder",
       kind: "iconRows",
-      title: { ms: "Bina Alamat", en: "Build an Address", es: "Forma una direccion" },
+      title: { ms: "Bina Alamat", en: "Build an Address", es: "Crea una dirección" },
       rows: [
         {
           id: "addr-rumah",
           iconSrc: "/assets/chapters/ch5/rumah.webp",
           iconAlt: { ms: "rumah", en: "house", es: "casa" },
           name: { ms: "Rumah atau lot", en: "House or lot", es: "Casa o lote" },
-          description: { ms: "Mulakan dengan nombor rumah atau lot.", en: "Start with the house or lot number.", es: "Empieza con el numero de casa o lote." },
-          example: { ms: "Lot 153", en: "Lot 153", es: "Lote 153" },
+          description: { ms: "Mulakan dengan nombor rumah atau lot.", en: "Start with the house or lot number.", es: "Empieza con el número de casa o lote." },
+          example: { ms: "No. 153", en: "No. 153", es: "N.º 153" },
         },
         {
           id: "addr-blok",
           iconSrc: "/assets/chapters/ch5/blok.webp",
           iconAlt: { ms: "blok", en: "block", es: "bloque" },
           name: { ms: "Blok", en: "Block", es: "Bloque" },
-          description: { ms: "Tambah blok jika rumah berada dalam kawasan berblok.", en: "Add the block if the home is in a block area.", es: "Anade el bloque si la vivienda esta en una zona con bloques." },
+          description: { ms: "Tambah blok jika rumah berada dalam kawasan berblok.", en: "Add the block if the home is in a block area.", es: "Añade el bloque si la vivienda está en una zona de bloques." },
           example: { ms: "Blok B", en: "Block B", es: "Bloque B" },
         },
         {
@@ -550,40 +586,40 @@ export const chapter05: ChapterContent = {
           iconSrc: "/assets/chapters/ch5/jalan.webp",
           iconAlt: { ms: "jalan", en: "street", es: "calle" },
           name: { ms: "Jalan", en: "Street", es: "Calle" },
-          description: { ms: "Jalan menunjukkan nama atau nombor jalan.", en: "Jalan shows the street name or number.", es: "Jalan indica el nombre o numero de la calle." },
-          example: { ms: "Jalan 8/30A", en: "Jalan 8/30A", es: "Jalan 8/30A" },
+          description: { ms: "Jalan menunjukkan nama atau nombor jalan.", en: "Jalan shows the street name or number.", es: "Jalan indica el nombre o número de la calle." },
+          example: { ms: "Jalan Raja Laut", en: "Jalan Raja Laut", es: "Jalan Raja Laut" },
         },
         {
           id: "addr-pangsapuri",
           iconSrc: "/assets/chapters/ch5/pangsapuri.webp",
           iconAlt: { ms: "pangsapuri", en: "apartment", es: "apartamento" },
-          name: { ms: "Pangsapuri atau nama perumahan", en: "Apartment or housing name", es: "Apartamento o nombre de vivienda" },
-          description: { ms: "Letakkan nama pangsapuri, taman, atau kawasan perumahan.", en: "Add the apartment, garden, or housing area name.", es: "Anade el nombre del apartamento, taman o zona residencial." },
+          name: { ms: "Pangsapuri atau nama perumahan", en: "Apartment or housing name", es: "Apartamento o nombre de urbanización" },
+          description: { ms: "Letakkan nama pangsapuri, taman, atau kawasan perumahan.", en: "Add the apartment, housing estate, or residential-area name.", es: "Añade el nombre del apartamento, la urbanización o la zona residencial." },
           example: { ms: "Pangsapuri Anggun", en: "Pangsapuri Anggun", es: "Pangsapuri Anggun" },
         },
         {
           id: "addr-daerah",
           iconSrc: "/assets/chapters/ch5/daerah.webp",
           iconAlt: { ms: "daerah", en: "district", es: "distrito" },
-          name: { ms: "Kawasan atau daerah", en: "Area or district", es: "Zona o distrito" },
-          description: { ms: "Daerah membantu orang tahu kawasan alamat itu.", en: "The district helps people know the address area.", es: "El distrito ayuda a ubicar la zona de la direccion." },
-          example: { ms: "Lahad Datu", en: "Lahad Datu", es: "Lahad Datu" },
+          name: { ms: "Bandar atau daerah", en: "City or district", es: "Ciudad o distrito" },
+          description: { ms: "Bandar atau daerah membantu mengenal pasti kawasan alamat.", en: "The city or district helps identify the address area.", es: "La ciudad o el distrito ayuda a identificar la zona de la dirección." },
+          example: { ms: "Kuala Lumpur", en: "Kuala Lumpur", es: "Kuala Lumpur" },
         },
         {
           id: "addr-poskod",
           iconSrc: "/assets/chapters/ch5/poskod.webp",
-          iconAlt: { ms: "poskod", en: "postcode", es: "codigo postal" },
-          name: { ms: "Poskod", en: "Postcode", es: "Codigo postal" },
-          description: { ms: "Poskod ialah nombor untuk kawasan penghantaran.", en: "A postcode is the number for a delivery area.", es: "El codigo postal es el numero de una zona de entrega." },
-          example: { ms: "50470", en: "50470", es: "50470" },
+          iconAlt: { ms: "poskod", en: "postcode", es: "código postal" },
+          name: { ms: "Poskod", en: "Postcode", es: "Código postal" },
+          description: { ms: "Poskod ialah nombor untuk kawasan penghantaran.", en: "A postcode is the number for a delivery area.", es: "El código postal indica una zona de reparto." },
+          example: { ms: "50350", en: "50350", es: "50350" },
         },
         {
           id: "addr-negeri",
           iconSrc: "/assets/chapters/ch5/negeri.webp",
           iconAlt: { ms: "negeri", en: "state", es: "estado" },
           name: { ms: "Negeri", en: "State", es: "Estado" },
-          description: { ms: "Akhiri alamat dengan nama negeri.", en: "Finish the address with the state name.", es: "Termina la direccion con el nombre del estado." },
-          example: { ms: "Perak", en: "Perak", es: "Perak" },
+          description: { ms: "Akhiri alamat dengan nama negeri atau wilayah persekutuan.", en: "Finish the address with the state or federal territory name.", es: "Termina la dirección con el nombre del estado o territorio federal." },
+          example: { ms: "Wilayah Persekutuan Kuala Lumpur", en: "Federal Territory of Kuala Lumpur", es: "Territorio Federal de Kuala Lumpur" },
         },
       ],
     },
@@ -595,12 +631,12 @@ export const chapter05: ChapterContent = {
       title: {
         ms: "Situasi 5.2: Kemas Kini Alamat",
         en: "Situation 5.2: Updating an Address",
-        es: "Situacion 5.2: Actualizar una direccion",
+        es: "Situación 5.2: Actualizar una dirección",
       },
       context: {
         ms: "Latar tempat: Kaunter bantuan pelanggan di bank.",
         en: "Setting: Customer help counter at the bank.",
-        es: "Lugar: Mostrador de atencion al cliente en el banco.",
+        es: "Lugar: Mostrador de atención al cliente en el banco.",
       },
       participants: [
         {
@@ -613,52 +649,52 @@ export const chapter05: ChapterContent = {
         {
           id: "c5-51-m1",
           from: "pegawai",
-          text: { ms: "Selamat pagi. Boleh saya bantu?", en: "Good morning. How may I help?", es: "Buenos dias. En que puedo ayudarle?" },
+          text: { ms: "Selamat pagi. Boleh saya bantu?", en: "Good morning. How may I help?", es: "Buenos días. ¿En qué puedo ayudarle?" },
         },
         {
           id: "c5-51-m2",
           from: "me",
-          text: { ms: "Selamat pagi. Saya mahu kemas kini alamat rumah.", en: "Good morning. I want to update my home address.", es: "Buenos dias. Quiero actualizar mi direccion de casa." },
+          text: { ms: "Selamat pagi. Saya mahu kemas kini alamat rumah.", en: "Good morning. I want to update my home address.", es: "Buenos días. Quiero actualizar la dirección de mi casa." },
         },
         {
           id: "c5-51-m3",
           from: "pegawai",
-          text: { ms: "Baik. Encik baru pindah rumah?", en: "Alright. Did you recently move house?", es: "Muy bien. Se mudo de casa hace poco?" },
+          text: { ms: "Baik. Tuan atau puan baru pindah rumah?", en: "Alright. Have you recently moved house?", es: "De acuerdo. ¿Se ha mudado hace poco?" },
         },
         {
           id: "c5-51-m4",
           from: "me",
-          text: { ms: "Ya, saya baru pindah ke Pangsapuri Anggun.", en: "Yes, I just moved to Pangsapuri Anggun.", es: "Si, acabo de mudarme a Pangsapuri Anggun." },
+          text: { ms: "Ya, saya baru pindah ke Pangsapuri Harmoni.", en: "Yes, I just moved to Pangsapuri Harmoni.", es: "Sí, acabo de mudarme a Pangsapuri Harmoni." },
         },
         {
           id: "c5-51-m5",
           from: "pegawai",
-          text: { ms: "Sila berikan alamat baharu dari nombor rumah dahulu.", en: "Please give the new address, starting with the house number.", es: "Por favor, indique la nueva direccion empezando con el numero de casa." },
+          text: { ms: "Sila berikan alamat baharu, bermula dengan nombor rumah.", en: "Please give the new address, starting with the house number.", es: "Por favor, indique la nueva dirección empezando por el número de casa." },
         },
         {
           id: "c5-51-m6",
           from: "me",
-          text: { ms: "Lot 153, Blok B, Jalan 8/30A.", en: "Lot 153, Block B, Jalan 8/30A.", es: "Lote 153, Bloque B, Jalan 8/30A." },
+          text: { ms: "No. 153, Blok B, Pangsapuri Harmoni, Jalan Raja Laut.", en: "No. 153, Block B, Pangsapuri Harmoni, Jalan Raja Laut.", es: "N.º 153, Bloque B, Pangsapuri Harmoni, Jalan Raja Laut." },
         },
         {
           id: "c5-51-m7",
           from: "pegawai",
-          text: { ms: "Baik. Nama pangsapuri dan daerah?", en: "Alright. The apartment name and district?", es: "Bien. El nombre del apartamento y el distrito?" },
+          text: { ms: "Baik. Bandar atau daerah pula?", en: "Alright. And the city or district?", es: "De acuerdo. ¿Y la ciudad o el distrito?" },
         },
         {
           id: "c5-51-m8",
           from: "me",
-          text: { ms: "Pangsapuri Anggun, Lahad Datu.", en: "Pangsapuri Anggun, Lahad Datu.", es: "Pangsapuri Anggun, Lahad Datu." },
+          text: { ms: "Kuala Lumpur.", en: "Kuala Lumpur.", es: "Kuala Lumpur." },
         },
         {
           id: "c5-51-m9",
           from: "pegawai",
-          text: { ms: "Poskod dan negeri pula?", en: "And the postcode and state?", es: "Y el codigo postal y el estado?" },
+          text: { ms: "Poskod dan wilayah pula?", en: "And the postcode and territory?", es: "¿Y el código postal y el territorio?" },
         },
         {
           id: "c5-51-m10",
           from: "me",
-          text: { ms: "50470, Perak. Terima kasih kerana kemas kini profil saya.", en: "50470, Perak. Thank you for updating my profile.", es: "50470, Perak. Gracias por actualizar mi perfil." },
+          text: { ms: "50350, Wilayah Persekutuan Kuala Lumpur. Terima kasih kerana kemas kini profil saya.", en: "50350, Federal Territory of Kuala Lumpur. Thank you for updating my profile.", es: "50350, Territorio Federal de Kuala Lumpur. Gracias por actualizar mi perfil." },
         },
       ],
     },
