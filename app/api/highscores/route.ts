@@ -35,8 +35,8 @@ function hasOnlyKeys(obj: Record<string, unknown>, keys: readonly string[]) {
 export async function GET(req: Request) {
   const rawLimit = new URL(req.url).searchParams.get("limit");
   const parsedLimit = rawLimit ? Number.parseInt(rawLimit, 10) : undefined;
-  const leaderboardLimitPerPartition = parsedLimit && parsedLimit > 0 ? Math.min(parsedLimit, 100) : undefined;
-  return NextResponse.json(await listHighScores({ leaderboardLimitPerPartition }));
+  const leaderboardLimitPerGame = parsedLimit && parsedLimit > 0 ? Math.min(parsedLimit, 100) : undefined;
+  return NextResponse.json(await listHighScores({ leaderboardLimitPerGame }));
 }
 
 export async function POST(req: Request) {

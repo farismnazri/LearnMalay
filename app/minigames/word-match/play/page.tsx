@@ -178,8 +178,8 @@ export default function WordMatchPlayPage() {
 
     try {
       await addHighScore("word-match", {
-      runId: createRunId(), scoreVersion: 2,
-      outcome: result === "win" ? "completed" : "failed", competitive: result === "win",
+      runId: createRunId(),
+      outcome: result === "win" ? "completed" : "failed",
       accuracy: acc,
       timeMs: snapshot.timeMs,
       attempts: snapshot.attempts, correct: snapshot.matches, mistakes: snapshot.mistakes, hints: 0,

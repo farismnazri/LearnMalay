@@ -318,8 +318,8 @@ export default function NumbersPlayPage() {
 
     try {
       await addHighScore("numbers", {
-      runId: createRunId(), scoreVersion: 2,
-      outcome: result === "win" ? "completed" : "failed", competitive: result === "win",
+      runId: createRunId(),
+      outcome: result === "win" ? "completed" : "failed",
       accuracy,
       timeMs: tms,
       attempts: a, correct: c, mistakes: w, hints: 0, difficulty,

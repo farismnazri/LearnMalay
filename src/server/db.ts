@@ -349,14 +349,6 @@ async function ensureIndexes(db: Db): Promise<void> {
     appMeta.createIndex({ key: 1 }, { unique: true, name: "idx_app_meta_key_unique" }),
     highscores.createIndex({ id: 1 }, { unique: true, name: "idx_highscores_id_unique" }),
     highscores.createIndex({ game_id: 1 }, { name: "idx_highscores_game" }),
-    highscores.createIndex(
-      { game_id: 1, score_version: 1, competitive: 1, partition_key: 1 },
-      { name: "idx_highscores_v2_partition" }
-    ),
-    highscores.createIndex(
-      { game_id: 1, difficulty_weight: -1, accuracy: -1, time_ms: 1, date_iso: -1 },
-      { name: "idx_highscores_sort" }
-    ),
     sessions.createIndex({ id: 1 }, { unique: true, name: "idx_sessions_id_unique" }),
     sessions.createIndex({ user_id: 1 }, { name: "idx_sessions_user_id" }),
     sessions.createIndex({ expires_at: 1 }, { name: "idx_sessions_expires_at" }),
@@ -370,14 +362,6 @@ async function ensureMemoryIndexes(collections: AppCollections): Promise<void> {
     collections.appMeta.createIndex({ key: 1 }, { unique: true, name: "idx_app_meta_key_unique" }),
     collections.highscores.createIndex({ id: 1 }, { unique: true, name: "idx_highscores_id_unique" }),
     collections.highscores.createIndex({ game_id: 1 }, { name: "idx_highscores_game" }),
-    collections.highscores.createIndex(
-      { game_id: 1, score_version: 1, competitive: 1, partition_key: 1 },
-      { name: "idx_highscores_v2_partition" }
-    ),
-    collections.highscores.createIndex(
-      { game_id: 1, difficulty_weight: -1, accuracy: -1, time_ms: 1, date_iso: -1 },
-      { name: "idx_highscores_sort" }
-    ),
     collections.sessions.createIndex({ id: 1 }, { unique: true, name: "idx_sessions_id_unique" }),
     collections.sessions.createIndex({ user_id: 1 }, { name: "idx_sessions_user_id" }),
     collections.sessions.createIndex({ expires_at: 1 }, { name: "idx_sessions_expires_at" }),

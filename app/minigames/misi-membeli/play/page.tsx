@@ -471,7 +471,7 @@ export default function MisiMembeliPlayPage() {
 
     try {
       await addHighScore("misi-membeli", {
-      runId: createRunId(), scoreVersion: 2, outcome: "failed", competitive: snapshot.score > 0,
+      runId: createRunId(), outcome: "failed",
       score: snapshot.score,
       accuracy,
       timeMs: snapshot.timeMs,

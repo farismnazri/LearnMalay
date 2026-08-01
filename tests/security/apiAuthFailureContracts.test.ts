@@ -269,11 +269,16 @@ test("unsafe signup usernames are rejected without starting a session", async ()
 function validHighscorePayload() {
   return {
     gameId: "numbers",
-    entry: {
-      name: "SHOULD_BE_OVERWRITTEN",
-      avatarId: "crash",
+    run: {
+      runId: crypto.randomUUID(),
+      outcome: "completed",
       accuracy: 98.5,
       timeMs: 8000,
+      attempts: 10,
+      correct: 9,
+      mistakes: 1,
+      hints: 0,
+      difficulty: "easy",
     },
   };
 }

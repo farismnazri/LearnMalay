@@ -198,7 +198,7 @@ export default function WordSearchMiniGame() {
     if (!canSaveHighscores(user)) return;
     try {
       await addHighScore("wordsearch", {
-      runId: runIdRef.current, scoreVersion: 2, outcome: "completed", competitive: true,
+      runId: runIdRef.current, outcome: "completed",
       accuracy: 100,
       timeMs: elapsed,
       attempts: selectedTargets.length + mistakes, correct: selectedTargets.length, mistakes, hints: 0,

@@ -572,8 +572,8 @@ export default function CurrencyPlayPage() {
 
     try {
       await addHighScore("currency", {
-      runId: createRunId(), scoreVersion: 2,
-      outcome: result === "win" ? "completed" : "failed", competitive: result === "win",
+      runId: createRunId(),
+      outcome: result === "win" ? "completed" : "failed",
       accuracy: acc,
       timeMs: snapshot.timeMs,
       attempts: snapshot.attempts, correct: snapshot.correctCount, mistakes: snapshot.wrongCount, hints: 0,

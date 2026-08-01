@@ -3,87 +3,51 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
+import IconActionLink from "@/components/navigation/IconActionLink";
+import {
+  HIGHSCORE_GAME_CONFIG,
+  highscoreAttempts,
+  highscoreColumnsForRows,
+  highscoreDifficulty,
+  highscoreDifficultyLabel,
+  highscoreMode,
+  highscoreNumericScore,
+  highscoreTheme,
+  highscoreWords,
+  sortHighscoreRows,
+  type HighscoreColumnDefinition,
+} from "@/lib/highscoreRanking";
 import type { GameId, ScoreEntry } from "@/lib/highscores";
 import { clearHighScores, loadHighScores } from "@/lib/highscores";
-import {
-  arahJalanDifficulty,
-  compareHighscoreRows,
-  highscoreNumericScore,
-  isCompetitiveV2,
-  leaderboardPartitionKey,
-  type ArahJalanDifficulty,
-  type ArahJalanDifficultyFilter,
-} from "@/lib/highscoreRanking";
-import IconActionLink from "@/components/navigation/IconActionLink";
 import { getProfileAvatarSrc, type ProfileAvatarId } from "@/lib/profileAvatars";
-import { getCurrentUser, listUsers, verifyAdminPassword } from "@/lib/userStore";
 import { canManageUsers, canResetHighscores, isAdmin, isDemo } from "@/lib/userCapabilities";
+import { getCurrentUser, listUsers, verifyAdminPassword } from "@/lib/userStore";
 
 const ALL_USERS = "__ALL__";
 const ALL_DIFFICULTIES = "__ALL_DIFFICULTIES__";
-type NumberDifficulty = "easy" | "medium" | "hard" | "ultrahard";
-type NumbersDifficultyFilter = typeof ALL_DIFFICULTIES | NumberDifficulty | "unknown";
-type WordsearchDifficulty = "easy" | "medium" | "hard";
-type WordsearchDifficultyFilter = typeof ALL_DIFFICULTIES | WordsearchDifficulty | "unknown";
-const WORDSEARCH_GAME_IDS = new Set(["wordsearch", "word-search"]);
+const DISPLAY_LIMIT = 20;
 
-function activityCount(s: ScoreEntry) {
-  const meta = (s.meta ?? {}) as Record<string, unknown>;
+const GAMES: Array<{ id: GameId; label: string }> = [
+  { id: "numbers", label: "Numbers" },
+  { id: "word-match", label: "Word Match" },
+  { id: "wordsearch", label: "Wordsearch" },
+  { id: "currency", label: "Currency" },
+  { id: "makan-apa", label: "Makan Apa" },
+  { id: "misi-membeli", label: "Misi Membeli" },
+  { id: "arah-jalan", label: "Arah Jalan" },
+];
 
-  const a =
-    typeof meta.attempts === "number"
-      ? meta.attempts
-      : typeof meta.totalAttempts === "number"
-      ? meta.totalAttempts
-      : typeof meta.totalCorrect === "number" && typeof meta.totalWrong === "number"
-      ? meta.totalCorrect + meta.totalWrong
-      : 0;
-
-  return Number.isFinite(a) ? a : 0;
-}
-
-function scoreDifficulty(s: ScoreEntry): NumberDifficulty | "unknown" {
-  const meta = (s.meta ?? {}) as Record<string, unknown>;
-  const d = s.difficulty ?? meta.difficulty;
-  return d === "easy" || d === "medium" || d === "hard" || d === "ultrahard" ? d : "unknown";
-}
-
-function wordsearchDifficulty(s: ScoreEntry): WordsearchDifficulty | "unknown" {
-  const meta = (s.meta ?? {}) as Record<string, unknown>;
-  const d = s.difficulty ?? meta.difficulty;
-  return d === "easy" || d === "medium" || d === "hard" ? d : "unknown";
-}
-
-
-function difficultyLabel(d: NumbersDifficultyFilter) {
-  if (d === ALL_DIFFICULTIES) return "All difficulties";
-  if (d === "ultrahard") return "Ultra Hard";
-  if (d === "hard") return "Hard";
-  if (d === "medium") return "Medium";
-  if (d === "easy") return "Easy";
-  return "Unknown";
-}
-
-function wordsearchDifficultyLabel(d: WordsearchDifficultyFilter) {
-  if (d === ALL_DIFFICULTIES) return "All difficulties";
-  if (d === "hard") return "Hard";
-  if (d === "medium") return "Medium";
-  if (d === "easy") return "Easy";
-  return "Unknown";
-}
-
-function arahJalanDifficultyLabel(d: ArahJalanDifficultyFilter) {
-  if (d === ALL_DIFFICULTIES) return "All difficulties";
-  if (d === "hard") return "Hard";
-  if (d === "easy") return "Easy";
-  return "Unknown";
-}
+const FILTER_DIFFICULTIES: Partial<Record<GameId, readonly string[]>> = {
+  numbers: ["ultrahard", "hard", "medium", "easy", "unknown"],
+  wordsearch: ["hard", "medium", "easy", "unknown"],
+  "arah-jalan": ["hard", "easy", "unknown"],
+};
 
 function formatDuration(ms: number) {
   const totalSec = Math.max(0, Math.floor(ms / 1000));
-  const m = Math.floor(totalSec / 60);
-  const s = totalSec % 60;
-  return `${m}:${String(s).padStart(2, "0")}`;
+  const minutes = Math.floor(totalSec / 60);
+  const seconds = totalSec % 60;
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
 function formatDate(iso: string) {
@@ -94,11 +58,31 @@ function formatDate(iso: string) {
   }
 }
 
+function formatLabel(value: string | undefined) {
+  if (!value) return "—";
+  if (value === "ultrahard") return "Ultra Hard";
+  return value
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function columnValue(gameId: GameId, row: ScoreEntry, column: HighscoreColumnDefinition, rank: number) {
+  if (column.key === "rank") return rank;
+  if (column.key === "username") return row.name;
+  if (column.key === "accuracy") return `${Math.round(row.accuracy)}%`;
+  if (column.key === "time") return formatDuration(row.timeMs);
+  if (column.key === "difficulty") return highscoreDifficultyLabel(row) ?? "—";
+  if (column.key === "attempts") return highscoreAttempts(gameId, row) ?? "—";
+  if (column.key === "streak") return highscoreNumericScore(row);
+  if (column.key === "theme") return formatLabel(highscoreTheme(row));
+  if (column.key === "mode") return formatLabel(highscoreMode(row));
+  if (column.key === "words") return highscoreWords(row) ?? "—";
+  return formatDate(row.dateISO);
+}
+
 export default function HighScoresPage() {
   const [gameId, setGameId] = useState<GameId>("numbers");
-  const isWordsearchGame = WORDSEARCH_GAME_IDS.has(gameId);
-  const isArahJalanGame = gameId === "arah-jalan";
-
   const [me, setMe] = useState<Awaited<ReturnType<typeof getCurrentUser>>>(null);
   const [store, setStore] = useState<Record<GameId, ScoreEntry[]>>({
     numbers: [],
@@ -110,101 +94,52 @@ export default function HighScoresPage() {
     "arah-jalan": [],
   });
   const [users, setUsers] = useState<Awaited<ReturnType<typeof listUsers>>>([]);
-
-  const [userFilter, setUserFilter] = useState<string>(ALL_USERS);
-  const [numbersDifficultyFilter, setNumbersDifficultyFilter] = useState<NumbersDifficultyFilter>(ALL_DIFFICULTIES);
-  const [wordsearchDifficultyFilter, setWordsearchDifficultyFilter] = useState<WordsearchDifficultyFilter>(ALL_DIFFICULTIES);
-  const [arahJalanDifficultyFilter, setArahJalanDifficultyFilter] = useState<ArahJalanDifficultyFilter>(ALL_DIFFICULTIES);
-  const [partitionFilter, setPartitionFilter] = useState<string>("__ALL_PARTITIONS__");
-  const [showLegacyHistory, setShowLegacyHistory] = useState(false);
-
-  useEffect(() => {
-    async function load() {
-      const [s, cur] = await Promise.all([loadHighScores(), getCurrentUser()]);
-      const u = canManageUsers(cur) ? await listUsers().catch(() => []) : [];
-      setUsers(u);
-      setStore(s);
-      setMe(cur);
-      setUserFilter(cur?.name ?? ALL_USERS);
-    }
-    void load();
-  }, []);
-
-  // --- admin modal state ---
+  const [userFilter, setUserFilter] = useState(ALL_USERS);
+  const [difficultyFilter, setDifficultyFilter] = useState(ALL_DIFFICULTIES);
   const [pwOpen, setPwOpen] = useState(false);
   const [pw, setPw] = useState("");
   const [pwError, setPwError] = useState<string | null>(null);
 
+  useEffect(() => {
+    async function load() {
+      const [scores, currentUser] = await Promise.all([loadHighScores(), getCurrentUser()]);
+      const knownUsers = canManageUsers(currentUser) ? await listUsers().catch(() => []) : [];
+      setUsers(knownUsers);
+      setStore(scores);
+      setMe(currentUser);
+      setUserFilter(currentUser?.name ?? ALL_USERS);
+    }
+    void load();
+  }, []);
+
   const allRows = useMemo(() => store[gameId] ?? [], [store, gameId]);
-  const baseRows: ScoreEntry[] = useMemo(() => allRows.filter(isCompetitiveV2), [allRows]);
-  const legacyRows = useMemo(() => allRows.filter((row) => !isCompetitiveV2(row)), [allRows]);
-  const partitionOptions = useMemo(
-    () => Array.from(new Set(baseRows.map((row) => leaderboardPartitionKey(gameId, row)))).sort(),
-    [baseRows, gameId]
-  );
-  const activePartition = partitionFilter === "__ALL_PARTITIONS__" ? partitionOptions[0] : partitionFilter;
-
   const avatarByName = useMemo(() => {
-    const byName = new Map<string, ProfileAvatarId>();
-    for (const user of users) {
-      byName.set(user.name.toUpperCase(), user.avatarId);
-    }
-    return byName;
+    const avatars = new Map<string, ProfileAvatarId>();
+    for (const user of users) avatars.set(user.name.toUpperCase(), user.avatarId);
+    return avatars;
   }, [users]);
-
-  // Build dropdown options = users + any names already in highscores (e.g., Guest)
   const userOptions = useMemo(() => {
-    const s = new Set<string>();
+    const names = new Set<string>();
+    if (me?.name) names.add(me.name);
+    for (const user of users) if (user.name) names.add(user.name);
+    for (const row of allRows) if (row.name) names.add(row.name);
+    return Array.from(names).sort((a, b) => a.localeCompare(b));
+  }, [allRows, me, users]);
 
-    if (me?.name) s.add(me.name);
-    for (const u of users) if (u.name) s.add(u.name);
-    for (const r of baseRows) if (r.name) s.add(r.name);
-
-    return Array.from(s).sort((a, b) => a.localeCompare(b));
-  }, [users, baseRows, me]);
-
+  const difficultyOptions = FILTER_DIFFICULTIES[gameId];
   const filteredRows = useMemo(() => {
-    const partitioned = activePartition ? baseRows.filter((r) => leaderboardPartitionKey(gameId, r) === activePartition) : baseRows;
-    const byUser = userFilter === ALL_USERS ? partitioned : partitioned.filter((r) => r.name === userFilter);
-    if (gameId === "numbers" && numbersDifficultyFilter !== ALL_DIFFICULTIES) {
-      return byUser.filter((r) => scoreDifficulty(r) === numbersDifficultyFilter);
-    }
-    if (isWordsearchGame && wordsearchDifficultyFilter !== ALL_DIFFICULTIES) {
-      return byUser.filter((r) => wordsearchDifficulty(r) === wordsearchDifficultyFilter);
-    }
-    if (isArahJalanGame && arahJalanDifficultyFilter !== ALL_DIFFICULTIES) {
-      return byUser.filter((r) => arahJalanDifficulty(r) === arahJalanDifficultyFilter);
-    }
-    return byUser;
-  }, [
-    baseRows,
-    userFilter,
-    gameId,
-    isWordsearchGame,
-    isArahJalanGame,
-    numbersDifficultyFilter,
-    wordsearchDifficultyFilter,
-    arahJalanDifficultyFilter,
-    activePartition,
-  ]);
-
-  const sortedRows = useMemo(() => {
-    const competitive = [...filteredRows].sort((a, b) => compareHighscoreRows(gameId, a, b));
-    return showLegacyHistory ? [...competitive, ...legacyRows.sort((a, b) => b.dateISO.localeCompare(a.dateISO))] : competitive;
-  }, [filteredRows, gameId, legacyRows, showLegacyHistory]);
+    const byUser = userFilter === ALL_USERS ? allRows : allRows.filter((row) => row.name === userFilter);
+    if (!difficultyOptions || difficultyFilter === ALL_DIFFICULTIES) return byUser;
+    return byUser.filter((row) => (highscoreDifficulty(row) ?? "unknown") === difficultyFilter);
+  }, [allRows, difficultyFilter, difficultyOptions, userFilter]);
+  const rankedRows = useMemo(() => sortHighscoreRows(gameId, filteredRows), [filteredRows, gameId]);
+  const displayedRows = useMemo(() => rankedRows.slice(0, DISPLAY_LIMIT), [rankedRows]);
+  const columns = useMemo(() => highscoreColumnsForRows(gameId, filteredRows), [filteredRows, gameId]);
+  const detailColumns = columns.filter((column) => !["rank", "username", "date"].includes(column.key));
 
   function pickGame(next: GameId) {
     setGameId(next);
-    setNumbersDifficultyFilter(ALL_DIFFICULTIES);
-    setWordsearchDifficultyFilter(ALL_DIFFICULTIES);
-    setArahJalanDifficultyFilter(ALL_DIFFICULTIES);
-    setPartitionFilter("__ALL_PARTITIONS__");
-    setShowLegacyHistory(false);
-  }
-
-  function showMine() {
-    if (!me?.name) return;
-    setUserFilter(me.name);
+    setDifficultyFilter(ALL_DIFFICULTIES);
   }
 
   function requestClear() {
@@ -218,37 +153,18 @@ export default function HighScoresPage() {
       setPwError("Admin only.");
       return;
     }
-
-    const ok = await verifyAdminPassword(pw);
-    if (!ok) {
+    if (!(await verifyAdminPassword(pw))) {
       setPwError("Wrong admin password.");
       return;
     }
-
     await clearHighScores(gameId);
-    const next = await loadHighScores();
-    setStore(next);
-
+    setStore(await loadHighScores());
     setPwOpen(false);
     setPw("");
     setPwError(null);
   }
 
-  const canResetScores = canResetHighscores(me);
-
   const activeUserLabel = userFilter === ALL_USERS ? "All users" : userFilter;
-  const showNumbersDifficultyFilter = gameId === "numbers";
-  const showWordsearchDifficultyFilter = isWordsearchGame;
-  const showArahJalanDifficultyFilter = isArahJalanGame;
-  const showDifficultyFilter = showNumbersDifficultyFilter || showWordsearchDifficultyFilter || showArahJalanDifficultyFilter;
-  const showDifficultyColumn = gameId === "numbers" || isArahJalanGame;
-  const activityLabel = isArahJalanGame
-    ? "Streak"
-    : gameId === "word-match"
-    ? "Attempts"
-    : isWordsearchGame
-    ? "Difficulty"
-    : "Activities";
 
   return (
     <main className="chapter-page-shell relative min-h-screen overflow-x-hidden app-page-pad">
@@ -272,50 +188,34 @@ export default function HighScoresPage() {
                 <h1 className="crash-text crash-outline-fallback text-5xl font-black leading-none text-[#ffde66] drop-shadow-[0_3px_0_rgba(0,0,0,0.45)] phone-lg:text-6xl">
                   HIGH SCORES
                 </h1>
-                <p className="mt-1 text-sm font-semibold text-[#eaf6d8]/95">
-                  Filter by minigame and player.
-                </p>
+                <p className="mt-1 text-sm font-semibold text-[#eaf6d8]/95">Filter by minigame and player.</p>
               </div>
             </div>
 
             <div className="mt-3 flex flex-wrap items-center gap-2">
               <span className="rounded-full border border-[#bdd89f]/60 bg-[#2f5f34]/75 px-3 py-1 text-[11px] font-black tracking-wide text-[#f2fbdc]">
-                Showing {sortedRows.length} of {baseRows.length}
+                Showing {displayedRows.length} of {filteredRows.length}
               </span>
               <span className="rounded-full border border-[#f0d487]/60 bg-[#72531e]/65 px-3 py-1 text-[11px] font-black tracking-wide text-[#fff0bf]">
                 User: {activeUserLabel}
               </span>
-              {showDifficultyFilter && (
+              {difficultyOptions && (
                 <span className="rounded-full border border-[#d6cb95]/70 bg-[#fff2c9] px-3 py-1 text-[11px] font-black tracking-wide text-[#4f3a00]">
-                  Difficulty: {showNumbersDifficultyFilter
-                    ? difficultyLabel(numbersDifficultyFilter)
-                    : showWordsearchDifficultyFilter
-                    ? wordsearchDifficultyLabel(wordsearchDifficultyFilter)
-                    : arahJalanDifficultyLabel(arahJalanDifficultyFilter)}
+                  Difficulty: {difficultyFilter === ALL_DIFFICULTIES ? "All difficulties" : formatLabel(difficultyFilter)}
                 </span>
               )}
               {isAdmin(me) && (
-                <span className="rounded-full border border-rose-300/70 bg-rose-100 px-3 py-1 text-[11px] font-black tracking-wide text-rose-900">
-                  ADMIN
-                </span>
+                <span className="rounded-full border border-rose-300/70 bg-rose-100 px-3 py-1 text-[11px] font-black tracking-wide text-rose-900">ADMIN</span>
               )}
               {isDemo(me) && (
-                <span className="rounded-full border border-[#f7d87f]/80 bg-[#fff2c7] px-3 py-1 text-[11px] font-black tracking-wide text-[#5c4500]">
-                  DEMO
-                </span>
+                <span className="rounded-full border border-[#f7d87f]/80 bg-[#fff2c7] px-3 py-1 text-[11px] font-black tracking-wide text-[#5c4500]">DEMO</span>
               )}
             </div>
           </div>
 
           <div className="flex flex-wrap gap-2 rounded-2xl border border-[#bfd9a0]/45 bg-[#173728]/70 p-2 shadow-xl backdrop-blur-md">
-            <IconActionLink
-              href="/minigames"
-              kind="minigames"
-              tooltip="Back to Mini Games"
-              iconClassName="brightness-0 invert"
-            />
-
-            {canResetScores && (
+            <IconActionLink href="/minigames" kind="minigames" tooltip="Back to Mini Games" iconClassName="brightness-0 invert" />
+            {canResetHighscores(me) && (
               <button
                 type="button"
                 onClick={requestClear}
@@ -324,358 +224,146 @@ export default function HighScoresPage() {
                 Clear this game
               </button>
             )}
-            {legacyRows.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setShowLegacyHistory((visible) => !visible)}
-                className="touch-target rounded-xl border border-[#d8cc95]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#273d1e] shadow hover:bg-[#ffefbf]"
-              >
-                  {showLegacyHistory ? "Hide history" : `Show ${legacyRows.length} history rows`}
-              </button>
-            )}
           </div>
         </div>
 
         <section className="mt-4 rounded-3xl border border-[#d2c68f]/55 bg-[#fff5d8]/93 p-4 shadow-[0_16px_36px_rgba(0,0,0,0.25)] phone-lg:mt-8 phone-lg:p-6">
-          {/* Controls row */}
           <div className="space-y-4">
             <div>
               <div className="mb-2 text-xs font-black tracking-wide opacity-65">GAME</div>
               <div className="overflow-x-auto pb-1">
                 <div className="flex min-w-max items-center gap-2 pr-1">
-
-              <button
-                type="button"
-                onClick={() => pickGame("numbers")}
-                className={[
-                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
-                  gameId === "numbers"
-                    ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
-                    : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
-                ].join(" ")}
-              >
-                Numbers
-              </button>
-
-              <button
-                type="button"
-                onClick={() => pickGame("word-match")}
-                className={[
-                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
-                  gameId === "word-match"
-                    ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
-                    : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
-                ].join(" ")}
-              >
-                Word Match
-              </button>
-
-              <button
-                type="button"
-                onClick={() => pickGame("wordsearch")}
-                className={[
-                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
-                  gameId === "wordsearch"
-                    ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
-                    : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
-                ].join(" ")}
-              >
-                Wordsearch
-              </button>
-
-              <button
-                type="button"
-                onClick={() => pickGame("currency")}
-                className={[
-                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
-                  gameId === "currency"
-                    ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
-                    : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
-                ].join(" ")}
-              >
-                Currency
-              </button>
-
-              <button
-                type="button"
-                onClick={() => pickGame("makan-apa")}
-                className={[
-                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
-                  gameId === "makan-apa"
-                    ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
-                    : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
-                ].join(" ")}
-              >
-                Makan Apa
-              </button>
-
-              <button
-                type="button"
-                onClick={() => pickGame("misi-membeli")}
-                className={[
-                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
-                  gameId === "misi-membeli"
-                    ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
-                    : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
-                ].join(" ")}
-              >
-                Misi Membeli
-              </button>
-
-              <button
-                type="button"
-                onClick={() => pickGame("arah-jalan")}
-                className={[
-                  "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
-                  gameId === "arah-jalan"
-                    ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
-                    : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
-                ].join(" ")}
-              >
-                Arah Jalan
-              </button>
+                  {GAMES.map((game) => (
+                    <button
+                      key={game.id}
+                      type="button"
+                      onClick={() => pickGame(game.id)}
+                      className={[
+                        "touch-target rounded-full border px-4 py-2 text-xs font-black shadow transition",
+                        gameId === game.id
+                          ? "border-[#e6bc56] bg-[#ffd447] text-[#3f2f00]"
+                          : "border-[#d8cd99]/70 bg-white/90 text-[#273d1e] hover:bg-[#ffefbf]",
+                      ].join(" ")}
+                    >
+                      {game.label}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
               <div className="text-xs font-black tracking-wide opacity-65">USER</div>
-
               <select
                 value={userFilter}
-                onChange={(e) => setUserFilter(e.target.value)}
+                onChange={(event) => setUserFilter(event.target.value)}
                 className="touch-target rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
               >
                 <option value={ALL_USERS}>All users</option>
-                {userOptions.map((name) => (
-                  <option key={name} value={name}>
-                    {name}
-                  </option>
-                ))}
+                {userOptions.map((name) => <option key={name} value={name}>{name}</option>)}
               </select>
-
               <button
                 type="button"
-                onClick={showMine}
+                onClick={() => me?.name && setUserFilter(me.name)}
                 className="touch-target rounded-xl border border-[#d8cc95]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#273d1e] shadow hover:bg-[#ffefbf]"
               >
                 My scores
               </button>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="text-xs font-black tracking-wide opacity-65">LEADERBOARD</div>
-              <select
-                value={activePartition ?? "__ALL_PARTITIONS__"}
-                onChange={(e) => setPartitionFilter(e.target.value)}
-                className="touch-target rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
-              >
-                {partitionOptions.length === 0 ? <option value="__ALL_PARTITIONS__">No v2 results</option> : null}
-                {partitionOptions.map((partition) => <option key={partition} value={partition}>{partition.replace(`${gameId}:`, "")}</option>)}
-              </select>
-            </div>
-
-            {showNumbersDifficultyFilter && (
+            {difficultyOptions && (
               <div className="flex flex-wrap items-center gap-2">
                 <div className="text-xs font-black tracking-wide opacity-65">DIFFICULTY</div>
                 <select
-                  value={numbersDifficultyFilter}
-                  onChange={(e) => setNumbersDifficultyFilter(e.target.value as NumbersDifficultyFilter)}
+                  value={difficultyFilter}
+                  onChange={(event) => setDifficultyFilter(event.target.value)}
                   className="touch-target rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
                 >
                   <option value={ALL_DIFFICULTIES}>All difficulties</option>
-                  <option value="ultrahard">Ultra Hard</option>
-                  <option value="hard">Hard</option>
-                  <option value="medium">Medium</option>
-                  <option value="easy">Easy</option>
-                  <option value="unknown">Unknown</option>
-                </select>
-              </div>
-            )}
-            {showWordsearchDifficultyFilter && (
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="text-xs font-black tracking-wide opacity-65">DIFFICULTY</div>
-                <select
-                  value={wordsearchDifficultyFilter}
-                  onChange={(e) => setWordsearchDifficultyFilter(e.target.value as WordsearchDifficultyFilter)}
-                  className="touch-target rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
-                >
-                  <option value={ALL_DIFFICULTIES}>All difficulties</option>
-                  <option value="hard">Hard</option>
-                  <option value="medium">Medium</option>
-                  <option value="easy">Easy</option>
-                </select>
-              </div>
-            )}
-            {showArahJalanDifficultyFilter && (
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="text-xs font-black tracking-wide opacity-65">DIFFICULTY</div>
-                <select
-                  value={arahJalanDifficultyFilter}
-                  onChange={(e) => setArahJalanDifficultyFilter(e.target.value as ArahJalanDifficultyFilter)}
-                  className="touch-target rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
-                >
-                  <option value={ALL_DIFFICULTIES}>All difficulties</option>
-                  <option value="hard">Hard</option>
-                  <option value="easy">Easy</option>
-                  <option value="unknown">Unknown</option>
+                  {difficultyOptions.map((difficulty) => (
+                    <option key={difficulty} value={difficulty}>{formatLabel(difficulty)}</option>
+                  ))}
                 </select>
               </div>
             )}
           </div>
 
           <div className="mt-3 text-xs font-semibold text-[#2c431f]/75">
-            {gameId === "wordsearch"
-              ? "Completed runs: hints, mistakes, then faster time."
-              : gameId === "misi-membeli" || gameId === "arah-jalan"
-              ? "Survival progress, accuracy, correct-response time, then fewer mistakes."
-              : "Completed runs: accuracy, faster time, then fewer mistakes."}
+            {HIGHSCORE_GAME_CONFIG[gameId].scoringDescription}
           </div>
 
           <div className="mt-5 space-y-3 tablet:hidden">
-            {sortedRows.length === 0 ? (
+            {displayedRows.length === 0 ? (
               <div className="rounded-2xl border border-[#d7cb98]/70 bg-white/95 p-4 text-sm font-semibold text-[#2d431e]/70 shadow">
                 No scores for this filter yet.
               </div>
-            ) : (
-              sortedRows.map((r, idx) => (
-                <article
-                  key={r.id}
-                  className="rounded-2xl border border-[#d7cb98]/70 bg-white/95 p-3 shadow"
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      <Image
-                        src={getProfileAvatarSrc(r.avatarId ?? avatarByName.get(r.name.toUpperCase()))}
-                        alt={`${r.name} avatar`}
-                        width={34}
-                        height={34}
-                        className="h-[34px] w-[34px] rounded-full border border-black/10 bg-white object-cover shadow"
-                      />
-                      <div className="text-sm font-black text-[#273d1e]">{r.name}</div>
-                    </div>
-                    <div className="rounded-full bg-[#ffe9a8] px-2 py-1 text-[11px] font-black text-[#4f3a00]">
-                      #{idx + 1}
-                    </div>
+            ) : displayedRows.map((row, index) => (
+              <article key={row.id} className="rounded-2xl border border-[#d7cb98]/70 bg-white/95 p-3 shadow">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src={getProfileAvatarSrc(row.avatarId ?? avatarByName.get(row.name.toUpperCase()))}
+                      alt={`${row.name} avatar`}
+                      width={34}
+                      height={34}
+                      className="h-[34px] w-[34px] rounded-full border border-black/10 bg-white object-cover shadow"
+                    />
+                    <div className="text-sm font-black text-[#273d1e]">{row.name}</div>
                   </div>
-
-                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-bold text-[#2f421f]">
-                    {isWordsearchGame ? (
-                      <div>Difficulty: {wordsearchDifficultyLabel(wordsearchDifficulty(r))}</div>
-                    ) : isArahJalanGame ? (
-                      <div>Streak: {highscoreNumericScore(r)}</div>
-                    ) : (
-                      <div>{activityLabel}: {activityCount(r)}</div>
-                    )}
-                    <div>Accuracy: {Math.round(r.accuracy)}%</div>
-                    <div>Time: {formatDuration(r.timeMs)}</div>
-                    {showDifficultyColumn && (
-                      <div>
-                        Difficulty: {isArahJalanGame
-                          ? arahJalanDifficultyLabel(arahJalanDifficulty(r) as ArahJalanDifficulty | "unknown")
-                          : difficultyLabel(scoreDifficulty(r))}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-2 text-xs font-semibold text-[#2d431e]/80">{formatDate(r.dateISO)}</div>
-                </article>
-              ))
-            )}
+                  <div className="rounded-full bg-[#ffe9a8] px-2 py-1 text-[11px] font-black text-[#4f3a00]">#{index + 1}</div>
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-bold text-[#2f421f]">
+                  {detailColumns.map((column) => (
+                    <div key={column.key}>{column.label}: {columnValue(gameId, row, column, index + 1)}</div>
+                  ))}
+                </div>
+                <div className="mt-2 text-xs font-semibold text-[#2d431e]/80">{formatDate(row.dateISO)}</div>
+              </article>
+            ))}
           </div>
 
           <div className="mt-5 hidden overflow-x-auto rounded-2xl border border-[#d7cb98]/70 shadow tablet:block">
             <table className="w-full min-w-[760px] border-separate border-spacing-0 overflow-hidden">
               <thead>
                 <tr className="bg-gradient-to-r from-[#f4ce63] via-[#ffd95b] to-[#f4c94e]">
-                  <th className="border border-black/10 p-4 text-left align-top">
-                    <div className="text-xs font-black text-[#4f3a00]/80">#</div>
-                  </th>
-                  <th className="border border-black/10 p-4 text-left align-top">
-                    <div className="text-xs font-black text-[#4f3a00]/80">NAME</div>
-                  </th>
-                  <th className="border border-black/10 p-4 text-left align-top">
-                    <div className="text-xs font-black text-[#4f3a00]/80">{activityLabel.toUpperCase()}</div>
-                  </th>
-                  {showDifficultyColumn && (
-                    <th className="border border-black/10 p-4 text-left align-top">
-                      <div className="text-xs font-black text-[#4f3a00]/80">DIFFICULTY</div>
+                  {columns.map((column) => (
+                    <th key={column.key} className="border border-black/10 p-4 text-left align-top">
+                      <div className="text-xs font-black text-[#4f3a00]/80">{column.key === "rank" ? "#" : column.label.toUpperCase()}</div>
                     </th>
-                  )}
-                  <th className="border border-black/10 p-4 text-left align-top">
-                    <div className="text-xs font-black text-[#4f3a00]/80">ACCURACY</div>
-                  </th>
-                  <th className="border border-black/10 p-4 text-left align-top">
-                    <div className="text-xs font-black text-[#4f3a00]/80">TIME</div>
-                  </th>
-                  <th className="border border-black/10 p-4 text-left align-top">
-                    <div className="text-xs font-black text-[#4f3a00]/80">DATE</div>
-                  </th>
+                  ))}
                 </tr>
               </thead>
-
               <tbody>
-                {sortedRows.length === 0 ? (
+                {displayedRows.length === 0 ? (
                   <tr className="bg-white/95">
-                    <td className="border border-black/10 p-6" colSpan={showDifficultyColumn ? 7 : 6}>
-                      <div className="text-sm font-semibold text-[#2d431e]/70">
-                        No scores for this filter yet.
-                      </div>
+                    <td className="border border-black/10 p-6" colSpan={columns.length}>
+                      <div className="text-sm font-semibold text-[#2d431e]/70">No scores for this filter yet.</div>
                     </td>
                   </tr>
-                ) : (
-                  sortedRows.map((r, idx) => (
-                    <tr key={r.id} className={idx % 2 === 0 ? "bg-white/95" : "bg-[#fff7df]/95"}>
-                      <td className="border border-black/10 p-4 align-top">
-                        <div className="text-sm font-black text-[#2f2606]">{idx + 1}</div>
-                      </td>
-
-                      <td className="border border-black/10 p-4 align-top">
-                        <div className="flex items-center gap-3">
-                          <Image
-                            src={getProfileAvatarSrc(r.avatarId ?? avatarByName.get(r.name.toUpperCase()))}
-                            alt={`${r.name} avatar`}
-                            width={34}
-                            height={34}
-                            className="h-[34px] w-[34px] rounded-full border border-black/10 bg-white object-cover shadow"
-                          />
-                          <div className="text-sm font-black text-[#273d1e]">{r.name}</div>
-                        </div>
-                      </td>
-
-                      <td className="border border-black/10 p-4 align-top">
-                        <div className="text-sm font-black text-[#273d1e]">
-                          {isWordsearchGame
-                            ? wordsearchDifficultyLabel(wordsearchDifficulty(r))
-                            : isArahJalanGame
-                            ? highscoreNumericScore(r)
-                            : activityCount(r)}
-                        </div>
-                      </td>
-
-                      {showDifficultyColumn && (
-                        <td className="border border-black/10 p-4 align-top">
-                          <div className="text-sm font-black text-[#273d1e]">
-                            {isArahJalanGame
-                              ? arahJalanDifficultyLabel(arahJalanDifficulty(r) as ArahJalanDifficulty | "unknown")
-                              : difficultyLabel(scoreDifficulty(r))}
+                ) : displayedRows.map((row, index) => (
+                  <tr key={row.id} className={index % 2 === 0 ? "bg-white/95" : "bg-[#fff7df]/95"}>
+                    {columns.map((column) => (
+                      <td key={column.key} className="border border-black/10 p-4 align-top">
+                        {column.key === "username" ? (
+                          <div className="flex items-center gap-3">
+                            <Image
+                              src={getProfileAvatarSrc(row.avatarId ?? avatarByName.get(row.name.toUpperCase()))}
+                              alt={`${row.name} avatar`}
+                              width={34}
+                              height={34}
+                              className="h-[34px] w-[34px] rounded-full border border-black/10 bg-white object-cover shadow"
+                            />
+                            <div className="text-sm font-black text-[#273d1e]">{row.name}</div>
                           </div>
-                        </td>
-                      )}
-
-                      <td className="border border-black/10 p-4 align-top">
-                        <div className="text-sm font-black text-[#273d1e]">{Math.round(r.accuracy)}%</div>
+                        ) : (
+                          <div className={column.key === "date" ? "text-sm font-semibold text-[#2d431e]/80" : "text-sm font-black text-[#273d1e]"}>
+                            {columnValue(gameId, row, column, index + 1)}
+                          </div>
+                        )}
                       </td>
-
-                      <td className="border border-black/10 p-4 align-top">
-                        <div className="text-sm font-black text-[#273d1e]">{formatDuration(r.timeMs)}</div>
-                      </td>
-
-                      <td className="border border-black/10 p-4 align-top">
-                        <div className="text-sm font-semibold text-[#2d431e]/80">{formatDate(r.dateISO)}</div>
-                      </td>
-                    </tr>
-                  ))
-                )}
+                    ))}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -683,25 +371,12 @@ export default function HighScoresPage() {
           <div className="mt-4 rounded-2xl border border-[#cfbf86]/60 bg-[#f8ecbf]/80 p-4">
             <div className="text-xs font-black tracking-wide text-[#5a450b]/70">SCORING</div>
             <div className="mt-1 text-sm font-semibold text-[#4a3a10]/75">
-              {showNumbersDifficultyFilter
-                ? "Difficulty (higher) first, then activities (higher), accuracy (higher), and time (lower)."
-                : showWordsearchDifficultyFilter
-                ? wordsearchDifficultyFilter === ALL_DIFFICULTIES
-                ? "Difficulty (Hard > Medium > Easy), then time (lower)."
-                  : "For a selected difficulty, ranked by faster time."
-                : showArahJalanDifficultyFilter
-                ? arahJalanDifficultyFilter === ALL_DIFFICULTIES
-                  ? "Streak (higher), difficulty (Hard > Easy), accuracy (higher), time (lower), then newest."
-                  : "Streak (higher), accuracy (higher), time (lower), then newest."
-                : gameId === "word-match"
-                ? "Result (win first), then progress, accuracy (higher), time (lower), and attempts (lower)."
-                : "Ranked by activities (higher), then accuracy (higher), then time (lower)."}
+              {HIGHSCORE_GAME_CONFIG[gameId].scoringDescription}
             </div>
           </div>
         </section>
       </div>
 
-      {/* Admin password modal */}
       {pwOpen && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
           <div
@@ -715,35 +390,27 @@ export default function HighScoresPage() {
           <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-[#e6c35f]/45 bg-[#3f2a0d] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
             <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-[#ffe083]/25 blur-2xl" />
             <div className="pointer-events-none absolute -bottom-14 -left-8 h-32 w-32 rounded-full bg-[#9bcf62]/25 blur-2xl" />
-
             <div className="relative text-xs font-black uppercase tracking-[0.25em] text-[#f7e6b4]/90">Admin Auth</div>
             <div className="relative mt-2 text-2xl font-black text-[#fff6db]">Admin approval required</div>
             <div className="relative mt-1 text-sm font-semibold text-[#faebc6]/85">
               Enter the admin password to clear <span className="font-black">{gameId}</span> highscores.
             </div>
-
             <input
               autoFocus
               type="password"
               value={pw}
-              onChange={(e) => {
-                setPw(e.target.value);
+              onChange={(event) => {
+                setPw(event.target.value);
                 setPwError(null);
               }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") void confirmClear();
-                if (e.key === "Escape") setPwOpen(false);
+              onKeyDown={(event) => {
+                if (event.key === "Enter") void confirmClear();
+                if (event.key === "Escape") setPwOpen(false);
               }}
               className="mt-4 w-full rounded-2xl border border-[#f2d07a]/55 bg-[#fff5d8] px-4 py-3 text-sm font-bold text-[#3f2c00] shadow outline-none placeholder:text-[#9b8154] focus:border-[#ffd447]"
               placeholder="Admin password"
             />
-
-            {pwError && (
-              <div className="mt-3 rounded-2xl border border-rose-300/70 bg-rose-100 p-3 text-sm font-semibold text-rose-900">
-                {pwError}
-              </div>
-            )}
-
+            {pwError && <div className="mt-3 rounded-2xl border border-rose-300/70 bg-rose-100 p-3 text-sm font-semibold text-rose-900">{pwError}</div>}
             <div className="mt-5 flex justify-end gap-2">
               <button
                 type="button"
@@ -756,11 +423,7 @@ export default function HighScoresPage() {
               >
                 Cancel
               </button>
-              <button
-                type="button"
-                onClick={() => void confirmClear()}
-                className="rounded-xl bg-rose-200 px-4 py-2 text-xs font-black text-rose-900 shadow hover:bg-rose-300"
-              >
+              <button type="button" onClick={() => void confirmClear()} className="rounded-xl bg-rose-200 px-4 py-2 text-xs font-black text-rose-900 shadow hover:bg-rose-300">
                 Confirm clear
               </button>
             </div>

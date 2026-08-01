@@ -217,7 +217,7 @@ export default function MakanApaPlayPage() {
 
     try {
       await addHighScore("makan-apa", {
-      runId: createRunId(), scoreVersion: 2, outcome, competitive: outcome === "completed",
+      runId: createRunId(), outcome,
       accuracy,
       timeMs: snapshot.timeMs,
       attempts: snapshot.submissions, correct: snapshot.solved, mistakes: Math.max(0, snapshot.submissions - snapshot.solved), hints: 0,

@@ -19,11 +19,9 @@ export function isValidHighscoreGameId(value: unknown): value is GameId {
 
 export type RunOutcome = "completed" | "failed" | "abandoned";
 
-export type RunResultV2 = {
+export type HighscoreRun = {
   runId: string;
-  scoreVersion: 2;
   outcome: RunOutcome;
-  competitive: boolean;
   accuracy: number;
   timeMs: number;
   attempts: number;
@@ -43,8 +41,6 @@ export type HighscoreSaveResult = {
   ok: true;
   saved: boolean;
   duplicate: boolean;
-  competitive: boolean;
-  reason?: "history" | "saved" | "duplicate";
 };
 
 export type ScoreEntry = {
@@ -56,11 +52,8 @@ export type ScoreEntry = {
   timeMs: number;
   dateISO: string;
   meta?: Record<string, unknown>;
-  runId?: string;
-  scoreVersion?: 2;
   userId?: string;
   outcome?: RunOutcome;
-  competitive?: boolean;
   attempts?: number;
   correct?: number;
   mistakes?: number;

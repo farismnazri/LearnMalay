@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import type { ScoreEntry } from "../../src/lib/highscoresTypes.ts";
 import { isValidHighscoreGameId } from "../../src/lib/highscoresTypes.ts";
 import { resolveArahJalanStreakAfterMistake } from "../../src/lib/arahJalan/streakScoring.ts";
-import { compareArahJalanHighscoreRows } from "../../src/lib/highscoreRanking.ts";
+import { compareHighscoreRows } from "../../src/lib/highscoreRanking.ts";
 
 function scoreEntry(overrides: Partial<ScoreEntry>): ScoreEntry {
   return {
@@ -40,10 +40,10 @@ test("Arah Jalan ranking prioritizes highest streak first", () => {
   const five = scoreEntry({ id: "five", score: 5, meta: { difficulty: "easy" } });
   const four = scoreEntry({ id: "four", score: 4, meta: { difficulty: "hard" } });
 
-  assert.equal(compareArahJalanHighscoreRows(five, four, { allDifficulties: true }) < 0, true);
+  assert.equal(compareHighscoreRows("arah-jalan", five, four) < 0, true);
 });
 
-test("Arah Jalan ranking uses hard-over-easy only in all-difficulty view", () => {
+test("Arah Jalan ranking uses time before difficulty", () => {
   const easyFast = scoreEntry({
     id: "easy-fast",
     score: 5,
@@ -57,6 +57,5 @@ test("Arah Jalan ranking uses hard-over-easy only in all-difficulty view", () =>
     meta: { difficulty: "hard" },
   });
 
-  assert.equal(compareArahJalanHighscoreRows(easyFast, hardSlow, { allDifficulties: true }) > 0, true);
-  assert.equal(compareArahJalanHighscoreRows(easyFast, hardSlow, { allDifficulties: false }) < 0, true);
+  assert.equal(compareHighscoreRows("arah-jalan", easyFast, hardSlow) < 0, true);
 });

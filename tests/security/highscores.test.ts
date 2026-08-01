@@ -35,7 +35,7 @@ test.after(async () => {
   if (child.exitCode === null) child.kill("SIGKILL");
 });
 
-test("authenticated v2 requests save every game and deduplicate runId", async () => {
+test("authenticated canonical requests save every game and deduplicate only by runId", async () => {
   const name = `HIGHSCORE_${Date.now()}`;
   const registration = await request("/api/users", { method: "POST", body: JSON.stringify({ name, password: "test-password-123", avatarId: "crash" }) });
   assert.equal(registration.status, 200);
@@ -55,7 +55,7 @@ test("authenticated v2 requests save every game and deduplicate runId", async ()
   let firstRun: Record<string, unknown> | null = null;
   for (const [gameId, overrides] of cases) {
     const run = {
-      runId: crypto.randomUUID(), scoreVersion: 2, outcome: "completed", competitive: true,
+      runId: crypto.randomUUID(), outcome: "completed",
       accuracy: 100, timeMs: 1000, attempts: 10, correct: 10, mistakes: 0, hints: 0, ...overrides,
     };
     const response = await request("/api/highscores", { method: "POST", headers: { cookie }, body: JSON.stringify({ gameId, run }) });
@@ -65,9 +65,13 @@ test("authenticated v2 requests save every game and deduplicate runId", async ()
     if (gameId === "numbers") firstRun = run;
   }
 
+  const distinctMatch = { ...firstRun, runId: crypto.randomUUID() };
+  const distinct = await request("/api/highscores", { method: "POST", headers: { cookie }, body: JSON.stringify({ gameId: "numbers", run: distinctMatch }) });
+  assert.deepEqual(await distinct.json(), { ok: true, saved: true, duplicate: false });
+
   const duplicate = await request("/api/highscores", { method: "POST", headers: { cookie }, body: JSON.stringify({ gameId: "numbers", run: firstRun }) });
   assert.equal(duplicate.status, 200);
-  assert.deepEqual(await duplicate.json(), { ok: true, saved: false, duplicate: true, competitive: true, reason: "duplicate" });
+  assert.deepEqual(await duplicate.json(), { ok: true, saved: false, duplicate: true });
 
   const nonAdminReset = await request("/api/highscores?gameId=numbers", { method: "DELETE", headers: { cookie } });
   assert.equal(nonAdminReset.status, 403);
@@ -85,6 +89,7 @@ test("authenticated v2 requests save every game and deduplicate runId", async ()
 function request(pathname: string, init: RequestInit) {
   return fetch(`${baseUrl}${pathname}`, { ...init, headers: { origin: baseUrl, "content-type": "application/json", ...(init.headers ?? {}) } });
 }
+
 function openPort() {
   return new Promise<number>((resolve, reject) => {
     const server = net.createServer();

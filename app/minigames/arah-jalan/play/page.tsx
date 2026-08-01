@@ -386,7 +386,7 @@ export default function ArahJalanPlayPage() {
 
     try {
       await addHighScore("arah-jalan", {
-      runId: createRunId(), scoreVersion: 2, outcome, competitive: outcome === "failed",
+      runId: createRunId(), outcome,
       score: endedStreak.scoreToSave,
       accuracy: (endedStreak.scoreToSave / (endedStreak.scoreToSave + 1)) * 100,
       timeMs,
