@@ -1,10 +1,10 @@
 # Learn Malay Repository Guidance
 
 ## Guidance Scope
-- This directory is the true repository and app root. Use the `learn-malay` project as the safest default for Git, release, build, workflow, and cross-area tasks.
-- Run repository-wide commands from this directory.
+- This directory is the true repository and app root. Every Codex prompt must use `learn-malay project` as its first line and operate from this directory.
+- Run all commands from this directory, including bounded chapter, minigame, and asset work.
 - A nested `AGENTS.md` supplements this file for its subtree. Follow the closest applicable guidance when it is more specific; repository-wide safety and release rules still apply.
-- Use the focused `chapters`, `minigames`, or `assets` projects for bounded work in those areas. Return to the `learn-malay` project when a task crosses scopes or needs repo-root operations.
+- Use exact file paths and bounded scopes to focus work. Nested `AGENTS.md` files and repo-local skills provide local rules; they are not separate projects.
 
 ## Working Rules
 - Inspect `git status --short` before editing and preserve unrelated user changes.
