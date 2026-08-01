@@ -7,8 +7,6 @@ import process from "node:process";
 import test from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
-import { CHAPTER_SUMMARIES } from "../../src/lib/chapters/summaries.ts";
-
 type JsonResponse = {
   status: number;
   headers: Headers;
@@ -109,7 +107,6 @@ test("read-only routes are not blocked by CSRF origin policy", async () => {
 
 test("chapter revision is recorded only by an explicit completion request", async () => {
   const user = await createUserAndSessionCookie();
-  const chapterOneRevision = currentChapterRevision(1);
 
   const progressOnly = await requestJson("/api/users/progress", {
     method: "POST",
@@ -140,7 +137,7 @@ test("chapter revision is recorded only by an explicit completion request", asyn
   });
 
   assert.equal(completed.status, 200);
-  assert.deepEqual(readCompletedChapterRevisions(completed.body), { "1": chapterOneRevision });
+  assert.deepEqual(readCompletedChapterRevisions(completed.body), { "1": 7 });
 });
 
 test("chapter completion cannot acknowledge a chapter that is still locked", async () => {
@@ -367,12 +364,6 @@ function readCompletedChapterRevisions(body: unknown): Record<string, number> {
     throw new Error("user response did not include completed chapter revisions");
   }
   return revisions as Record<string, number>;
-}
-
-function currentChapterRevision(id: number): number {
-  const chapter = CHAPTER_SUMMARIES.find((summary) => summary.id === id);
-  if (!chapter) throw new Error(`chapter ${id} does not exist`);
-  return chapter.revision;
 }
 
 function readSessionCookieFromResponse(headers: Headers): string {

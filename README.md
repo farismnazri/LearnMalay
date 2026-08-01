@@ -33,7 +33,8 @@ The actual app root is:
 - `src/components/` - shared game UI and navigation components.
 - `src/server/` - MongoDB/in-memory storage adapter, user repo, session repo, highscore repo, and session cookie helpers.
 - `public/assets/` - game backgrounds, characters, icons, borders, chapter assets, and audio.
-- `scripts/` - utility scripts for PWA icons, mobile QA, and PDF summary generation.
+- `scripts/` - utility scripts for release drift, chapter-summary validation,
+  project-map generation, PWA icons, and mobile QA.
 
 ## App Flows
 
@@ -41,7 +42,8 @@ The actual app root is:
 - User/profile selection: `/user` supports creating accounts, logging in, choosing avatars, switching users, and admin actions.
 - Map: `/map` shows chapter/world progress and locks chapters until the user reaches them.
 - Chapter pages: `/chapter/[id]` renders the typed chapter content and activity kinds such as tables, chats, drag-fill, type-in, box-drag, wordsearch, crossword, tick, figure, and food intro pages.
-- Minigames: `/minigames` lists unlockable games. Current games include numbers, word match, wordsearch, currency, makan apa, and misi membeli.
+- Minigames: `/minigames` lists seven unlockable games: numbers, word match,
+  wordsearch, currency, makan apa, misi membeli, and arah jalan.
 - Highscores: `/minigames/highscores` displays score tables and supports admin-only clearing through the API.
 
 ## Storage And Environment
