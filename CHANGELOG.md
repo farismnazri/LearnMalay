@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.16.1] - 2026-08-01
+
+### Fixed
+- Restored the Chapter 1 summary revision 7 contract and aligned security coverage with the released chapter revision.
+- Updated repository documentation, project mapping, and asset guidance to match the current v0.16.0 tree.
+
 ## [0.16.0] - 2026-08-01
 
 ### Added

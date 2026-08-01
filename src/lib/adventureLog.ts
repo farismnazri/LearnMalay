@@ -16,6 +16,26 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.16.1",
+    date: "2026-08-01",
+    headline: {
+      ms: "Kontrak semakan Bab 1 dan dokumentasi repositori kini diselaraskan",
+      en: "Chapter 1 revision contracts and repository documentation are aligned",
+      es: "Los contratos de revisión del Capítulo 1 y la documentación del repositorio están alineados",
+    },
+    highlights: {
+      added: [],
+      changed: [],
+      fixed: [
+        {
+          ms: "Memulihkan semakan ringkasan Bab 1 kepada 7 dan menyelaraskan ujian keselamatan dengan kandungan yang telah dikeluarkan.",
+          en: "Restored the Chapter 1 summary revision to 7 and aligned security coverage with the released content.",
+          es: "Se restauró la revisión 7 del resumen del Capítulo 1 y se alineó la cobertura de seguridad con el contenido publicado.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.16.0",
     date: "2026-08-01",
     headline: {
