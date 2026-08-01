@@ -11,8 +11,8 @@ import {
   formatRM,
   type DifficultyKey,
 } from "@/lib/currency/items";
-import { addHighScore } from "@/lib/highscores";
-import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
+import { addHighScore, createRunId } from "@/lib/highscores";
+import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { canSaveHighscores } from "@/lib/userCapabilities";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
@@ -448,8 +448,6 @@ export default function CurrencyPlayPage() {
   const [elapsedMs, setElapsedMs] = useState(0);
   const recordedRef = useRef(false);
 
-  const [playerName, setPlayerName] = useState("Guest");
-  const [playerAvatarId, setPlayerAvatarId] = useState<ProfileAvatarId | undefined>(undefined);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
 
@@ -485,8 +483,6 @@ export default function CurrencyPlayPage() {
       .then((u) => {
         if (!alive) return;
         setUser(u);
-        if (u?.name) setPlayerName(u.name);
-        setPlayerAvatarId(u?.avatarId);
       })
       .finally(() => {
         if (alive) setLoadingUser(false);
@@ -558,7 +554,7 @@ export default function CurrencyPlayPage() {
     );
   }
 
-  function recordScoreOnce(
+  async function recordScoreOnce(
     result: "win" | "gameover",
     snapshot: {
       attempts: number;
@@ -574,21 +570,19 @@ export default function CurrencyPlayPage() {
 
     const acc = snapshot.attempts > 0 ? (snapshot.correctCount / snapshot.attempts) * 100 : 0;
 
-    addHighScore("currency", {
-      name: playerName,
-      avatarId: playerAvatarId,
+    try {
+      await addHighScore("currency", {
+      runId: createRunId(), scoreVersion: 2,
+      outcome: result === "win" ? "completed" : "failed", competitive: result === "win",
       accuracy: acc,
       timeMs: snapshot.timeMs,
-      meta: {
-        result,
-        mode: effectiveMode,
-        difficulty,
-        attempts: snapshot.attempts,
-        correct: snapshot.correctCount,
-        wrong: snapshot.wrongCount,
-        lives: snapshot.lives,
-      },
-    });
+      attempts: snapshot.attempts, correct: snapshot.correctCount, mistakes: snapshot.wrongCount, hints: 0,
+      difficulty, mode: effectiveMode, meta: { lives: snapshot.lives },
+      });
+    } catch (error) {
+      recordedRef.current = false;
+      console.error("Failed to save Currency result", error);
+    }
   }
 
   function finishCorrectRound(attemptSnapshot: number, message?: string) {

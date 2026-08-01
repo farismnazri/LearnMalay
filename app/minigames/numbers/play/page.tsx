@@ -5,8 +5,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { UiLang } from "@/lib/chapters";
 import Image from "next/image";
 
-import { addHighScore } from "@/lib/highscores";
-import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
+import { addHighScore, createRunId } from "@/lib/highscores";
+import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { canSaveHighscores } from "@/lib/userCapabilities";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
@@ -268,8 +268,6 @@ export default function NumbersPlayPage() {
   const [n, setN] = useState<number>(() => randomInt(level.min, level.max));
   const [input, setInput] = useState("");
   const [feedback, setFeedback] = useState<null | { ok: boolean; msg: string }>(null);
-  const [playerName, setPlayerName] = useState("GUEST");
-  const [playerAvatarId, setPlayerAvatarId] = useState<ProfileAvatarId | undefined>(undefined);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
   const [showUltraPrompt, setShowUltraPrompt] = useState(true);
@@ -292,8 +290,6 @@ export default function NumbersPlayPage() {
       .then((u) => {
         if (!alive) return;
         setUser(u);
-        if (u?.name) setPlayerName(u.name);
-        setPlayerAvatarId(u?.avatarId);
       })
       .finally(() => {
         if (alive) setLoadingUser(false);
@@ -303,7 +299,7 @@ export default function NumbersPlayPage() {
     };
   }, []);
 
-  function recordScoreOnce(
+  async function recordScoreOnce(
     result: "win" | "gameover",
     snapshot?: { attempts: number; totalCorrect: number; totalWrong: number; lives: number; level: number; timeMs: number }
   ) {
@@ -320,13 +316,19 @@ export default function NumbersPlayPage() {
 
     const accuracy = a > 0 ? (c / a) * 100 : 0;
 
-    addHighScore("numbers", {
-      name: playerName,
-      avatarId: playerAvatarId,
+    try {
+      await addHighScore("numbers", {
+      runId: createRunId(), scoreVersion: 2,
+      outcome: result === "win" ? "completed" : "failed", competitive: result === "win",
       accuracy,
       timeMs: tms,
-      meta: { result, difficulty, level: lv, totalCorrect: c, totalWrong: w, attempts: a, lives: l },
-    });
+      attempts: a, correct: c, mistakes: w, hints: 0, difficulty,
+      meta: { level: lv, lives: l },
+      });
+    } catch (error) {
+      recordedRef.current = false;
+      console.error("Failed to save Numbers result", error);
+    }
   }
 
   const congratsTimers = useRef<number[]>([]);

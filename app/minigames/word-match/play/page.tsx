@@ -11,8 +11,8 @@ import {
   type WordItem,
 } from "@/lib/wordMatch/items";
 
-import { addHighScore } from "@/lib/highscores";
-import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
+import { addHighScore, createRunId } from "@/lib/highscores";
+import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { canSaveHighscores } from "@/lib/userCapabilities";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
@@ -109,8 +109,6 @@ export default function WordMatchPlayPage() {
   const [selectedBmId, setSelectedBmId] = useState<string | null>(null);
   const [selectedRightId, setSelectedRightId] = useState<string | null>(null);
   const [locked, setLocked] = useState(false);
-  const [playerName, setPlayerName] = useState("Guest");
-  const [playerAvatarId, setPlayerAvatarId] = useState<ProfileAvatarId | undefined>(undefined);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
 
@@ -162,8 +160,6 @@ export default function WordMatchPlayPage() {
       .then((u) => {
         if (!alive) return;
         setUser(u);
-        if (u?.name) setPlayerName(u.name);
-        setPlayerAvatarId(u?.avatarId);
       })
       .finally(() => {
         if (alive) setLoadingUser(false);
@@ -173,28 +169,27 @@ export default function WordMatchPlayPage() {
     };
   }, []);
 
-  function recordScoreOnce(result: "win" | "gameover", snapshot: { attempts: number; matches: number; mistakes: number; lives: number; level: number; timeMs: number; category: WordCategory }) {
+  async function recordScoreOnce(result: "win" | "gameover", snapshot: { attempts: number; matches: number; mistakes: number; lives: number; level: number; timeMs: number; category: WordCategory }) {
     if (recordedRef.current) return;
     recordedRef.current = true;
     if (!canSaveHighscores(user)) return;
 
     const acc = snapshot.attempts > 0 ? (snapshot.matches / snapshot.attempts) * 100 : 0;
 
-    addHighScore("word-match", {
-      name: playerName,
-      avatarId: playerAvatarId,
+    try {
+      await addHighScore("word-match", {
+      runId: createRunId(), scoreVersion: 2,
+      outcome: result === "win" ? "completed" : "failed", competitive: result === "win",
       accuracy: acc,
       timeMs: snapshot.timeMs,
-      meta: {
-        result,
-        level: snapshot.level,
-        category: snapshot.category,
-        attempts: snapshot.attempts,
-        matches: snapshot.matches,
-        mistakes: snapshot.mistakes,
-        lives: snapshot.lives,
-      },
-    });
+      attempts: snapshot.attempts, correct: snapshot.matches, mistakes: snapshot.mistakes, hints: 0,
+      targetLanguage: trLang,
+      meta: { level: snapshot.level, category: snapshot.category, lives: snapshot.lives },
+      });
+    } catch (error) {
+      recordedRef.current = false;
+      console.error("Failed to save Word Match result", error);
+    }
   }
 
   function triggerPopup(text: string) {

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { UiLang } from "@/lib/chapters";
-import { addHighScore } from "@/lib/highscores";
+import { addHighScore, createRunId } from "@/lib/highscores";
 import {
   SHOPPING_DIFFICULTIES,
   SHOPPING_ITEMS_BY_THEME,
@@ -14,7 +14,7 @@ import {
   type ShoppingThemeId,
 } from "@/lib/misiMembeli/items";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
-import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
+import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { canSaveHighscores } from "@/lib/userCapabilities";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import StylizedTitle from "@/components/game/StylizedTitle";
@@ -289,8 +289,6 @@ export default function MisiMembeliPlayPage() {
   const [lang, setLang] = useState<UiLang>(() => readUiLang());
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
-  const [playerName, setPlayerName] = useState("Guest");
-  const [playerAvatarId, setPlayerAvatarId] = useState<ProfileAvatarId | undefined>(undefined);
 
   const [difficulty, setDifficulty] = useState<ShoppingDifficultyId>(initialDifficulty);
   const [themeId, setThemeId] = useState<ShoppingThemeId>(initialThemeId);
@@ -310,6 +308,9 @@ export default function MisiMembeliPlayPage() {
   const [wrongPopupFade, setWrongPopupFade] = useState(false);
 
   const startedAtRef = useRef<number>(0);
+  const roundStartedAtRef = useRef<number>(Date.now());
+  const correctResponseTimeTotalRef = useRef(0);
+  const correctResponseCountRef = useRef(0);
   const [elapsedMs, setElapsedMs] = useState(0);
   const recordedRef = useRef(false);
   const wrongPopupTimers = useRef<number[]>([]);
@@ -329,8 +330,6 @@ export default function MisiMembeliPlayPage() {
       .then((u) => {
         if (!alive) return;
         setUser(u);
-        if (u?.name) setPlayerName(u.name);
-        setPlayerAvatarId(u?.avatarId);
       })
       .finally(() => {
         if (alive) setLoadingUser(false);
@@ -380,6 +379,7 @@ export default function MisiMembeliPlayPage() {
     setCheckedRound(false);
     setWrongSelectedIds([]);
     setRound(buildRound(nextDifficulty, nextThemeId));
+    roundStartedAtRef.current = Date.now();
   }
 
   function switchTheme(nextThemeId: ShoppingThemeId) {
@@ -410,6 +410,9 @@ export default function MisiMembeliPlayPage() {
     setElapsedMs(0);
 
     setRound(buildRound(nextDifficulty, themeId));
+    roundStartedAtRef.current = Date.now();
+    correctResponseTimeTotalRef.current = 0;
+    correctResponseCountRef.current = 0;
   }
 
   function toggleItem(itemId: string) {
@@ -450,7 +453,7 @@ export default function MisiMembeliPlayPage() {
     );
   }
 
-  function recordScoreOnce(snapshot: {
+  async function recordScoreOnce(snapshot: {
     attempts: number;
     score: number;
     wrongRounds: number;
@@ -466,24 +469,23 @@ export default function MisiMembeliPlayPage() {
 
     const accuracy = snapshot.attempts > 0 ? (snapshot.score / snapshot.attempts) * 100 : 0;
 
-    void addHighScore("misi-membeli", {
-      name: playerName,
-      avatarId: playerAvatarId,
+    try {
+      await addHighScore("misi-membeli", {
+      runId: createRunId(), scoreVersion: 2, outcome: "failed", competitive: snapshot.score > 0,
+      score: snapshot.score,
       accuracy,
       timeMs: snapshot.timeMs,
-      meta: {
-        difficulty: snapshot.difficulty,
-        sceneTopThemeId: snapshot.sceneTopThemeId,
-        sceneBottomThemeId: snapshot.sceneBottomThemeId,
-        attempts: snapshot.attempts,
-        correctRounds: snapshot.score,
-        wrongRounds: snapshot.wrongRounds,
-        lives: 0,
-        itemsPerRound: snapshot.itemsPerRound,
-      },
-    }).catch((error) => {
+      attempts: snapshot.attempts, correct: snapshot.score, mistakes: snapshot.wrongRounds, hints: 0,
+      difficulty: snapshot.difficulty,
+      averageCorrectResponseTimeMs: snapshot.score > 0
+        ? Math.round(correctResponseTimeTotalRef.current / Math.max(1, correctResponseCountRef.current))
+        : undefined,
+      meta: { sceneTopThemeId: snapshot.sceneTopThemeId, sceneBottomThemeId: snapshot.sceneBottomThemeId ?? null, lives: 0, itemsPerRound: snapshot.itemsPerRound },
+      });
+    } catch (error) {
+      recordedRef.current = false;
       console.error("Failed to save Misi Membeli highscore", error);
-    });
+    }
   }
 
   function onCheckout() {
@@ -516,6 +518,8 @@ export default function MisiMembeliPlayPage() {
 
     if (correct) {
       const nextScore = score + 1;
+      correctResponseTimeTotalRef.current += Math.max(0, Date.now() - roundStartedAtRef.current);
+      correctResponseCountRef.current += 1;
       setScore(nextScore);
       setFeedback({
         tone: "ok",
@@ -599,6 +603,9 @@ export default function MisiMembeliPlayPage() {
     setElapsedMs(0);
 
     setRound(buildRound(difficulty, themeId));
+    roundStartedAtRef.current = Date.now();
+    correctResponseTimeTotalRef.current = 0;
+    correctResponseCountRef.current = 0;
   }
 
   const requiredChapter = MINIGAME_PREREQUISITES["misi-membeli"];

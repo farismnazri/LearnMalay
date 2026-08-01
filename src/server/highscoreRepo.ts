@@ -1,404 +1,145 @@
-import { getCollections, type HighscoreDocument } from "./db";
-import { compareArahJalanHighscoreRows } from "@/lib/highscoreRanking";
-import type { GameId, ScoreEntry } from "@/lib/highscoresTypes";
-import { isProfileAvatarId } from "@/lib/profileAvatars";
+import { getCollections, type HighscoreDocument } from "./db.ts";
+import { compareHighscoreRows, leaderboardPartitionKey } from "../lib/highscoreRanking.ts";
+import type { GameId, HighscoreSaveResult, RunResultV2, ScoreEntry } from "../lib/highscoresTypes.ts";
+import { isProfileAvatarId } from "../lib/profileAvatars.ts";
 
-const NUMBERS_DIFFICULTY_WEIGHT: Record<string, number> = {
-  ultrahard: 4,
-  hard: 3,
-  medium: 2,
-  easy: 1,
+const MAX_TIME_MS = 21_600_000;
+const MAX_COUNTER = 1_000_000;
+const MAX_META_BYTES = 2048;
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const FIXED_GAMES = new Set<GameId>(["numbers", "word-match", "wordsearch", "currency", "makan-apa"]);
+const SURVIVAL_GAMES = new Set<GameId>(["misi-membeli", "arah-jalan"]);
+const DIFFICULTIES: Record<string, readonly string[]> = {
+  numbers: ["easy", "medium", "hard", "ultrahard"],
+  wordsearch: ["easy", "medium", "hard"],
+  currency: ["easy", "medium", "hard", "ultra"],
+  "makan-apa": ["easy", "hard"],
+  "misi-membeli": ["easy", "medium", "hard"],
+  "arah-jalan": ["easy", "hard"],
 };
-const ARAH_JALAN_DIFFICULTY_WEIGHT: Record<string, number> = {
-  hard: 2,
-  easy: 1,
-};
-
-const MAX_HIGHSCORE_TIME_MS = 21_600_000; // 6 hours
-const MAX_HIGHSCORE_META_BYTES = 2048;
-const MAX_HIGHSCORE_NAME_LENGTH = 64;
-const MAX_HIGHSCORE_COUNTER = 1_000_000;
-const MAX_HIGHSCORE_LEVEL = 1_000;
-const MAX_HIGHSCORE_WORD_COUNT = 200;
-const MAX_HIGHSCORE_ITEMS_PER_ROUND = 100;
-
-const SCORE_RESULTS = ["win", "gameover"] as const;
-const NUMBERS_DIFFICULTIES = ["easy", "medium", "hard", "ultrahard"] as const;
-const WORDSEARCH_DIFFICULTIES = ["easy", "medium", "hard"] as const;
-const WORD_MATCH_CATEGORIES = ["colors", "food", "places", "verbs", "greetings"] as const;
-const CURRENCY_MODES = ["buyer", "cashier"] as const;
-const CURRENCY_DIFFICULTIES = ["easy", "medium", "hard", "ultra"] as const;
-const MAKAN_APA_DIFFICULTIES = ["easy", "hard"] as const;
-const MISI_DIFFICULTIES = ["easy", "medium", "hard"] as const;
-const MISI_THEME_IDS = ["buah-sayur", "daging-laut", "barangan-kering", "peti-sejuk"] as const;
-const ARAH_JALAN_DIFFICULTIES = ["easy", "hard"] as const;
+const WORDSEARCH_THEMES = ["all", "colors", "food", "places", "verbs", "greetings"];
 
 export class HighscoreValidationError extends Error {
-  constructor(message = "Invalid highscore payload") {
-    super(message);
-    this.name = "HighscoreValidationError";
+  constructor(message = "Invalid highscore payload") { super(message); this.name = "HighscoreValidationError"; }
+}
+
+const isObject = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value) && (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null);
+const finite = (value: unknown, min: number, max: number) => typeof value === "number" && Number.isFinite(value) && value >= min && value <= max;
+const integer = (value: unknown, min: number, max: number) => Number.isInteger(value) && finite(value, min, max);
+const enumValue = (value: unknown, allowed: readonly string[]) => typeof value === "string" && allowed.includes(value);
+function allowedKeys(value: Record<string, unknown>, allowed: readonly string[]) { return Object.keys(value).every((key) => allowed.includes(key)); }
+function simpleMeta(value: unknown): value is Record<string, string | number | boolean | null> {
+  if (!isObject(value)) return false;
+  return Object.values(value).every((v) => v === null || typeof v === "string" || typeof v === "boolean" || (typeof v === "number" && Number.isFinite(v)));
+}
+
+function validateSettings(gameId: GameId, run: RunResultV2) {
+  if (gameId !== "word-match" && !enumValue(run.difficulty, DIFFICULTIES[gameId] ?? [])) throw new HighscoreValidationError();
+  if (gameId === "word-match" && !enumValue(run.targetLanguage, ["en", "es"])) throw new HighscoreValidationError();
+  if (gameId === "wordsearch" && !enumValue(run.theme, WORDSEARCH_THEMES)) throw new HighscoreValidationError();
+  if (gameId === "currency" && !enumValue(run.mode, ["buyer", "cashier"])) throw new HighscoreValidationError();
+}
+
+export function normalizeIncomingHighscoreRun(gameId: GameId, value: unknown): RunResultV2 {
+  if (!isObject(value)) throw new HighscoreValidationError();
+  const allowed = ["runId", "scoreVersion", "outcome", "competitive", "accuracy", "timeMs", "attempts", "correct", "mistakes", "hints", "difficulty", "mode", "targetLanguage", "theme", "score", "averageCorrectResponseTimeMs", "meta"];
+  if (!allowedKeys(value, allowed)) throw new HighscoreValidationError();
+  if (typeof value.runId !== "string" || !UUID_RE.test(value.runId)) throw new HighscoreValidationError();
+  if (value.scoreVersion !== 2 || !enumValue(value.outcome, ["completed", "failed", "abandoned"]) || typeof value.competitive !== "boolean") throw new HighscoreValidationError();
+  if (!finite(value.accuracy, 0, 100) || !integer(value.timeMs, 0, MAX_TIME_MS)) throw new HighscoreValidationError();
+  if (!integer(value.attempts, 0, MAX_COUNTER) || !integer(value.correct, 0, MAX_COUNTER) || !integer(value.mistakes, 0, MAX_COUNTER) || !integer(value.hints, 0, MAX_COUNTER)) throw new HighscoreValidationError();
+  const attempts = value.attempts as number;
+  const correct = value.correct as number;
+  const mistakes = value.mistakes as number;
+  if (correct > attempts || mistakes > attempts) throw new HighscoreValidationError();
+  if (typeof value.meta !== "undefined") {
+    if (!simpleMeta(value.meta) || Buffer.byteLength(JSON.stringify(value.meta), "utf8") > MAX_META_BYTES) throw new HighscoreValidationError();
   }
-}
-
-type IncomingScoreEntry = Omit<ScoreEntry, "id" | "dateISO"> & Partial<Pick<ScoreEntry, "id" | "dateISO">>;
-type HighscoreDocumentWithScore = HighscoreDocument & { score?: number | null };
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
-  const proto = Object.getPrototypeOf(value);
-  return proto === Object.prototype || proto === null;
-}
-
-function hasOnlyAllowedKeys(obj: Record<string, unknown>, allowed: readonly string[]) {
-  return Object.keys(obj).every((key) => allowed.includes(key));
-}
-
-function isFiniteNumber(value: unknown): value is number {
-  return typeof value === "number" && Number.isFinite(value);
-}
-
-function assertFiniteNumberInRange(value: unknown, min: number, max: number) {
-  return isFiniteNumber(value) && value >= min && value <= max;
-}
-
-function assertIntegerInRange(value: unknown, min: number, max: number) {
-  return Number.isInteger(value) && assertFiniteNumberInRange(value, min, max);
-}
-
-function assertEnum<T extends readonly string[]>(value: unknown, allowed: T): value is T[number] {
-  return typeof value === "string" && allowed.includes(value as T[number]);
-}
-
-function assertSimpleMetaValues(meta: Record<string, unknown>) {
-  for (const value of Object.values(meta)) {
-    const primitive =
-      value === null ||
-      typeof value === "string" ||
-      typeof value === "boolean" ||
-      (typeof value === "number" && Number.isFinite(value));
-    if (!primitive) return false;
-  }
-  return true;
-}
-
-function normalizeMetaForNumbers(meta: Record<string, unknown>) {
-  const allowed = ["result", "difficulty", "level", "totalCorrect", "totalWrong", "attempts", "lives"] as const;
-  if (!hasOnlyAllowedKeys(meta, allowed)) throw new HighscoreValidationError();
-
-  if (!assertEnum(meta.result, SCORE_RESULTS)) throw new HighscoreValidationError();
-  if (!assertEnum(meta.difficulty, NUMBERS_DIFFICULTIES)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.level, 1, MAX_HIGHSCORE_LEVEL)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.totalCorrect, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.totalWrong, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.attempts, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.lives, 0, 99)) throw new HighscoreValidationError();
-  return meta;
-}
-
-function normalizeMetaForWordMatch(meta: Record<string, unknown>) {
-  const allowed = ["result", "level", "category", "attempts", "matches", "mistakes", "lives"] as const;
-  if (!hasOnlyAllowedKeys(meta, allowed)) throw new HighscoreValidationError();
-
-  if (!assertEnum(meta.result, SCORE_RESULTS)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.level, 1, MAX_HIGHSCORE_LEVEL)) throw new HighscoreValidationError();
-  if (!assertEnum(meta.category, WORD_MATCH_CATEGORIES)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.attempts, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.matches, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.mistakes, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.lives, 0, 99)) throw new HighscoreValidationError();
-  return meta;
-}
-
-function normalizeMetaForWordsearch(meta: Record<string, unknown>) {
-  const allowed = ["difficulty", "theme", "words"] as const;
-  if (!hasOnlyAllowedKeys(meta, allowed)) throw new HighscoreValidationError();
-
-  if (!assertEnum(meta.difficulty, WORDSEARCH_DIFFICULTIES)) throw new HighscoreValidationError();
-  if (meta.theme !== "all" && !assertEnum(meta.theme, WORD_MATCH_CATEGORIES)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.words, 1, MAX_HIGHSCORE_WORD_COUNT)) throw new HighscoreValidationError();
-  return meta;
-}
-
-function normalizeMetaForCurrency(meta: Record<string, unknown>) {
-  const allowed = ["result", "mode", "difficulty", "attempts", "correct", "wrong", "lives"] as const;
-  if (!hasOnlyAllowedKeys(meta, allowed)) throw new HighscoreValidationError();
-
-  if (!assertEnum(meta.result, SCORE_RESULTS)) throw new HighscoreValidationError();
-  if (!assertEnum(meta.mode, CURRENCY_MODES)) throw new HighscoreValidationError();
-  if (!assertEnum(meta.difficulty, CURRENCY_DIFFICULTIES)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.attempts, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.correct, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.wrong, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.lives, 0, 99)) throw new HighscoreValidationError();
-  return meta;
-}
-
-function normalizeMetaForMakanApa(meta: Record<string, unknown>) {
-  const allowed = ["result", "difficulty", "attempts", "solvedCount", "submissions", "totalQuestions", "lives"] as const;
-  if (!hasOnlyAllowedKeys(meta, allowed)) throw new HighscoreValidationError();
-
-  if (!assertEnum(meta.result, SCORE_RESULTS)) throw new HighscoreValidationError();
-  if (!assertEnum(meta.difficulty, MAKAN_APA_DIFFICULTIES)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.attempts, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.solvedCount, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.submissions, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.totalQuestions, 1, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.lives, 0, 99)) throw new HighscoreValidationError();
-  return meta;
-}
-
-function normalizeMetaForMisiMembeli(meta: Record<string, unknown>) {
-  const allowed = [
-    "difficulty",
-    "sceneTopThemeId",
-    "sceneBottomThemeId",
-    "attempts",
-    "correctRounds",
-    "wrongRounds",
-    "lives",
-    "itemsPerRound",
-  ] as const;
-  if (!hasOnlyAllowedKeys(meta, allowed)) throw new HighscoreValidationError();
-
-  if (!assertEnum(meta.difficulty, MISI_DIFFICULTIES)) throw new HighscoreValidationError();
-  if (!assertEnum(meta.sceneTopThemeId, MISI_THEME_IDS)) throw new HighscoreValidationError();
-  if (
-    typeof meta.sceneBottomThemeId !== "undefined" &&
-    !assertEnum(meta.sceneBottomThemeId, MISI_THEME_IDS)
-  ) {
+  const run = value as unknown as RunResultV2;
+  validateSettings(gameId, run);
+  const expectedCompetitive = FIXED_GAMES.has(gameId)
+    ? run.outcome === "completed"
+    : SURVIVAL_GAMES.has(gameId) && run.outcome === "failed" && run.correct > 0 && integer(run.score, 1, MAX_COUNTER);
+  if (run.competitive !== expectedCompetitive) throw new HighscoreValidationError();
+  if (SURVIVAL_GAMES.has(gameId)) {
+    if (run.competitive && (!integer(run.score, 1, MAX_COUNTER) || !integer(run.averageCorrectResponseTimeMs, 0, MAX_TIME_MS))) throw new HighscoreValidationError();
+  } else if (typeof run.score !== "undefined" || typeof run.averageCorrectResponseTimeMs !== "undefined") {
     throw new HighscoreValidationError();
   }
-  if (!assertIntegerInRange(meta.attempts, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.correctRounds, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.wrongRounds, 0, MAX_HIGHSCORE_COUNTER)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.lives, 0, 99)) throw new HighscoreValidationError();
-  if (!assertIntegerInRange(meta.itemsPerRound, 1, MAX_HIGHSCORE_ITEMS_PER_ROUND)) {
-    throw new HighscoreValidationError();
-  }
-  return meta;
-}
-
-function normalizeMetaForArahJalan(meta: Record<string, unknown>) {
-  const allowed = ["difficulty"] as const;
-  if (!hasOnlyAllowedKeys(meta, allowed)) throw new HighscoreValidationError();
-
-  if (!assertEnum(meta.difficulty, ARAH_JALAN_DIFFICULTIES)) throw new HighscoreValidationError();
-  return meta;
-}
-
-function normalizeHighscoreMeta(gameId: GameId, rawMeta: unknown): Record<string, unknown> | undefined {
-  if (typeof rawMeta === "undefined") return undefined;
-  if (!isPlainObject(rawMeta)) throw new HighscoreValidationError();
-  if (!assertSimpleMetaValues(rawMeta)) throw new HighscoreValidationError();
-
-  const normalized =
-    gameId === "numbers"
-      ? normalizeMetaForNumbers(rawMeta)
-      : gameId === "word-match"
-      ? normalizeMetaForWordMatch(rawMeta)
-      : gameId === "wordsearch"
-      ? normalizeMetaForWordsearch(rawMeta)
-      : gameId === "currency"
-      ? normalizeMetaForCurrency(rawMeta)
-      : gameId === "makan-apa"
-      ? normalizeMetaForMakanApa(rawMeta)
-      : gameId === "misi-membeli"
-      ? normalizeMetaForMisiMembeli(rawMeta)
-      : normalizeMetaForArahJalan(rawMeta);
-
-  const serialized = JSON.stringify(normalized);
-  if (!serialized || Buffer.byteLength(serialized, "utf8") > MAX_HIGHSCORE_META_BYTES) {
-    throw new HighscoreValidationError();
-  }
-
-  return normalized;
-}
-
-export function normalizeIncomingHighscoreEntry(gameId: GameId, rawEntry: unknown): IncomingScoreEntry {
-  if (!isPlainObject(rawEntry)) throw new HighscoreValidationError();
-
-  const allowedEntryKeys = ["id", "dateISO", "name", "avatarId", "score", "accuracy", "timeMs", "meta"] as const;
-  if (!hasOnlyAllowedKeys(rawEntry, allowedEntryKeys)) throw new HighscoreValidationError();
-
-  if (typeof rawEntry.name !== "string") throw new HighscoreValidationError();
-  const cleanName = rawEntry.name.trim();
-  if (!cleanName || cleanName.length > MAX_HIGHSCORE_NAME_LENGTH) throw new HighscoreValidationError();
-
-  const accuracy = rawEntry.accuracy;
-  const timeMs = rawEntry.timeMs;
-  if (typeof accuracy !== "number" || !assertFiniteNumberInRange(accuracy, 0, 100)) {
-    throw new HighscoreValidationError();
-  }
-  if (typeof timeMs !== "number" || !assertIntegerInRange(timeMs, 0, MAX_HIGHSCORE_TIME_MS)) {
-    throw new HighscoreValidationError();
-  }
-
-  let score: number | undefined;
-  if (gameId === "arah-jalan") {
-    if (!assertIntegerInRange(rawEntry.score, 1, MAX_HIGHSCORE_COUNTER)) {
-      throw new HighscoreValidationError();
-    }
-    score = Number(rawEntry.score);
-  } else if (typeof rawEntry.score !== "undefined") {
-    throw new HighscoreValidationError();
-  }
-
-  const cleanAvatarId =
-    typeof rawEntry.avatarId === "string" && isProfileAvatarId(rawEntry.avatarId) ? rawEntry.avatarId : undefined;
-  const cleanMeta = normalizeHighscoreMeta(gameId, rawEntry.meta);
-  if (gameId === "arah-jalan" && !cleanMeta) throw new HighscoreValidationError();
-
-  return {
-    name: cleanName,
-    avatarId: cleanAvatarId,
-    score,
-    accuracy,
-    timeMs,
-    meta: cleanMeta,
-  };
-}
-
-function difficultyWeightFor(gameId: GameId, meta: ScoreEntry["meta"]): number {
-  const raw = meta && typeof meta === "object" ? meta.difficulty : undefined;
-  if (typeof raw !== "string") return 0;
-
-  if (gameId === "numbers") return NUMBERS_DIFFICULTY_WEIGHT[raw.toLowerCase()] ?? 0;
-  if (gameId === "arah-jalan") return ARAH_JALAN_DIFFICULTY_WEIGHT[raw.toLowerCase()] ?? 0;
-  return 0;
-}
-
-function scoreFromRow(row: HighscoreDocument): number | undefined {
-  const score = (row as HighscoreDocumentWithScore).score;
-  return typeof score === "number" && Number.isFinite(score) ? score : undefined;
+  return run;
 }
 
 function rowToEntry(row: HighscoreDocument): ScoreEntry {
+  const meta = row.meta_json ? JSON.parse(row.meta_json) as Record<string, unknown> : undefined;
   return {
-    id: row.id,
-    name: row.name,
-    avatarId: row.avatar_id && isProfileAvatarId(row.avatar_id) ? row.avatar_id : undefined,
-    score: scoreFromRow(row),
-    accuracy: Number(row.accuracy),
-    timeMs: Number(row.time_ms),
-    dateISO: row.date_iso,
-    meta: row.meta_json ? (JSON.parse(row.meta_json) as Record<string, unknown>) : undefined,
+    id: row.id, runId: row.score_version === 2 ? row.id : undefined, scoreVersion: row.score_version === 2 ? 2 : undefined,
+    userId: row.user_id ?? undefined, name: row.name, avatarId: row.avatar_id && isProfileAvatarId(row.avatar_id) ? row.avatar_id : undefined,
+    score: typeof (row as HighscoreDocument & { score?: unknown }).score === "number" ? (row as HighscoreDocument & { score: number }).score : undefined,
+    accuracy: Number(row.accuracy), timeMs: Number(row.time_ms), dateISO: row.date_iso, meta,
+    outcome: row.outcome === "completed" || row.outcome === "failed" || row.outcome === "abandoned" ? row.outcome : undefined,
+    competitive: row.competitive === true, attempts: row.attempts ?? undefined, correct: row.correct ?? undefined,
+    mistakes: row.mistakes ?? undefined, hints: row.hints ?? undefined, difficulty: row.difficulty ?? undefined,
+    mode: row.mode ?? undefined, targetLanguage: row.target_language === "en" || row.target_language === "es" ? row.target_language : undefined,
+    theme: row.theme ?? undefined, averageCorrectResponseTimeMs: row.average_correct_response_time_ms ?? undefined,
   };
 }
 
-function sortSpec() {
-  return {
-    game_id: 1 as const,
-    difficulty_weight: -1 as const,
-    accuracy: -1 as const,
-    time_ms: 1 as const,
-    date_iso: -1 as const,
-  };
-}
-
-export async function listHighScores(): Promise<Record<GameId, ScoreEntry[]>> {
+export async function listHighScores(options: { leaderboardLimitPerPartition?: number } = {}): Promise<Record<GameId, ScoreEntry[]>> {
   const { highscores } = await getCollections();
-  const rows = await highscores.find({}, { sort: sortSpec() }).toArray();
-
-  const store: Record<GameId, ScoreEntry[]> = {
-    numbers: [],
-    "word-match": [],
-    wordsearch: [],
-    currency: [],
-    "makan-apa": [],
-    "misi-membeli": [],
-    "arah-jalan": [],
-  };
-
-  for (const r of rows) {
-    if (store[r.game_id as GameId]) {
-      store[r.game_id as GameId].push(rowToEntry(r));
+  const rows = await highscores.find({}).toArray();
+  const store: Record<GameId, ScoreEntry[]> = { numbers: [], "word-match": [], wordsearch: [], currency: [], "makan-apa": [], "misi-membeli": [], "arah-jalan": [] };
+  for (const row of rows) if (row.game_id in store) store[row.game_id as GameId].push(rowToEntry(row));
+  for (const gameId of Object.keys(store) as GameId[]) {
+    const competitive = store[gameId].filter((entry) => entry.scoreVersion === 2 && entry.competitive);
+    const history = store[gameId].filter((entry) => !(entry.scoreVersion === 2 && entry.competitive));
+    competitive.sort((a, b) => compareHighscoreRows(gameId, a, b));
+    history.sort((a, b) => b.dateISO.localeCompare(a.dateISO));
+    if (options.leaderboardLimitPerPartition) {
+      const limit = options.leaderboardLimitPerPartition;
+      const retained = new Map<string, number>();
+      store[gameId] = competitive.filter((entry) => {
+        const partition = leaderboardPartitionKey(gameId, entry);
+        const count = retained.get(partition) ?? 0;
+        retained.set(partition, count + 1);
+        return count < limit;
+      });
+    } else {
+      store[gameId] = competitive;
     }
+    store[gameId].push(...history);
   }
-
-  store["arah-jalan"].sort((a, b) => compareArahJalanHighscoreRows(a, b, { allDifficulties: true }));
-
   return store;
 }
 
-export async function addHighScore(
-  gameId: GameId,
-  entry: Omit<ScoreEntry, "id" | "dateISO"> & Partial<Pick<ScoreEntry, "id" | "dateISO">>
-): Promise<void> {
+export async function addHighScore(gameId: GameId, run: RunResultV2, user: { id: string; name: string; avatarId?: string }): Promise<HighscoreSaveResult> {
+  const safe = normalizeIncomingHighscoreRun(gameId, run);
   const { highscores } = await getCollections();
-  const safeEntry = normalizeIncomingHighscoreEntry(gameId, entry);
-
-  const full: ScoreEntry = {
-    id: entry.id ?? crypto.randomUUID(),
-    dateISO: entry.dateISO ?? new Date().toISOString(),
-    name: safeEntry.name,
-    avatarId: safeEntry.avatarId,
-    score: safeEntry.score,
-    accuracy: safeEntry.accuracy,
-    timeMs: safeEntry.timeMs,
-    meta: safeEntry.meta,
+  const existing = await highscores.findOne({ id: safe.runId });
+  if (existing) {
+    if (existing.user_id && existing.user_id !== user.id) throw new HighscoreValidationError();
+    return { ok: true, saved: false, duplicate: true, competitive: existing.competitive === true, reason: "duplicate" };
+  }
+  const entry: ScoreEntry = {
+    id: safe.runId, runId: safe.runId, scoreVersion: 2, userId: user.id, name: user.name, avatarId: user.avatarId as ScoreEntry["avatarId"],
+    score: safe.score, accuracy: safe.accuracy, timeMs: safe.timeMs, dateISO: new Date().toISOString(), meta: safe.meta,
+    outcome: safe.outcome, competitive: safe.competitive, attempts: safe.attempts, correct: safe.correct, mistakes: safe.mistakes,
+    hints: safe.hints, difficulty: safe.difficulty, mode: safe.mode, targetLanguage: safe.targetLanguage, theme: safe.theme,
+    averageCorrectResponseTimeMs: safe.averageCorrectResponseTimeMs,
   };
-
-  const doc: HighscoreDocumentWithScore = {
-    id: full.id,
-    game_id: gameId,
-    name: full.name,
-    avatar_id: full.avatarId ?? null,
-    score: full.score ?? null,
-    accuracy: full.accuracy,
-    time_ms: full.timeMs,
-    date_iso: full.dateISO,
-    meta_json: full.meta ? JSON.stringify(full.meta) : null,
-    difficulty_weight: difficultyWeightFor(gameId, full.meta),
-    created_at: new Date().toISOString(),
+  const doc: HighscoreDocument & { score?: number | null } = {
+    id: entry.id, game_id: gameId, name: entry.name, avatar_id: entry.avatarId ?? null, user_id: user.id, score_version: 2,
+    competitive: entry.competitive, outcome: entry.outcome, partition_key: leaderboardPartitionKey(gameId, entry),
+    score: entry.score ?? null, accuracy: entry.accuracy, time_ms: entry.timeMs, attempts: entry.attempts, correct: entry.correct,
+    mistakes: entry.mistakes, hints: entry.hints, difficulty: entry.difficulty ?? null, mode: entry.mode ?? null,
+    target_language: entry.targetLanguage ?? null, theme: entry.theme ?? null, average_correct_response_time_ms: entry.averageCorrectResponseTimeMs ?? null,
+    date_iso: entry.dateISO, meta_json: entry.meta ? JSON.stringify(entry.meta) : null, difficulty_weight: 0, created_at: entry.dateISO,
   };
-
   await highscores.insertOne(doc);
-
-  await trimTop(gameId, 20);
+  return { ok: true, saved: true, duplicate: false, competitive: Boolean(entry.competitive), reason: entry.competitive ? "saved" : "history" };
 }
 
-export async function clearHighScores(gameId?: GameId): Promise<void> {
+export async function clearHighScores(gameId?: GameId) {
   const { highscores } = await getCollections();
-
-  if (!gameId) {
-    await highscores.deleteMany({});
-    return;
-  }
-
-  await highscores.deleteMany({ game_id: gameId });
-}
-
-async function trimTop(gameId: GameId, max: number): Promise<void> {
-  const { highscores } = await getCollections();
-
-  if (gameId === "arah-jalan") {
-    const rows = await highscores.find({ game_id: gameId }).toArray();
-    const rowsToDelete = rows
-      .map((row) => ({ id: row.id, entry: rowToEntry(row) }))
-      .sort((left, right) =>
-        compareArahJalanHighscoreRows(left.entry, right.entry, { allDifficulties: true })
-      )
-      .slice(max);
-
-    if (rowsToDelete.length === 0) return;
-
-    await highscores.deleteMany({
-      id: {
-        $in: rowsToDelete.map((row) => row.id),
-      },
-    });
-    return;
-  }
-
-  const rowsToDelete = await highscores
-    .find({ game_id: gameId }, { projection: { id: 1 }, sort: sortSpec(), skip: max })
-    .toArray();
-
-  if (rowsToDelete.length === 0) return;
-
-  await highscores.deleteMany({
-    id: {
-      $in: rowsToDelete.map((row) => row.id),
-    },
-  });
+  await highscores.deleteMany(gameId ? { game_id: gameId } : {});
 }

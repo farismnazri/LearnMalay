@@ -25,8 +25,22 @@ type HighscoreDocument = {
   game_id: string;
   name: string;
   avatar_id: string | null;
+  user_id?: string | null;
+  score_version?: number | null;
+  competitive?: boolean | null;
+  outcome?: string | null;
+  partition_key?: string | null;
   accuracy: number;
   time_ms: number;
+  attempts?: number | null;
+  correct?: number | null;
+  mistakes?: number | null;
+  hints?: number | null;
+  difficulty?: string | null;
+  mode?: string | null;
+  target_language?: string | null;
+  theme?: string | null;
+  average_correct_response_time_ms?: number | null;
   date_iso: string;
   meta_json: string | null;
   difficulty_weight: number;
@@ -336,6 +350,10 @@ async function ensureIndexes(db: Db): Promise<void> {
     highscores.createIndex({ id: 1 }, { unique: true, name: "idx_highscores_id_unique" }),
     highscores.createIndex({ game_id: 1 }, { name: "idx_highscores_game" }),
     highscores.createIndex(
+      { game_id: 1, score_version: 1, competitive: 1, partition_key: 1 },
+      { name: "idx_highscores_v2_partition" }
+    ),
+    highscores.createIndex(
       { game_id: 1, difficulty_weight: -1, accuracy: -1, time_ms: 1, date_iso: -1 },
       { name: "idx_highscores_sort" }
     ),
@@ -352,6 +370,10 @@ async function ensureMemoryIndexes(collections: AppCollections): Promise<void> {
     collections.appMeta.createIndex({ key: 1 }, { unique: true, name: "idx_app_meta_key_unique" }),
     collections.highscores.createIndex({ id: 1 }, { unique: true, name: "idx_highscores_id_unique" }),
     collections.highscores.createIndex({ game_id: 1 }, { name: "idx_highscores_game" }),
+    collections.highscores.createIndex(
+      { game_id: 1, score_version: 1, competitive: 1, partition_key: 1 },
+      { name: "idx_highscores_v2_partition" }
+    ),
     collections.highscores.createIndex(
       { game_id: 1, difficulty_weight: -1, accuracy: -1, time_ms: 1, date_iso: -1 },
       { name: "idx_highscores_sort" }

@@ -10,7 +10,7 @@ import StylizedTitle from "@/components/game/StylizedTitle";
 import IconActionLink from "@/components/navigation/IconActionLink";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
-import { addHighScore, loadHighScores } from "@/lib/highscores";
+import { addHighScore, createRunId, loadHighScores } from "@/lib/highscores";
 import { canSaveHighscores } from "@/lib/userCapabilities";
 import {
   ARAH_JALAN_COMMAND_LABELS,
@@ -205,6 +205,9 @@ export default function ArahJalanPlayPage() {
   const runIdRef = useRef(0);
   const savedFailedRunIdsRef = useRef<Set<number>>(new Set());
   const currentStreakStartedAtRef = useRef<number | null>(null);
+  const scenarioStartedAtRef = useRef(Date.now());
+  const correctResponseTimeTotalRef = useRef(0);
+  const correctResponseCountRef = useRef(0);
   const { board, scenario } = round;
 
   const startNode = board.graph.nodes[scenario.startNodeId];
@@ -272,6 +275,8 @@ export default function ArahJalanPlayPage() {
   function resetStreak() {
     setCurrentStreak(0);
     currentStreakStartedAtRef.current = null;
+    correctResponseTimeTotalRef.current = 0;
+    correctResponseCountRef.current = 0;
   }
 
   function startScenario(
@@ -289,7 +294,11 @@ export default function ArahJalanPlayPage() {
     });
     setLastResult(null);
     setFeedback(null);
-    if (shouldResetStreak) resetStreak();
+    if (shouldResetStreak) {
+      if (currentStreak > 0) void saveEndedStreakOnce(++runIdRef.current, currentStreak, difficultyId, "abandoned");
+      resetStreak();
+    }
+    scenarioStartedAtRef.current = Date.now();
   }
 
   function changeDifficulty(nextDifficultyId: ArahJalanDifficultyId) {
@@ -348,12 +357,21 @@ export default function ArahJalanPlayPage() {
     setFeedback(null);
   }
 
-  function saveEndedStreakOnce(runId: number, streak: number, streakDifficultyId: ArahJalanDifficultyId) {
+  async function saveEndedStreakOnce(
+    runId: number,
+    streak: number,
+    streakDifficultyId: ArahJalanDifficultyId,
+    outcome: "failed" | "abandoned" = "failed",
+  ) {
     const endedStreak = resolveArahJalanStreakAfterMistake(streak);
     const endedAt = Date.now();
     const startedAt = currentStreakStartedAtRef.current ?? endedAt;
+    const correctResponseTimeTotal = correctResponseTimeTotalRef.current;
+    const correctResponseCount = correctResponseCountRef.current;
     setCurrentStreak(endedStreak.nextCurrentStreak);
     currentStreakStartedAtRef.current = null;
+    correctResponseTimeTotalRef.current = 0;
+    correctResponseCountRef.current = 0;
 
     if (!endedStreak.scoreToSave || savedFailedRunIdsRef.current.has(runId)) return;
     savedFailedRunIdsRef.current.add(runId);
@@ -362,21 +380,24 @@ export default function ArahJalanPlayPage() {
     if (!canSaveHighscores(user)) return;
 
     const timeMs = Math.min(21_600_000, Math.max(0, endedAt - startedAt));
+    const averageCorrectResponseTimeMs = Math.round(
+      correctResponseTimeTotal / Math.max(1, correctResponseCount)
+    );
 
-    void addHighScore("arah-jalan", {
-      name: user?.name ?? "GUEST",
-      avatarId: user?.avatarId,
+    try {
+      await addHighScore("arah-jalan", {
+      runId: createRunId(), scoreVersion: 2, outcome, competitive: outcome === "failed",
       score: endedStreak.scoreToSave,
-      accuracy: 100,
+      accuracy: (endedStreak.scoreToSave / (endedStreak.scoreToSave + 1)) * 100,
       timeMs,
-      meta: { difficulty: streakDifficultyId },
-    })
-      .then((response) => {
-        if (response) setBestSavedStreak((best) => Math.max(best, endedStreak.scoreToSave ?? 0));
-      })
-      .catch((error) => {
-        console.error("Failed to save Arah Jalan highscore", error);
+      attempts: endedStreak.scoreToSave + 1, correct: endedStreak.scoreToSave, mistakes: 1, hints: 0,
+      difficulty: streakDifficultyId, averageCorrectResponseTimeMs,
       });
+      if (outcome === "failed") setBestSavedStreak((best) => Math.max(best, endedStreak.scoreToSave ?? 0));
+    } catch (error) {
+      savedFailedRunIdsRef.current.delete(runId);
+      console.error("Failed to save Arah Jalan highscore", error);
+    }
   }
 
   function runQueue() {
@@ -421,6 +442,8 @@ export default function ArahJalanPlayPage() {
       if (result.success) {
         const nextStreak = currentStreak + 1;
         if (currentStreak === 0) currentStreakStartedAtRef.current = runStartedAt;
+        correctResponseTimeTotalRef.current += Math.max(0, runStartedAt - scenarioStartedAtRef.current);
+        correctResponseCountRef.current += 1;
         setCurrentStreak(nextStreak);
         setSessionBestStreak((best) => Math.max(best, nextStreak));
         setWins((v) => v + 1);

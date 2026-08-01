@@ -1,48 +1,40 @@
 "use client";
 
 import useSWR from "swr";
-import type { GameId, HighscoreStore, ScoreEntry } from "./highscoresTypes";
+import type { GameId, HighscoreSaveResult, HighscoreStore, RunResultV2, ScoreEntry } from "./highscoresTypes";
 
+export class HighscoreRequestError extends Error {
+  constructor(public readonly status: number, message: string) { super(message); this.name = "HighscoreRequestError"; }
+}
 const fetchJson = async <T>(url: string, init?: RequestInit): Promise<T> => {
   const res = await fetch(url, init);
   const text = await res.text().catch(() => "");
+  let payload: unknown = null;
+  if (text) {
+    try { payload = JSON.parse(text); } catch { throw new HighscoreRequestError(res.status, `Invalid JSON from ${url}`); }
+  }
   if (!res.ok) {
-    console.error(`Request to ${url} failed`, res.status, text);
-    return null as T;
+    const message = typeof payload === "object" && payload && "error" in payload && typeof payload.error === "string"
+      ? payload.error : `Request to ${url} failed (${res.status})`;
+    throw new HighscoreRequestError(res.status, message);
   }
-  if (!text) return null as T;
-  try {
-    return JSON.parse(text) as T;
-  } catch {
-    throw new Error(`Invalid JSON from ${url}`);
-  }
+  return payload as T;
 };
-
-export function useHighscores() {
-  return useSWR<HighscoreStore>("/api/highscores", fetchJson, {
-    revalidateOnFocus: false,
+export function useHighscores() { return useSWR<HighscoreStore>("/api/highscores", fetchJson, { revalidateOnFocus: false }); }
+export async function loadHighScores(): Promise<HighscoreStore> { return fetchJson("/api/highscores"); }
+export async function addHighScore(gameId: GameId, run: RunResultV2): Promise<HighscoreSaveResult> {
+  const request = () => fetchJson<HighscoreSaveResult>("/api/highscores", {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ gameId, run }), keepalive: true,
   });
+  try {
+    return await request();
+  } catch (error) {
+    // The same runId makes this safe for transient network/server failures.
+    if (error instanceof HighscoreRequestError && error.status >= 400 && error.status < 500) throw error;
+    await new Promise((resolve) => window.setTimeout(resolve, 250));
+    return request();
+  }
 }
-
-export async function loadHighScores(): Promise<HighscoreStore> {
-  return fetchJson("/api/highscores");
-}
-
-export async function addHighScore(
-  gameId: GameId,
-  entry: Omit<ScoreEntry, "id" | "dateISO"> & Partial<Pick<ScoreEntry, "id" | "dateISO">>
-) {
-  return fetchJson("/api/highscores", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ gameId, entry }),
-  });
-}
-
-export async function clearHighScores(gameId?: GameId) {
-  return fetchJson("/api/highscores" + (gameId ? `?gameId=${encodeURIComponent(gameId)}` : ""), {
-    method: "DELETE",
-  });
-}
-
-export type { GameId, ScoreEntry };
+export async function clearHighScores(gameId?: GameId) { return fetchJson("/api/highscores" + (gameId ? `?gameId=${encodeURIComponent(gameId)}` : ""), { method: "DELETE" }); }
+export function createRunId() { return crypto.randomUUID(); }
+export type { GameId, RunResultV2, ScoreEntry };

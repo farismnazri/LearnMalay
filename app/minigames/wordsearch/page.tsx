@@ -9,8 +9,8 @@ import StylizedTitle from "@/components/game/StylizedTitle";
 import WordSearchCard from "@/components/game/WordSearchCard";
 import IconActionLink from "@/components/navigation/IconActionLink";
 import { WORD_ITEMS, CATEGORY_LABELS, type WordCategory } from "@/lib/wordMatch/items";
-import { addHighScore } from "@/lib/highscores";
-import { getCurrentUser, type ProfileAvatarId, type UserProfile } from "@/lib/userStore";
+import { addHighScore, createRunId } from "@/lib/highscores";
+import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { isSingleWordSearchEntry, isValidWordSearchWord, normalizeWordSearchWord } from "@/lib/wordSearch";
 import { canSaveHighscores } from "@/lib/userCapabilities";
@@ -58,19 +58,17 @@ export default function WordSearchMiniGame() {
   const [saved, setSaved] = useState(false);
   const [wrongPopupVisible, setWrongPopupVisible] = useState(false);
   const [wrongPopupFade, setWrongPopupFade] = useState(false);
-  const [playerName, setPlayerName] = useState("Player");
-  const [playerAvatarId, setPlayerAvatarId] = useState<ProfileAvatarId | undefined>(undefined);
+  const [mistakes, setMistakes] = useState(0);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
   const saveLock = useRef(false);
+  const runIdRef = useRef(createRunId());
   const wrongPopupTimers = useRef<number[]>([]);
 
   useEffect(() => {
     setLang(readUiLang());
     getCurrentUser().then((u) => {
       setUser(u);
-      if (u?.name) setPlayerName(u.name);
-      setPlayerAvatarId(u?.avatarId);
     }).finally(() => {
       setLoadingUser(false);
     });
@@ -173,19 +171,23 @@ export default function WordSearchMiniGame() {
     writeUiLang(next);
   }
 
-  function regen() {
+  function resetRun() {
     setSeed((s) => s + 1);
     setStartTs(Date.now());
     setFinishedTs(null);
     setSaved(false);
+    setMistakes(0);
     saveLock.current = false;
+    runIdRef.current = createRunId();
   }
+
+  function regen() { resetRun(); }
 
   function handleProgress(found: number) {
     if (found === 0) setStartTs((prev) => prev ?? Date.now());
   }
 
-  function handleComplete() {
+  async function handleComplete() {
     if (saved || saveLock.current) return; // avoid duplicate saves
     saveLock.current = true;
     const now = Date.now();
@@ -194,16 +196,23 @@ export default function WordSearchMiniGame() {
     setFinishedTs(now);
     setSaved(true);
     if (!canSaveHighscores(user)) return;
-    addHighScore("wordsearch", {
-      name: playerName,
-      avatarId: playerAvatarId,
+    try {
+      await addHighScore("wordsearch", {
+      runId: runIdRef.current, scoreVersion: 2, outcome: "completed", competitive: true,
       accuracy: 100,
       timeMs: elapsed,
-      meta: { difficulty, theme, words: selectedTargets.length },
-    });
+      attempts: selectedTargets.length + mistakes, correct: selectedTargets.length, mistakes, hints: 0,
+      difficulty, theme, meta: { words: selectedTargets.length },
+      });
+    } catch (error) {
+      saveLock.current = false;
+      setSaved(false);
+      console.error("Failed to save Wordsearch result", error);
+    }
   }
 
   function triggerWrongPopup() {
+    setMistakes((count) => count + 1);
     wrongPopupTimers.current.forEach((timer) => window.clearTimeout(timer));
     wrongPopupTimers.current = [];
     setWrongPopupVisible(true);
@@ -330,7 +339,7 @@ export default function WordSearchMiniGame() {
                     key={d}
                     onClick={() => {
                       setDifficulty(d);
-                      setSeed((s) => s + 1);
+                      resetRun();
                     }}
                     className={[
                       "touch-target rounded-full px-3 py-1 text-xs font-black shadow",
@@ -351,7 +360,7 @@ export default function WordSearchMiniGame() {
                     key={t.id}
                     onClick={() => {
                       setTheme(t.id);
-                      setSeed((s) => s + 1);
+                      resetRun();
                     }}
                     className={[
                       "touch-target rounded-full px-3 py-1 text-xs font-black shadow",

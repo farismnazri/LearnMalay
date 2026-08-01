@@ -7,8 +7,10 @@ import type { GameId, ScoreEntry } from "@/lib/highscores";
 import { clearHighScores, loadHighScores } from "@/lib/highscores";
 import {
   arahJalanDifficulty,
-  compareArahJalanHighscoreRows,
+  compareHighscoreRows,
   highscoreNumericScore,
+  isCompetitiveV2,
+  leaderboardPartitionKey,
   type ArahJalanDifficulty,
   type ArahJalanDifficultyFilter,
 } from "@/lib/highscoreRanking";
@@ -42,30 +44,16 @@ function activityCount(s: ScoreEntry) {
 
 function scoreDifficulty(s: ScoreEntry): NumberDifficulty | "unknown" {
   const meta = (s.meta ?? {}) as Record<string, unknown>;
-  const d = meta.difficulty;
+  const d = s.difficulty ?? meta.difficulty;
   return d === "easy" || d === "medium" || d === "hard" || d === "ultrahard" ? d : "unknown";
 }
 
 function wordsearchDifficulty(s: ScoreEntry): WordsearchDifficulty | "unknown" {
   const meta = (s.meta ?? {}) as Record<string, unknown>;
-  const d = meta.difficulty;
+  const d = s.difficulty ?? meta.difficulty;
   return d === "easy" || d === "medium" || d === "hard" ? d : "unknown";
 }
 
-function difficultyRank(d: NumberDifficulty | "unknown") {
-  if (d === "ultrahard") return 4;
-  if (d === "hard") return 3;
-  if (d === "medium") return 2;
-  if (d === "easy") return 1;
-  return 0;
-}
-
-function wordsearchDifficultyRank(d: WordsearchDifficulty | "unknown") {
-  if (d === "hard") return 3;
-  if (d === "medium") return 2;
-  if (d === "easy") return 1;
-  return 0;
-}
 
 function difficultyLabel(d: NumbersDifficultyFilter) {
   if (d === ALL_DIFFICULTIES) return "All difficulties";
@@ -89,21 +77,6 @@ function arahJalanDifficultyLabel(d: ArahJalanDifficultyFilter) {
   if (d === "hard") return "Hard";
   if (d === "easy") return "Easy";
   return "Unknown";
-}
-
-function wordMatchResultRank(s: ScoreEntry) {
-  const meta = (s.meta ?? {}) as Record<string, unknown>;
-  return meta.result === "win" ? 1 : 0;
-}
-
-function wordMatchMatches(s: ScoreEntry) {
-  const meta = (s.meta ?? {}) as Record<string, unknown>;
-  return typeof meta.matches === "number" && Number.isFinite(meta.matches) ? meta.matches : 0;
-}
-
-function wordMatchLevel(s: ScoreEntry) {
-  const meta = (s.meta ?? {}) as Record<string, unknown>;
-  return typeof meta.level === "number" && Number.isFinite(meta.level) ? meta.level : 0;
 }
 
 function formatDuration(ms: number) {
@@ -142,6 +115,8 @@ export default function HighScoresPage() {
   const [numbersDifficultyFilter, setNumbersDifficultyFilter] = useState<NumbersDifficultyFilter>(ALL_DIFFICULTIES);
   const [wordsearchDifficultyFilter, setWordsearchDifficultyFilter] = useState<WordsearchDifficultyFilter>(ALL_DIFFICULTIES);
   const [arahJalanDifficultyFilter, setArahJalanDifficultyFilter] = useState<ArahJalanDifficultyFilter>(ALL_DIFFICULTIES);
+  const [partitionFilter, setPartitionFilter] = useState<string>("__ALL_PARTITIONS__");
+  const [showLegacyHistory, setShowLegacyHistory] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -160,7 +135,14 @@ export default function HighScoresPage() {
   const [pw, setPw] = useState("");
   const [pwError, setPwError] = useState<string | null>(null);
 
-  const baseRows: ScoreEntry[] = useMemo(() => store[gameId] ?? [], [store, gameId]);
+  const allRows = useMemo(() => store[gameId] ?? [], [store, gameId]);
+  const baseRows: ScoreEntry[] = useMemo(() => allRows.filter(isCompetitiveV2), [allRows]);
+  const legacyRows = useMemo(() => allRows.filter((row) => !isCompetitiveV2(row)), [allRows]);
+  const partitionOptions = useMemo(
+    () => Array.from(new Set(baseRows.map((row) => leaderboardPartitionKey(gameId, row)))).sort(),
+    [baseRows, gameId]
+  );
+  const activePartition = partitionFilter === "__ALL_PARTITIONS__" ? partitionOptions[0] : partitionFilter;
 
   const avatarByName = useMemo(() => {
     const byName = new Map<string, ProfileAvatarId>();
@@ -182,7 +164,8 @@ export default function HighScoresPage() {
   }, [users, baseRows, me]);
 
   const filteredRows = useMemo(() => {
-    const byUser = userFilter === ALL_USERS ? baseRows : baseRows.filter((r) => r.name === userFilter);
+    const partitioned = activePartition ? baseRows.filter((r) => leaderboardPartitionKey(gameId, r) === activePartition) : baseRows;
+    const byUser = userFilter === ALL_USERS ? partitioned : partitioned.filter((r) => r.name === userFilter);
     if (gameId === "numbers" && numbersDifficultyFilter !== ALL_DIFFICULTIES) {
       return byUser.filter((r) => scoreDifficulty(r) === numbersDifficultyFilter);
     }
@@ -202,60 +185,21 @@ export default function HighScoresPage() {
     numbersDifficultyFilter,
     wordsearchDifficultyFilter,
     arahJalanDifficultyFilter,
+    activePartition,
   ]);
 
   const sortedRows = useMemo(() => {
-    return [...filteredRows].sort((a, b) => {
-      if (gameId === "numbers") {
-        const diff = difficultyRank(scoreDifficulty(b)) - difficultyRank(scoreDifficulty(a));
-        if (diff !== 0) return diff;
-      }
-      if (gameId === "word-match") {
-        const resultRank = wordMatchResultRank(b) - wordMatchResultRank(a);
-        if (resultRank !== 0) return resultRank;
-
-        const matchRank = wordMatchMatches(b) - wordMatchMatches(a);
-        if (matchRank !== 0) return matchRank;
-
-        const levelRank = wordMatchLevel(b) - wordMatchLevel(a);
-        if (levelRank !== 0) return levelRank;
-
-        if (b.accuracy !== a.accuracy) return b.accuracy - a.accuracy;
-        if (a.timeMs !== b.timeMs) return a.timeMs - b.timeMs;
-
-        const attemptRank = activityCount(a) - activityCount(b);
-        if (attemptRank !== 0) return attemptRank;
-
-        return b.dateISO.localeCompare(a.dateISO);
-      }
-      if (isWordsearchGame) {
-        if (wordsearchDifficultyFilter === ALL_DIFFICULTIES) {
-          const diff = wordsearchDifficultyRank(wordsearchDifficulty(b)) - wordsearchDifficultyRank(wordsearchDifficulty(a));
-          if (diff !== 0) return diff;
-        }
-        if (a.timeMs !== b.timeMs) return a.timeMs - b.timeMs;
-        return b.dateISO.localeCompare(a.dateISO);
-      }
-      if (isArahJalanGame) {
-        return compareArahJalanHighscoreRows(a, b, {
-          allDifficulties: arahJalanDifficultyFilter === ALL_DIFFICULTIES,
-        });
-      }
-
-      const act = activityCount(b) - activityCount(a);
-      if (act !== 0) return act;
-
-      if (b.accuracy !== a.accuracy) return b.accuracy - a.accuracy;
-      if (a.timeMs !== b.timeMs) return a.timeMs - b.timeMs;
-      return b.dateISO.localeCompare(a.dateISO);
-    });
-  }, [filteredRows, gameId, isWordsearchGame, isArahJalanGame, wordsearchDifficultyFilter, arahJalanDifficultyFilter]);
+    const competitive = [...filteredRows].sort((a, b) => compareHighscoreRows(gameId, a, b));
+    return showLegacyHistory ? [...competitive, ...legacyRows.sort((a, b) => b.dateISO.localeCompare(a.dateISO))] : competitive;
+  }, [filteredRows, gameId, legacyRows, showLegacyHistory]);
 
   function pickGame(next: GameId) {
     setGameId(next);
     setNumbersDifficultyFilter(ALL_DIFFICULTIES);
     setWordsearchDifficultyFilter(ALL_DIFFICULTIES);
     setArahJalanDifficultyFilter(ALL_DIFFICULTIES);
+    setPartitionFilter("__ALL_PARTITIONS__");
+    setShowLegacyHistory(false);
   }
 
   function showMine() {
@@ -378,6 +322,15 @@ export default function HighScoresPage() {
                 className="touch-target rounded-xl border border-rose-300/65 bg-rose-100 px-4 py-2 text-xs font-black text-rose-900 shadow hover:bg-rose-200"
               >
                 Clear this game
+              </button>
+            )}
+            {legacyRows.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setShowLegacyHistory((visible) => !visible)}
+                className="touch-target rounded-xl border border-[#d8cc95]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#273d1e] shadow hover:bg-[#ffefbf]"
+              >
+                  {showLegacyHistory ? "Hide history" : `Show ${legacyRows.length} history rows`}
               </button>
             )}
           </div>
@@ -510,6 +463,18 @@ export default function HighScoresPage() {
               </button>
             </div>
 
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="text-xs font-black tracking-wide opacity-65">LEADERBOARD</div>
+              <select
+                value={activePartition ?? "__ALL_PARTITIONS__"}
+                onChange={(e) => setPartitionFilter(e.target.value)}
+                className="touch-target rounded-xl border border-[#d5c98e]/70 bg-white/90 px-3 py-2 text-xs font-black text-[#243a1c] shadow outline-none focus:border-[#e7bf56]"
+              >
+                {partitionOptions.length === 0 ? <option value="__ALL_PARTITIONS__">No v2 results</option> : null}
+                {partitionOptions.map((partition) => <option key={partition} value={partition}>{partition.replace(`${gameId}:`, "")}</option>)}
+              </select>
+            </div>
+
             {showNumbersDifficultyFilter && (
               <div className="flex flex-wrap items-center gap-2">
                 <div className="text-xs font-black tracking-wide opacity-65">DIFFICULTY</div>
@@ -560,19 +525,11 @@ export default function HighScoresPage() {
           </div>
 
           <div className="mt-3 text-xs font-semibold text-[#2c431f]/75">
-            {showNumbersDifficultyFilter
-              ? "Ranked by difficulty first (Ultra Hard > Hard > Medium > Easy), then activities, accuracy, and time."
-              : showWordsearchDifficultyFilter
-              ? wordsearchDifficultyFilter === ALL_DIFFICULTIES
-                ? "Ranked by difficulty for All difficulties, then faster time."
-                : "For a selected difficulty, ranked by faster time."
-              : showArahJalanDifficultyFilter
-              ? arahJalanDifficultyFilter === ALL_DIFFICULTIES
-                ? "Ranked by highest streak, then difficulty for All difficulties (Hard > Easy)."
-                : "Ranked by highest streak for the selected difficulty."
-              : gameId === "word-match"
-              ? "Ranked by result, progress, accuracy, time, then fewer attempts."
-              : "Ranked by activities, then accuracy, then time."}
+            {gameId === "wordsearch"
+              ? "Completed runs: hints, mistakes, then faster time."
+              : gameId === "misi-membeli" || gameId === "arah-jalan"
+              ? "Survival progress, accuracy, correct-response time, then fewer mistakes."
+              : "Completed runs: accuracy, faster time, then fewer mistakes."}
           </div>
 
           <div className="mt-5 space-y-3 tablet:hidden">

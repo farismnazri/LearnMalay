@@ -7,7 +7,7 @@ import type { UiLang } from "@/lib/chapters";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { MAKAN_APA_ITEMS, type MakanApaItem } from "@/lib/makanApa/items";
-import { addHighScore } from "@/lib/highscores";
+import { addHighScore, createRunId } from "@/lib/highscores";
 import { canSaveHighscores } from "@/lib/userCapabilities";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import StylizedTitle from "@/components/game/StylizedTitle";
@@ -202,7 +202,7 @@ export default function MakanApaPlayPage() {
     };
   }, []);
 
-  function recordGameOverOnce(snapshot: {
+  async function recordResultOnce(outcome: "completed" | "failed", snapshot: {
     solved: number;
     submissions: number;
     timeMs: number;
@@ -215,30 +215,34 @@ export default function MakanApaPlayPage() {
     const totalQuestions = deck.length || MAKAN_APA_ITEMS.length;
     const accuracy = totalQuestions > 0 ? (snapshot.solved / totalQuestions) * 100 : 0;
 
-    void addHighScore("makan-apa", {
-      name: user?.name ?? "GUEST",
-      avatarId: user?.avatarId,
+    try {
+      await addHighScore("makan-apa", {
+      runId: createRunId(), scoreVersion: 2, outcome, competitive: outcome === "completed",
       accuracy,
       timeMs: snapshot.timeMs,
-      meta: {
-        result: "gameover",
-        difficulty,
-        attempts: snapshot.solved,
-        solvedCount: snapshot.solved,
-        submissions: snapshot.submissions,
-        totalQuestions,
-        lives: snapshot.lives,
-      },
-    });
+      attempts: snapshot.submissions, correct: snapshot.solved, mistakes: Math.max(0, snapshot.submissions - snapshot.solved), hints: 0,
+      difficulty, meta: { totalQuestions, lives: snapshot.lives },
+      });
+    } catch (error) {
+      recordedRef.current = false;
+      console.error("Failed to save Makan Apa result", error);
+    }
   }
 
-  function nextQuestion() {
+  function nextQuestion(snapshot?: { solved: number; submissions: number }) {
     const nextIndex = currentIndex + 1;
     setTypedAnswer("");
     if (nextIndex >= deck.length) {
-      setElapsedMs(Date.now() - startedAtRef.current);
+      const timeNow = Date.now() - startedAtRef.current;
+      setElapsedMs(timeNow);
       setStatus("win");
       setLocked(true);
+      void recordResultOnce("completed", {
+        solved: snapshot?.solved ?? solvedCount,
+        submissions: snapshot?.submissions ?? submissionCount,
+        timeMs: timeNow,
+        lives,
+      });
       return;
     }
 
@@ -272,7 +276,7 @@ export default function MakanApaPlayPage() {
       setStatus("correct");
       setLocked(true);
       triggerPopup("correct");
-      window.setTimeout(nextQuestion, 350);
+      window.setTimeout(() => nextQuestion({ solved: solvedCount + 1, submissions: nextSubmissions }), 350);
       return;
     }
 
@@ -286,7 +290,7 @@ export default function MakanApaPlayPage() {
         setElapsedMs(timeNow);
         setStatus("gameover");
         setLocked(true);
-        recordGameOverOnce({
+        void recordResultOnce("failed", {
           solved: solvedCount,
           submissions: nextSubmissions,
           timeMs: timeNow,
@@ -312,7 +316,7 @@ export default function MakanApaPlayPage() {
       setStatus("correct");
       setLocked(true);
       triggerPopup("correct");
-      window.setTimeout(nextQuestion, 350);
+      window.setTimeout(() => nextQuestion({ solved: solvedCount + 1, submissions: nextSubmissions }), 350);
       return;
     }
 
@@ -325,7 +329,7 @@ export default function MakanApaPlayPage() {
         setElapsedMs(timeNow);
         setStatus("gameover");
         setLocked(true);
-        recordGameOverOnce({
+        void recordResultOnce("failed", {
           solved: solvedCount,
           submissions: nextSubmissions,
           timeMs: timeNow,

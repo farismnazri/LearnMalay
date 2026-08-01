@@ -4,7 +4,6 @@ import {
   clearHighScores,
   HighscoreValidationError,
   listHighScores,
-  normalizeIncomingHighscoreEntry,
 } from "@/server/highscoreRepo";
 import type { GameId } from "@/lib/highscoresTypes";
 import { isValidHighscoreGameId } from "@/lib/highscoresTypes";
@@ -22,7 +21,7 @@ const HIGHSCORE_RESET_MAX_HITS = 10;
 
 type IncomingBody = {
   gameId?: unknown;
-  entry?: unknown;
+  run?: unknown;
 };
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
@@ -33,8 +32,11 @@ function hasOnlyKeys(obj: Record<string, unknown>, keys: readonly string[]) {
   return Object.keys(obj).every((key) => keys.includes(key));
 }
 
-export async function GET() {
-  return NextResponse.json(await listHighScores());
+export async function GET(req: Request) {
+  const rawLimit = new URL(req.url).searchParams.get("limit");
+  const parsedLimit = rawLimit ? Number.parseInt(rawLimit, 10) : undefined;
+  const leaderboardLimitPerPartition = parsedLimit && parsedLimit > 0 ? Math.min(parsedLimit, 100) : undefined;
+  return NextResponse.json(await listHighScores({ leaderboardLimitPerPartition }));
 }
 
 export async function POST(req: Request) {
@@ -42,13 +44,13 @@ export async function POST(req: Request) {
   if (csrf) return csrf;
 
   const body = (await req.json().catch(() => null)) as IncomingBody | null;
-  if (!isPlainObject(body) || !hasOnlyKeys(body, ["gameId", "entry"])) {
+  if (!isPlainObject(body) || !hasOnlyKeys(body, ["gameId", "run"])) {
     return NextResponse.json({ error: "Invalid highscore payload" }, { status: 400 });
   }
   if (!isValidHighscoreGameId(body.gameId)) {
     return NextResponse.json({ error: "Invalid highscore payload" }, { status: 400 });
   }
-  if (!isPlainObject(body.entry) || !hasOnlyKeys(body.entry, ["name", "avatarId", "score", "accuracy", "timeMs", "meta"])) {
+  if (!isPlainObject(body.run)) {
     return NextResponse.json({ error: "Invalid highscore payload" }, { status: 400 });
   }
 
@@ -74,14 +76,8 @@ export async function POST(req: Request) {
   }
 
   try {
-    const safeEntry = normalizeIncomingHighscoreEntry(body.gameId, {
-      ...body.entry,
-      name: user.name,
-      avatarId: user.avatarId,
-    });
-
-    await addHighScore(body.gameId, safeEntry);
-    return NextResponse.json({ ok: true });
+    const result = await addHighScore(body.gameId, body.run as never, user);
+    return NextResponse.json(result);
   } catch (error: unknown) {
     if (error instanceof HighscoreValidationError) {
       return NextResponse.json({ error: "Invalid highscore payload" }, { status: 400 });
