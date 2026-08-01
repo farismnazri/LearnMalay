@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+## [0.17.0] - 2026-08-02
+
+### Changed
+- Reworked Chapter 5 around practical numbers, Malaysian money, prices, and address-building, with clearer multilingual guidance.
+- Improved Chapter 9 occupations learning with simpler job-and-duty language, expanded examples, and focused practice.
+
+### Fixed
+- Incremented Chapter 5 from revision 4 to 5 and Chapter 9 from revision 3 to 4 so returning learners receive update notices.
+- Restored one canonical highscore dataset and corrected per-game leaderboard ranking, column order, equal-score retention, and legacy-score visibility.
+
 ## [0.16.2] - 2026-08-01
 
 ### Fixed

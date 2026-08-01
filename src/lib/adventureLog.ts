@@ -16,6 +16,42 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.17.0",
+    date: "2026-08-02",
+    headline: {
+      ms: "Bab 5 dan 9 diperkemas, dan highscore kini menggunakan satu papan kedudukan kanonik",
+      en: "Chapters 5 and 9 are improved, and highscores now use one canonical leaderboard",
+      es: "Los capítulos 5 y 9 mejoran, y las puntuaciones ahora usan una clasificación canónica",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Bab 5 kini membimbing nombor, wang Malaysia, harga, dan bina alamat dengan langkah yang lebih jelas.",
+          en: "Chapter 5 now guides numbers, Malaysian money, prices, and address building in clearer steps.",
+          es: "El Capítulo 5 ahora guía los números, el dinero malasio, los precios y la creación de direcciones con pasos más claros.",
+        },
+        {
+          ms: "Bab 9 kini menggunakan bahasa pekerjaan dan tugas yang lebih mudah, dengan contoh serta latihan yang lebih fokus.",
+          en: "Chapter 9 now uses simpler job-and-duty language with more focused examples and practice.",
+          es: "El Capítulo 9 ahora usa lenguaje más simple sobre trabajos y tareas, con ejemplos y práctica más enfocados.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Membaiki highscore supaya semua rekod menggunakan satu papan kedudukan kanonik dengan ranking dan lajur khusus bagi setiap minigame.",
+          en: "Fixed highscores so every record uses one canonical leaderboard with game-specific ranking and columns.",
+          es: "Se corrigieron las puntuaciones para que todos los registros usen una clasificación canónica con ranking y columnas específicos por minijuego.",
+        },
+        {
+          ms: "Menaikkan semakan Bab 5 daripada 4 kepada 5 dan Bab 9 daripada 3 kepada 4 supaya pelajar yang kembali menerima notis kemas kini pilihan.",
+          en: "Increased Chapter 5 from revision 4 to 5 and Chapter 9 from revision 3 to 4 so returning learners receive optional update notices.",
+          es: "Se aumentó la revisión del Capítulo 5 de 4 a 5 y la del Capítulo 9 de 3 a 4 para que quienes regresan reciban avisos opcionales de actualización.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.16.2",
     date: "2026-08-01",
     headline: {
