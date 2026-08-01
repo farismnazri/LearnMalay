@@ -123,7 +123,7 @@ const GAMES: MiniGame[] = [
       es: "Construye comandos de giro para llegar al destino en un mapa fijo.",
     },
     href: "/minigames/arah-jalan",
-    requiredChapter: 11,
+    requiredChapter: 4,
     backgroundSrc: "/assets/backgrounds/ArahJalan.webp",
   },
 ];

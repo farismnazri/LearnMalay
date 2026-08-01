@@ -19,7 +19,7 @@ export const MINIGAME_PREREQUISITES: Record<UnlockableMinigameId, number> = {
   currency: 5,
   "makan-apa": 7,
   "misi-membeli": 11,
-  "arah-jalan": 11,
+  "arah-jalan": 4,
 };
 
 export const MINIGAME_UNLOCK_ORDER: UnlockableMinigameId[] = [
