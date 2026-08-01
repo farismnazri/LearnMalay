@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.16.2] - 2026-08-01
+
+### Fixed
+- Unlocked Arah Jalan after learners complete Chapter 4, with the minigame hub updated to match.
+
 ## [0.16.1] - 2026-08-01
 
 ### Fixed

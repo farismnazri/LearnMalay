@@ -16,6 +16,26 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.16.2",
+    date: "2026-08-01",
+    headline: {
+      ms: "Arah Jalan kini dibuka selepas Bab 4",
+      en: "Arah Jalan now unlocks after Chapter 4",
+      es: "Arah Jalan ahora se desbloquea después del Capítulo 4",
+    },
+    highlights: {
+      added: [],
+      changed: [],
+      fixed: [
+        {
+          ms: "Membuka minigame Arah Jalan selepas pelajar menyelesaikan Bab 4, dengan halaman minigame dikemas kini agar sepadan.",
+          en: "Unlocked the Arah Jalan minigame after learners complete Chapter 4, with the minigame hub updated to match.",
+          es: "Se desbloqueó el minijuego Arah Jalan después de completar el Capítulo 4 y se actualizó el centro de minijuegos para que coincida.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.16.1",
     date: "2026-08-01",
     headline: {
