@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [0.16.0] - 2026-08-01
+
+### Added
+- Added immutable, versioned v2 highscore runs across all seven minigames.
+
+### Changed
+- Score submissions are now idempotent and retryable, while legacy scores and noncompetitive run history remain preserved.
+- Leaderboards now use fairness-aware ranking partitions and shared game-specific comparators.
+
+### Fixed
+- Corrected Makan Apa and Wordsearch score registration so completed runs are recorded consistently.
+
 ## [0.15.1] - 2026-07-05
 
 ### Changed

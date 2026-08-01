@@ -16,6 +16,43 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.16.0",
+    date: "2026-08-01",
+    headline: {
+      ms: "Highscore v2 kini lebih adil dan boleh dipercayai",
+      en: "Highscore v2 is now fairer and more reliable",
+      es: "Highscore v2 ahora es mas justo y fiable",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah rekod larian highscore v2 yang tidak boleh diubah untuk ketujuh-tujuh minigame.",
+          en: "Added immutable v2 highscore run records across all seven minigames.",
+          es: "Se agregaron registros inmutables de partidas de highscore v2 para los siete minijuegos.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Penghantaran skor kini idempoten dan boleh dicuba semula, sambil mengekalkan skor lama serta sejarah larian bukan kompetitif.",
+          en: "Score submission is now idempotent and retryable while preserving legacy scores and noncompetitive run history.",
+          es: "El envio de puntuaciones ahora es idempotente y reintentable, conservando las puntuaciones antiguas y el historial de partidas no competitivas.",
+        },
+        {
+          ms: "Papan kedudukan kini menggunakan pecahan ranking yang mengambil kira keadilan dan pembanding khusus permainan yang dikongsi.",
+          en: "Leaderboards now use fairness-aware ranking partitions and shared game-specific comparators.",
+          es: "Las clasificaciones ahora usan particiones de ranking orientadas a la equidad y comparadores compartidos especificos de cada juego.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Membaiki pendaftaran skor Makan Apa dan Wordsearch supaya larian yang tamat direkodkan dengan konsisten.",
+          en: "Corrected Makan Apa and Wordsearch score registration so completed runs are recorded consistently.",
+          es: "Se corrigio el registro de puntuaciones de Makan Apa y Wordsearch para que las partidas completadas se guarden de forma consistente.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.15.1",
     date: "2026-07-05",
     headline: {
