@@ -9,6 +9,7 @@ type UserDocument = {
   progress_chapter: number;
   progress_page: number;
   completed_chapter_revisions: Record<string, number>;
+  chapter_progression_version?: number;
   password_hash: string | null;
   password_salt: string | null;
   password_algo: string | null;

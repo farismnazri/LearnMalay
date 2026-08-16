@@ -1,7 +1,6 @@
 import type { UserProfile } from "./userStoreTypes";
 import { canUnlockEverything } from "./userCapabilities";
-
-const FINAL_CHAPTER = 11;
+import { hasCompletedChapterRequirement, MINIGAME_PREREQUISITE_CHAPTERS } from "./chapterProgression";
 
 export type UnlockableMinigameId =
   | "numbers"
@@ -12,24 +11,16 @@ export type UnlockableMinigameId =
   | "misi-membeli"
   | "arah-jalan";
 
-export const MINIGAME_PREREQUISITES: Record<UnlockableMinigameId, number> = {
-  numbers: 1,
-  "word-match": 2,
-  wordsearch: 3,
-  currency: 5,
-  "makan-apa": 7,
-  "misi-membeli": 11,
-  "arah-jalan": 4,
-};
+export const MINIGAME_PREREQUISITES: Record<UnlockableMinigameId, number> = MINIGAME_PREREQUISITE_CHAPTERS;
 
 export const MINIGAME_UNLOCK_ORDER: UnlockableMinigameId[] = [
-  "numbers",
   "word-match",
-  "wordsearch",
-  "currency",
   "makan-apa",
-  "misi-membeli",
+  "wordsearch",
   "arah-jalan",
+  "numbers",
+  "currency",
+  "misi-membeli",
 ];
 
 export function isChapterUnlocked(user: UserProfile | null, chapter: number) {
@@ -40,10 +31,7 @@ export function isChapterUnlocked(user: UserProfile | null, chapter: number) {
 
 export function hasCompletedChapter(user: UserProfile | null, chapter: number) {
   if (!user) return false;
-  if (canUnlockEverything(user)) return true;
-  // Chapter 11 is the final chapter today, so there is no "chapter 12" progress marker.
-  if (chapter === FINAL_CHAPTER) return user.progress.chapter >= FINAL_CHAPTER;
-  return user.progress.chapter > chapter;
+  return hasCompletedChapterRequirement(user.progress.chapter, chapter, canUnlockEverything(user));
 }
 
 export function isMinigameUnlocked(user: UserProfile | null, gameId: UnlockableMinigameId) {

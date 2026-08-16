@@ -2,598 +2,1205 @@ import type { ChapterContent } from "./types";
 
 export const chapter02: ChapterContent = {
   id: 2,
-  revision: 4,
-  title: { ms: "Keluarga", en: "Family", es: "Familia" },
-
+  revision: 3,
+  title: {
+    ms: "Makanan & Kuih-muih",
+    en: "Food & Snacks",
+    es: "Comida y Bocadillos",
+  },
   pages: [
-    // -------------------------
-    // Page 1: immediate family
-    // -------------------------
     {
-      id: "p2-asas",
-      kind: "family",
+      id: "c7-p0-food-intro",
+      kind: "foodintro",
       title: {
-        ms: "Keluarga terdekat",
-        en: "Close family",
-        es: "Familia cercana",
+        ms: "Pengenalan Tema Makanan",
+        en: "Food Theme Introduction",
+        es: "Introduccion al Tema de la Comida",
       },
-      familyImageSrc: "/assets/chapters/ch2/ch2-keluarga.webp",
-      familyImageAlt: {
-        ms: "Gambar keluarga terdekat",
-        en: "Close family portrait",
-        es: "Retrato de la familia cercana",
+      intro: {
+        ms: "Selamat datang ke tema makanan! Di sini kita akan belajar tentang makanan. Malaysia sangat kaya dengan pelbagai jenis makanan. Setiap negeri ada hidangan istimewa. Kami berbangga dengan masakan kami dan sangat gembira untuk berkongsi dengan anda.",
+        en: "Welcome to the food theme! Here we will learn about food. Malaysia is very rich in many kinds of food. Every state has special dishes. We are proud of our cuisine and very happy to share it with you.",
+        es: "Bienvenido al tema de la comida. Aquí aprenderemos sobre la comida. Malasia es muy rica en muchos tipos de comida. Cada estado tiene platos especiales. Estamos orgullosos de nuestra cocina y muy felices de compartirla contigo.",
       },
-      people: [
+      sections: [],
+      galleryImages: [
         {
-          id: "datuk",
-          label: { ms: "datuk", en: "grandfather", es: "abuelo" },
-          imageSrc: "/assets/chapters/ch2/ch2-keluarga-datuk.webp",
-          imageAlt: {
-            ms: "Datuk",
-            en: "Grandfather",
-            es: "Abuelo",
+          src: "/assets/chapters/ch7/nasi/CH7_Nasi_Putih.webp",
+          alt: { ms: "Nasi Putih", en: "White Rice", es: "Arroz Blanco" },
+        },
+        {
+          src: "/assets/chapters/ch7/nasi/CH7_Nasi_Lemak.webp",
+          alt: { ms: "Nasi Lemak", en: "Nasi Lemak", es: "Nasi Lemak" },
+        },
+        {
+          src: "/assets/chapters/ch7/nasi/CH7_Nasi_Ayam.webp",
+          alt: { ms: "Nasi Ayam", en: "Chicken Rice", es: "Arroz Con Pollo" },
+        },
+        {
+          src: "/assets/chapters/ch7/nasi/CH7_Nasi_Kerabu.webp",
+          alt: { ms: "Nasi Kerabu", en: "Nasi Kerabu", es: "Nasi Kerabu" },
+        },
+        {
+          src: "/assets/chapters/ch7/nasi/CH7_Nasi_Dagang.webp",
+          alt: { ms: "Nasi Dagang", en: "Nasi Dagang", es: "Nasi Dagang" },
+        },
+        {
+          src: "/assets/chapters/ch7/nasi/CH7_Bubur.webp",
+          alt: { ms: "Nasi Air / Bubur Nasi", en: "Rice Porridge", es: "Gachas De Arroz" },
+        },
+        {
+          src: "/assets/chapters/ch7/nasi/CH7_Nasi_Tomato.webp",
+          alt: { ms: "Nasi Tomato", en: "Tomato Rice", es: "Arroz Con Tomate" },
+        },
+        {
+          src: "/assets/chapters/ch7/nasi/CH7_Nasi_Minyak.webp",
+          alt: { ms: "Nasi Minyak", en: "Nasi Minyak", es: "Nasi Minyak" },
+        },
+        {
+          src: "/assets/chapters/ch7/nasi/CH7_Nasi_Goreng.webp",
+          alt: { ms: "Nasi Goreng", en: "Fried Rice", es: "Arroz Frito" },
+        },
+        {
+          src: "/assets/chapters/ch7/nasi/CH7_Nasi_Hujan_Panas.webp",
+          alt: { ms: "Nasi Hujan Panas", en: "Nasi Hujan Panas", es: "Nasi Hujan Panas" },
+        },
+        {
+          src: "/assets/chapters/ch7/ayam/Ayam_Kari.webp",
+          alt: { ms: "Kari Ayam", en: "Chicken Curry", es: "Curry De Pollo" },
+        },
+        {
+          src: "/assets/chapters/ch7/ayam/Ayam_Goreng.webp",
+          alt: { ms: "Ayam Goreng", en: "Fried Chicken", es: "Pollo Frito" },
+        },
+        {
+          src: "/assets/chapters/ch7/ayam/Ayam_Sup.webp",
+          alt: { ms: "Ayam Sup", en: "Chicken Soup", es: "Sopa De Pollo" },
+        },
+        {
+          src: "/assets/chapters/ch7/ayam/Ayam_Masak_Kicap.webp",
+          alt: { ms: "Ayam Masak Kicap", en: "Soy Sauce Chicken", es: "Pollo Con Salsa De Soya" },
+        },
+        {
+          src: "/assets/chapters/ch7/ayam/Ayam_Bakar.webp",
+          alt: { ms: "Ayam Bakar", en: "Grilled Chicken", es: "Pollo A La Parrilla" },
+        },
+        {
+          src: "/assets/chapters/ch7/ayam/Ayam_Tomyam.webp",
+          alt: { ms: "Tom Yam Ayam", en: "Tom Yam Chicken", es: "Pollo Tom Yam" },
+        },
+        {
+          src: "/assets/chapters/ch7/ayam/Ayam_Masak_Merah.webp",
+          alt: { ms: "Ayam Masak Merah", en: "Red Chili Chicken", es: "Pollo En Salsa Roja" },
+        },
+        {
+          src: "/assets/chapters/ch7/ayam/Ayam_Rendang.webp",
+          alt: { ms: "Ayam Rendang", en: "Chicken Rendang", es: "Rendang De Pollo" },
+        },
+        {
+          src: "/assets/chapters/ch7/ikan/Ikan_Goreng.webp",
+          alt: { ms: "Ikan Goreng", en: "Fried Fish", es: "Pescado Frito" },
+        },
+        {
+          src: "/assets/chapters/ch7/ikan/Ikan_Kukus.webp",
+          alt: { ms: "Ikan Kukus", en: "Steamed Fish", es: "Pescado Al Vapor" },
+        },
+        {
+          src: "/assets/chapters/ch7/ikan/Ikan_Rebus.webp",
+          alt: { ms: "Ikan Rebus", en: "Boiled Fish", es: "Pescado Hervido" },
+        },
+        {
+          src: "/assets/chapters/ch7/ikan/Ikan_Goreng_Sambal.webp",
+          alt: { ms: "Ikan Goreng Sambal", en: "Fried Fish With Sambal", es: "Pescado Frito Con Sambal" },
+        },
+        {
+          src: "/assets/chapters/ch7/ikan/Ikan_Kari_Ikan.webp",
+          alt: { ms: "Kari Ikan", en: "Fish Curry", es: "Curry De Pescado" },
+        },
+        {
+          src: "/assets/chapters/ch7/ikan/Ikan_Bakar.webp",
+          alt: { ms: "Ikan Bakar", en: "Grilled Fish", es: "Pescado A La Parrilla" },
+        },
+        {
+          src: "/assets/chapters/ch7/sotong/Sotong_Goreng.webp",
+          alt: { ms: "Sotong Goreng", en: "Fried Squid", es: "Calamar Frito" },
+        },
+        {
+          src: "/assets/chapters/ch7/sotong/Sotong_Sambal.webp",
+          alt: { ms: "sambal sotong", en: "Sambal Squid", es: "Calamar Sambal" },
+        },
+        {
+          src: "/assets/chapters/ch7/sotong/Sotong_Kari.webp",
+          alt: { ms: "kari sotong", en: "Squid Curry", es: "Curry De Calamar" },
+        },
+        {
+          src: "/assets/chapters/ch7/sotong/Sotong_Masak_Lemak.webp",
+          alt: { ms: "Sotong Masak Lemak", en: "Squid In Coconut Gravy", es: "Calamar En Salsa De Coco" },
+        },
+        {
+          src: "/assets/chapters/ch7/sotong/Sotong_Bakar.webp",
+          alt: { ms: "Sotong Bakar", en: "Grilled Squid", es: "Calamar A La Parrilla" },
+        },
+        {
+          src: "/assets/chapters/ch7/sotong/Sotong_Celup_Tepung.webp",
+          alt: { ms: "Sotong Celup Tepung", en: "Battered Fried Squid", es: "Calamar Rebozado" },
+        },
+      ],
+    },
+    {
+      id: "c7-p1-jenis-nasi",
+      kind: "table",
+      title: {
+        ms: "Jenis Nasi",
+        en: "Types of Rice Dishes",
+        es: "Tipos de Platos de Arroz",
+      },
+      leadCard: {
+        heading: {
+          ms: "MAKANAN UTAMA",
+          en: "MAIN STAPLE FOOD",
+          es: "COMIDA PRINCIPAL",
+        },
+        body: {
+          ms: "Makanan ruji di Malaysia ialah nasi. Nasi dihidangkan dengan pelbagai jenis lauk-pauk.",
+          en: "The staple food in Malaysia is rice. Rice is served with many kinds of side dishes.",
+          es: "El alimento basico en Malasia es el arroz. El arroz se sirve con muchos tipos de guarniciones.",
+        },
+      },
+      columns: [
+        {
+          key: "img",
+          label: { ms: "Gambar", en: "Image", es: "Imagen" },
+        },
+        {
+          key: "nama",
+          label: { ms: "Nama", en: "Name", es: "Nombre" },
+        },
+      ],
+      rows: [
+        {
+          id: "c7-nasi-putih",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/nasi/CH7_Nasi_Putih.webp",
+                alt: { ms: "Nasi Putih", en: "White Rice", es: "Arroz Blanco" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Nasi Putih", en: "White Rice", es: "Arroz Blanco" }],
           },
         },
         {
-          id: "nenek",
-          label: { ms: "nenek", en: "grandmother", es: "abuela" },
-          imageSrc: "/assets/chapters/ch2/ch2-keluarga-nenek.webp",
-          imageAlt: {
-            ms: "Nenek",
-            en: "Grandmother",
-            es: "Abuela",
+          id: "c7-nasi-lemak",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/nasi/CH7_Nasi_Lemak.webp",
+                alt: { ms: "Nasi Lemak", en: "Nasi Lemak", es: "Nasi Lemak" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Nasi Lemak", en: "Nasi Lemak", es: "Nasi Lemak" }],
           },
         },
         {
-          id: "bapa",
-          label: { ms: "bapa", en: "father", es: "padre" },
-          imageSrc: "/assets/chapters/ch2/ch2-keluarga-bapa.webp",
-          imageAlt: {
-            ms: "Bapa",
-            en: "Father",
-            es: "Padre",
-          },
-          alternativeNames: ["ayah", "papa", "abah", "abi", "bapak"],
-        },
-        {
-          id: "ibu",
-          label: { ms: "ibu", en: "mother", es: "madre" },
-          imageSrc: "/assets/chapters/ch2/ch2-keluarga-ibu.webp",
-          imageAlt: {
-            ms: "Ibu",
-            en: "Mother",
-            es: "Madre",
-          },
-          alternativeNames: ["mak", "emak", "mama", "umi"],
-        },
-        {
-          id: "abang",
-          label: { ms: "abang", en: "older brother", es: "hermano mayor" },
-          imageSrc: "/assets/chapters/ch2/ch2-keluarga-abang.webp",
-          imageAlt: {
-            ms: "Abang",
-            en: "Older brother",
-            es: "Hermano mayor",
+          id: "c7-nasi-ayam",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/nasi/CH7_Nasi_Ayam.webp",
+                alt: { ms: "Nasi Ayam", en: "Chicken Rice", es: "Arroz Con Pollo" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Nasi Ayam", en: "Chicken Rice", es: "Arroz Con Pollo" }],
           },
         },
         {
-          id: "kakak",
-          label: { ms: "kakak", en: "older sister", es: "hermana mayor" },
-          imageSrc: "/assets/chapters/ch2/ch2-keluarga-kakak.webp",
-          imageAlt: {
-            ms: "Kakak",
-            en: "Older sister",
-            es: "Hermana mayor",
+          id: "c7-nasi-kerabu",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/nasi/CH7_Nasi_Kerabu.webp",
+                alt: { ms: "Nasi Kerabu", en: "Nasi Kerabu", es: "Nasi Kerabu" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Nasi Kerabu", en: "Nasi Kerabu", es: "Nasi Kerabu" }],
           },
         },
         {
-          id: "saya",
-          label: { ms: "adik", en: "younger sibling", es: "hermano o hermana menor" },
-          imageSrc: "/assets/chapters/ch2/ch2-keluarga-saya.webp",
-          imageAlt: {
-            ms: "Adik",
-            en: "Younger sibling",
-            es: "Hermano o hermana menor",
+          id: "c7-nasi-dagang",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/nasi/CH7_Nasi_Dagang.webp",
+                alt: { ms: "Nasi Dagang", en: "Nasi Dagang", es: "Nasi Dagang" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Nasi Dagang", en: "Nasi Dagang", es: "Nasi Dagang" }],
+          },
+        },
+        {
+          id: "c7-nasi-air",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/nasi/CH7_Bubur.webp",
+                alt: { ms: "Nasi Air / Bubur Nasi", en: "Rice Porridge", es: "Gachas De Arroz" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Nasi Air / Bubur Nasi", en: "Rice Porridge", es: "Gachas De Arroz" }],
+          },
+        },
+        {
+          id: "c7-nasi-tomato",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/nasi/CH7_Nasi_Tomato.webp",
+                alt: { ms: "Nasi Tomato", en: "Tomato Rice", es: "Arroz Con Tomate" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Nasi Tomato", en: "Tomato Rice", es: "Arroz Con Tomate" }],
+          },
+        },
+        {
+          id: "c7-nasi-minyak",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/nasi/CH7_Nasi_Minyak.webp",
+                alt: { ms: "Nasi Minyak", en: "Nasi Minyak", es: "Nasi Minyak" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Nasi Minyak", en: "Nasi Minyak", es: "Nasi Minyak" }],
+          },
+        },
+        {
+          id: "c7-nasi-goreng",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/nasi/CH7_Nasi_Goreng.webp",
+                alt: { ms: "Nasi Goreng", en: "Fried Rice", es: "Arroz Frito" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Nasi Goreng", en: "Fried Rice", es: "Arroz Frito" }],
+          },
+        },
+        {
+          id: "c7-nasi-hujan-panas",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/nasi/CH7_Nasi_Hujan_Panas.webp",
+                alt: { ms: "Nasi Hujan Panas", en: "Nasi Hujan Panas", es: "Nasi Hujan Panas" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Nasi Hujan Panas", en: "Nasi Hujan Panas", es: "Nasi Hujan Panas" }],
           },
         },
       ],
     },
-
-    // -------------------------
-    // Page 2: Chat — introducing family
-    // -------------------------
-{
-  id: "p5-situasi-2-1",
-  kind: "chat",
-  youId: "me",
-  title: {
-        ms: "Situasi 2.1: Menunjukkan gambar keluarga",
-        en: "Situation 2.1: Showing a family photo",
-        es: "Situación 2.1: Mostrar una foto familiar",
-  },
-  context: {
-        ms: "Latar tempat: Di universiti",
-        en: "Setting: At the university",
-        es: "Lugar: En la universidad",
-  },
-  participants: [
     {
-      id: "me",
-      name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
-    },
-    {
-      id: "ayub", // keep this id for your UI
-      name: { ms: "Muthu", en: "Muthu", es: "Muthu" },
-    },
-  ],
-  messages: [
-    {
-      id: "s21-m1",
-      from: "ayub",
-      text: {
-        ms: "Hai, {currentUsername}. Ini keluarga awak?",
-        en: "Hi, {currentUsername}. Is this your family?",
-        es: "Hola, {currentUsername}. ¿Esta es tu familia?",
+      id: "c7-p2-lauk-ayam",
+      kind: "table",
+      title: {
+        ms: "Lauk Ayam",
+        en: "Chicken Side Dishes",
+        es: "Guarniciones de Pollo",
       },
-    },
-    {
-      id: "s21-m2",
-      from: "me",
-      text: {
-        ms: "Hai, Muthu. Ya, ini keluarga saya.",
-        en: "Hi, Muthu. Yes, this is my family.",
-        es: "Hola, Muthu. Sí, esta es mi familia.",
+      leadCard: {
+        heading: {
+          ms: "JENIS LAUK",
+          en: "TYPES OF SIDE DISHES",
+          es: "TIPOS DE GUARNICIONES",
+        },
+        body: {
+          ms: "Lauk ialah masakan ayam, ikan, daging, sotong, udang dan sebagainya yang dimakan bersama nasi.",
+          en: "Side dishes are chicken, fish, meat, squid, shrimp and other dishes eaten with rice.",
+          es: "Las guarniciones son platos de pollo, pescado, carne, calamar, camaron y otros que se comen con arroz.",
+        },
       },
+      columns: [
+        {
+          key: "img",
+          label: { ms: "Gambar", en: "Image", es: "Imagen" },
+        },
+        {
+          key: "nama",
+          label: { ms: "Nama", en: "Name", es: "Nombre" },
+        },
+      ],
+      rows: [
+        {
+          id: "c7-ayam-kari",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ayam/Ayam_Kari.webp",
+                alt: { ms: "Kari Ayam", en: "Chicken Curry", es: "Curry De Pollo" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Kari Ayam", en: "Chicken Curry", es: "Curry De Pollo" }],
+          },
+        },
+        {
+          id: "c7-ayam-goreng",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ayam/Ayam_Goreng.webp",
+                alt: { ms: "Ayam Goreng", en: "Fried Chicken", es: "Pollo Frito" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Ayam Goreng", en: "Fried Chicken", es: "Pollo Frito" }],
+          },
+        },
+        {
+          id: "c7-ayam-sup",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ayam/Ayam_Sup.webp",
+                alt: { ms: "Ayam Sup", en: "Chicken Soup", es: "Sopa De Pollo" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Ayam Sup", en: "Chicken Soup", es: "Sopa De Pollo" }],
+          },
+        },
+        {
+          id: "c7-ayam-kicap",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ayam/Ayam_Masak_Kicap.webp",
+                alt: { ms: "Ayam Masak Kicap", en: "Soy Sauce Chicken", es: "Pollo Con Salsa De Soya" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Ayam Masak Kicap", en: "Soy Sauce Chicken", es: "Pollo Con Salsa De Soya" }],
+          },
+        },
+        {
+          id: "c7-ayam-bakar",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ayam/Ayam_Bakar.webp",
+                alt: { ms: "Ayam Bakar", en: "Grilled Chicken", es: "Pollo A La Parrilla" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Ayam Bakar", en: "Grilled Chicken", es: "Pollo A La Parrilla" }],
+          },
+        },
+        {
+          id: "c7-ayam-tom-yam",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ayam/Ayam_Tomyam.webp",
+                alt: { ms: "Tom Yam Ayam", en: "Tom Yam Chicken", es: "Pollo Tom Yam" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Tom Yam Ayam", en: "Tom Yam Chicken", es: "Pollo Tom Yam" }],
+          },
+        },
+        {
+          id: "c7-ayam-masak-merah",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ayam/Ayam_Masak_Merah.webp",
+                alt: { ms: "Ayam Masak Merah", en: "Red Chili Chicken", es: "Pollo En Salsa Roja" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Ayam Masak Merah", en: "Red Chili Chicken", es: "Pollo En Salsa Roja" }],
+          },
+        },
+        {
+          id: "c7-ayam-rendang",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ayam/Ayam_Rendang.webp",
+                alt: { ms: "Ayam Rendang", en: "Chicken Rendang", es: "Rendang De Pollo" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Ayam Rendang", en: "Chicken Rendang", es: "Rendang De Pollo" }],
+          },
+        },
+      ],
     },
     {
-      id: "s21-m3",
-      from: "ayub",
-      text: {
-        ms: "Siapa ini?",
-        en: "Who are these people?",
-        es: "¿Quiénes son?",
+      id: "c7-p3-lauk-ikan",
+      kind: "table",
+      title: {
+        ms: "Lauk Ikan",
+        en: "Fish Side Dishes",
+        es: "Guarniciones de Pescado",
       },
+      columns: [
+        {
+          key: "img",
+          label: { ms: "Gambar", en: "Image", es: "Imagen" },
+        },
+        {
+          key: "nama",
+          label: { ms: "Nama", en: "Name", es: "Nombre" },
+        },
+      ],
+      rows: [
+        {
+          id: "c7-ikan-goreng",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ikan/Ikan_Goreng.webp",
+                alt: { ms: "Ikan Goreng", en: "Fried Fish", es: "Pescado Frito" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Ikan Goreng", en: "Fried Fish", es: "Pescado Frito" }],
+          },
+        },
+        {
+          id: "c7-ikan-kukus",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ikan/Ikan_Kukus.webp",
+                alt: { ms: "Ikan Kukus", en: "Steamed Fish", es: "Pescado Al Vapor" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Ikan Kukus", en: "Steamed Fish", es: "Pescado Al Vapor" }],
+          },
+        },
+        {
+          id: "c7-ikan-rebus",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ikan/Ikan_Rebus.webp",
+                alt: { ms: "Ikan Rebus", en: "Boiled Fish", es: "Pescado Hervido" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Ikan Rebus", en: "Boiled Fish", es: "Pescado Hervido" }],
+          },
+        },
+        {
+          id: "c7-ikan-goreng-sambal",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ikan/Ikan_Goreng_Sambal.webp",
+                alt: { ms: "Ikan Goreng Sambal", en: "Fried Fish With Sambal", es: "Pescado Frito Con Sambal" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Ikan Goreng Sambal", en: "Fried Fish With Sambal", es: "Pescado Frito Con Sambal" }],
+          },
+        },
+        {
+          id: "c7-ikan-kari",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ikan/Ikan_Kari_Ikan.webp",
+                alt: { ms: "Kari Ikan", en: "Fish Curry", es: "Curry De Pescado" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Kari Ikan", en: "Fish Curry", es: "Curry De Pescado" }],
+          },
+        },
+        {
+          id: "c7-ikan-bakar",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/ikan/Ikan_Bakar.webp",
+                alt: { ms: "Ikan Bakar", en: "Grilled Fish", es: "Pescado A La Parrilla" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Ikan Bakar", en: "Grilled Fish", es: "Pescado A La Parrilla" }],
+          },
+        },
+      ],
     },
     {
-      id: "s21-m4",
-      from: "me",
-      text: {
-        ms: "Ini ibu dan bapa saya.",
-        en: "These are my mother and father.",
-        es: "Son mi madre y mi padre.",
+      id: "c7-p4-lauk-sotong",
+      kind: "table",
+      title: {
+        ms: "Lauk Sotong",
+        en: "Squid Side Dishes",
+        es: "Guarniciones de Calamar",
       },
+      columns: [
+        {
+          key: "img",
+          label: { ms: "Gambar", en: "Image", es: "Imagen" },
+        },
+        {
+          key: "nama",
+          label: { ms: "Nama", en: "Name", es: "Nombre" },
+        },
+      ],
+      rows: [
+        {
+          id: "c7-sotong-goreng",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/sotong/Sotong_Goreng.webp",
+                alt: { ms: "Sotong Goreng", en: "Fried Squid", es: "Calamar Frito" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Sotong Goreng", en: "Fried Squid", es: "Calamar Frito" }],
+          },
+        },
+        {
+          id: "c7-sotong-sambal",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/sotong/Sotong_Sambal.webp",
+                alt: { ms: "sambal sotong", en: "Sambal Squid", es: "Calamar Sambal" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "sambal sotong", en: "Sambal Squid", es: "Calamar Sambal" }],
+          },
+        },
+        {
+          id: "c7-sotong-kari",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/sotong/Sotong_Kari.webp",
+                alt: { ms: "kari sotong", en: "Squid Curry", es: "Curry De Calamar" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "kari sotong", en: "Squid Curry", es: "Curry De Calamar" }],
+          },
+        },
+        {
+          id: "c7-sotong-masak-lemak",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/sotong/Sotong_Masak_Lemak.webp",
+                alt: { ms: "Sotong Masak Lemak", en: "Squid In Coconut Gravy", es: "Calamar En Salsa De Coco" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Sotong Masak Lemak", en: "Squid In Coconut Gravy", es: "Calamar En Salsa De Coco" }],
+          },
+        },
+        {
+          id: "c7-sotong-bakar",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/sotong/Sotong_Bakar.webp",
+                alt: { ms: "Sotong Bakar", en: "Grilled Squid", es: "Calamar A La Parrilla" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Sotong Bakar", en: "Grilled Squid", es: "Calamar A La Parrilla" }],
+          },
+        },
+        {
+          id: "c7-sotong-celup-tepung",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/sotong/Sotong_Celup_Tepung.webp",
+                alt: { ms: "Sotong Celup Tepung", en: "Battered Fried Squid", es: "Calamar Rebozado" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Sotong Celup Tepung", en: "Battered Fried Squid", es: "Calamar Rebozado" }],
+          },
+        },
+      ],
     },
     {
-      id: "s21-m5",
-      from: "ayub",
-      text: {
-        ms: "Yang ini abang awak?",
-        en: "Is this your older brother?",
-        es: "¿Este es tu hermano mayor?",
+      id: "c7-p5-jenis-kuih",
+      kind: "table",
+      title: {
+        ms: "Makanan Tradisional / Kuih - Jenis Kuih",
+        en: "Traditional Food / Kuih - Types of Kuih",
+        es: "Comida Tradicional / Kuih - Tipos de Kuih",
       },
-    },
-    {
-      id: "s21-m6",
-      from: "me",
-      text: {
-        ms: "Ya, itu abang saya.",
-        en: "Yes, that is my older brother.",
-        es: "Sí, ese es mi hermano mayor.",
+      leadCard: {
+        heading: {
+          ms: "MAKANAN TRADISIONAL/KUIH",
+          en: "TRADITIONAL FOOD/KUIH",
+          es: "COMIDA TRADICIONAL/KUIH",
+        },
+        body: {
+          ms: "Kuih merupakan makanan tradisional rakyat Malaysia. Pelbagai jenis kuih terdapat di Malaysia.",
+          en: "Kuih are traditional foods of the Malaysian people. Many kinds of kuih are found in Malaysia.",
+          es: "Los kuih son comida tradicional del pueblo malasio. Hay muchos tipos de kuih en Malasia.",
+        },
       },
+      columns: [
+        {
+          key: "img",
+          label: { ms: "Gambar", en: "Image", es: "Imagen" },
+        },
+        {
+          key: "nama",
+          label: { ms: "Nama", en: "Name", es: "Nombre" },
+        },
+      ],
+      rows: [
+        {
+          id: "c7-kuih-karipap",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/kuih-muih/Kuih_Muih_Karipap.webp",
+                alt: { ms: "Karipap", en: "Curry Puff", es: "Empanadilla De Curry" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Karipap", en: "Curry Puff", es: "Empanadilla De Curry" }],
+          },
+        },
+        {
+          id: "c7-kuih-lapis",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/kuih-muih/Kuih_Muih_Lapis.webp",
+                alt: { ms: "Kuih Lapis", en: "Layer Kuih", es: "Kuih En Capas" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Kuih Lapis", en: "Layer Kuih", es: "Kuih En Capas" }],
+          },
+        },
+        {
+          id: "c7-kuih-sagu",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/kuih-muih/Kuih_Muih_Sagu.webp",
+                alt: { ms: "Kuih Sagu", en: "Sago Kuih", es: "Kuih De Sagu" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Kuih Sagu", en: "Sago Kuih", es: "Kuih De Sagu" }],
+          },
+        },
+        {
+          id: "c7-kuih-pelita",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/kuih-muih/Kuih_Muih_Pelita.webp",
+                alt: { ms: "Kuih Pelita", en: "Kuih Pelita", es: "Kuih Pelita" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Kuih Pelita", en: "Kuih Pelita", es: "Kuih Pelita" }],
+          },
+        },
+        {
+          id: "c7-kuih-onde-onde",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/kuih-muih/Kuih_Muih_Onde_Onde.webp",
+                alt: { ms: "Onde-Onde", en: "Onde-Onde", es: "Onde-Onde" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Onde-Onde", en: "Onde-Onde", es: "Onde-Onde" }],
+          },
+        },
+        {
+          id: "c7-kuih-apam",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/kuih-muih/Kuih_Muih_Apam.webp",
+                alt: { ms: "Apam", en: "Apam", es: "Apam" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Apam", en: "Apam", es: "Apam" }],
+          },
+        },
+        {
+          id: "c7-kuih-roti-jala",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/kuih-muih/Kuih_Muih_Roti_Jala.webp",
+                alt: { ms: "Roti Jala", en: "Net Crepe", es: "Crepa De Red" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Roti Jala", en: "Net Crepe", es: "Crepa De Red" }],
+          },
+        },
+        {
+          id: "c7-kuih-seri-muka",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/kuih-muih/Kuih_Muih_Seri_Muka.webp",
+                alt: { ms: "Seri Muka", en: "Seri Muka", es: "Seri Muka" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Seri Muka", en: "Seri Muka", es: "Seri Muka" }],
+          },
+        },
+        {
+          id: "c7-kuih-bingka",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/kuih-muih/Kuih_Muih_Bingka.webp",
+                alt: { ms: "Bingka", en: "Bingka", es: "Bingka" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Bingka", en: "Bingka", es: "Bingka" }],
+          },
+        },
+        {
+          id: "c7-kuih-nasi-manis",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/kuih-muih/Kuih_Muih_Nasi_Manis.webp",
+                alt: { ms: "Nasi Manis", en: "Sweet Sticky Rice Dessert", es: "Postre De Arroz Dulce" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Nasi Manis", en: "Sweet Sticky Rice Dessert", es: "Postre De Arroz Dulce" }],
+          },
+        },
+        {
+          id: "c7-kuih-lopes",
+          cells: {
+            img: [
+              {
+                kind: "image",
+                src: "/assets/chapters/ch7/kuih-muih/Kuih_Muih_Lopes.webp",
+                alt: { ms: "Lopes", en: "Lopes", es: "Lopes" },
+                w: 720,
+                h: 420,
+                className: "w-full h-auto max-h-64 object-contain rounded-xl",
+              },
+            ],
+            nama: [{ ms: "Lopes", en: "Lopes", es: "Lopes" }],
+          },
+        },
+      ],
     },
     {
-      id: "s21-m7",
-      from: "ayub",
-      text: {
-        ms: "Ini adik awak?",
-        en: "Is this your younger sibling?",
-        es: "¿Este es tu hermano menor?",
+      id: "c7-p6-chat-membeli-kuih",
+      kind: "chat",
+      youId: "me",
+      title: {
+        ms: "Situasi 2.1 Membeli Kuih-muih",
+        en: "Situation 2.1 Buying Kuih",
+        es: "Situacion 2.1 Comprar Kuih",
       },
-    },
-    {
-      id: "s21-m8",
-      from: "me",
-      text: {
-        ms: "Ya, ini adik saya.",
-        en: "Yes, this is my younger sibling.",
-        es: "Sí, este es mi hermano menor.",
+      context: {
+        ms: "Latar tempat: Pasar malam dan kolej kediaman.",
+        en: "Setting: Night market and residential college.",
+        es: "Lugar: Mercado nocturno y residencia universitaria.",
       },
+      participants: [
+        {
+          id: "azman",
+          name: { ms: "Azman", en: "Azman", es: "Azman" },
+        },
+        {
+          id: "me",
+          name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
+        },
+      ],
+      messages: [
+        {
+          id: "c7-71-m1",
+          from: "azman",
+          text: {
+            ms: "{currentUsername}, gerai kuih ini nampak meriah.",
+            en: "{currentUsername}, this kuih stall looks lively.",
+            es: "{currentUsername}, este puesto de kuih se ve animado.",
+          },
+        },
+        {
+          id: "c7-71-m2",
+          from: "me",
+          text: {
+            ms: "Betul. Kita pilih kuih untuk kawan-kawan di kolej.",
+            en: "True. Let's choose kuih for our friends at the college.",
+            es: "Es verdad. Escojamos kuih para nuestros amigos de la residencia.",
+          },
+        },
+        {
+          id: "c7-71-m3",
+          from: "azman",
+          text: {
+            ms: "Mereka suka kuih manis atau kuih masin?",
+            en: "Do they like sweet kuih or savory kuih?",
+            es: "¿Les gusta el kuih dulce o salado?",
+          },
+        },
+        {
+          id: "c7-71-m4",
+          from: "me",
+          text: {
+            ms: "Aina suka onde-onde. Ravi suka karipap.",
+            en: "Aina likes onde-onde. Ravi likes karipap.",
+            es: "A Aina le gusta el onde-onde. A Ravi le gusta el karipap.",
+          },
+        },
+        {
+          id: "c7-71-m5",
+          from: "azman",
+          text: {
+            ms: "Baik. Kita ambil enam onde-onde dan empat karipap.",
+            en: "Alright. Let's take six onde-onde and four karipap.",
+            es: "Bien. Tomemos seis onde-onde y cuatro karipap.",
+          },
+        },
+        {
+          id: "c7-71-m6",
+          from: "me",
+          text: {
+            ms: "Berapa harga satu karipap?",
+            en: "How much is one karipap?",
+            es: "¿Cuánto cuesta un karipap?",
+          },
+        },
+        {
+          id: "c7-71-m7",
+          from: "azman",
+          text: {
+            ms: "Pada papan tanda ini, satu karipap satu ringgit.",
+            en: "On this signboard, one karipap is one ringgit.",
+            es: "En este letrero, un karipap cuesta un ringgit.",
+          },
+        },
+        {
+          id: "c7-71-m8",
+          from: "me",
+          text: {
+            ms: "Onde-onde pula tiga biji dua ringgit.",
+            en: "As for onde-onde, three pieces are two ringgit.",
+            es: "El onde-onde cuesta dos ringgit por tres piezas.",
+          },
+        },
+      ],
     },
-  ],
-},
-
-
-
-    // Situation 2.2: introducing family
-
-{
-  id: "p6-situasi-2-2",
-  kind: "chat",
-  youId: "me",
-  title: {
-    ms: "Situasi 2.2: Memperkenalkan keluarga",
-    en: "Situation 2.2: Introducing family",
-    es: "Situación 2.2: Presentar a la familia",
-  },
-  context: {
-    ms: "Latar tempat: Di rumah Hassan",
-    en: "Setting: At Hassan’s house",
-    es: "Lugar: En la casa de Hassan",
-  },
-  participants: [
     {
-      id: "me",
-      name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
-    },
-    {
-      id: "ayub", // keep this id for your UI
-      name: { ms: "Hassan", en: "Hassan", es: "Hassan" },
-    },
-    {
-      id: "ibu",
-      name: { ms: "Ibu", en: "Mother", es: "Mamá" },
-      tone: "aux",
-    },
-    {
-      id: "bapa",
-      name: { ms: "Bapa", en: "Father", es: "Papá" },
-      tone: "aux",
-    },
-  ],
-  messages: [
-    {
-      id: "s22-m1",
-      from: "ayub",
-      text: {
-        ms: "Hai, {currentUsername}. Ini ibu saya.",
-        en: "Hi, {currentUsername}. This is my mother.",
-        es: "Hola, {currentUsername}. Esta es mi madre.",
+      id: "c7-p7-chat-beli-nasi-lauk",
+      kind: "chat",
+      youId: "me",
+      title: {
+        ms: "Situasi 2.2 Membeli Nasi dan Lauk-pauk",
+        en: "Situation 2.2 Buying Rice and Side Dishes",
+        es: "Situacion 2.2 Comprar Arroz y Guarniciones",
       },
-    },
-    {
-      id: "s22-m2",
-      from: "ibu",
-      text: {
-        ms: "Hai, {currentUsername}.",
-        en: "Hi, {currentUsername}.",
-        es: "Hola, {currentUsername}.",
+      context: {
+        ms: "Latar tempat: Sebuah restoran.",
+        en: "Setting: A restaurant.",
+        es: "Lugar: Un restaurante.",
       },
+      participants: [
+        {
+          id: "adam",
+          name: { ms: "Adam", en: "Adam", es: "Adam" },
+        },
+        {
+          id: "me",
+          name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
+        },
+      ],
+      messages: [
+        {
+          id: "c7-72-m1",
+          from: "adam",
+          text: { ms: "Hai, {currentUsername}.", en: "Hi, {currentUsername}.", es: "Hola, {currentUsername}." },
+        },
+        {
+          id: "c7-72-m2",
+          from: "me",
+          text: { ms: "Hai, Adam.", en: "Hi, Adam.", es: "Hola, Adam." },
+        },
+        {
+          id: "c7-72-m3",
+          from: "adam",
+          text: {
+            ms: "Di restoran sana ada menjual pelbagai jenis nasi dan lauk-pauk. Jom kita pergi tengok.",
+            en: "That restaurant over there sells many types of rice and side dishes. Lets go take a look.",
+            es: "Ese restaurante de alla vende muchos tipos de arroz y guarniciones. Vamos a ver.",
+          },
+        },
+        {
+          id: "c7-72-m6",
+          from: "adam",
+          text: {
+            ms: "Wah! Banyaknya pilihan. Ada nasi ayam, nasi lemak, nasi kerabu, nasi dagang dan nasi tomato.",
+            en: "Wow! So many choices. There is chicken rice, nasi lemak, nasi kerabu, nasi dagang and tomato rice.",
+            es: "¡Guau! Hay muchísimas opciones. Hay nasi ayam, nasi lemak, nasi kerabu, nasi dagang y nasi tomato.",
+          },
+        },
+        {
+          id: "c7-72-m7",
+          from: "me",
+          text: {
+            ms: "Saya hendak nasi kerabu.",
+            en: "I want nasi kerabu.",
+            es: "Quiero nasi kerabu.",
+          },
+        },
+        {
+          id: "c7-72-m8",
+          from: "adam",
+          text: {
+            ms: "Saya pula hendak nasi ayam.",
+            en: "I want chicken rice.",
+            es: "Yo quiero nasi ayam.",
+          },
+        },
+        {
+          id: "c7-72-m9",
+          from: "adam",
+          text: {
+            ms: "Tengok, ada lauk ayam masak merah, ikan goreng, daging bakar dan banyak lagi. Sungguh menyerlahkan.",
+            en: "Look, there is red chili chicken, fried fish, grilled beef and many more. It is really impressive.",
+            es: "Mira, hay pollo en salsa roja, pescado frito, carne asada y mucho mas. Realmente impresionante.",
+          },
+        },
+        {
+          id: "c7-72-m10",
+          from: "me",
+          text: { ms: "Betul tu.", en: "Thats true.", es: "Es cierto." },
+        },
+      ],
     },
     {
-      id: "s22-m3",
-      from: "me",
-      text: {
-        ms: "Hai, mak cik.",
-        en: "Hi, ma’am.",
-        es: "Hola, señora.",
+      id: "c7-p8-aktiviti-makan-apa",
+      kind: "typein",
+      title: {
+        ms: "Aktiviti: Makan Apa?",
+        en: "Activity: What to Eat?",
+        es: "Actividad: ¿Qué Comer?",
       },
-    },
-    {
-      id: "s22-m4",
-      from: "ayub",
-      text: {
-        ms: "Itu bapa saya.",
-        en: "That is my father.",
-        es: "Ese es mi padre.",
+      instructions: {
+        ms: "Lihat gambar dan taip nama makanan yang betul. Ada 4 soalan dalam satu halaman.",
+        en: "Look at each image and type the correct food name. There are 4 questions on this page.",
+        es: "Mira cada imagen y escribe el nombre correcto de la comida. Hay 4 preguntas en esta pagina.",
       },
+      caseSensitive: false,
+      items: [
+        {
+          id: "c7-activity-nasi-lemak",
+          n: 1,
+          scrambled: "",
+          answer: "nasi lemak",
+          meaning: { ms: "Nasi Lemak", en: "Nasi Lemak", es: "Nasi Lemak" },
+          image: {
+            src: "/assets/chapters/ch7/nasi/CH7_Nasi_Lemak.webp",
+            alt: "Nasi Lemak",
+            w: 720,
+            h: 420,
+            className: "w-full h-auto max-h-52 object-contain rounded-xl",
+          },
+        },
+        {
+          id: "c7-activity-ayam-goreng",
+          n: 2,
+          scrambled: "",
+          answer: "ayam goreng",
+          meaning: { ms: "Ayam Goreng", en: "Fried Chicken", es: "Pollo Frito" },
+          image: {
+            src: "/assets/chapters/ch7/ayam/Ayam_Goreng.webp",
+            alt: "Ayam Goreng",
+            w: 720,
+            h: 420,
+            className: "w-full h-auto max-h-52 object-contain rounded-xl",
+          },
+        },
+        {
+          id: "c7-activity-ikan-bakar",
+          n: 3,
+          scrambled: "",
+          answer: "ikan bakar",
+          meaning: { ms: "Ikan Bakar", en: "Grilled Fish", es: "Pescado A La Parrilla" },
+          image: {
+            src: "/assets/chapters/ch7/ikan/Ikan_Bakar.webp",
+            alt: "Ikan Bakar",
+            w: 720,
+            h: 420,
+            className: "w-full h-auto max-h-52 object-contain rounded-xl",
+          },
+        },
+        {
+          id: "c7-activity-kuih-lapis",
+          n: 4,
+          scrambled: "",
+          answer: "kuih lapis",
+          meaning: { ms: "Kuih Lapis", en: "Layered Kuih", es: "Kuih En Capas" },
+          image: {
+            src: "/assets/chapters/ch7/kuih-muih/Kuih_Muih_Lapis.webp",
+            alt: "Kuih Lapis",
+            w: 720,
+            h: 420,
+            className: "w-full h-auto max-h-52 object-contain rounded-xl",
+          },
+        },
+      ],
     },
-    {
-      id: "s22-m5",
-      from: "bapa",
-      text: {
-        ms: "Hai, {currentUsername}.",
-        en: "Hi, {currentUsername}.",
-        es: "Hola, {currentUsername}.",
-      },
-    },
-    {
-      id: "s22-m6",
-      from: "me",
-      text: {
-        ms: "Hai, pak cik.",
-        en: "Hi, sir.",
-        es: "Hola, señor.",
-      },
-    },
-    {
-      id: "s22-m7",
-      from: "ayub",
-      text: {
-        ms: "Ini kakak saya, Sara, dan adik saya, Lina.",
-        en: "This is my older sister, Sara, and my younger sister, Lina.",
-        es: "Esta es mi hermana mayor, Sara, y mi hermana menor, Lina.",
-      },
-    },
-    {
-      id: "s22-m8",
-      from: "me",
-      text: {
-        ms: "Hai, Sara. Hai, Lina.",
-        en: "Hi, Sara. Hi, Lina.",
-        es: "Hola, Sara. Hola, Lina.",
-      },
-    },
-  ],
-},
-
-// Situation 2.3: family names used at home
-
-{
-  id: "p7-situasi-2-3",
-  kind: "chat",
-  youId: "me",
-  title: {
-    ms: "Situasi 2.3: Panggilan keluarga di rumah",
-    en: "Situation 2.3: Family names used at home",
-    es: "Situación 2.3: Nombres familiares usados en casa",
-  },
-  context: {
-    ms: "Latar tempat: Di rumah {currentUsername}",
-    en: "Setting: At {currentUsername}’s house",
-    es: "Lugar: En la casa de {currentUsername}",
-  },
-  participants: [
-    {
-      id: "me",
-      name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
-    },
-    {
-      id: "muthu",
-      name: { ms: "Muthu", en: "Muthu", es: "Muthu" },
-    },
-    {
-      id: "ayub", // keep this id for your UI
-      name: { ms: "Ibu", en: "Mother", es: "Mamá" },
-      tone: "aux",
-      alignment: "learner-side",
-    },
-  ],
-  messages: [
-  {
-    id: "s23-m1",
-    from: "me",
-    text: {
-      ms: "Mak, ini kawan saya, Muthu.",
-      en: "Mum, this is my friend, Muthu.",
-      es: "Mamá, este es mi amigo Muthu.",
-    },
-  },
-  {
-    id: "s23-m2",
-    from: "ayub",
-    text: {
-      ms: "Hai, Muthu.",
-      en: "Hi, Muthu.",
-      es: "Hola, Muthu.",
-    },
-  },
-  {
-    id: "s23-m3",
-    from: "muthu",
-    text: {
-      ms: "Hai, mak cik.",
-      en: "Hi, ma’am.",
-      es: "Hola, señora.",
-    },
-  },
-  {
-    id: "s23-m4",
-    from: "ayub",
-    text: {
-      ms: "{currentUsername}, ayah ada di ruang tamu.",
-      en: "{currentUsername}, Dad is in the living room.",
-      es: "{currentUsername}, papá está en la sala.",
-    },
-  },
-  {
-    id: "s23-m5",
-    from: "muthu",
-    text: {
-      ms: "Awak panggil bapa awak “ayah”?",
-      en: "Do you call your father ayah?",
-      es: "¿Llamas ayah a tu padre?",
-    },
-  },
-  {
-    id: "s23-m6",
-    from: "me",
-    text: {
-      ms: "Ya. Saya panggil bapa saya “ayah”.",
-      en: "Yes. I call my father ayah.",
-      es: "Sí. Llamo ayah a mi padre.",
-    },
-  },
-  {
-    id: "s23-m7",
-    from: "muthu",
-    text: {
-      ms: "Dan awak panggil ibu awak “mak”?",
-      en: "And do you call your mother mak?",
-      es: "¿Y llamas mak a tu madre?",
-    },
-  },
-  {
-    id: "s23-m8",
-    from: "me",
-    text: {
-      ms: "Ya. Di rumah, saya panggil ibu saya “mak”.",
-      en: "Yes. At home, I call my mother mak.",
-      es: "Sí. En casa, llamo mak a mi madre.",
-    },
-  },
-],
-},
-
-
-
-    // -------------------------
-    // Page 5: Dragfill exercise
-    // -------------------------
-    ///Latihan 1
-    {
-  id: "p-latihan-1",
-  kind: "typein",
-  title: { ms: "Latihan 1", en: "Exercise 1", es: "Ejercicio 1" },
-  instructions: {
-    ms: "Susun huruf menjadi perkataan keluarga yang betul. Taip jawapan.",
-    en: "Unscramble the letters to make the correct family word. Type your answer.",
-    es: "Ordena las letras para formar la palabra familiar correcta. Escribe la respuesta.",
-  },
-  caseSensitive: false,
-  items: [
-    {
-      id: "l1-1",
-      n: 1,
-      scrambled: "bnaag",
-      answer: "abang",
-      meaning: { ms: "abang", en: "older brother", es: "hermano mayor" },
-    },
-    {
-      id: "l1-2",
-      n: 2,
-      scrambled: "ubi",
-      answer: "ibu",
-      meaning: { ms: "ibu", en: "mother", es: "madre" },
-    },
-    {
-      id: "l1-3",
-      n: 3,
-      scrambled: "apba",
-      answer: "bapa",
-      meaning: { ms: "bapa", en: "father", es: "padre" },
-    },
-    {
-      id: "l1-4",
-      n: 4,
-      scrambled: "akkak",
-      answer: "kakak",
-      meaning: { ms: "kakak", en: "older sister", es: "hermana mayor" },
-    },
-    {
-      id: "l1-5",
-      n: 5,
-      scrambled: "iakd",
-      answer: "adik",
-      meaning: { ms: "adik", en: "younger sibling", es: "hermano o hermana menor" },
-    },
-  ],
-},
-
-
-    /// Latihan 2: Seret dan Isi Tempat Kosong (Family member introduction)
-{
-  id: "p-latihan-2",
-  kind: "boxdrag",
-  title: { ms: "Latihan 2", en: "Exercise 2", es: "Ejercicio 2" },
-  instructions: {
-    ms: "Lengkapkan carta keluarga terdekat di bawah.",
-    en: "Complete the immediate-family chart below.",
-    es: "Completa el cuadro de la familia inmediata.",
-  },
-  showFamilyLegend: true,
-  options: [
-    { id: "saya", ms: "saya", en: "me / I", es: "yo" },
-    { id: "ibu", ms: "ibu", en: "mother", es: "madre" },
-    { id: "kakak", ms: "kakak", en: "older sister", es: "hermana mayor" },
-  ],
-  nodes: [
-    {
-      id: "n-bapa",
-      shape: "rect",
-      role: "male",
-      position: "topLeft",
-      fixedText: { ms: "bapa", en: "father", es: "padre" },
-    },
-    {
-      id: "n-ibu",
-      shape: "oval",
-      role: "female",
-      position: "topRight",
-      correctOptionId: "ibu",
-    },
-    {
-      id: "n-abang",
-      shape: "rect",
-      role: "male",
-      position: "bottomLeft",
-      fixedText: { ms: "abang", en: "older brother", es: "hermano mayor" },
-    },
-    {
-      id: "n-saya",
-      shape: "rect",
-      role: "self",
-      position: "bottomCenter",
-      correctOptionId: "saya",
-    },
-    {
-      id: "n-kakak",
-      shape: "oval",
-      role: "female",
-      position: "bottomRight",
-      correctOptionId: "kakak",
-    },
-  ],
-},
-
-/// Latihan 3: immediate-family recap
-{
-  id: "p-latihan-2-advanced",
-  kind: "boxdrag",
-  title: { ms: "Latihan 3", en: "Exercise 3", es: "Ejercicio 3" },
-  instructions: {
-    ms: "Lengkapkan carta keluarga dengan perkataan yang telah dipelajari.",
-    en: "Complete the family chart with the words you have learned.",
-    es: "Completa el cuadro familiar con las palabras que has aprendido.",
-  },
-
-  compact: true,
-  showFamilyLegend: true,
-
-  options: [
-    { id: "saya", ms: "saya", en: "me / I", es: "yo" },
-    { id: "ibu", ms: "ibu", en: "mother", es: "madre" },
-    { id: "bapa", ms: "bapa", en: "father", es: "padre" },
-    { id: "adik", ms: "adik", en: "younger sibling", es: "hermano o hermana menor" },
-    { id: "kakak", ms: "kakak", en: "older sister", es: "hermana mayor" },
-  ],
-
-  // Nodes: percent-based positions for the immediate-family recap
-  nodes: [
-    // Layer 1
-    { id: "n-bapa", shape: "rect", role: "male", xPct: 42, yPct: 15, correctOptionId: "bapa" },
-    { id: "n-ibu", shape: "oval", role: "female", xPct: 58, yPct: 15, correctOptionId: "ibu" },
-
-    // Layer 2
-    {
-      id: "n-abang",
-      shape: "rect",
-      role: "male",
-      xPct: 20,
-      yPct: 62,
-      fixedText: { ms: "abang", en: "older brother", es: "hermano mayor" },
-    },
-    { id: "n-adik", shape: "rect", role: "male", xPct: 40, yPct: 62, correctOptionId: "adik" },
-    { id: "n-saya", shape: "rect", role: "self", xPct: 60, yPct: 62, correctOptionId: "saya" },
-    { id: "n-kakak", shape: "oval", role: "female", xPct: 80, yPct: 62, correctOptionId: "kakak" },
-  ],
-
-  // Connector lines (percent coords, rendered into SVG viewBox)
-  lines: [
-    // bapa—ibu spouse line
-    { x1: 42, y1: 15, x2: 58, y2: 15 },
-
-    // trunk down from parents
-    { x1: 50, y1: 15, x2: 50, y2: 30 },
-    { x1: 20, y1: 30, x2: 80, y2: 30 },
-
-    // arrows to immediate-family children
-    { x1: 20, y1: 30, x2: 20, y2: 52, arrow: true },
-    { x1: 40, y1: 30, x2: 40, y2: 52, arrow: true },
-    { x1: 60, y1: 30, x2: 60, y2: 52, arrow: true },
-    { x1: 80, y1: 30, x2: 80, y2: 52, arrow: true },
-  ],
-},
-
-
   ],
 };

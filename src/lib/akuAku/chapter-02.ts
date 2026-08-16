@@ -1,22 +1,25 @@
-import type { AkuAkuDialog } from "./types.ts";
+// src/lib/akuAku/chapter-07.ts
 
-export const chapter02Intro: AkuAkuDialog[] = [
+export const chapter02Intro = [
   {
-    id: "bm2-intro-1",
+    id: "c7-intro-outcomes",
     ms:
-      "Hasil pembelajaran, anda dapat belajar,\n" +
-      "• Keluarga asas (bapa, ibu, abang, kakak, adik)\n" +
-      "• Panggilan biasa ayah dan mak\n" +
-      "• Cara memperkenalkan keluarga terdekat",
+      "Anda akan dapat belajar mengenai:\n" +
+      "✓ Mengenal nasi, lauk-pauk, dan kuih-muih di Malaysia.\n" +
+      "✓ Menyebut jenis makanan dan kuih-muih.\n" +
+      "✓ Berbual berkenaan makanan di Malaysia.\n" +
+      "✓ Boleh membuat pesanan di kedai makan.",
     en:
-      "Learning outcomes — you will learn:\n" +
-      "• Core family (father, mother, older brother/sister, younger sibling)\n" +
-      "• The common home terms ayah and mak\n" +
-      "• How to introduce close family members",
+      "You will learn about:\n" +
+      "✓ Recognising rice, dishes, and snacks in Malaysia.\n" +
+      "✓ Naming types of food and kuih-muih.\n" +
+      "✓ Talking about food in Malaysia.\n" +
+      "✓ Ordering at a local eatery.",
     es:
-      "Resultados de aprendizaje — aprenderás:\n" +
-      "• Familia básica (padre, madre, hermano/a mayor, hermano/a menor)\n" +
-      "• Los términos familiares comunes ayah y mak\n" +
-      "• Cómo presentar a tu familia cercana",
+      "Aprenderás sobre:\n" +
+      "✓ Reconocer arroz, platos y dulces en Malasia.\n" +
+      "✓ Nombrar tipos de alimentos y kuih-muih.\n" +
+      "✓ Conversar sobre comida en Malasia.\n" +
+      "✓ Pedir comida en un restaurante.",
   },
 ];

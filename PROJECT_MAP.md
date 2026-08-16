@@ -351,8 +351,8 @@ src/components/game/ArahJalanDynamicMap.tsx
 src/components/game/ArahJalanPracticeCard.tsx
 src/components/game/BackgroundAudio.tsx
 src/components/game/BoxDragCard.tsx
-src/components/game/Chapter03CounterActionsCard.tsx
-src/components/game/Chapter03CountersIntroCard.tsx
+src/components/game/ChapterCounterActionsCard.tsx
+src/components/game/ChapterCountersIntroCard.tsx
 src/components/game/ChapterTitleHeader.tsx
 src/components/game/ChatCard.tsx
 src/components/game/CrosswordCard.tsx
@@ -390,6 +390,7 @@ src/lib/arahJalan/items.ts
 src/lib/arahJalan/locations.ts
 src/lib/arahJalan/streakScoring.ts
 src/lib/backgroundAudio.ts
+src/lib/chapterProgression.ts
 src/lib/chapterUpdates.ts
 src/lib/chapters/AGENTS.md
 src/lib/chapters/chapter-01.ts
@@ -432,6 +433,7 @@ src/server/sessionRepo.ts
 src/server/userRepo.ts
 tests/arahJalan/board.test.ts
 tests/arahJalan/highscores.test.ts
+tests/chapterProgression.test.ts
 tests/highscores/canonical.test.ts
 tests/release/release.test.mjs
 tests/security/apiAuthFailureContracts.test.ts

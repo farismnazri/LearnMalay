@@ -1,25 +1,25 @@
-// src/lib/akuAku/chapter-07.ts
+import type { AkuAkuDialog } from "./types";
 
-export const chapter07Intro = [
+export const chapter07Intro: AkuAkuDialog[] = [
   {
-    id: "c7-intro-outcomes",
+    id: "bm3-intro-1",
     ms:
-      "Anda akan dapat belajar mengenai:\n" +
-      "✓ Mengenal nasi, lauk-pauk, dan kuih-muih di Malaysia.\n" +
-      "✓ Menyebut jenis makanan dan kuih-muih.\n" +
-      "✓ Berbual berkenaan makanan di Malaysia.\n" +
-      "✓ Boleh membuat pesanan di kedai makan.",
+      "Hasilnya, anda akan dapat belajar,\n" +
+      "• Menyapa petugas kaunter dengan ringkas\n" +
+      "• Bertanya dan meminta bantuan\n" +
+      "• Menyatakan keperluan mudah\n" +
+      "• Mengucapkan terima kasih",
     en:
-      "You will learn about:\n" +
-      "✓ Recognising rice, dishes, and snacks in Malaysia.\n" +
-      "✓ Naming types of food and kuih-muih.\n" +
-      "✓ Talking about food in Malaysia.\n" +
-      "✓ Ordering at a local eatery.",
+      "Learning outcomes — you will learn:\n" +
+      "• Greet counter staff simply\n" +
+      "• Ask a question and request help\n" +
+      "• State a simple need\n" +
+      "• Say thank you",
     es:
-      "Aprenderás sobre:\n" +
-      "✓ Reconocer arroz, platos y dulces en Malasia.\n" +
-      "✓ Nombrar tipos de alimentos y kuih-muih.\n" +
-      "✓ Conversar sobre comida en Malasia.\n" +
-      "✓ Pedir comida en un restaurante.",
+      "Resultados de aprendizaje — aprenderás:\n" +
+      "• Saludar al personal del mostrador de forma sencilla\n" +
+      "• Hacer una pregunta y pedir ayuda\n" +
+      "• Expresar una necesidad sencilla\n" +
+      "• Dar las gracias",
   },
 ];

@@ -1,25 +1,22 @@
-import type { AkuAkuDialog } from "./types";
+import type { AkuAkuDialog } from "./types.ts";
 
 export const chapter03Intro: AkuAkuDialog[] = [
   {
-    id: "bm3-intro-1",
+    id: "bm2-intro-1",
     ms:
-      "Hasilnya, anda akan dapat belajar,\n" +
-      "• Menyapa petugas kaunter dengan ringkas\n" +
-      "• Bertanya dan meminta bantuan\n" +
-      "• Menyatakan keperluan mudah\n" +
-      "• Mengucapkan terima kasih",
+      "Hasil pembelajaran, anda dapat belajar,\n" +
+      "• Keluarga asas (bapa, ibu, abang, kakak, adik)\n" +
+      "• Panggilan biasa ayah dan mak\n" +
+      "• Cara memperkenalkan keluarga terdekat",
     en:
       "Learning outcomes — you will learn:\n" +
-      "• Greet counter staff simply\n" +
-      "• Ask a question and request help\n" +
-      "• State a simple need\n" +
-      "• Say thank you",
+      "• Core family (father, mother, older brother/sister, younger sibling)\n" +
+      "• The common home terms ayah and mak\n" +
+      "• How to introduce close family members",
     es:
       "Resultados de aprendizaje — aprenderás:\n" +
-      "• Saludar al personal del mostrador de forma sencilla\n" +
-      "• Hacer una pregunta y pedir ayuda\n" +
-      "• Expresar una necesidad sencilla\n" +
-      "• Dar las gracias",
+      "• Familia básica (padre, madre, hermano/a mayor, hermano/a menor)\n" +
+      "• Los términos familiares comunes ayah y mak\n" +
+      "• Cómo presentar a tu familia cercana",
   },
 ];

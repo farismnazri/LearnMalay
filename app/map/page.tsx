@@ -15,6 +15,7 @@ import {
 import { isChapterUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { hasChapterUpdate } from "@/lib/chapterUpdates";
 import { canPersistProgress, canUnlockEverything, isAdmin, isDemo } from "@/lib/userCapabilities";
+import { getChapterWorldLevel } from "@/lib/chapterProgression";
 
 type ChapterCard = {
   chapter: number; // 1..11
@@ -24,18 +25,12 @@ type ChapterCard = {
 };
 
 const CHAPTERS_WITH_MINIGAME_UNLOCK = new Set<number>(
-  Object.values(MINIGAME_PREREQUISITES),
+  [...Object.values(MINIGAME_PREREQUISITES), MINIGAME_PREREQUISITES["arah-jalan"]],
 );
-
-function chapterToWorldLevel(chapter: number) {
-  if (chapter <= 4) return { world: 1, level: chapter };
-  if (chapter <= 8) return { world: 2, level: chapter - 4 };
-  return { world: 3, level: chapter - 8 };
-}
 
 function buildChapters(): ChapterCard[] {
   return CHAPTER_SUMMARIES.map((chapter) => {
-    const wl = chapterToWorldLevel(chapter.id);
+    const wl = getChapterWorldLevel(chapter.id);
     return {
       chapter: chapter.id,
       world: wl.world,

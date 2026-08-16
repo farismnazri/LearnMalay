@@ -12,6 +12,7 @@ import StylizedTitle from "@/components/game/StylizedTitle";
 import {
   getLatestUnlockedMinigameId,
   hasCompletedChapter,
+  MINIGAME_PREREQUISITES,
 } from "@/lib/minigameUnlocks";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
@@ -51,7 +52,7 @@ const GAMES: MiniGame[] = [
       es: "Escribe números en malayo. Niveles + vidas.",
     },
     href: "/minigames/numbers",
-    requiredChapter: 1,
+    requiredChapter: MINIGAME_PREREQUISITES.numbers,
     backgroundSrc: "/assets/backgrounds/Nombor.webp",
   },
   {
@@ -63,7 +64,7 @@ const GAMES: MiniGame[] = [
       es: "Empareja BM con EN/ES. Rápido y divertido.",
     },
     href: "/minigames/word-match",
-    requiredChapter: 2,
+    requiredChapter: MINIGAME_PREREQUISITES["word-match"],
     backgroundSrc: "/assets/backgrounds/PadanPerkataan.webp",
   },
   {
@@ -75,7 +76,7 @@ const GAMES: MiniGame[] = [
       es: "Encuentra palabras en una cuadrícula. Elige dificultad y tema.",
     },
     href: "/minigames/wordsearch",
-    requiredChapter: 3,
+    requiredChapter: MINIGAME_PREREQUISITES.wordsearch,
     backgroundSrc: "/assets/backgrounds/CariPerkataan.webp",
   },
   {
@@ -87,7 +88,7 @@ const GAMES: MiniGame[] = [
       es: "Practica pagar y devolver cambio con moneda malasia.",
     },
     href: "/minigames/currency",
-    requiredChapter: 5,
+    requiredChapter: MINIGAME_PREREQUISITES.currency,
     backgroundSrc: "/assets/backgrounds/WangMalaysia.webp",
   },
   {
@@ -99,7 +100,7 @@ const GAMES: MiniGame[] = [
       es: "Adivina el nombre de la comida por imagenes. 5 vidas, elige la respuesta correcta.",
     },
     href: "/minigames/makan-apa",
-    requiredChapter: 7,
+    requiredChapter: MINIGAME_PREREQUISITES["makan-apa"],
     backgroundSrc: "/assets/backgrounds/MakanApa.webp",
   },
   {
@@ -111,7 +112,7 @@ const GAMES: MiniGame[] = [
       es: "Encuentra artículos en la escena del mercado y paga con tu lista.",
     },
     href: "/minigames/misi-membeli",
-    requiredChapter: 11,
+    requiredChapter: MINIGAME_PREREQUISITES["misi-membeli"],
     backgroundSrc: "/assets/backgrounds/misi_membeli.webp",
   },
   {
@@ -123,7 +124,7 @@ const GAMES: MiniGame[] = [
       es: "Construye comandos de giro para llegar al destino en un mapa fijo.",
     },
     href: "/minigames/arah-jalan",
-    requiredChapter: 4,
+    requiredChapter: MINIGAME_PREREQUISITES["arah-jalan"],
     backgroundSrc: "/assets/backgrounds/ArahJalan.webp",
   },
 ];
@@ -331,7 +332,7 @@ export default function MiniGamesHubPage() {
 
         {/* game grid */}
         <section className="grid grid-cols-1 gap-3 phone-lg:grid-cols-2 tablet:grid-cols-3">
-          {GAMES.map((g) => (
+          {[...GAMES].sort((a, b) => a.requiredChapter - b.requiredChapter).map((g) => (
             <GameCard key={g.id} g={g} lang={lang} user={user} latestUnlockedId={latestUnlockedId} />
           ))}
         </section>

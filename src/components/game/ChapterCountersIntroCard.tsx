@@ -70,7 +70,7 @@ const ADDITIONAL_CARD_TONES = [
   { border: "border-[#d8b9f1]", badge: "bg-[#8456d8]", iconWrap: "bg-[#8cc72d]", tint: "from-[#fcf9ff] to-[#f9f3ff]" },
 ] as const;
 
-export default function Chapter03CountersIntroCard({
+export default function ChapterCountersIntroCard({
   page,
   lang,
 }: {

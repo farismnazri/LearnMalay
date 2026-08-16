@@ -8,14 +8,8 @@ import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import { APP_VERSION_LABEL } from "@/lib/appVersion";
+import { getChapterWorldLevel } from "@/lib/chapterProgression";
 
-
-function chapterToWorldLevel(chapter: number) {
-  // chapter = book "Tema" index (1-based)
-  if (chapter <= 4) return { world: 1, level: chapter };
-  if (chapter <= 8) return { world: 2, level: chapter - 4 };
-  return { world: 3, level: Math.max(1, Math.min(3, chapter - 8)) };
-}
 
 
 export default function TitleScreen() {
@@ -32,7 +26,7 @@ export default function TitleScreen() {
 
   const wl = useMemo(() => {
     const chapter = user?.progress.chapter ?? 1;
-    return chapterToWorldLevel(chapter);
+    return getChapterWorldLevel(chapter);
   }, [user]);
   const plankBgStyle = { backgroundImage: "url('/assets/borders/woodplankuser.webp')" };
 

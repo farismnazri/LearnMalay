@@ -6,8 +6,8 @@ const totalImageClass = "w-full h-auto object-contain";
 
 export const chapter05: ChapterContent = {
   id: 5,
-  revision: 5,
-  title: { ms: "Nombor, Angka & Alamat", en: "Numbers & Addresses", es: "Números y direcciones" },
+  revision: 6,
+  title: { ms: "Nombor / Wang / Alamat", en: "Numbers / Money / Addresses", es: "Números / Dinero / Direcciones" },
   pages: [
     {
       id: "c5-p1-nombor",

@@ -17,6 +17,11 @@ import {
   type ProfileAvatarId,
 } from "@/lib/profileAvatars";
 import { CHAPTERS, MAX_CHAPTER_ID, MIN_CHAPTER_ID, getChapterById } from "@/lib/chapters";
+import {
+  CHAPTER_PROGRESSION_VERSION,
+  migrateLegacyCompletedChapterRevisions,
+  migrateLegacyProgressChapter,
+} from "@/lib/chapterProgression";
 import { USERNAME_SAFETY_REJECTION_MESSAGE, validateUsernameSafety } from "@/lib/usernameSafety";
 
 const MAX_PROGRESS_PAGE = 10_000;
@@ -182,6 +187,7 @@ async function ensureAdmin() {
       progress_chapter: 11,
       progress_page: 1,
       completed_chapter_revisions: completedRevisionBaseline(11),
+      chapter_progression_version: CHAPTER_PROGRESSION_VERSION,
       password_hash: pw.hash,
       password_salt: pw.salt,
       password_algo: pw.algo,
@@ -245,6 +251,7 @@ async function ensureDemoAccount() {
       progress_chapter: 11,
       progress_page: 1,
       completed_chapter_revisions: completedRevisionBaseline(11),
+      chapter_progression_version: CHAPTER_PROGRESSION_VERSION,
       password_hash: pw.hash,
       password_salt: pw.salt,
       password_algo: pw.algo,
@@ -353,6 +360,38 @@ async function ensureCompletedChapterRevisionBackfill() {
   }
 }
 
+async function ensureChapterProgressionMigration() {
+  const { users } = await getCollections();
+  const rows = await users.find({}).toArray();
+
+  for (const row of rows) {
+    if (row.chapter_progression_version === CHAPTER_PROGRESSION_VERSION) continue;
+
+    const legacyProgressChapter = Number(row.progress_chapter) || MIN_CHAPTER_ID;
+    const migratedProgressChapter = migrateLegacyProgressChapter(legacyProgressChapter);
+    const updates: Partial<UserDocument> = {
+      chapter_progression_version: CHAPTER_PROGRESSION_VERSION,
+      progress_chapter: migratedProgressChapter,
+    };
+
+    if (migratedProgressChapter !== legacyProgressChapter) {
+      updates.progress_page = 1;
+    }
+
+    if (
+      row.completed_chapter_revisions &&
+      typeof row.completed_chapter_revisions === "object" &&
+      !Array.isArray(row.completed_chapter_revisions)
+    ) {
+      updates.completed_chapter_revisions = migrateLegacyCompletedChapterRevisions(
+        normalizeCompletedChapterRevisions(row.completed_chapter_revisions),
+      );
+    }
+
+    await users.updateOne({ id: row.id }, { $set: updates });
+  }
+}
+
 async function ensureUserDataState() {
   if (userDataStateReady) return;
 
@@ -362,6 +401,7 @@ async function ensureUserDataState() {
       await ensureDemoAccount();
       await ensureAuthBootstrap();
       await ensureAvatarBackfill();
+      await ensureChapterProgressionMigration();
       await ensureCompletedChapterRevisionBackfill();
     })();
   }
@@ -437,6 +477,7 @@ export async function createUserAccount(input: {
       progress_chapter: 1,
       progress_page: 1,
       completed_chapter_revisions: {},
+      chapter_progression_version: CHAPTER_PROGRESSION_VERSION,
       password_hash: pw.hash,
       password_salt: pw.salt,
       password_algo: pw.algo,

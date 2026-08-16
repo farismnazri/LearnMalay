@@ -30,6 +30,7 @@ import {
   isPrivilegedAccountId,
 } from "@/lib/userCapabilities";
 import { USERNAME_SAFETY_REJECTION_MESSAGE, validateUsernameSafety } from "@/lib/usernameSafety";
+import { getChapterWorldLevel } from "@/lib/chapterProgression";
 
 type AuthMode = "login" | "create";
 type UiLang = "ms" | "en" | "es";
@@ -82,12 +83,6 @@ function isAdminName(name: string) {
 function getErrorMessage(error: unknown, fallback: string) {
   if (error instanceof Error && error.message) return error.message;
   return fallback;
-}
-
-function chapterToWorldLevel(chapter: number) {
-  if (chapter <= 4) return { world: 1, level: chapter };
-  if (chapter <= 8) return { world: 2, level: chapter - 4 };
-  return { world: 3, level: Math.max(1, Math.min(3, chapter - 8)) };
 }
 
 export default function UserSelectPage() {
@@ -178,7 +173,7 @@ export default function UserSelectPage() {
   const displayedError = err ?? usernameSafetyMessage;
   const worldLevel = useMemo(() => {
     if (!me) return { world: "-", level: "-" };
-    return chapterToWorldLevel(me.progress.chapter);
+    return getChapterWorldLevel(me.progress.chapter);
   }, [me]);
   const progressPct = useMemo(() => {
     if (!me) return 0;

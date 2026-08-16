@@ -97,7 +97,7 @@ const CARD_TONES = [
   },
 ] as const;
 
-export default function Chapter03CounterActionsCard({
+export default function ChapterCounterActionsCard({
   page,
   lang,
 }: {

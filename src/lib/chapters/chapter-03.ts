@@ -1,350 +1,120 @@
 import type { ChapterContent } from "./types";
+
 export const chapter03: ChapterContent = {
   id: 3,
   revision: 5,
-  title: { ms: "Kaunter", en: "Counter", es: "Mostrador" },
+  title: { ms: "Keluarga", en: "Family", es: "Familia" },
 
-
-pages: [
-    // Page 1 (KAUNTER + Jenis Kaunter di Malaysia)
-// Page 1: JENIS KAUNTER DI MALAYSIA
-{
-  id: "p1-jenis-kaunter",
-  kind: "intro",
-  sections: [
+  pages: [
+    // -------------------------
+    // Page 1: immediate family
+    // -------------------------
     {
-      kind: "list",
-      id: "kaunter-utama",
+      id: "p2-asas",
+      kind: "family",
       title: {
-        ms: "Kaunter penting",
-        en: "Important counters",
-        es: "Mostradores importantes",
+        ms: "Keluarga terdekat",
+        en: "Close family",
+        es: "Familia cercana",
       },
-      columns: 2,
-      listDisplay: "compactImageList",
-      items: [
+      familyImageSrc: "/assets/chapters/ch2/ch2-keluarga.webp",
+      familyImageAlt: {
+        ms: "Gambar keluarga terdekat",
+        en: "Close family portrait",
+        es: "Retrato de la familia cercana",
+      },
+      people: [
         {
-          id: "r-kaunter-pertanyaan",
-          ms: "Kaunter pertanyaan — untuk bertanya atau meminta bantuan",
-          en: "Information counter — to ask a question or request help",
-          es: "Mostrador de información — para preguntar o pedir ayuda",
-          imageSrc: "/assets/chapters/ch3/ch3_Icon_Pertanyaan.webp",
+          id: "datuk",
+          label: { ms: "datuk", en: "grandfather", es: "abuelo" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-datuk.webp",
           imageAlt: {
-            ms: "Ikon kaunter pertanyaan",
-            en: "Information counter icon",
-            es: "Icono del mostrador de información",
+            ms: "Datuk",
+            en: "Grandfather",
+            es: "Abuelo",
           },
         },
         {
-          id: "r-kaunter-tiket",
-          ms: "Kaunter tiket — untuk membeli tiket",
-          en: "Ticket counter — to buy tickets",
-          es: "Mostrador de boletos — para comprar boletos",
-          imageSrc: "/assets/chapters/ch3/ch3_Icon_Bas.webp",
+          id: "nenek",
+          label: { ms: "nenek", en: "grandmother", es: "abuela" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-nenek.webp",
           imageAlt: {
-            ms: "Ikon kaunter tiket",
-            en: "Ticket counter icon",
-            es: "Icono del mostrador de boletos",
+            ms: "Nenek",
+            en: "Grandmother",
+            es: "Abuela",
           },
         },
         {
-          id: "r-kaunter-bayaran",
-          ms: "Kaunter bayaran — untuk membuat bayaran",
-          en: "Payment counter — to make a payment",
-          es: "Mostrador de pagos — para hacer un pago",
-          imageSrc: "/assets/chapters/ch3/ch3_Icon_Bayar.webp",
+          id: "bapa",
+          label: { ms: "bapa", en: "father", es: "padre" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-bapa.webp",
           imageAlt: {
-            ms: "Ikon kaunter bayaran",
-            en: "Payment counter icon",
-            es: "Icono del mostrador de pagos",
+            ms: "Bapa",
+            en: "Father",
+            es: "Padre",
+          },
+          alternativeNames: ["ayah", "papa", "abah", "abi", "bapak"],
+        },
+        {
+          id: "ibu",
+          label: { ms: "ibu", en: "mother", es: "madre" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-ibu.webp",
+          imageAlt: {
+            ms: "Ibu",
+            en: "Mother",
+            es: "Madre",
+          },
+          alternativeNames: ["mak", "emak", "mama", "umi"],
+        },
+        {
+          id: "abang",
+          label: { ms: "abang", en: "older brother", es: "hermano mayor" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-abang.webp",
+          imageAlt: {
+            ms: "Abang",
+            en: "Older brother",
+            es: "Hermano mayor",
+          },
+        },
+        {
+          id: "kakak",
+          label: { ms: "kakak", en: "older sister", es: "hermana mayor" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-kakak.webp",
+          imageAlt: {
+            ms: "Kakak",
+            en: "Older sister",
+            es: "Hermana mayor",
+          },
+        },
+        {
+          id: "saya",
+          label: { ms: "adik", en: "younger sibling", es: "hermano o hermana menor" },
+          imageSrc: "/assets/chapters/ch2/ch2-keluarga-saya.webp",
+          imageAlt: {
+            ms: "Adik",
+            en: "Younger sibling",
+            es: "Hermano o hermana menor",
           },
         },
       ],
     },
-    {
-      kind: "list",
-      id: "kaunter-tambahan",
-      title: {
-        ms: "Kaunter tambahan",
-        en: "Additional counters",
-        es: "Mostradores adicionales",
-      },
-      columns: 2,
-      listDisplay: "compactImageList",
-      items: [
-        {
-          id: "r-kaunter-ubat-farmasi",
-          ms: "Kaunter farmasi — untuk bertanya tentang ubat",
-          en: "Pharmacy counter — to ask about medicine",
-          es: "Mostrador de farmacia — para preguntar sobre medicamentos",
-          imageSrc: "/assets/chapters/ch3/ch3_Icon_Farmasi.webp",
-          imageAlt: {
-            ms: "Ikon kaunter farmasi",
-            en: "Pharmacy counter icon",
-            es: "Icono del mostrador de farmacia",
-          },
-        },
-        {
-          id: "r-kaunter-perpustakaan",
-          ms: "Kaunter perpustakaan — untuk meminjam atau memulangkan buku",
-          en: "Library counter — to borrow or return books",
-          es: "Mostrador de biblioteca — para pedir prestados o devolver libros",
-          imageSrc: "/assets/chapters/ch3/ch3_Icon_Perpustakaan.webp",
-          imageAlt: {
-            ms: "Ikon kaunter perpustakaan",
-            en: "Library counter icon",
-            es: "Icono del mostrador de biblioteca",
-          },
-        },
-        {
-          id: "r-kaunter-pos",
-          ms: "Kaunter pos — untuk menghantar surat atau bungkusan",
-          en: "Post office counter — to send letters or parcels",
-          es: "Mostrador de correos — para enviar cartas o paquetes",
-          imageSrc: "/assets/chapters/ch3/ch3_Icon_Pos.webp",
-          imageAlt: {
-            ms: "Ikon kaunter pos",
-            en: "Post office counter icon",
-            es: "Icono del mostrador de correos",
-          },
-        },
-        {
-          id: "r-kaunter-pendaftaran",
-          ms: "Kaunter pendaftaran — untuk mendaftar nama atau temu janji",
-          en: "Registration counter — to register your name or an appointment",
-          es: "Mostrador de registro — para registrar tu nombre o una cita",
-          imageSrc: "/assets/chapters/ch3/ch3_Icon_Pendaftaran.webp",
-          imageAlt: {
-            ms: "Ikon kaunter pendaftaran",
-            en: "Registration counter icon",
-            es: "Icono del mostrador de registro",
-          },
-        },
-      ],
-    },
-  ],
-},
 
-///page 2
+    // -------------------------
+    // Page 2: Chat — introducing family
+    // -------------------------
 {
-  id: "p2-perbualan-di-kaunter",
-  kind: "table",
-  title: {
-    ms: "Apa yang awak mahu buat?",
-    en: "What do you want to do?",
-    es: "¿Qué quieres hacer?",
-  },
-  leadCard: {
-    heading: {
-      ms: "Pola ayat",
-      en: "Sentence pattern",
-      es: "Patrón de oración",
-    },
-    body: {
-      ms: "Gunakan “Saya mahu...” di kaunter.",
-      en: "Use “I want to...” at the counter.",
-      es: "Usa “Quiero...” en el mostrador.",
-    },
-  },
-  columns: [
-    { key: "icon", label: { ms: "Ikon", en: "Icon", es: "Icono" } },
-    { key: "counter", label: { ms: "Kaunter", en: "Counter", es: "Mostrador" } },
-    { key: "sentence", label: { ms: "Ayat", en: "Sentence", es: "Frase" } },
-  ],
-  rows: [
-    {
-      id: "r-kaunter-pertanyaan-bantuan",
-      cells: {
-        icon: [
-          {
-            kind: "image",
-            src: "/assets/chapters/ch3/ch3_Icon_Pertanyaan.webp",
-            alt: {
-              ms: "Ikon kaunter pertanyaan",
-              en: "Information counter icon",
-              es: "Icono del mostrador de información",
-            },
-          },
-        ],
-        counter: [{ ms: "Kaunter pertanyaan", en: "Information counter", es: "Mostrador de información" }],
-        sentence: [
-          {
-            ms: "Saya mahu minta bantuan.",
-            en: "I want to ask for help.",
-            es: "Quiero pedir ayuda.",
-            highlight: { ms: "Saya mahu", en: "I want to", es: "Quiero" },
-          },
-        ],
-      },
-    },
-    {
-      id: "r-kaunter-bayaran-bayar",
-      cells: {
-        icon: [
-          {
-            kind: "image",
-            src: "/assets/chapters/ch3/ch3_Icon_Bayar.webp",
-            alt: {
-              ms: "Ikon kaunter bayaran",
-              en: "Payment counter icon",
-              es: "Icono del mostrador de pagos",
-            },
-          },
-        ],
-        counter: [{ ms: "Kaunter bayaran", en: "Payment counter", es: "Mostrador de pagos" }],
-        sentence: [
-          {
-            ms: "Saya mahu bayar.",
-            en: "I want to pay.",
-            es: "Quiero pagar.",
-            highlight: { ms: "Saya mahu", en: "I want to", es: "Quiero" },
-          },
-        ],
-      },
-    },
-    {
-      id: "r-kaunter-tiket-beli",
-      cells: {
-        icon: [
-          {
-            kind: "image",
-            src: "/assets/chapters/ch3/ch3_Icon_Bas.webp",
-            alt: {
-              ms: "Ikon kaunter tiket",
-              en: "Ticket counter icon",
-              es: "Icono del mostrador de boletos",
-            },
-          },
-        ],
-        counter: [{ ms: "Kaunter tiket", en: "Ticket counter", es: "Mostrador de boletos" }],
-        sentence: [
-          {
-            ms: "Saya mahu beli tiket.",
-            en: "I want to buy a ticket.",
-            es: "Quiero comprar un boleto.",
-            highlight: { ms: "Saya mahu", en: "I want to", es: "Quiero" },
-          },
-        ],
-      },
-    },
-    {
-      id: "r-kaunter-pendaftaran-daftar",
-      cells: {
-        icon: [
-          {
-            kind: "image",
-            src: "/assets/chapters/ch3/ch3_Icon_Pendaftaran.webp",
-            alt: {
-              ms: "Ikon kaunter pendaftaran",
-              en: "Registration counter icon",
-              es: "Icono del mostrador de registro",
-            },
-          },
-        ],
-        counter: [{ ms: "Kaunter pendaftaran", en: "Registration counter", es: "Mostrador de registro" }],
-        sentence: [
-          {
-            ms: "Saya mahu daftar nama.",
-            en: "I want to register my name.",
-            es: "Quiero registrar mi nombre.",
-            highlight: { ms: "Saya mahu", en: "I want to", es: "Quiero" },
-          },
-        ],
-      },
-    },
-    {
-      id: "r-kaunter-pos-hantar",
-      cells: {
-        icon: [
-          {
-            kind: "image",
-            src: "/assets/chapters/ch3/ch3_Icon_Pos.webp",
-            alt: {
-              ms: "Ikon kaunter pos",
-              en: "Post office counter icon",
-              es: "Icono del mostrador de correos",
-            },
-          },
-        ],
-        counter: [{ ms: "Kaunter pos", en: "Post office counter", es: "Mostrador de correos" }],
-        sentence: [
-          {
-            ms: "Saya mahu hantar bungkusan.",
-            en: "I want to send a parcel.",
-            es: "Quiero enviar un paquete.",
-            highlight: { ms: "Saya mahu", en: "I want to", es: "Quiero" },
-          },
-        ],
-      },
-    },
-    {
-      id: "r-kaunter-perpustakaan-pinjam",
-      cells: {
-        icon: [
-          {
-            kind: "image",
-            src: "/assets/chapters/ch3/ch3_Icon_Perpustakaan.webp",
-            alt: {
-              ms: "Ikon kaunter perpustakaan",
-              en: "Library counter icon",
-              es: "Icono del mostrador de biblioteca",
-            },
-          },
-        ],
-        counter: [{ ms: "Kaunter perpustakaan", en: "Library counter", es: "Mostrador de biblioteca" }],
-        sentence: [
-          {
-            ms: "Saya mahu pinjam buku.",
-            en: "I want to borrow a book.",
-            es: "Quiero pedir prestado un libro.",
-            highlight: { ms: "Saya mahu", en: "I want to", es: "Quiero" },
-          },
-        ],
-      },
-    },
-    {
-      id: "r-kaunter-farmasi-beli",
-      cells: {
-        icon: [
-          {
-            kind: "image",
-            src: "/assets/chapters/ch3/ch3_Icon_Farmasi.webp",
-            alt: {
-              ms: "Ikon kaunter farmasi",
-              en: "Pharmacy counter icon",
-              es: "Icono del mostrador de farmacia",
-            },
-          },
-        ],
-        counter: [{ ms: "Kaunter farmasi", en: "Pharmacy counter", es: "Mostrador de farmacia" }],
-        sentence: [
-          {
-            ms: "Saya mahu beli plaster.",
-            en: "I want to buy a plaster.",
-            es: "Quiero comprar una curita.",
-            highlight: { ms: "Saya mahu", en: "I want to", es: "Quiero" },
-          },
-        ],
-      },
-    },
-  ],
-},
-
-///page 3 chat
-
-{
-  id: "p3-situasi-3-1",
+  id: "p5-situasi-2-1",
   kind: "chat",
   youId: "me",
   title: {
-    ms: "Situasi 3.1 Di kaunter pertanyaan",
-    en: "Situation 3.1 At the information counter",
-    es: "Situación 3.1 En el mostrador de información",
+        ms: "Situasi 3.1: Menunjukkan gambar keluarga",
+        en: "Situation 3.1: Showing a family photo",
+        es: "Situación 3.1: Mostrar una foto familiar",
   },
   context: {
-    ms: "Latar tempat: Di kaunter pertanyaan",
-    en: "Setting: At the information counter",
-    es: "Lugar: En el mostrador de información",
+        ms: "Latar tempat: Di universiti",
+        en: "Setting: At the university",
+        es: "Lugar: En la universidad",
   },
   participants: [
     {
@@ -352,105 +122,103 @@ pages: [
       name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
     },
     {
-      id: "pegawai",
-      name: {
-        ms: "Petugas kaunter",
-        en: "Counter staff",
-        es: "Personal del mostrador",
-      },
+      id: "ayub", // keep this id for your UI
+      name: { ms: "Muthu", en: "Muthu", es: "Muthu" },
     },
   ],
   messages: [
     {
-      id: "m1",
+      id: "s21-m1",
+      from: "ayub",
+      text: {
+        ms: "Hai, {currentUsername}. Ini keluarga awak?",
+        en: "Hi, {currentUsername}. Is this your family?",
+        es: "Hola, {currentUsername}. ¿Esta es tu familia?",
+      },
+    },
+    {
+      id: "s21-m2",
       from: "me",
       text: {
-        ms: "Maaf, boleh saya tanya?",
-        en: "Excuse me, may I ask a question?",
-        es: "Disculpe, ¿puedo hacer una pregunta?",
+        ms: "Hai, Muthu. Ya, ini keluarga saya.",
+        en: "Hi, Muthu. Yes, this is my family.",
+        es: "Hola, Muthu. Sí, esta es mi familia.",
       },
     },
     {
-      id: "m2",
-      from: "pegawai",
+      id: "s21-m3",
+      from: "ayub",
       text: {
-        ms: "Boleh, silakan.",
-        en: "Yes, go ahead.",
-        es: "Sí, adelante.",
+        ms: "Siapa ini?",
+        en: "Who are these people?",
+        es: "¿Quiénes son?",
       },
     },
     {
-      id: "m3",
+      id: "s21-m4",
       from: "me",
       text: {
-        ms: "Kaunter tiket di mana?",
-        en: "Where is the ticket counter?",
-        es: "¿Dónde está el mostrador de boletos?",
+        ms: "Ini ibu dan bapa saya.",
+        en: "These are my mother and father.",
+        es: "Son mi madre y mi padre.",
       },
     },
     {
-      id: "m4",
-      from: "pegawai",
+      id: "s21-m5",
+      from: "ayub",
       text: {
-        ms: "Kaunter tiket di sana.",
-        en: "The ticket counter is over there.",
-        es: "El mostrador de boletos está allí.",
+        ms: "Yang ini abang awak?",
+        en: "Is this your older brother?",
+        es: "¿Este es tu hermano mayor?",
       },
     },
     {
-      id: "m5",
+      id: "s21-m6",
       from: "me",
       text: {
-        ms: "Di sebelah mana?",
-        en: "Which side is it on?",
-        es: "¿En qué lado está?",
+        ms: "Ya, itu abang saya.",
+        en: "Yes, that is my older brother.",
+        es: "Sí, ese es mi hermano mayor.",
       },
     },
     {
-      id: "m6",
-      from: "pegawai",
+      id: "s21-m7",
+      from: "ayub",
       text: {
-        ms: "Di sebelah kanan.",
-        en: "On the right side.",
-        es: "En el lado derecho.",
+        ms: "Ini adik awak?",
+        en: "Is this your younger sibling?",
+        es: "¿Este es tu hermano menor?",
       },
     },
     {
-      id: "m7",
+      id: "s21-m8",
       from: "me",
       text: {
-        ms: "Baik, terima kasih.",
-        en: "Alright, thank you.",
-        es: "Muy bien, gracias.",
-      },
-    },
-    {
-      id: "m8",
-      from: "pegawai",
-      text: {
-        ms: "Sama-sama.",
-        en: "You're welcome.",
-        es: "De nada.",
+        ms: "Ya, ini adik saya.",
+        en: "Yes, this is my younger sibling.",
+        es: "Sí, este es mi hermano menor.",
       },
     },
   ],
 },
 
-///page 4 chat
+
+
+    // Situation 2.2: introducing family
 
 {
-  id: "p4-situasi-3-2",
+  id: "p6-situasi-2-2",
   kind: "chat",
   youId: "me",
   title: {
-    ms: "Situasi 3.2 Di kaunter tiket",
-    en: "Situation 3.2 At the ticket counter",
-    es: "Situación 3.2 En el mostrador de boletos",
+    ms: "Situasi 3.2: Memperkenalkan keluarga",
+    en: "Situation 3.2: Introducing family",
+    es: "Situación 3.2: Presentar a la familia",
   },
   context: {
-    ms: "Latar tempat: Di kaunter tiket",
-    en: "Setting: At the ticket counter",
-    es: "Lugar: En el mostrador de boletos",
+    ms: "Latar tempat: Di rumah Hassan",
+    en: "Setting: At Hassan’s house",
+    es: "Lugar: En la casa de Hassan",
   },
   participants: [
     {
@@ -458,101 +226,111 @@ pages: [
       name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
     },
     {
-      id: "pegawai",
-      name: { ms: "Petugas kaunter", en: "Counter staff", es: "Personal del mostrador" },
+      id: "ayub", // keep this id for your UI
+      name: { ms: "Hassan", en: "Hassan", es: "Hassan" },
+    },
+    {
+      id: "ibu",
+      name: { ms: "Ibu", en: "Mother", es: "Mamá" },
+      tone: "aux",
+    },
+    {
+      id: "bapa",
+      name: { ms: "Bapa", en: "Father", es: "Papá" },
+      tone: "aux",
     },
   ],
   messages: [
     {
-      id: "m1",
+      id: "s22-m1",
+      from: "ayub",
+      text: {
+        ms: "Hai, {currentUsername}. Ini ibu saya.",
+        en: "Hi, {currentUsername}. This is my mother.",
+        es: "Hola, {currentUsername}. Esta es mi madre.",
+      },
+    },
+    {
+      id: "s22-m2",
+      from: "ibu",
+      text: {
+        ms: "Hai, {currentUsername}.",
+        en: "Hi, {currentUsername}.",
+        es: "Hola, {currentUsername}.",
+      },
+    },
+    {
+      id: "s22-m3",
       from: "me",
       text: {
-        ms: "Selamat pagi. Saya mahu beli tiket.",
-        en: "Good morning. I want to buy a ticket.",
-        es: "Buenos días. Quiero comprar un boleto.",
+        ms: "Hai, mak cik.",
+        en: "Hi, ma’am.",
+        es: "Hola, señora.",
       },
     },
     {
-      id: "m2",
-      from: "pegawai",
+      id: "s22-m4",
+      from: "ayub",
       text: {
-        ms: "Selamat pagi. Tiket ke mana?",
-        en: "Good morning. A ticket to where?",
-        es: "Buenos días. ¿Un boleto para dónde?",
+        ms: "Itu bapa saya.",
+        en: "That is my father.",
+        es: "Ese es mi padre.",
       },
     },
     {
-      id: "m3",
+      id: "s22-m5",
+      from: "bapa",
+      text: {
+        ms: "Hai, {currentUsername}.",
+        en: "Hi, {currentUsername}.",
+        es: "Hola, {currentUsername}.",
+      },
+    },
+    {
+      id: "s22-m6",
       from: "me",
       text: {
-        ms: "Ke Kajang.",
-        en: "To Kajang.",
-        es: "A Kajang.",
+        ms: "Hai, pak cik.",
+        en: "Hi, sir.",
+        es: "Hola, señor.",
       },
     },
     {
-      id: "m4",
-      from: "pegawai",
+      id: "s22-m7",
+      from: "ayub",
       text: {
-        ms: "Satu tiket?",
-        en: "One ticket?",
-        es: "¿Un boleto?",
+        ms: "Ini kakak saya, Sara, dan adik saya, Lina.",
+        en: "This is my older sister, Sara, and my younger sister, Lina.",
+        es: "Esta es mi hermana mayor, Sara, y mi hermana menor, Lina.",
       },
     },
     {
-      id: "m5",
+      id: "s22-m8",
       from: "me",
       text: {
-        ms: "Ya, satu tiket.",
-        en: "Yes, one ticket.",
-        es: "Sí, un boleto.",
-      },
-    },
-    {
-      id: "m6",
-      from: "pegawai",
-      text: {
-        ms: "Baik. Harganya RM3.",
-        en: "Alright. It costs RM3.",
-        es: "Bien. Cuesta RM3.",
-      },
-    },
-    {
-      id: "m7",
-      from: "me",
-      text: {
-        ms: "Baik. Ini RM3.",
-        en: "Alright. Here is RM3.",
-        es: "Bien. Aquí tiene RM3.",
-      },
-    },
-    {
-      id: "m8",
-      from: "pegawai",
-      text: {
-        ms: "Terima kasih.",
-        en: "Thank you.",
-        es: "Gracias.",
+        ms: "Hai, Sara. Hai, Lina.",
+        en: "Hi, Sara. Hi, Lina.",
+        es: "Hola, Sara. Hola, Lina.",
       },
     },
   ],
 },
 
-///page 5 chat
+// Situation 2.3: family names used at home
 
 {
-  id: "p5-situasi-3-3",
+  id: "p7-situasi-2-3",
   kind: "chat",
   youId: "me",
   title: {
-    ms: "Situasi 3.3 Di kaunter bayaran",
-    en: "Situation 3.3 At the payment counter",
-    es: "Situación 3.3 En el mostrador de pagos",
+    ms: "Situasi 3.3: Panggilan keluarga di rumah",
+    en: "Situation 3.3: Family names used at home",
+    es: "Situación 3.3: Nombres familiares usados en casa",
   },
   context: {
-    ms: "Latar tempat: Di kaunter bayaran",
-    en: "Setting: At the payment counter",
-    es: "Lugar: En el mostrador de pagos",
+    ms: "Latar tempat: Di rumah {currentUsername}",
+    en: "Setting: At {currentUsername}’s house",
+    es: "Lugar: En la casa de {currentUsername}",
   },
   participants: [
     {
@@ -560,212 +338,262 @@ pages: [
       name: { ms: "{currentUsername}", en: "{currentUsername}", es: "{currentUsername}" },
     },
     {
-      id: "pegawai",
-      name: {
-        ms: "Petugas kaunter",
-        en: "Counter staff",
-        es: "Personal del mostrador",
-      },
+      id: "muthu",
+      name: { ms: "Muthu", en: "Muthu", es: "Muthu" },
+    },
+    {
+      id: "ayub", // keep this id for your UI
+      name: { ms: "Ibu", en: "Mother", es: "Mamá" },
+      tone: "aux",
+      alignment: "learner-side",
     },
   ],
   messages: [
-    {
-      id: "m1",
-      from: "me",
-      text: {
-        ms: "Maaf, saya mahu bayar.",
-        en: "Excuse me, I want to pay.",
-        es: "Disculpe, quiero pagar.",
-      },
+  {
+    id: "s23-m1",
+    from: "me",
+    text: {
+      ms: "Mak, ini kawan saya, Muthu.",
+      en: "Mum, this is my friend, Muthu.",
+      es: "Mamá, este es mi amigo Muthu.",
     },
-    {
-      id: "m2",
-      from: "pegawai",
-      text: {
-        ms: "Baik. Bayar untuk apa?",
-        en: "Alright. What are you paying for?",
-        es: "Bien. ¿Para qué va a pagar?",
-      },
+  },
+  {
+    id: "s23-m2",
+    from: "ayub",
+    text: {
+      ms: "Hai, Muthu.",
+      en: "Hi, Muthu.",
+      es: "Hola, Muthu.",
     },
-    {
-      id: "m3",
-      from: "me",
-      text: {
-        ms: "Untuk buku ini.",
-        en: "For this book.",
-        es: "Por este libro.",
-      },
+  },
+  {
+    id: "s23-m3",
+    from: "muthu",
+    text: {
+      ms: "Hai, mak cik.",
+      en: "Hi, ma’am.",
+      es: "Hola, señora.",
     },
-    {
-      id: "m4",
-      from: "pegawai",
-      text: {
-        ms: "Baik. Harganya RM10.",
-        en: "Alright. It costs RM10.",
-        es: "Bien. Cuesta RM10.",
-      },
+  },
+  {
+    id: "s23-m4",
+    from: "ayub",
+    text: {
+      ms: "{currentUsername}, ayah ada di ruang tamu.",
+      en: "{currentUsername}, Dad is in the living room.",
+      es: "{currentUsername}, papá está en la sala.",
     },
-    {
-      id: "m5",
-      from: "me",
-      text: {
-        ms: "Boleh bayar tunai?",
-        en: "Can I pay in cash?",
-        es: "¿Puedo pagar en efectivo?",
-      },
+  },
+  {
+    id: "s23-m5",
+    from: "muthu",
+    text: {
+      ms: "Awak panggil bapa awak “ayah”?",
+      en: "Do you call your father ayah?",
+      es: "¿Llamas ayah a tu padre?",
     },
-    {
-      id: "m6",
-      from: "pegawai",
-      text: {
-        ms: "Boleh.",
-        en: "Yes, you can.",
-        es: "Sí, puede.",
-      },
+  },
+  {
+    id: "s23-m6",
+    from: "me",
+    text: {
+      ms: "Ya. Saya panggil bapa saya “ayah”.",
+      en: "Yes. I call my father ayah.",
+      es: "Sí. Llamo ayah a mi padre.",
     },
-    {
-      id: "m7",
-      from: "me",
-      text: {
-        ms: "Ini RM10. Terima kasih.",
-        en: "Here is RM10. Thank you.",
-        es: "Aquí tiene RM10. Gracias.",
-      },
+  },
+  {
+    id: "s23-m7",
+    from: "muthu",
+    text: {
+      ms: "Dan awak panggil ibu awak “mak”?",
+      en: "And do you call your mother mak?",
+      es: "¿Y llamas mak a tu madre?",
     },
-    {
-      id: "m8",
-      from: "pegawai",
-      text: {
-        ms: "Sama-sama.",
-        en: "You're welcome.",
-        es: "De nada.",
-      },
+  },
+  {
+    id: "s23-m8",
+    from: "me",
+    text: {
+      ms: "Ya. Di rumah, saya panggil ibu saya “mak”.",
+      en: "Yes. At home, I call my mother mak.",
+      es: "Sí. En casa, llamo mak a mi madre.",
     },
-  ],
+  },
+],
 },
 
-///latuhan 1
 
-{
+
+    // -------------------------
+    // Page 5: Dragfill exercise
+    // -------------------------
+    ///Latihan 1
+    {
   id: "p-latihan-1",
   kind: "typein",
   title: { ms: "Latihan 1", en: "Exercise 1", es: "Ejercicio 1" },
   instructions: {
-    ms: "Susun semula huruf untuk membentuk nama kaunter. Taip jawapan anda.",
-    en: "Unscramble the letters to form the counter names. Type your answers.",
-    es: "Ordena las letras para formar los nombres de los mostradores. Escribe tus respuestas.",
+    ms: "Susun huruf menjadi perkataan keluarga yang betul. Taip jawapan.",
+    en: "Unscramble the letters to make the correct family word. Type your answer.",
+    es: "Ordena las letras para formar la palabra familiar correcta. Escribe la respuesta.",
   },
   caseSensitive: false,
   items: [
     {
       id: "l1-1",
       n: 1,
-      scrambled: "naayantrep",
-      answer: "pertanyaan",
-      meaning: { ms: "Pertanyaan", en: "Information", es: "Información" },
+      scrambled: "bnaag",
+      answer: "abang",
+      meaning: { ms: "abang", en: "older brother", es: "hermano mayor" },
     },
     {
       id: "l1-2",
       n: 2,
-      scrambled: "nabayara",
-      answer: "bayaran",
-      meaning: { ms: "Bayaran", en: "Payment", es: "Pago" },
+      scrambled: "ubi",
+      answer: "ibu",
+      meaning: { ms: "ibu", en: "mother", es: "madre" },
     },
     {
       id: "l1-3",
       n: 3,
-      scrambled: "kiett",
-      answer: "tiket",
-      meaning: { ms: "Tiket", en: "Ticket", es: "Boleto" },
+      scrambled: "apba",
+      answer: "bapa",
+      meaning: { ms: "bapa", en: "father", es: "padre" },
     },
     {
       id: "l1-4",
       n: 4,
-      scrambled: "natadfarpne",
-      answer: "pendaftaran",
-      meaning: { ms: "Pendaftaran", en: "Registration", es: "Registro" },
+      scrambled: "akkak",
+      answer: "kakak",
+      meaning: { ms: "kakak", en: "older sister", es: "hermana mayor" },
     },
     {
       id: "l1-5",
       n: 5,
-      scrambled: "sop",
-      answer: "pos",
-      meaning: { ms: "Pos", en: "Post", es: "Correo" },
-    },
-    {
-      id: "l1-6",
-      n: 6,
-      scrambled: "kaatrupsuepan",
-      answer: "perpustakaan",
-      meaning: { ms: "Perpustakaan", en: "Library", es: "Biblioteca" },
-    },
-    {
-      id: "l1-7",
-      n: 7,
-      scrambled: "sfamaira",
-      answer: "farmasi",
-      meaning: { ms: "Farmasi", en: "Pharmacy", es: "Farmacia" },
+      scrambled: "iakd",
+      answer: "adik",
+      meaning: { ms: "adik", en: "younger sibling", es: "hermano o hermana menor" },
     },
   ],
 },
 
-///wordsearch page
+
+    /// Latihan 2: Seret dan Isi Tempat Kosong (Family member introduction)
 {
-  id: "p-latihan-2-kata-bersilang",
-  kind: "wordsearch",
-  title: {
-    ms: "Latihan 2: Kata Bersilang",
-    en: "Exercise 2: Word Search",
-    es: "Ejercicio 2: Sopa de letras",
-  },
+  id: "p-latihan-2",
+  kind: "boxdrag",
+  title: { ms: "Latihan 2", en: "Exercise 2", es: "Ejercicio 2" },
   instructions: {
-    ms: "Cari tujuh nama kaunter yang sudah dipelajari.",
-    en: "Find the seven counter names you learned.",
-    es: "Encuentra los siete nombres de mostrador que aprendiste.",
+    ms: "Lengkapkan carta keluarga terdekat di bawah.",
+    en: "Complete the immediate-family chart below.",
+    es: "Completa el cuadro de la familia inmediata.",
   },
-  autoGenerate: true,
-  size: 14,
-  targets: [
+  showFamilyLegend: true,
+  options: [
+    { id: "saya", ms: "saya", en: "me / I", es: "yo" },
+    { id: "ibu", ms: "ibu", en: "mother", es: "madre" },
+    { id: "kakak", ms: "kakak", en: "older sister", es: "hermana mayor" },
+  ],
+  nodes: [
     {
-      id: "pertanyaan",
-      words: ["PERTANYAAN"],
-      label: { ms: "Pertanyaan", en: "Information", es: "Información" },
+      id: "n-bapa",
+      shape: "rect",
+      role: "male",
+      position: "topLeft",
+      fixedText: { ms: "bapa", en: "father", es: "padre" },
     },
     {
-      id: "bayaran",
-      words: ["BAYARAN"],
-      label: { ms: "Bayaran", en: "Payment", es: "Pago" },
+      id: "n-ibu",
+      shape: "oval",
+      role: "female",
+      position: "topRight",
+      correctOptionId: "ibu",
     },
     {
-      id: "tiket",
-      words: ["TIKET"],
-      label: { ms: "Tiket", en: "Ticket", es: "Boleto" },
+      id: "n-abang",
+      shape: "rect",
+      role: "male",
+      position: "bottomLeft",
+      fixedText: { ms: "abang", en: "older brother", es: "hermano mayor" },
     },
     {
-      id: "pendaftaran",
-      words: ["PENDAFTARAN"],
-      label: { ms: "Pendaftaran", en: "Registration", es: "Registro" },
+      id: "n-saya",
+      shape: "rect",
+      role: "self",
+      position: "bottomCenter",
+      correctOptionId: "saya",
     },
     {
-      id: "pos",
-      words: ["POS"],
-      label: { ms: "Pos", en: "Post", es: "Correo" },
-    },
-    {
-      id: "perpustakaan",
-      words: ["PERPUSTAKAAN"],
-      label: { ms: "Perpustakaan", en: "Library", es: "Biblioteca" },
-    },
-    {
-      id: "farmasi",
-      words: ["FARMASI"],
-      label: { ms: "Farmasi", en: "Pharmacy", es: "Farmacia" },
+      id: "n-kakak",
+      shape: "oval",
+      role: "female",
+      position: "bottomRight",
+      correctOptionId: "kakak",
     },
   ],
-  allowDiagonal: true,
-  allowReverse: true,
+},
+
+/// Latihan 3: immediate-family recap
+{
+  id: "p-latihan-2-advanced",
+  kind: "boxdrag",
+  title: { ms: "Latihan 3", en: "Exercise 3", es: "Ejercicio 3" },
+  instructions: {
+    ms: "Lengkapkan carta keluarga dengan perkataan yang telah dipelajari.",
+    en: "Complete the family chart with the words you have learned.",
+    es: "Completa el cuadro familiar con las palabras que has aprendido.",
+  },
+
+  compact: true,
+  showFamilyLegend: true,
+
+  options: [
+    { id: "saya", ms: "saya", en: "me / I", es: "yo" },
+    { id: "ibu", ms: "ibu", en: "mother", es: "madre" },
+    { id: "bapa", ms: "bapa", en: "father", es: "padre" },
+    { id: "adik", ms: "adik", en: "younger sibling", es: "hermano o hermana menor" },
+    { id: "kakak", ms: "kakak", en: "older sister", es: "hermana mayor" },
+  ],
+
+  // Nodes: percent-based positions for the immediate-family recap
+  nodes: [
+    // Layer 1
+    { id: "n-bapa", shape: "rect", role: "male", xPct: 42, yPct: 15, correctOptionId: "bapa" },
+    { id: "n-ibu", shape: "oval", role: "female", xPct: 58, yPct: 15, correctOptionId: "ibu" },
+
+    // Layer 2
+    {
+      id: "n-abang",
+      shape: "rect",
+      role: "male",
+      xPct: 20,
+      yPct: 62,
+      fixedText: { ms: "abang", en: "older brother", es: "hermano mayor" },
+    },
+    { id: "n-adik", shape: "rect", role: "male", xPct: 40, yPct: 62, correctOptionId: "adik" },
+    { id: "n-saya", shape: "rect", role: "self", xPct: 60, yPct: 62, correctOptionId: "saya" },
+    { id: "n-kakak", shape: "oval", role: "female", xPct: 80, yPct: 62, correctOptionId: "kakak" },
+  ],
+
+  // Connector lines (percent coords, rendered into SVG viewBox)
+  lines: [
+    // bapa—ibu spouse line
+    { x1: 42, y1: 15, x2: 58, y2: 15 },
+
+    // trunk down from parents
+    { x1: 50, y1: 15, x2: 50, y2: 30 },
+    { x1: 20, y1: 30, x2: 80, y2: 30 },
+
+    // arrows to immediate-family children
+    { x1: 20, y1: 30, x2: 20, y2: 52, arrow: true },
+    { x1: 40, y1: 30, x2: 40, y2: 52, arrow: true },
+    { x1: 60, y1: 30, x2: 60, y2: 52, arrow: true },
+    { x1: 80, y1: 30, x2: 80, y2: 52, arrow: true },
+  ],
 },
 
 
-],
-}
+  ],
+};

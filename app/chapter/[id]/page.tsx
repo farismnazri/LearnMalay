@@ -5,9 +5,9 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import BoxDragCard from "@/components/game/BoxDragCard";
-import Chapter03CounterActionsCard from "@/components/game/Chapter03CounterActionsCard";
+import ChapterCounterActionsCard from "@/components/game/ChapterCounterActionsCard";
 import ChatCard from "@/components/game/ChatCard";
-import Chapter03CountersIntroCard from "@/components/game/Chapter03CountersIntroCard";
+import ChapterCountersIntroCard from "@/components/game/ChapterCountersIntroCard";
 import DragFillCard from "@/components/game/DragFillCard";
 import FamilyCard from "@/components/game/FamilyCard";
 import FigureCard from "@/components/game/FigureCard";
@@ -283,8 +283,8 @@ export default function ChapterPage() {
   const renderPage = (page: ChapterPage) => {
     switch (page.kind) {
       case "intro":
-        if (content.id === 3 && page.id === "p1-jenis-kaunter") {
-          return <Chapter03CountersIntroCard page={page} lang={lang} />;
+        if (content.id === 7 && page.id === "p1-jenis-kaunter") {
+          return <ChapterCountersIntroCard page={page} lang={lang} />;
         }
         return page.sections.map((s) => <SectionCard key={s.id} section={s} lang={lang} />);
       case "pronounCards":
@@ -297,8 +297,8 @@ export default function ChapterPage() {
           />
         );
       case "table":
-        if (content.id === 3 && page.id === "p2-perbualan-di-kaunter") {
-          return <Chapter03CounterActionsCard page={page} lang={lang} />;
+        if (content.id === 7 && page.id === "p2-perbualan-di-kaunter") {
+          return <ChapterCounterActionsCard page={page} lang={lang} />;
         }
         return <TableCard page={page} lang={lang} />;
       case "iconRows":
