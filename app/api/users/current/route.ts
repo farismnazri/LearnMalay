@@ -9,7 +9,7 @@ import {
   recordAuthFailure,
   recordAuthSuccess,
 } from "@/server/authSecurity";
-import { getUser, initializeUserAuthState, verifyUserPassword } from "@/server/userRepo";
+import { getUser, initializeUserAuthState, updateUserAvatar, verifyUserPassword } from "@/server/userRepo";
 import {
   clearSessionCookie,
   getSessionUser,
@@ -18,9 +18,14 @@ import {
 } from "@/server/sessionAuth";
 import { deleteSession } from "@/server/sessionRepo";
 import { enforceSameOriginMutation } from "@/server/requestSecurity";
+import { isProfileAvatarId } from "@/lib/profileAvatars";
+import { checkRouteRateLimit, GENERIC_ROUTE_RATE_LIMIT_MESSAGE } from "@/server/routeRateLimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+const AVATAR_UPDATE_WINDOW_MS = 60_000;
+const AVATAR_UPDATE_MAX_HITS = 20;
 
 function getErrorMessage(error: unknown, fallback: string) {
   if (error instanceof Error && error.message) return error.message;
@@ -124,6 +129,55 @@ export async function POST(req: Request) {
   } catch (error: unknown) {
     console.error("POST /api/users/current failed", error);
     return NextResponse.json({ error: GENERIC_AUTH_FAILURE_MESSAGE }, { status: 401 });
+  }
+}
+
+export async function PATCH(req: Request) {
+  const csrf = enforceSameOriginMutation(req);
+  if (csrf) return csrf;
+
+  const body = (await req.json().catch(() => null)) as Record<string, unknown> | null;
+  if (
+    !body ||
+    Array.isArray(body) ||
+    Object.keys(body).length !== 1 ||
+    !isProfileAvatarId(body.avatarId)
+  ) {
+    return NextResponse.json({ error: "Invalid avatar selected." }, { status: 400 });
+  }
+
+  const { sessionId, user } = await getSessionUser();
+  if (!user) {
+    const res = NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (sessionId) clearSessionCookie(res);
+    return res;
+  }
+
+  const rateLimit = checkRouteRateLimit({
+    scope: "users-avatar-update",
+    req,
+    subject: user.id,
+    windowMs: AVATAR_UPDATE_WINDOW_MS,
+    maxHits: AVATAR_UPDATE_MAX_HITS,
+  });
+  if (rateLimit.limited) {
+    const res = NextResponse.json({ error: GENERIC_ROUTE_RATE_LIMIT_MESSAGE }, { status: 429 });
+    res.headers.set("Retry-After", String(rateLimit.retryAfterSeconds));
+    return res;
+  }
+
+  try {
+    await updateUserAvatar(user.id, body.avatarId);
+    const updatedUser = await getUser(user.id);
+    if (!updatedUser) {
+      return NextResponse.json({ error: "user not found" }, { status: 404 });
+    }
+    return NextResponse.json(updatedUser);
+  } catch (error: unknown) {
+    return NextResponse.json(
+      { error: getErrorMessage(error, "unable to update avatar") },
+      { status: 400 }
+    );
   }
 }
 

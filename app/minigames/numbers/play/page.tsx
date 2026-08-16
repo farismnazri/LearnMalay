@@ -17,9 +17,9 @@ import IconActionLink from "@/components/navigation/IconActionLink";
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const NUMBERS_DIFF_KEY = "learnMalay.numbersDifficulty.v1";
 
-const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png"; // must match filename case in /public
-const AKU2_BETUL_SRC = "/assets/characters/Akuaku_Betul.webp";
-const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
+const AKU2_IDLE_SRC = "/assets/characters/popup-trio.webp";
+const AKU2_BETUL_SRC = "/assets/characters/popup-betul.webp";
+const AKU2_SALAH_SRC = "/assets/characters/popup-salah.webp";
 const MAX_LIVES = 5;
 
 function formatDuration(ms: number) {
@@ -751,7 +751,7 @@ function restart() {
               width={100}
               height={100}
               className={[
-                "h-10 w-10 shrink-0 drop-shadow phone-lg:h-12 phone-lg:w-12 tablet:h-9 tablet:w-9",
+                "h-10 w-10 shrink-0 object-contain drop-shadow phone-lg:h-12 phone-lg:w-12 tablet:h-9 tablet:w-9",
                 i < lives ? "opacity-100" : "opacity-25 grayscale",
               ].join(" ")}
               priority
@@ -955,7 +955,7 @@ function restart() {
   open={!!congratsText}
   fade={congratsFade}
   src={popupAvatarSrc}
-  alt="AkuAku"
+  alt="Learn Malay feedback"
   wrapperClassName={popupPositionClass}
   widthClassName="w-[180px] phone-lg:w-[220px] tablet:w-[280px]"
   animation="bounce"

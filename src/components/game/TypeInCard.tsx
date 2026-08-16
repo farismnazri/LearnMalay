@@ -14,7 +14,7 @@ export default function TypeInCard({ page, lang }: TypeInCardProps) {
   const [checked, setChecked] = useState(false);
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
 
-  const AKU_SRC = "/assets/characters/Akuaku_idle.png";
+  const AKU_SRC = "/assets/characters/popup-trio.webp";
 
   useEffect(() => {
     setAnswers({});
@@ -134,7 +134,7 @@ export default function TypeInCard({ page, lang }: TypeInCardProps) {
                               : "Clic para ver la respuesta"
                           }
                         >
-                          <Image src={AKU_SRC} alt="AkuAku hint" width={44} height={44} className="h-11 w-11" />
+                          <Image src={AKU_SRC} alt="Learn Malay hint" width={55} height={44} className="h-11 w-11 object-contain" />
                         </button>
 
                         {showReveal && (

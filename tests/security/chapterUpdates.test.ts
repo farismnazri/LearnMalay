@@ -8,7 +8,7 @@ function userAt(progressChapter: number, completedRevision?: number): UserProfil
   return {
     id: "TEST",
     name: "TEST",
-    avatarId: "crash",
+    avatarId: "bada",
     role: "user",
     progress: { chapter: progressChapter, page: 1 },
     completedChapterRevisions:

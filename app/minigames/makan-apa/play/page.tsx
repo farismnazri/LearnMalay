@@ -16,9 +16,9 @@ import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const MAKAN_APA_DIFFICULTY_KEY = "learnMalay.makanApa.difficulty.v1";
-const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
-const AKU2_BETUL_SRC = "/assets/characters/Akuaku_Betul.webp";
-const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
+const AKU2_IDLE_SRC = "/assets/characters/popup-trio.webp";
+const AKU2_BETUL_SRC = "/assets/characters/popup-betul.webp";
+const AKU2_SALAH_SRC = "/assets/characters/popup-salah.webp";
 const MAX_LIVES = 5;
 
 type Translated = { ms: string; en: string; es: string };
@@ -491,7 +491,7 @@ export default function MakanApaPlayPage() {
                       width={36}
                       height={36}
                       className={[
-                        "h-10 w-10 drop-shadow",
+                        "h-10 w-10 object-contain drop-shadow",
                         i < lives ? "opacity-100" : "opacity-25 grayscale",
                       ].join(" ")}
                       priority

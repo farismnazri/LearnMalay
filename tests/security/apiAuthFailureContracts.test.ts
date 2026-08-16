@@ -247,6 +247,66 @@ test("admin login and password verification use configured admin password", asyn
   assert.deepEqual(verify.body, { ok: true });
 });
 
+test("authenticated user can update only their own avatar without changing progress", async () => {
+  const user = await createUserAndSessionCookie();
+  const updated = await requestJson("/api/users/current", {
+    method: "PATCH",
+    headers: {
+      ...sameOriginHeaders(),
+      cookie: user.sessionCookie,
+    },
+    body: JSON.stringify({ avatarId: "kija" }),
+  });
+
+  assert.equal(updated.status, 200);
+  assert.equal(readAvatarId(updated.body), "kija");
+  assert.deepEqual(readProgress(updated.body), { chapter: 1, page: 1 });
+
+  const current = await requestJson("/api/users/current", {
+    method: "GET",
+    headers: { cookie: user.sessionCookie },
+  });
+  assert.equal(current.status, 200);
+  assert.equal(readAvatarId(current.body), "kija");
+  assert.deepEqual(readProgress(current.body), { chapter: 1, page: 1 });
+});
+
+test("avatar endpoint rejects attempts to name a different target user", async () => {
+  const actor = await createUserAndSessionCookie();
+  const target = await createUserAndSessionCookie();
+  const res = await requestJson("/api/users/current", {
+    method: "PATCH",
+    headers: {
+      ...sameOriginHeaders(),
+      cookie: actor.sessionCookie,
+    },
+    body: JSON.stringify({ id: target.id, avatarId: "hela" }),
+  });
+
+  assert.equal(res.status, 400);
+  assert.equal(isSafeErrorShape(res.body), true);
+});
+
+test("avatar endpoint rejects unauthenticated and retired avatar values", async () => {
+  const unauthenticated = await requestJson("/api/users/current", {
+    method: "PATCH",
+    headers: sameOriginHeaders(),
+    body: JSON.stringify({ avatarId: "bada" }),
+  });
+  assert.equal(unauthenticated.status, 401);
+
+  const user = await createUserAndSessionCookie();
+  const retired = await requestJson("/api/users/current", {
+    method: "PATCH",
+    headers: {
+      ...sameOriginHeaders(),
+      cookie: user.sessionCookie,
+    },
+    body: JSON.stringify({ avatarId: "crash" }),
+  });
+  assert.equal(retired.status, 400);
+});
+
 test("unsafe signup usernames are rejected without starting a session", async () => {
   const res = await requestJson("/api/users", {
     method: "POST",
@@ -254,7 +314,7 @@ test("unsafe signup usernames are rejected without starting a session", async ()
     body: JSON.stringify({
       name: "B_o_o_b",
       password: "test-password-123",
-      avatarId: "crash",
+      avatarId: "bada",
     }),
   });
 
@@ -341,7 +401,7 @@ async function createUserAndSessionCookie(): Promise<{ id: string; sessionCookie
     body: JSON.stringify({
       name: uniqueName,
       password: "test-password-123",
-      avatarId: "crash",
+      avatarId: "bada",
     }),
   });
 
@@ -369,6 +429,28 @@ function readCompletedChapterRevisions(body: unknown): Record<string, number> {
     throw new Error("user response did not include completed chapter revisions");
   }
   return revisions as Record<string, number>;
+}
+
+function readAvatarId(body: unknown): string | null {
+  if (typeof body !== "object" || body === null || Array.isArray(body)) {
+    throw new Error("expected user object response");
+  }
+  const avatarId = (body as { avatarId?: unknown }).avatarId;
+  if (avatarId !== null && typeof avatarId !== "string") {
+    throw new Error("user response did not include an avatar id");
+  }
+  return avatarId;
+}
+
+function readProgress(body: unknown): { chapter: number; page: number } {
+  if (typeof body !== "object" || body === null || Array.isArray(body)) {
+    throw new Error("expected user object response");
+  }
+  const progress = (body as { progress?: unknown }).progress;
+  if (typeof progress !== "object" || progress === null || Array.isArray(progress)) {
+    throw new Error("user response did not include progress");
+  }
+  return progress as { chapter: number; page: number };
 }
 
 function readSessionCookieFromResponse(headers: Headers): string {

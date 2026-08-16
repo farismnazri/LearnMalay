@@ -3,8 +3,8 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 
-const AKUAKU_FEEDBACK_W = 1536;
-const AKUAKU_FEEDBACK_H = 1024;
+const AKUAKU_FEEDBACK_W = 1275;
+const AKUAKU_FEEDBACK_H = 1650;
 
 type Props = {
   open: boolean;
@@ -24,7 +24,7 @@ type Props = {
 export default function AkuAkuFeedbackPopup({
   open,
   src,
-  alt = "AkuAku",
+  alt = "Learn Malay feedback",
   fade = false,
   variant = "popup",
   widthClassName = "w-[180px] phone-lg:w-[220px] tablet:w-[280px]",

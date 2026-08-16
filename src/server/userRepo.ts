@@ -10,8 +10,10 @@ import {
 } from "@/lib/userStoreTypes";
 import {
   ADMIN_AVATAR_ID,
+  CURRENT_AVATAR_MIGRATION_VERSION,
   DEFAULT_USER_AVATAR_ID,
   isProfileAvatarId,
+  resolveStoredProfileAvatar,
   type ProfileAvatarId,
 } from "@/lib/profileAvatars";
 import { CHAPTERS, MAX_CHAPTER_ID, MIN_CHAPTER_ID, getChapterById } from "@/lib/chapters";
@@ -96,11 +98,6 @@ function sanitizeAvatarId(rawAvatarId: string | null | undefined): ProfileAvatar
   return rawAvatarId;
 }
 
-function avatarIdFromDb(rawAvatarId: string | null | undefined, isAdmin: boolean): ProfileAvatarId {
-  if (rawAvatarId && isProfileAvatarId(rawAvatarId)) return rawAvatarId;
-  return isAdmin ? ADMIN_AVATAR_ID : DEFAULT_USER_AVATAR_ID;
-}
-
 function roleFromRow(row: UserDocument): UserRole {
   if (Boolean(row.is_admin) || row.id === ADMIN_ID) return "admin";
   if (row.id === DEMO_ID) return "demo";
@@ -151,12 +148,13 @@ function toProfile(row: UserDocument): UserProfile {
   const role = roleFromRow(row);
   const isAdmin = role === "admin";
   const isDemo = role === "demo";
-  const avatarId = avatarIdFromDb(row.avatar_id, isAdmin);
+  const avatar = resolveStoredProfileAvatar(row.avatar_id, row.avatar_migration_version);
 
   return {
     id: row.id,
     name: row.name,
-    avatarId,
+    avatarId: avatar.avatarId,
+    avatarMigrationRequired: avatar.migrationRequired,
     role,
     isAdmin,
     isDemo,
@@ -179,6 +177,7 @@ async function ensureAdmin() {
       id: ADMIN_ID,
       name: ADMIN_ID,
       avatar_id: ADMIN_AVATAR_ID,
+      avatar_migration_version: CURRENT_AVATAR_MIGRATION_VERSION,
       is_admin: true,
       progress_chapter: 11,
       progress_page: 1,
@@ -204,8 +203,9 @@ async function ensureAdmin() {
     updates.is_admin = true;
   }
 
-  if (!existing.avatar_id || !isProfileAvatarId(existing.avatar_id)) {
+  if (!existing.avatar_id) {
     updates.avatar_id = ADMIN_AVATAR_ID;
+    updates.avatar_migration_version = CURRENT_AVATAR_MIGRATION_VERSION;
   }
 
   const currentChapter = Number(existing.progress_chapter) || 1;
@@ -240,6 +240,7 @@ async function ensureDemoAccount() {
       id: DEMO_ID,
       name: DEMO_DISPLAY_NAME,
       avatar_id: DEFAULT_USER_AVATAR_ID,
+      avatar_migration_version: CURRENT_AVATAR_MIGRATION_VERSION,
       is_admin: false,
       progress_chapter: 11,
       progress_page: 1,
@@ -269,8 +270,9 @@ async function ensureDemoAccount() {
     updates.name = DEMO_DISPLAY_NAME;
   }
 
-  if (!existing.avatar_id || !isProfileAvatarId(existing.avatar_id)) {
+  if (!existing.avatar_id) {
     updates.avatar_id = DEFAULT_USER_AVATAR_ID;
+    updates.avatar_migration_version = CURRENT_AVATAR_MIGRATION_VERSION;
   }
 
   const currentChapter = Number(existing.progress_chapter) || 1;
@@ -309,7 +311,12 @@ async function ensureAvatarBackfill() {
       id: ADMIN_ID,
       $or: [{ avatar_id: null }, { avatar_id: "" }, { avatar_id: { $exists: false } }],
     },
-    { $set: { avatar_id: ADMIN_AVATAR_ID } }
+    {
+      $set: {
+        avatar_id: ADMIN_AVATAR_ID,
+        avatar_migration_version: CURRENT_AVATAR_MIGRATION_VERSION,
+      },
+    }
   );
 
   await users.updateMany(
@@ -317,7 +324,12 @@ async function ensureAvatarBackfill() {
       id: { $ne: ADMIN_ID },
       $or: [{ avatar_id: null }, { avatar_id: "" }, { avatar_id: { $exists: false } }],
     },
-    { $set: { avatar_id: DEFAULT_USER_AVATAR_ID } }
+    {
+      $set: {
+        avatar_id: DEFAULT_USER_AVATAR_ID,
+        avatar_migration_version: CURRENT_AVATAR_MIGRATION_VERSION,
+      },
+    }
   );
 }
 
@@ -420,6 +432,7 @@ export async function createUserAccount(input: {
       id: user.id,
       name: user.name.toUpperCase(),
       avatar_id: avatarId,
+      avatar_migration_version: CURRENT_AVATAR_MIGRATION_VERSION,
       is_admin: false,
       progress_chapter: 1,
       progress_page: 1,
@@ -521,6 +534,23 @@ export async function deleteUser(id: string): Promise<void> {
   if (cleanId === DEMO_ID) throw new Error("Demo account cannot be deleted.");
 
   await users.deleteOne({ id: cleanId });
+}
+
+export async function updateUserAvatar(id: string, rawAvatarId: string): Promise<void> {
+  await ensureUserDataState();
+  const { users } = await getCollections();
+
+  const cleanId = normalizeUserId(id);
+  const avatarId = sanitizeAvatarId(rawAvatarId);
+  await users.updateOne(
+    { id: cleanId },
+    {
+      $set: {
+        avatar_id: avatarId,
+        avatar_migration_version: CURRENT_AVATAR_MIGRATION_VERSION,
+      },
+    }
+  );
 }
 
 export async function setCurrentChapter(

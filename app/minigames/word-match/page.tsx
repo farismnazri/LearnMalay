@@ -11,7 +11,7 @@ import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
-const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
+const AKU2_IDLE_SRC = "/assets/characters/popup-trio.webp";
 
 function readUiLang(): UiLang {
   if (typeof window === "undefined") return "ms";
@@ -174,7 +174,7 @@ return (
 
         <section className="rounded-3xl bg-white/90 p-4 shadow-xl phone-lg:p-6">
           <div className="flex flex-col items-center gap-2 text-center">
-            <Image src={AKU2_IDLE_SRC} alt="AkuAku" width={120} height={120} className="drop-shadow" priority />
+            <Image src={AKU2_IDLE_SRC} alt="Learn Malay helpers" width={149} height={120} className="drop-shadow" priority />
             <div className="text-xl font-extrabold">
               {lang === "ms" ? "Cara main" : lang === "en" ? "How to play" : "Cómo jugar"}
             </div>

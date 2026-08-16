@@ -37,7 +37,7 @@ test.after(async () => {
 
 test("authenticated canonical requests save every game and deduplicate only by runId", async () => {
   const name = `HIGHSCORE_${Date.now()}`;
-  const registration = await request("/api/users", { method: "POST", body: JSON.stringify({ name, password: "test-password-123", avatarId: "crash" }) });
+  const registration = await request("/api/users", { method: "POST", body: JSON.stringify({ name, password: "test-password-123", avatarId: "bada" }) });
   assert.equal(registration.status, 200);
   const cookie = registration.headers.get("set-cookie")?.split(";", 1)[0] ?? "";
   assert.ok(cookie.startsWith(`${COOKIE}=`));

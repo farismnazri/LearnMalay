@@ -55,7 +55,7 @@ export default function TickCard({
         open={whyOpen}
         onClose={() => setWhyOpen(false)}
         dialogs={whyDialogs}
-        title="Aku-Aku"
+        title="Learn Malay"
       />
 
       <div className="text-2xl font-extrabold">{page.title.ms}</div>

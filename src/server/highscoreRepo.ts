@@ -190,7 +190,7 @@ export async function listHighScores(
 export async function addHighScore(
   gameId: GameId,
   run: HighscoreRun,
-  user: { id: string; name: string; avatarId?: string },
+  user: { id: string; name: string; avatarId?: string | null },
 ): Promise<HighscoreSaveResult> {
   const safe = normalizeIncomingHighscoreRun(gameId, run);
   const { highscores } = await getCollections();

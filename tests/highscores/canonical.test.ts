@@ -125,7 +125,7 @@ test("legacy Makan Apa submissions are the genuine attempts value", () => {
 
 test("repository preserves canonical rows, equal scores, and unversioned future writes", { concurrency: false }, async () => {
   await clearHighScores();
-  const user = { id: "CANONICAL_TEST", name: "Same Player", avatarId: "crash" };
+  const user = { id: "CANONICAL_TEST", name: "Same Player", avatarId: "bada" };
   const first = run({ timeMs: 2000 });
   const second = run({ timeMs: 2000 });
   await addHighScore("numbers", first, user);
@@ -176,7 +176,7 @@ test("repository preserves canonical rows, equal scores, and unversioned future 
 
 test("display limits do not trim storage", { concurrency: false }, async () => {
   await clearHighScores();
-  const user = { id: "RETENTION_TEST", name: "Retention Test", avatarId: "crash" };
+  const user = { id: "RETENTION_TEST", name: "Retention Test", avatarId: "bada" };
   for (let index = 0; index < 25; index += 1) {
     await addHighScore("numbers", run({ timeMs: 1000 + index }), user);
   }

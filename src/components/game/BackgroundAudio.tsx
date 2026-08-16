@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { getBackgroundAudioSrc } from "@/lib/backgroundAudio";
 
 const KEY_MUTED = "learnMalay.audioMuted.v1";
 const KEY_VOL = "learnMalay.audioVol.v1";
@@ -118,12 +120,14 @@ export function BackgroundAudioControls({
 }
 
 export default function BackgroundAudio({
-  src = "/assets/audio/bgm.m4a",
+  src,
   showControls = true,
 }: {
   src?: string;
   showControls?: boolean;
 }) {
+  const pathname = usePathname();
+  const resolvedSrc = src ?? getBackgroundAudioSrc(pathname);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const settingsRef = useRef<AudioSettings>({ muted: true, vol: 0.5 });
   const [settings, setSettings] = useState<AudioSettings>({ muted: true, vol: 0.5 });
@@ -186,6 +190,16 @@ export default function BackgroundAudio({
     };
   }, [applyAudioSettings, playIfEnabled]);
 
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.pause();
+    if (settingsRef.current.muted) return;
+    audio.load();
+    void playIfEnabled(settingsRef.current);
+  }, [playIfEnabled, resolvedSrc]);
+
   // Autoplay is blocked until user interacts; only start loading if music is enabled.
   useEffect(() => {
     const onFirstInteraction = () => {
@@ -205,7 +219,7 @@ export default function BackgroundAudio({
 
   return (
     <>
-      <audio ref={audioRef} src={src} preload="none" />
+      <audio ref={audioRef} src={resolvedSrc} preload="none" />
       {showControls ? (
         <div className="safe-corner-bottom-left fixed z-[60] rounded-2xl bg-white/85 p-3 shadow backdrop-blur">
           <BackgroundAudioControls />

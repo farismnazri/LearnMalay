@@ -21,8 +21,8 @@ import StylizedTitle from "@/components/game/StylizedTitle";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
-const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
-const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
+const AKU2_IDLE_SRC = "/assets/characters/popup-trio.webp";
+const AKU2_SALAH_SRC = "/assets/characters/popup-salah.webp";
 const MAX_LIVES = 5;
 
 const EASY_CONFIG = SHOPPING_DIFFICULTIES.easy;
@@ -889,7 +889,7 @@ export default function MisiMembeliPlayPage() {
                     alt="life"
                     width={36}
                     height={36}
-                    className={["h-10 w-10 drop-shadow", idx < lives ? "opacity-100" : "opacity-25 grayscale"].join(" ")}
+                    className={["h-10 w-10 object-contain drop-shadow", idx < lives ? "opacity-100" : "opacity-25 grayscale"].join(" ")}
                     priority
                   />
                 ))}

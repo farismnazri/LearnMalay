@@ -4,6 +4,7 @@ type UserDocument = {
   id: string;
   name: string;
   avatar_id: string | null;
+  avatar_migration_version?: number;
   is_admin: boolean;
   progress_chapter: number;
   progress_page: number;

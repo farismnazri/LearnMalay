@@ -21,9 +21,9 @@ import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
 import IconActionLink from "@/components/navigation/IconActionLink";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
-const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
-const AKU2_BETUL_SRC = "/assets/characters/Akuaku_Betul.webp";
-const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
+const AKU2_IDLE_SRC = "/assets/characters/popup-trio.webp";
+const AKU2_BETUL_SRC = "/assets/characters/popup-betul.webp";
+const AKU2_SALAH_SRC = "/assets/characters/popup-salah.webp";
 const MAX_LIVES = 5;
 
 function readUiLang(): UiLang {
@@ -1033,7 +1033,7 @@ export default function CurrencyPlayPage() {
                         width={40}
                         height={40}
                         className={[
-                          "h-10 w-10 drop-shadow phone-lg:h-12 phone-lg:w-12 tablet:h-14 tablet:w-14",
+                          "h-10 w-10 object-contain drop-shadow phone-lg:h-12 phone-lg:w-12 tablet:h-14 tablet:w-14",
                           i < lives ? "opacity-100" : "opacity-25 grayscale",
                         ].join(" ")}
                         priority
@@ -1490,7 +1490,7 @@ export default function CurrencyPlayPage() {
         open={!!popupText}
         fade={popupFade}
         src={popupAvatarSrc}
-        alt="AkuAku"
+        alt="Learn Malay feedback"
         widthClassName="w-[180px] phone-lg:w-[240px] tablet:w-[320px]"
         animation="bounce"
       >

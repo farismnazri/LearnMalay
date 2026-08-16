@@ -598,8 +598,8 @@ export default function WordSearchCard({
       <AkuAkuFeedbackPopup
         open={showFoundOverlay}
         variant="fullscreen"
-        src="/assets/characters/Akuaku_Betul.webp"
-        alt="Aku Aku"
+        src="/assets/characters/popup-betul.webp"
+        alt="Learn Malay feedback"
         animation="pulse"
         widthClassName="w-[240px] phone-lg:w-[280px] tablet:w-[300px]"
         imageClassName="drop-shadow-xl"

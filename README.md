@@ -1,6 +1,6 @@
 # Learn Malay
 
-Crash/PS1-inspired web game for learning spoken Malaysian Malay through chapter-based lessons, helper dialogs, profile progress, and minigames.
+Playful web game for learning spoken Malaysian Malay through chapter-based lessons, helper dialogs, profile progress, and minigames.
 
 The actual app root is:
 
@@ -29,7 +29,7 @@ The actual app root is:
 - `app/api/` - users, current session, progress, admin verification, and highscores endpoints.
 - `src/lib/` - client helpers, shared types, chapter content, minigame data, unlock rules, fonts, and avatars.
 - `src/lib/chapters/` - TypeScript-backed lesson content for chapters 1-11.
-- `src/lib/akuAku/` - Aku-Aku helper dialog content.
+- `src/lib/akuAku/` - helper dialog content (legacy internal folder name retained for compatibility).
 - `src/components/` - shared game UI and navigation components.
 - `src/server/` - MongoDB/in-memory storage adapter, user repo, session repo, highscore repo, and session cookie helpers.
 - `public/assets/` - game backgrounds, characters, icons, borders, chapter assets, and audio.

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import type { ChapterChatPage, Translated, UiLang } from "@/lib/chapters";
 
-const AKU_AKU_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
+const AKU_AKU_IDLE_SRC = "/assets/characters/popup-trio.webp";
 const CURRENT_USERNAME_TOKEN = "{currentUsername}";
 
 type ChatCardProps = {
@@ -75,7 +75,7 @@ export default function ChatCard({
                 <div className="h-10 w-10 overflow-hidden rounded-full bg-white shadow">
                   <Image
                     src={AKU_AKU_IDLE_SRC}
-                    alt="Aku Aku"
+                    alt="Learn Malay helpers"
                     width={40}
                     height={40}
                     className="h-10 w-10 bg-[#fbf5df] object-contain"
@@ -99,7 +99,7 @@ export default function ChatCard({
                 <div className="h-10 w-10 overflow-hidden rounded-full bg-white shadow">
                   <Image
                     src={isUser ? userAvatarSrc : AKU_AKU_IDLE_SRC}
-                    alt={isUser ? speakerName : "Aku Aku"}
+                    alt={isUser ? speakerName : "Learn Malay helpers"}
                     width={40}
                     height={40}
                     className={`h-10 w-10 ${isUser ? "object-cover" : "bg-[#fbf5df] object-contain"}`}

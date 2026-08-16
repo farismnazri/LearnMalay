@@ -130,6 +130,16 @@ export async function registerUser(
   return profile;
 }
 
+export async function updateCurrentUserAvatar(avatarId: ProfileAvatarId): Promise<UserProfile> {
+  const profile = await fetchJson<UserProfile>("/api/users/current", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ avatarId }),
+  });
+  cachedUser = profile;
+  return profile;
+}
+
 export async function verifyAdminPassword(password: string): Promise<boolean> {
   const res = await fetchJson<{ ok: boolean }>("/api/users/verify-admin", {
     method: "POST",

@@ -65,10 +65,10 @@ return (
       {/* CHARACTER (smaller on mobile, overlapping on larger screens) */}
     <div className="pointer-events-none absolute left-3 top-3 z-10 sm:-left-[150px] sm:-top-[140px]">
         <Image
-          src="/assets/characters/Akuaku_idle.png"
-          alt="Aku-Aku"
-          width={300}
-          height={300}
+          src="/assets/characters/popup-trio.webp"
+          alt="Learn Malay helpers"
+          width={409}
+          height={330}
           className="h-auto w-24 select-none drop-shadow-2xl sm:w-[300px]"
           priority
         />
@@ -79,7 +79,7 @@ return (
         <div className="flex items-start justify-between gap-3">
           <div>
             <div className="text-sm font-extrabold opacity-80">
-              {title ?? "Aku-Aku"}
+              {title ?? "Learn Malay"}
             </div>
 
             {/* Language buttons */}

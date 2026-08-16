@@ -10,7 +10,8 @@ export type UserRole = "admin" | "demo" | "user";
 export type UserProfile = {
   id: string;
   name: string;
-  avatarId: ProfileAvatarId;
+  avatarId: ProfileAvatarId | null;
+  avatarMigrationRequired?: boolean;
   role: UserRole;
   isAdmin?: boolean;
   isDemo?: boolean;

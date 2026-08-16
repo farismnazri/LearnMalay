@@ -114,7 +114,7 @@ export default function HighScoresPage() {
 
   const allRows = useMemo(() => store[gameId] ?? [], [store, gameId]);
   const avatarByName = useMemo(() => {
-    const avatars = new Map<string, ProfileAvatarId>();
+    const avatars = new Map<string, ProfileAvatarId | null>();
     for (const user of users) avatars.set(user.name.toUpperCase(), user.avatarId);
     return avatars;
   }, [users]);

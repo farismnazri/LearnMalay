@@ -16,7 +16,7 @@ import { isSingleWordSearchEntry, isValidWordSearchWord, normalizeWordSearchWord
 import { canSaveHighscores } from "@/lib/userCapabilities";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
-const AKU2_SALAH_SRC = "/assets/characters/Akuaku_Salah.webp";
+const AKU2_SALAH_SRC = "/assets/characters/popup-salah.webp";
 
 const DIFFICULTIES = {
   easy: { size: 10, count: 5, label: { ms: "Mudah", en: "Easy", es: "Fácil" } },

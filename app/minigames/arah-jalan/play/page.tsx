@@ -40,7 +40,7 @@ import {
 import { resolveArahJalanStreakAfterMistake } from "@/lib/arahJalan/streakScoring";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
-const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
+const AKU2_IDLE_SRC = "/assets/characters/popup-trio.webp";
 const MAX_QUEUE_LENGTH = 16;
 const STEP_DELAY_MS = 460;
 
@@ -622,7 +622,7 @@ export default function ArahJalanPlayPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-[#d8c792] bg-[#fff5d5] px-2.5 py-1.5 text-xs font-black text-[#5b4510]">
-                <Image src={AKU2_IDLE_SRC} alt="AkuAku" width={32} height={32} className="h-8 w-8" />
+                <Image src={AKU2_IDLE_SRC} alt="Learn Malay helpers" width={40} height={32} className="h-8 w-8 object-contain" />
                 {isRunning
                   ? lang === "ms"
                     ? "Bergerak..."

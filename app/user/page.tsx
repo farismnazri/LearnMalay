@@ -18,6 +18,7 @@ import {
   normalizePasswordInput,
   normalizeUserNameInput,
   registerUser,
+  updateCurrentUserAvatar,
   type ProfileAvatarId,
   type UserProfile,
 } from "@/lib/userStore";
@@ -34,6 +35,39 @@ type AuthMode = "login" | "create";
 type UiLang = "ms" | "en" | "es";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
+
+const AVATAR_COPY = {
+  ms: {
+    change: "Tukar Ikon",
+    retired: "Ikon profil lama anda telah dihentikan. Sila pilih ikon baharu.",
+    choose: "Pilih Ikon Baharu",
+    title: "Pilih Ikon Profil",
+    save: "Simpan Ikon",
+    saving: "Menyimpan...",
+    cancel: "Batal",
+    error: "Ikon tidak dapat disimpan.",
+  },
+  en: {
+    change: "Change Icon",
+    retired: "Your previous profile icon has been retired. Please choose a new one.",
+    choose: "Choose New Icon",
+    title: "Choose Profile Icon",
+    save: "Save Icon",
+    saving: "Saving...",
+    cancel: "Cancel",
+    error: "Could not save the icon.",
+  },
+  es: {
+    change: "Cambiar icono",
+    retired: "Tu icono de perfil anterior se retiró. Elige uno nuevo.",
+    choose: "Elegir icono nuevo",
+    title: "Elige un icono de perfil",
+    save: "Guardar icono",
+    saving: "Guardando...",
+    cancel: "Cancelar",
+    error: "No se pudo guardar el icono.",
+  },
+} satisfies Record<UiLang, Record<string, string>>;
 
 function readUiLang(): UiLang {
   if (typeof window === "undefined") return "ms";
@@ -80,6 +114,10 @@ export default function UserSelectPage() {
   const [deleteConfirmName, setDeleteConfirmName] = useState("");
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deleteSubmitting, setDeleteSubmitting] = useState(false);
+  const [avatarModalOpen, setAvatarModalOpen] = useState(false);
+  const [pendingAvatarId, setPendingAvatarId] = useState<ProfileAvatarId>(DEFAULT_USER_AVATAR_ID);
+  const [avatarSaving, setAvatarSaving] = useState(false);
+  const [avatarSaveError, setAvatarSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -96,6 +134,10 @@ export default function UserSelectPage() {
       alive = false;
     };
   }, []);
+
+  useEffect(() => {
+    setPendingAvatarId(me?.avatarId ?? DEFAULT_USER_AVATAR_ID);
+  }, [me?.avatarId]);
 
   useEffect(() => {
     if (!canManageUsers(me)) {
@@ -340,6 +382,36 @@ export default function UserSelectPage() {
     }
   }
 
+  function openAvatarChooser() {
+    if (!me) return;
+    setPendingAvatarId(me.avatarId ?? DEFAULT_USER_AVATAR_ID);
+    setAvatarSaveError(null);
+    setAvatarModalOpen(true);
+  }
+
+  function closeAvatarChooser() {
+    if (avatarSaving) return;
+    setAvatarModalOpen(false);
+    setAvatarSaveError(null);
+  }
+
+  async function handleAvatarSave() {
+    if (!me || avatarSaving) return;
+
+    try {
+      setAvatarSaving(true);
+      setAvatarSaveError(null);
+      const updated = await updateCurrentUserAvatar(pendingAvatarId);
+      setMe(updated);
+      setAdminUsers((users) => users.map((user) => (user.id === updated.id ? updated : user)));
+      setAvatarModalOpen(false);
+    } catch (error: unknown) {
+      setAvatarSaveError(getErrorMessage(error, AVATAR_COPY[lang].error));
+    } finally {
+      setAvatarSaving(false);
+    }
+  }
+
   const isActionDisabled =
     submitting || !cleanName || (mode === "create" && (!cleanPassword || !usernameSafety.ok));
 
@@ -497,7 +569,7 @@ export default function UserSelectPage() {
                 <div className="flex min-w-0 flex-col items-center gap-3 phone-lg:flex-row phone-lg:items-center">
                   <div className="h-[68px] w-[68px] shrink-0 rounded-full bg-[#fff8e8]/95 p-[10px] shadow-[inset_0_0_0_2px_rgba(255,255,255,0.65),0_6px_14px_rgba(0,0,0,0.2)] phone-lg:h-[76px] phone-lg:w-[76px]">
                     <Image
-                      src={getProfileAvatarSrc(me?.avatarId ?? DEFAULT_USER_AVATAR_ID)}
+                      src={getProfileAvatarSrc(me?.avatarId)}
                       alt={me ? `${me.name} avatar` : "Default avatar"}
                       width={56}
                       height={56}
@@ -514,16 +586,38 @@ export default function UserSelectPage() {
                   </div>
                 </div>
                 {me ? (
-                  <button
-                    type="button"
-                    onClick={handleSwitchUser}
-                    className="touch-target mx-auto w-full rounded-xl border border-[#bfe6a8]/70 bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] px-4 py-2 text-sm font-black text-[#f3ffe9] shadow-[0_4px_10px_rgba(22,91,42,0.28)] phone-lg:mx-0 phone-lg:w-auto md:hidden"
-                  >
-                    Sign Out
-                  </button>
+                  <div className="flex w-full flex-col gap-2 phone-lg:w-auto">
+                    <button
+                      type="button"
+                      onClick={openAvatarChooser}
+                      className="touch-target mx-auto w-full rounded-xl border border-[#c89555]/70 bg-[#fff1ce] px-4 py-2 text-sm font-black text-[#4a2c0d] shadow phone-lg:mx-0 phone-lg:w-auto"
+                    >
+                      {AVATAR_COPY[lang].change}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSwitchUser}
+                      className="touch-target mx-auto w-full rounded-xl border border-[#bfe6a8]/70 bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] px-4 py-2 text-sm font-black text-[#f3ffe9] shadow-[0_4px_10px_rgba(22,91,42,0.28)] phone-lg:mx-0 phone-lg:w-auto md:hidden"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
                 ) : null}
               </div>
             </div>
+
+            {me?.avatarMigrationRequired ? (
+              <div className="rounded-2xl border border-amber-200/75 bg-[#fff3c9] px-4 py-3 text-[#4a2c0d] shadow-lg" role="status">
+                <p className="text-sm font-bold">{AVATAR_COPY[lang].retired}</p>
+                <button
+                  type="button"
+                  onClick={openAvatarChooser}
+                  className="touch-target mt-2 rounded-xl bg-[#d8892d] px-4 py-2 text-sm font-black text-white shadow"
+                >
+                  {AVATAR_COPY[lang].choose}
+                </button>
+              </div>
+            ) : null}
 
             <div className="user-progress-grid grid grid-cols-1 gap-3 md:grid-cols-[1fr_auto]">
               <div
@@ -662,6 +756,76 @@ export default function UserSelectPage() {
           </section>
         </div>
       </div>
+
+      {avatarModalOpen && me && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-3 py-4 phone-lg:px-4">
+          <button
+            type="button"
+            onClick={closeAvatarChooser}
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            aria-label={AVATAR_COPY[lang].cancel}
+          />
+
+          <div className="relative max-h-[92dvh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-[#e6c35f]/45 bg-[#3f2a0d] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.45)] phone-lg:p-6">
+            <h2 className="text-center text-2xl font-black text-[#fff6db]">{AVATAR_COPY[lang].title}</h2>
+            <div className="mt-4 grid grid-cols-3 gap-2 phone-lg:grid-cols-4 sm:grid-cols-6">
+              {PROFILE_AVATARS.map((avatar) => {
+                const selected = avatar.id === pendingAvatarId;
+                return (
+                  <button
+                    key={avatar.id}
+                    type="button"
+                    onClick={() => {
+                      setPendingAvatarId(avatar.id);
+                      setAvatarSaveError(null);
+                    }}
+                    aria-pressed={selected}
+                    className={[
+                      "touch-target rounded-2xl border p-2 transition",
+                      selected
+                        ? "border-[#ffd76b] bg-[#fff0bd] ring-2 ring-[#ffd76b]"
+                        : "border-[#b9905e]/70 bg-[#fff8e7] hover:border-[#ffd76b]",
+                    ].join(" ")}
+                  >
+                    <Image
+                      src={avatar.src}
+                      alt={avatar.label}
+                      width={80}
+                      height={91}
+                      className="mx-auto h-16 w-16 rounded-full object-contain"
+                    />
+                    <span className="mt-1 block text-center text-xs font-black text-[#3e230c]">{avatar.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {avatarSaveError ? (
+              <div className="mt-4 rounded-2xl border border-rose-300/70 bg-rose-100 px-4 py-3 text-sm font-semibold text-rose-900">
+                {avatarSaveError}
+              </div>
+            ) : null}
+
+            <div className="mt-5 flex flex-col-reverse justify-end gap-2 phone-lg:flex-row">
+              <button
+                type="button"
+                onClick={closeAvatarChooser}
+                className="touch-target rounded-xl border border-[#f0d495]/65 bg-[#5f401a]/80 px-4 py-2 text-sm font-black text-[#fff6db]"
+              >
+                {AVATAR_COPY[lang].cancel}
+              </button>
+              <button
+                type="button"
+                onClick={() => void handleAvatarSave()}
+                disabled={avatarSaving}
+                className="touch-target rounded-xl bg-gradient-to-r from-[#65d36d] via-[#3db85a] to-[#2b9448] px-4 py-2 text-sm font-black text-white disabled:opacity-50"
+              >
+                {avatarSaving ? AVATAR_COPY[lang].saving : AVATAR_COPY[lang].save}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {adminModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">

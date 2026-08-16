@@ -356,7 +356,7 @@ export default function ChapterPage() {
         open={showIntro && introDialogs.length > 0}
         onClose={() => setShowIntro(false)}
         dialogs={introDialogs}
-        title="Aku-Aku"
+        title="Learn Malay"
       />
 
       <div className="relative z-10 mx-auto max-w-5xl pb-24 md:pb-0">
@@ -389,7 +389,7 @@ export default function ChapterPage() {
                 <button
                   onClick={() => setShowIntro(true)}
                   className="touch-target h-11 min-w-0 rounded-xl border-2 border-[#b98118] bg-amber-300 px-2 text-sm font-black shadow"
-                  title="Show Aku-Aku intro again"
+                  title="Show intro again"
                 >
                   <span className="block truncate">Replay Intro</span>
                 </button>
@@ -446,7 +446,7 @@ export default function ChapterPage() {
               <button
                 onClick={() => setShowIntro(true)}
                 className="touch-target rounded-xl bg-amber-300 px-2.5 py-2 text-xs font-black shadow"
-                title="Show Aku-Aku intro again"
+                title="Show intro again"
               >
                 Replay Intro
               </button>

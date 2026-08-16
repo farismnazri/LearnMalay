@@ -8,7 +8,7 @@ import AddToHomeScreenPrompt from "@/components/game/AddToHomeScreenPrompt";
 export const metadata: Metadata = {
   applicationName: "Learn Malay",
   title: "Learn Malay",
-  description: "Crash-inspired Malay learning app",
+  description: "Playful game-style app for learning spoken Malaysian Malay",
   appleWebApp: {
     capable: true,
     title: "Learn Malay",
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${crashFont.variable} antialiased`}>
-        <BackgroundAudio src="/assets/audio/bgm.m4a" showControls={false} />
+        <BackgroundAudio showControls={false} />
         <AddToHomeScreenPrompt />
         {children}
       </body>

@@ -16,7 +16,7 @@ import {
 } from "@/lib/arahJalan/items";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
-const AKU2_IDLE_SRC = "/assets/characters/Akuaku_idle.png";
+const AKU2_IDLE_SRC = "/assets/characters/popup-trio.webp";
 
 type Translated = { ms: string; en: string; es: string };
 
@@ -188,7 +188,7 @@ export default function ArahJalanIntroPage() {
 
         <section className="rounded-3xl bg-white/92 p-4 shadow-xl phone-lg:p-6">
           <div className="flex flex-col items-center gap-2 text-center">
-            <Image src={AKU2_IDLE_SRC} alt="AkuAku" width={120} height={120} className="drop-shadow" priority />
+            <Image src={AKU2_IDLE_SRC} alt="Learn Malay helpers" width={149} height={120} className="drop-shadow" priority />
             <div className="text-xl font-extrabold">
               {lang === "ms" ? "Cara main" : lang === "en" ? "How to play" : "Como jugar"}
             </div>

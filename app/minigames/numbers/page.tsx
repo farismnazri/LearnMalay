@@ -343,7 +343,7 @@ export default function MiniGamesPage() {
         open={akuOpen}
         onClose={() => setAkuOpen(false)}
         dialogs={akuDialogs}
-        title="Aku-Aku"
+        title="Learn Malay"
       />
 
       <div className="relative mx-auto max-w-6xl">
@@ -416,15 +416,15 @@ export default function MiniGamesPage() {
                     type="button"
                     onClick={openAkuAkuPuluh}
                     className="shrink-0 bg-transparent p-0 shadow-none outline-none"
-                    title="Aku-Aku"
-                    aria-label="Aku-Aku"
+                    title="Learning helper"
+                    aria-label="Learning helper"
                 >
                     <Image
-                    src="/assets/characters/Akuaku_idle.png"
-                    alt="Aku2"
-                    width={100}
+                    src="/assets/characters/popup-trio.webp"
+                    alt="Learn Malay helpers"
+                    width={124}
                     height={100}
-                    className="block cursor-pointer select-none bg-transparent transition hover:scale-[1.5] active:scale-[0.01]"
+                    className="block cursor-pointer select-none bg-transparent object-contain transition hover:scale-[1.5] active:scale-[0.01]"
                     priority
                     />
                 </button>
