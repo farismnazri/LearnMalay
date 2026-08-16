@@ -22,13 +22,18 @@ export const WORLD_CHAPTER_IDS = {
 
 export const MINIGAME_PREREQUISITE_CHAPTERS = {
   numbers: 5,
-  "word-match": 2,
+  "word-match": 1,
   wordsearch: 3,
   currency: 5,
   "makan-apa": 2,
   "misi-membeli": 11,
   "arah-jalan": 4,
 } as const;
+
+// The map derives its minigame markers from this canonical prerequisite table.
+export const MINIGAME_UNLOCK_CHAPTER_IDS: ReadonlySet<number> = new Set(
+  Object.values(MINIGAME_PREREQUISITE_CHAPTERS),
+);
 
 export function getChapterWorldLevel(chapterId: number) {
   if (WORLD_CHAPTER_IDS[1].includes(chapterId as never)) return { world: 1, level: chapterId };
@@ -71,4 +76,17 @@ export function migrateLegacyCompletedChapterRevisions(revisions: Record<string,
     migrated[String(currentChapterId)] = revision;
   }
   return migrated;
+}
+
+export function getNextRequiredProgressChapter(
+  requestedProgressChapter: number,
+  completedChapterRevisions: Record<string, number>,
+) {
+  for (let chapterId = 1; chapterId <= 11; chapterId += 1) {
+    if (completedChapterRevisions[String(chapterId)] === undefined) {
+      return Math.max(requestedProgressChapter, chapterId);
+    }
+  }
+
+  return 11;
 }

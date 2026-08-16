@@ -12,10 +12,10 @@ import {
   getCurrentUser,
   type UserProfile,
 } from "@/lib/userStore";
-import { isChapterUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
+import { isChapterUnlocked } from "@/lib/minigameUnlocks";
 import { hasChapterUpdate } from "@/lib/chapterUpdates";
 import { canPersistProgress, canUnlockEverything, isAdmin, isDemo } from "@/lib/userCapabilities";
-import { getChapterWorldLevel } from "@/lib/chapterProgression";
+import { getChapterWorldLevel, MINIGAME_UNLOCK_CHAPTER_IDS } from "@/lib/chapterProgression";
 
 type ChapterCard = {
   chapter: number; // 1..11
@@ -23,10 +23,6 @@ type ChapterCard = {
   level: number; // 1..4 or 1..3
   theme: string;
 };
-
-const CHAPTERS_WITH_MINIGAME_UNLOCK = new Set<number>(
-  [...Object.values(MINIGAME_PREREQUISITES), MINIGAME_PREREQUISITES["arah-jalan"]],
-);
 
 function buildChapters(): ChapterCard[] {
   return CHAPTER_SUMMARIES.map((chapter) => {
@@ -216,7 +212,7 @@ export default function MapPage() {
                   const unlocked = isChapterUnlocked(user, c.chapter);
                   const isCurrent = c.chapter === currentChapter;
                   const lockHint = c.chapter === 1 ? "Start here" : `Finish Chapter ${c.chapter - 1}`;
-                  const unlocksMinigame = CHAPTERS_WITH_MINIGAME_UNLOCK.has(c.chapter);
+                  const unlocksMinigame = MINIGAME_UNLOCK_CHAPTER_IDS.has(c.chapter);
                   const chapterContent = CHAPTER_SUMMARIES.find((chapter) => chapter.id === c.chapter);
                   const showUpdateBadge =
                     canShowChapterUpdates &&
@@ -251,7 +247,10 @@ export default function MapPage() {
                       {unlocksMinigame && (
                         <span
                           className={[
-                            "pointer-events-none absolute right-2.5 top-2.5 inline-flex h-10 w-10 items-center justify-center opacity-50 transition-opacity duration-150 group-hover:opacity-75 group-focus-visible:opacity-75",
+                            "pointer-events-none absolute right-2.5 top-2.5 inline-flex h-10 w-10 items-center justify-center transition-opacity duration-150",
+                            unlocked
+                              ? "opacity-50 group-hover:opacity-75 group-focus-visible:opacity-75"
+                              : "opacity-90",
                           ].join(" ")}
                           role="img"
                           aria-label="Completing this chapter unlocks a minigame"
@@ -267,7 +266,9 @@ export default function MapPage() {
                               "h-9 w-9 object-contain",
                               isCurrent
                                 ? "[filter:brightness(0)_saturate(100%)_invert(28%)_sepia(56%)_saturate(1957%)_hue-rotate(356deg)_brightness(95%)_contrast(91%)]"
-                                : "[filter:brightness(0)_saturate(100%)_invert(26%)_sepia(17%)_saturate(1169%)_hue-rotate(72deg)_brightness(90%)_contrast(89%)]",
+                                : unlocked
+                                ? "[filter:brightness(0)_saturate(100%)_invert(26%)_sepia(17%)_saturate(1169%)_hue-rotate(72deg)_brightness(90%)_contrast(89%)]"
+                                : "[filter:brightness(0)_saturate(100%)_invert(86%)_sepia(12%)_saturate(684%)_hue-rotate(45deg)_brightness(96%)_contrast(90%)]",
                             ].join(" ")}
                           />
                         </span>

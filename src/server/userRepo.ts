@@ -19,6 +19,8 @@ import {
 import { CHAPTERS, MAX_CHAPTER_ID, MIN_CHAPTER_ID, getChapterById } from "@/lib/chapters";
 import {
   CHAPTER_PROGRESSION_VERSION,
+  LEGACY_TO_CURRENT_CHAPTER_ID,
+  getNextRequiredProgressChapter,
   migrateLegacyCompletedChapterRevisions,
   migrateLegacyProgressChapter,
 } from "@/lib/chapterProgression";
@@ -128,6 +130,16 @@ function completedRevisionBaseline(progressChapter: number): Record<string, numb
       ? progressChapter >= MAX_CHAPTER_ID
       : progressChapter > chapter.id;
     if (completed) revisions[String(chapter.id)] = chapter.revision;
+  }
+  return revisions;
+}
+
+function legacyCompletedRevisionBaseline(legacyProgressChapter: number): Record<string, number> {
+  const revisions: Record<string, number> = {};
+  for (let legacyChapterId = MIN_CHAPTER_ID; legacyChapterId < legacyProgressChapter; legacyChapterId += 1) {
+    const currentChapterId = LEGACY_TO_CURRENT_CHAPTER_ID[legacyChapterId] ?? legacyChapterId;
+    const chapter = getChapterById(currentChapterId);
+    if (chapter) revisions[String(legacyChapterId)] = chapter.revision;
   }
   return revisions;
 }
@@ -384,7 +396,14 @@ async function ensureChapterProgressionMigration() {
       !Array.isArray(row.completed_chapter_revisions)
     ) {
       updates.completed_chapter_revisions = migrateLegacyCompletedChapterRevisions(
-        normalizeCompletedChapterRevisions(row.completed_chapter_revisions),
+        {
+          ...legacyCompletedRevisionBaseline(legacyProgressChapter),
+          ...normalizeCompletedChapterRevisions(row.completed_chapter_revisions),
+        },
+      );
+    } else {
+      updates.completed_chapter_revisions = migrateLegacyCompletedChapterRevisions(
+        legacyCompletedRevisionBaseline(legacyProgressChapter),
       );
     }
 
@@ -635,7 +654,7 @@ export async function setCurrentChapter(
     ? current.progress_page
     : 1;
 
-  const nextChapter = Math.max(currentChapter, chapter);
+  const requestedNextChapter = Math.max(currentChapter, chapter);
   const nextPage = chapter < currentChapter ? currentPage : page;
   const completedChapterRevisions = normalizeCompletedChapterRevisions(current.completed_chapter_revisions);
 
@@ -646,6 +665,10 @@ export async function setCurrentChapter(
     }
     completedChapterRevisions[String(completedChapterId)] = completedChapter.revision;
   }
+
+  const nextChapter = completedChapterId === undefined
+    ? requestedNextChapter
+    : getNextRequiredProgressChapter(requestedNextChapter, completedChapterRevisions);
 
   await users.updateOne(
     { id: cleanId },
