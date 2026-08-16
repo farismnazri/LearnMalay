@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [0.18.0] - 2026-08-16
+
+### Added
+- Added 12 original Learn Malay profile icons, a responsive icon chooser on `/user`, and a one-time replacement flow for accounts using retired avatars.
+
+### Changed
+- Replaced legacy profile and helper artwork with optimized original Learn Malay assets and removed the obsolete Crash-derived runtime assets.
+- Replaced the previous background music with four compressed Learn Malay OST tracks mapped across menu, map, chapter, minigame, and highscore routes.
+
+### Fixed
+- Accounts with retired stored avatars now load with a neutral fallback and can choose a replacement without losing progress or other account data.
+
 ## [0.17.0] - 2026-08-02
 
 ### Changed

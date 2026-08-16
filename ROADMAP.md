@@ -1,7 +1,7 @@
 # Learn Malay Product Roadmap
 
-Updated: 2026-08-02
-Current version baseline: `0.17.0`
+Updated: 2026-08-16
+Current version baseline: `0.18.0`
 
 ## Purpose
 `ROADMAP.md` is the maintainer-facing planning and execution doc.
@@ -72,6 +72,7 @@ It does **not** replace release notes.
 - Shipped `0.15.1` as a patch release for clearer Chapter 1 plural pronoun-card examples, explanations, and returning-learner update notice coverage.
 - Shipped `0.16.0` as a minor release for immutable v2 highscore runs across every minigame, retryable score submission, fairness-aware rankings, retained legacy/noncompetitive history, and corrected Makan Apa and Wordsearch score registration.
 - Shipped `0.17.0` as a minor release for improved Chapter 5 money and address learning, Chapter 9 occupations learning, and the canonical highscore leaderboard correction.
+- Shipped `0.18.0` as a minor release for original Learn Malay profile and helper artwork, backward-compatible avatar replacement, self-service profile icon changes, and route-aware Learn Malay OST playback.
 
 ## Future Lanes
 

@@ -16,6 +16,43 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.18.0",
+    date: "2026-08-16",
+    headline: {
+      ms: "Ikon profil baharu dan OST Learn Malay kini tersedia",
+      en: "New profile icons and the Learn Malay OST are now available",
+      es: "Ya están disponibles los nuevos iconos de perfil y la banda sonora de Learn Malay",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah 12 ikon profil asli Learn Malay dan pemilih ikon responsif pada halaman pengguna.",
+          en: "Added 12 original Learn Malay profile icons and a responsive icon chooser on the user page.",
+          es: "Se añadieron 12 iconos de perfil originales de Learn Malay y un selector adaptable en la página de usuario.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Menggantikan ikon profil dan karya seni pembantu lama dengan aset Learn Malay asli yang dioptimumkan.",
+          en: "Replaced the previous profile icons and helper artwork with optimized original Learn Malay assets.",
+          es: "Se reemplazaron los iconos de perfil y las ilustraciones de ayuda anteriores por recursos originales optimizados de Learn Malay.",
+        },
+        {
+          ms: "Menggantikan muzik latar lama dengan empat trek OST Learn Malay untuk menu dan peta, bab, minigame, serta highscore.",
+          en: "Replaced the previous background music with four Learn Malay OST tracks for menus and maps, chapters, minigames, and highscores.",
+          es: "Se reemplazó la música de fondo anterior por cuatro pistas de la banda sonora de Learn Malay para menús y mapas, capítulos, minijuegos y puntuaciones.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Akaun dengan ikon lama kini dimuatkan dengan selamat menggunakan ikon sementara dan menerima satu notis untuk memilih ikon baharu tanpa menjejaskan kemajuan.",
+          en: "Accounts with retired icons now load safely with a temporary fallback and receive one notice to choose a new icon without affecting progress.",
+          es: "Las cuentas con iconos retirados ahora se cargan de forma segura con un icono provisional y reciben un solo aviso para elegir uno nuevo sin afectar el progreso.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.17.0",
     date: "2026-08-02",
     headline: {
