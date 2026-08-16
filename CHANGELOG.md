@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [0.19.0] - 2026-08-16
+
+### Changed
+- Reordered the learning path so Food is Chapter 2, Family is Chapter 3, and Counters is Chapter 7; minigame unlocks and map markers now follow the canonical progression.
+
+### Fixed
+- Preserved existing learner completion and revision history by lesson identity through the chapter reorder, requiring only genuinely missing prerequisite content without making learners redo completed lessons.
+
 ## [0.18.0] - 2026-08-16
 
 ### Added

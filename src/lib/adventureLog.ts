@@ -16,6 +16,32 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.19.0",
+    date: "2026-08-16",
+    headline: {
+      ms: "Laluan bab dan kemajuan pelajar kini disusun semula dengan selamat",
+      en: "Chapter progression and learner progress are now safely reordered",
+      es: "La progresión de capítulos y el avance del alumnado se reorganizan de forma segura",
+    },
+    highlights: {
+      added: [],
+      changed: [
+        {
+          ms: "Bab Makanan kini berada pada Bab 2, Keluarga pada Bab 3, dan Kaunter pada Bab 7; pembukaan minigame serta penanda peta mengikut susunan baharu ini.",
+          en: "Food is now Chapter 2, Family is Chapter 3, and Counters is Chapter 7; minigame unlocks and map markers follow this new order.",
+          es: "Comida ahora es el Capítulo 2, Familia el Capítulo 3 y Contadores el Capítulo 7; los desbloqueos de minijuegos y los marcadores del mapa siguen este nuevo orden.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Kemajuan pelajar sedia ada kini dipindahkan mengikut kandungan pelajaran supaya kandungan yang telah selesai kekal selesai, manakala prasyarat baharu yang belum dipelajari masih perlu diselesaikan.",
+          en: "Existing learner progress now migrates by lesson content so completed lessons remain complete while genuinely new prerequisites still need to be finished.",
+          es: "El progreso existente ahora migra por contenido de la lección, de modo que las lecciones completadas siguen completas y los requisitos nuevos reales aún deben terminarse.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.18.0",
     date: "2026-08-16",
     headline: {
