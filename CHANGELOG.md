@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.20.0] - 2026-08-22
+
+### Added
+- Added a private admin analytics dashboard with protected learner insights, activity tracking, chapter progression, minigame and highscore reporting, and a searchable, sortable, filterable user directory.
+
 ## [0.19.0] - 2026-08-16
 
 ### Changed

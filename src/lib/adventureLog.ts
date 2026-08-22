@@ -16,6 +16,26 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.20.0",
+    date: "2026-08-22",
+    headline: {
+      ms: "Analitik pentadbir peribadi kini tersedia",
+      en: "Private admin analytics are now available",
+      es: "Ya están disponibles las analíticas privadas para administradores",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah papan pemuka analitik peribadi untuk pentadbir bagi melihat pertumbuhan pengguna, kemajuan bab, aktiviti pembelajaran, penggunaan minigame dan highscore.",
+          en: "Added a private admin analytics dashboard for user growth, chapter progress, learning activity, minigame usage, and highscores.",
+          es: "Se añadió un panel privado de analíticas para administradores con crecimiento de usuarios, progreso por capítulos, actividad de aprendizaje, uso de minijuegos y puntuaciones.",
+        },
+      ],
+      changed: [],
+      fixed: [],
+    },
+  },
+  {
     version: "0.19.0",
     date: "2026-08-16",
     headline: {
