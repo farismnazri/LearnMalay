@@ -44,6 +44,7 @@ import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 import { canPersistProgress, canUnlockEverything } from "@/lib/userCapabilities";
 import { isChapterUnlocked } from "@/lib/minigameUnlocks";
 import { getCompletedChapterRevision } from "@/lib/chapterUpdates";
+import { useChapterStartedActivity } from "@/lib/activity";
 
 // IMPORTANT: pull types from the same place as chapters (avoid broken /types imports)
 import {
@@ -101,6 +102,7 @@ export default function ChapterPage() {
   const [pageIdx, setPageIdx] = useState(0);
   const [markingDone, setMarkingDone] = useState(false);
   const [completedGatedPages, setCompletedGatedPages] = useState<Record<string, boolean>>({});
+  useChapterStartedActivity(user, chapterId, hasValidChapterId);
 
   useEffect(() => {
     let alive = true;

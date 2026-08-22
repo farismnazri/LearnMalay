@@ -23,6 +23,16 @@ export const MINIGAME_UNLOCK_ORDER: UnlockableMinigameId[] = [
   "misi-membeli",
 ];
 
+export const MINIGAME_NAMES: Record<UnlockableMinigameId, string> = {
+  numbers: "Numbers",
+  "word-match": "Word Match",
+  wordsearch: "Wordsearch",
+  currency: "Malaysian Currency",
+  "makan-apa": "Makan Apa?",
+  "misi-membeli": "Misi Membeli",
+  "arah-jalan": "Arah Jalan",
+};
+
 export function isChapterUnlocked(user: UserProfile | null, chapter: number) {
   if (!user) return false;
   if (canUnlockEverything(user)) return true;

@@ -11,6 +11,7 @@ import { clearSessionCookie, getSessionUser } from "@/server/sessionAuth";
 import { canResetHighscores, canSaveHighscores } from "@/lib/userCapabilities";
 import { checkRouteRateLimit, GENERIC_ROUTE_RATE_LIMIT_MESSAGE } from "@/server/routeRateLimit";
 import { enforceSameOriginMutation } from "@/server/requestSecurity";
+import { recordActivityEvent } from "@/server/activityRepo";
 
 export const runtime = "nodejs";
 
@@ -77,6 +78,16 @@ export async function POST(req: Request) {
 
   try {
     const result = await addHighScore(body.gameId, body.run as never, user);
+    if (result.saved || result.duplicate) {
+      await recordActivityEvent({
+        userId: user.id,
+        eventId: `minigame-finished:${body.run.runId as string}`,
+        type: "minigame_finished",
+        minigameId: body.gameId,
+      }).catch((activityError: unknown) => {
+        console.error("Unable to record minigame completion activity", activityError);
+      });
+    }
     return NextResponse.json(result);
   } catch (error: unknown) {
     if (error instanceof HighscoreValidationError) {

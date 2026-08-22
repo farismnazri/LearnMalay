@@ -12,6 +12,7 @@ import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlock
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { addHighScore, createRunId, loadHighScores } from "@/lib/highscores";
 import { canSaveHighscores } from "@/lib/userCapabilities";
+import { useMinigameStartedActivity } from "@/lib/activity";
 import {
   ARAH_JALAN_COMMAND_LABELS,
   ARAH_JALAN_COMMAND_ORDER,
@@ -181,6 +182,7 @@ export default function ArahJalanPlayPage() {
   const [lang, setLang] = useState<UiLang>(() => readUiLang());
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  useMinigameStartedActivity(user, "arah-jalan");
 
   const [difficultyId, setDifficultyId] = useState<ArahJalanDifficultyId>("easy");
   const [round, setRound] = useState<ArahJalanRound>(() => createArahJalanRound("easy"));

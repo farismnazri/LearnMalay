@@ -5,6 +5,7 @@ import { canPersistProgress, isAdmin, isDemo } from "@/lib/userCapabilities";
 import { MAX_CHAPTER_ID, MIN_CHAPTER_ID, getChapterById } from "@/lib/chapters";
 import { checkRouteRateLimit, GENERIC_ROUTE_RATE_LIMIT_MESSAGE } from "@/server/routeRateLimit";
 import { enforceSameOriginMutation } from "@/server/requestSecurity";
+import { recordActivityEvent, touchMeaningfulUserActivity } from "@/server/activityRepo";
 
 export const runtime = "nodejs";
 
@@ -106,6 +107,19 @@ export async function POST(req: Request) {
   }
 
   await setCurrentChapter(targetId, safeProgress, completedChapterId);
+  if (completedChapterId !== undefined && user.completedChapterRevisions[String(completedChapterId)] === undefined) {
+    await recordActivityEvent({
+      userId: targetId,
+      type: "chapter_completed",
+      chapterId: completedChapterId,
+    }).catch((activityError: unknown) => {
+      console.error("Unable to record chapter completion activity", activityError);
+    });
+  } else {
+    await touchMeaningfulUserActivity(targetId).catch((activityError: unknown) => {
+      console.error("Unable to update meaningful activity timestamp", activityError);
+    });
+  }
   const updatedUser = await getUser(targetId);
   if (!updatedUser) return NextResponse.json({ error: "user not found" }, { status: 404 });
   return NextResponse.json(updatedUser);

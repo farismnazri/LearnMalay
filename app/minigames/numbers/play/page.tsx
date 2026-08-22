@@ -13,6 +13,7 @@ import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import StylizedTitle from "@/components/game/StylizedTitle";
 import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
 import IconActionLink from "@/components/navigation/IconActionLink";
+import { useMinigameStartedActivity } from "@/lib/activity";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const NUMBERS_DIFF_KEY = "learnMalay.numbersDifficulty.v1";
@@ -270,6 +271,7 @@ export default function NumbersPlayPage() {
   const [feedback, setFeedback] = useState<null | { ok: boolean; msg: string }>(null);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  useMinigameStartedActivity(user, "numbers");
   const [showUltraPrompt, setShowUltraPrompt] = useState(true);
 
   const requiredCorrect =

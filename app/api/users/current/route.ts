@@ -20,6 +20,7 @@ import { deleteSession } from "@/server/sessionRepo";
 import { enforceSameOriginMutation } from "@/server/requestSecurity";
 import { isProfileAvatarId } from "@/lib/profileAvatars";
 import { checkRouteRateLimit, GENERIC_ROUTE_RATE_LIMIT_MESSAGE } from "@/server/routeRateLimit";
+import { recordSuccessfulLogin } from "@/server/activityRepo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -122,6 +123,11 @@ export async function POST(req: Request) {
 
     const res = NextResponse.json(user);
     await startSessionForUser(res, user.id);
+    if (allowByPassword) {
+      await recordSuccessfulLogin(user.id).catch((activityError: unknown) => {
+        console.error("Unable to record login activity", activityError);
+      });
+    }
     if (sessionId) {
       await deleteSession(sessionId);
     }

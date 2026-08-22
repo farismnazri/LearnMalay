@@ -15,6 +15,7 @@ import { addHighScore, createRunId } from "@/lib/highscores";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { canSaveHighscores } from "@/lib/userCapabilities";
+import { useMinigameStartedActivity } from "@/lib/activity";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import StylizedTitle from "@/components/game/StylizedTitle";
 import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
@@ -450,6 +451,7 @@ export default function CurrencyPlayPage() {
 
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  useMinigameStartedActivity(user, "currency");
 
   const [targetPrice, setTargetPrice] = useState(0);
   const [itemName, setItemName] = useState({ ms: "", en: "", es: "" });

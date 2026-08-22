@@ -9,6 +9,7 @@ import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlock
 import { MAKAN_APA_ITEMS, type MakanApaItem } from "@/lib/makanApa/items";
 import { addHighScore, createRunId } from "@/lib/highscores";
 import { canSaveHighscores } from "@/lib/userCapabilities";
+import { useMinigameStartedActivity } from "@/lib/activity";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import StylizedTitle from "@/components/game/StylizedTitle";
 import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
@@ -100,6 +101,7 @@ export default function MakanApaPlayPage() {
   const [difficulty, setDifficulty] = useState<MakanApaDifficulty>("easy");
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  useMinigameStartedActivity(user, "makan-apa");
 
   const [deck, setDeck] = useState<MakanApaItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);

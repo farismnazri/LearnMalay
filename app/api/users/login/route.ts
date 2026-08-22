@@ -13,6 +13,7 @@ import { deleteSession } from "@/server/sessionRepo";
 import { ADMIN_ID } from "@/lib/userStoreTypes";
 import { isAdmin } from "@/lib/userCapabilities";
 import { enforceSameOriginMutation } from "@/server/requestSecurity";
+import { recordSuccessfulLogin } from "@/server/activityRepo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -75,6 +76,9 @@ export async function POST(req: Request) {
     const previousSessionId = await readSessionIdFromCookie();
     const res = NextResponse.json(profile);
     await startSessionForUser(res, profile.id);
+    await recordSuccessfulLogin(profile.id).catch((activityError: unknown) => {
+      console.error("Unable to record login activity", activityError);
+    });
     if (previousSessionId) {
       await deleteSession(previousSessionId);
     }

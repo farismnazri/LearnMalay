@@ -14,6 +14,7 @@ import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { isSingleWordSearchEntry, isValidWordSearchWord, normalizeWordSearchWord } from "@/lib/wordSearch";
 import { canSaveHighscores } from "@/lib/userCapabilities";
+import { useMinigameStartedActivity } from "@/lib/activity";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const AKU2_SALAH_SRC = "/assets/characters/popup-salah.webp";
@@ -61,6 +62,7 @@ export default function WordSearchMiniGame() {
   const [mistakes, setMistakes] = useState(0);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  useMinigameStartedActivity(user, "wordsearch");
   const saveLock = useRef(false);
   const runIdRef = useRef(createRunId());
   const wrongPopupTimers = useRef<number[]>([]);

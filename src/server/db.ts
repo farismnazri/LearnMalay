@@ -13,7 +13,9 @@ type UserDocument = {
   password_hash: string | null;
   password_salt: string | null;
   password_algo: string | null;
-  created_at: string;
+  created_at?: string;
+  last_login_at?: string;
+  last_active_at?: string;
 };
 
 type AppMetaDocument = {
@@ -55,6 +57,22 @@ type SessionDocument = {
   created_at: number;
   last_seen_at: number;
   expires_at: number;
+};
+
+type ActivityEventType =
+  | "login"
+  | "chapter_started"
+  | "chapter_completed"
+  | "minigame_started"
+  | "minigame_finished";
+
+type ActivityEventDocument = {
+  id: string;
+  user_id: string;
+  event_type: ActivityEventType;
+  timestamp: string;
+  chapter_id?: number;
+  minigame_id?: string;
 };
 
 type Primitive = string | number | boolean | null | undefined;
@@ -100,6 +118,7 @@ type AppCollections = {
   appMeta: CollectionLike<AppMetaDocument>;
   highscores: CollectionLike<HighscoreDocument>;
   sessions: CollectionLike<SessionDocument>;
+  activityEvents: CollectionLike<ActivityEventDocument>;
 };
 
 class DuplicateKeyError extends Error {
@@ -344,6 +363,7 @@ async function ensureIndexes(db: Db): Promise<void> {
   const appMeta = db.collection<AppMetaDocument>("app_meta");
   const highscores = db.collection<HighscoreDocument>("highscores");
   const sessions = db.collection<SessionDocument>("sessions");
+  const activityEvents = db.collection<ActivityEventDocument>("activity_events");
 
   await Promise.all([
     users.createIndex({ id: 1 }, { unique: true, name: "idx_users_id_unique" }),
@@ -354,6 +374,9 @@ async function ensureIndexes(db: Db): Promise<void> {
     sessions.createIndex({ id: 1 }, { unique: true, name: "idx_sessions_id_unique" }),
     sessions.createIndex({ user_id: 1 }, { name: "idx_sessions_user_id" }),
     sessions.createIndex({ expires_at: 1 }, { name: "idx_sessions_expires_at" }),
+    activityEvents.createIndex({ id: 1 }, { unique: true, name: "idx_activity_events_id_unique" }),
+    activityEvents.createIndex({ user_id: 1, timestamp: -1 }, { name: "idx_activity_events_user_time" }),
+    activityEvents.createIndex({ event_type: 1, timestamp: -1 }, { name: "idx_activity_events_type_time" }),
   ]);
 }
 
@@ -367,6 +390,9 @@ async function ensureMemoryIndexes(collections: AppCollections): Promise<void> {
     collections.sessions.createIndex({ id: 1 }, { unique: true, name: "idx_sessions_id_unique" }),
     collections.sessions.createIndex({ user_id: 1 }, { name: "idx_sessions_user_id" }),
     collections.sessions.createIndex({ expires_at: 1 }, { name: "idx_sessions_expires_at" }),
+    collections.activityEvents.createIndex({ id: 1 }, { unique: true, name: "idx_activity_events_id_unique" }),
+    collections.activityEvents.createIndex({ user_id: 1, timestamp: -1 }, { name: "idx_activity_events_user_time" }),
+    collections.activityEvents.createIndex({ event_type: 1, timestamp: -1 }, { name: "idx_activity_events_type_time" }),
   ]);
 }
 
@@ -377,6 +403,7 @@ function getMemoryCollections(): AppCollections {
       appMeta: new MemoryCollection<AppMetaDocument>(),
       highscores: new MemoryCollection<HighscoreDocument>(),
       sessions: new MemoryCollection<SessionDocument>(),
+      activityEvents: new MemoryCollection<ActivityEventDocument>(),
     };
   }
   return globalCache.__learnMalayMemoryCollections;
@@ -419,7 +446,15 @@ export async function getCollections(): Promise<AppCollections> {
     appMeta: db.collection<AppMetaDocument>("app_meta") as unknown as CollectionLike<AppMetaDocument>,
     highscores: db.collection<HighscoreDocument>("highscores") as unknown as CollectionLike<HighscoreDocument>,
     sessions: db.collection<SessionDocument>("sessions") as unknown as CollectionLike<SessionDocument>,
+    activityEvents: db.collection<ActivityEventDocument>("activity_events") as unknown as CollectionLike<ActivityEventDocument>,
   };
 }
 
-export type { UserDocument, AppMetaDocument, HighscoreDocument, SessionDocument };
+export type {
+  UserDocument,
+  AppMetaDocument,
+  HighscoreDocument,
+  SessionDocument,
+  ActivityEventDocument,
+  ActivityEventType,
+};

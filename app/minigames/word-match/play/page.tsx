@@ -19,6 +19,7 @@ import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import StylizedTitle from "@/components/game/StylizedTitle";
 import AkuAkuFeedbackPopup from "@/components/game/AkuAkuFeedbackPopup";
 import IconActionLink from "@/components/navigation/IconActionLink";
+import { useMinigameStartedActivity } from "@/lib/activity";
 
 const UI_LANG_KEY = "learnMalay.uiLang.v1";
 const AKU2_IDLE_SRC = "/assets/characters/popup-trio.webp";
@@ -111,6 +112,7 @@ export default function WordMatchPlayPage() {
   const [locked, setLocked] = useState(false);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  useMinigameStartedActivity(user, "word-match");
 
   // lives + end states
   const [lives, setLives] = useState(MAX_LIVES);

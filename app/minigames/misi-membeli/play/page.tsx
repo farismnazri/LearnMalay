@@ -16,6 +16,7 @@ import {
 import { isMinigameUnlocked, MINIGAME_PREREQUISITES } from "@/lib/minigameUnlocks";
 import { getCurrentUser, type UserProfile } from "@/lib/userStore";
 import { canSaveHighscores } from "@/lib/userCapabilities";
+import { useMinigameStartedActivity } from "@/lib/activity";
 import { BackgroundAudioControls } from "@/components/game/BackgroundAudio";
 import StylizedTitle from "@/components/game/StylizedTitle";
 import IconActionLink from "@/components/navigation/IconActionLink";
@@ -289,6 +290,7 @@ export default function MisiMembeliPlayPage() {
   const [lang, setLang] = useState<UiLang>(() => readUiLang());
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  useMinigameStartedActivity(user, "misi-membeli");
 
   const [difficulty, setDifficulty] = useState<ShoppingDifficultyId>(initialDifficulty);
   const [themeId, setThemeId] = useState<ShoppingThemeId>(initialThemeId);
