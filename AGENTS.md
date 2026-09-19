@@ -9,6 +9,7 @@
 ## Working Rules
 - Inspect `git status --short` before editing and preserve unrelated user changes.
 - Keep edits limited to the requested behavior or workflow.
+- For a well-specified task, inspect only the files needed to implement it, then run proportionate validation. Do not broaden into a repository audit, speculative redesign, or verbose execution report unless the request requires it.
 - Do not change app runtime behavior, UI, content, assets, dependencies, or release metadata unless the task requires it.
 - Do not commit, tag, or push unless the user asks.
 
