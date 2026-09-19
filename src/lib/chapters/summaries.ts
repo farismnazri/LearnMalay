@@ -7,7 +7,7 @@ export type ChapterSummary = {
 };
 
 export const CHAPTER_SUMMARIES: readonly ChapterSummary[] = [
-  { id: 1, revision: 7, title: { ms: "Sapaan" } },
+  { id: 1, revision: 8, title: { ms: "Sapaan" } },
   { id: 2, revision: 3, title: { ms: "Makanan & Kuih-muih" } },
   { id: 3, revision: 5, title: { ms: "Keluarga" } },
   { id: 4, revision: 5, title: { ms: "Masa\n& Arah Jalan" } },
