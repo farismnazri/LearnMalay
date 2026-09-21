@@ -16,6 +16,38 @@ export type AdventureLogEntry = {
 
 export const ADVENTURE_LOG: AdventureLogEntry[] = [
   {
+    version: "0.21.0",
+    date: "2026-09-21",
+    headline: {
+      ms: "Privasi pelajar diperkukuh dan Bab 1 diperkemas",
+      en: "Learner privacy is strengthened and Chapter 1 is improved",
+      es: "La privacidad del alumnado se refuerza y el Capítulo 1 mejora",
+    },
+    highlights: {
+      added: [
+        {
+          ms: "Menambah Notis Privasi dwibahasa dengan pautan mudah dicari serta penerangan jelas tentang skor awam.",
+          en: "Added a bilingual Privacy Notice with easy-to-find links and clear information about public scores.",
+          es: "Se añadió un Aviso de Privacidad bilingüe con enlaces fáciles de encontrar e información clara sobre las puntuaciones públicas.",
+        },
+      ],
+      changed: [
+        {
+          ms: "Memperkemas Bab 1 dengan panduan kata ganti nama, contoh, dialog dan latihan sapaan yang lebih jelas.",
+          en: "Refined Chapter 1 with clearer pronoun guidance, examples, dialogue, and greeting practice.",
+          es: "Se mejoró el Capítulo 1 con una guía más clara de pronombres, ejemplos, diálogo y práctica de saludos.",
+        },
+      ],
+      fixed: [
+        {
+          ms: "Mengehadkan data yang dipaparkan pada papan skor awam dan memastikan pemadaman akaun turut membuang sesi, skor serta aktiviti berkaitan.",
+          en: "Limited data shown on public leaderboards and ensured account deletion also removes linked sessions, scores, and activity.",
+          es: "Se limitaron los datos mostrados en las clasificaciones públicas y la eliminación de cuentas ahora también elimina sesiones, puntuaciones y actividad vinculadas.",
+        },
+      ],
+    },
+  },
+  {
     version: "0.20.0",
     date: "2026-08-22",
     headline: {

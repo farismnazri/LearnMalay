@@ -2,6 +2,19 @@
 
 ## [Unreleased]
 
+## [0.21.0] - 2026-09-21
+
+### Added
+- Added a bilingual Privacy Notice with global and account-page access, including clear public-leaderboard visibility information.
+- Added authenticated daily retention infrastructure for expired sessions and raw learner activity events.
+
+### Changed
+- Updated Chapter 1 greetings and pronoun guidance, examples, and practice activities.
+
+### Fixed
+- Minimized public leaderboard responses and ensured account deletion removes linked sessions, scores, and activity records.
+- Increased Chapter 1 content revision from 7 to 8 so returning learners receive the update notice.
+
 ## [0.20.0] - 2026-08-22
 
 ### Added
