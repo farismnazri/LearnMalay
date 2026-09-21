@@ -66,3 +66,20 @@ export type ScoreEntry = {
 };
 
 export type HighscoreStore = Record<GameId, ScoreEntry[]>;
+
+// Public leaderboard data is deliberately separate from stored/admin score rows.
+export type PublicScoreEntry = {
+  name: string;
+  avatarId?: ProfileAvatarId;
+  score?: number;
+  accuracy?: number;
+  timeMs: number;
+  dateISO: string; // YYYY-MM-DD; the public page does not display time of day.
+  attempts?: number;
+  difficulty?: string;
+  mode?: string;
+  theme?: string;
+  words?: number;
+};
+
+export type PublicHighscoreStore = Record<GameId, PublicScoreEntry[]>;

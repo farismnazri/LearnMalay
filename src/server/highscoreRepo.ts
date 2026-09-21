@@ -1,5 +1,19 @@
-import { sortHighscoreRows } from "../lib/highscoreRanking.ts";
-import type { GameId, HighscoreRun, HighscoreSaveResult, ScoreEntry } from "../lib/highscoresTypes.ts";
+import {
+  highscoreAttempts,
+  highscoreDifficulty,
+  highscoreMode,
+  highscoreTheme,
+  highscoreWords,
+  sortHighscoreRows,
+} from "../lib/highscoreRanking.ts";
+import type {
+  GameId,
+  HighscoreRun,
+  HighscoreSaveResult,
+  PublicHighscoreStore,
+  PublicScoreEntry,
+  ScoreEntry,
+} from "../lib/highscoresTypes.ts";
 import { isProfileAvatarId } from "../lib/profileAvatars.ts";
 import { getCollections, type HighscoreDocument } from "./db.ts";
 
@@ -185,6 +199,49 @@ export async function listHighScores(
       : sorted;
   }
   return store;
+}
+
+function publicDate(iso: string): string {
+  const timestamp = Date.parse(iso);
+  return Number.isFinite(timestamp) ? new Date(timestamp).toISOString().slice(0, 10) : "";
+}
+
+function publicScoreEntry(gameId: GameId, entry: ScoreEntry): PublicScoreEntry {
+  const difficulty = highscoreDifficulty(entry);
+  const attempts = highscoreAttempts(gameId, entry);
+  const theme = highscoreTheme(entry);
+  const mode = highscoreMode(entry);
+  const words = highscoreWords(entry);
+
+  return {
+    name: entry.name,
+    ...(entry.avatarId ? { avatarId: entry.avatarId } : {}),
+    ...(gameId === "arah-jalan" && entry.score !== undefined ? { score: entry.score } : {}),
+    ...(gameId !== "arah-jalan" ? { accuracy: entry.accuracy } : {}),
+    timeMs: entry.timeMs,
+    dateISO: publicDate(entry.dateISO),
+    ...(gameId !== "wordsearch" && gameId !== "arah-jalan" && attempts !== undefined &&
+      Number.isInteger(attempts) && attempts >= 0 && attempts <= MAX_COUNTER
+      ? { attempts } : {}),
+    ...(gameId !== "word-match" && difficulty && DIFFICULTIES[gameId]?.includes(difficulty)
+      ? { difficulty } : {}),
+    ...(gameId === "wordsearch" && theme && WORDSEARCH_THEMES.includes(theme) ? { theme } : {}),
+    ...(gameId === "currency" && (mode === "buyer" || mode === "cashier") ? { mode } : {}),
+    ...(gameId === "wordsearch" && words !== undefined && Number.isInteger(words) && words >= 0 && words <= MAX_COUNTER
+      ? { words } : {}),
+  };
+}
+
+export async function listPublicHighScores(
+  options: { leaderboardLimitPerGame?: number } = {},
+): Promise<PublicHighscoreStore> {
+  const scores = await listHighScores(options);
+  return Object.fromEntries(
+    (Object.keys(scores) as GameId[]).map((gameId) => [
+      gameId,
+      scores[gameId].map((entry) => publicScoreEntry(gameId, entry)),
+    ]),
+  ) as PublicHighscoreStore;
 }
 
 export async function addHighScore(

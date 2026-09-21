@@ -5,7 +5,7 @@ import {
   getSessionUser,
   startSessionForUser,
 } from "@/server/sessionAuth";
-import { deleteSession, deleteSessionsForUser } from "@/server/sessionRepo";
+import { deleteSession } from "@/server/sessionRepo";
 import { ADMIN_ID, DEMO_ID } from "@/lib/userStoreTypes";
 import { canManageUsers } from "@/lib/userCapabilities";
 import { enforceSameOriginMutation } from "@/server/requestSecurity";
@@ -79,7 +79,6 @@ export async function DELETE(req: Request) {
     }
 
     await deleteUser(id);
-    await deleteSessionsForUser(targetId);
 
     const res = NextResponse.json({ ok: true });
     if (actorId === targetId) {

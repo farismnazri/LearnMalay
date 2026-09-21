@@ -587,12 +587,17 @@ export async function rotateAdminPasswordFromEnv(): Promise<{ rotated: boolean }
 
 export async function deleteUser(id: string): Promise<void> {
   await ensureUserDataState();
-  const { users } = await getCollections();
+  const { users, sessions, highscores, activityEvents } = await getCollections();
 
   const cleanId = normalizeUserId(id);
   if (cleanId === ADMIN_ID) throw new Error("Admin cannot be deleted.");
   if (cleanId === DEMO_ID) throw new Error("Demo account cannot be deleted.");
 
+  // Keep the profile until linked records have been removed. An administrator
+  // can retry a partial deletion, including one after session removal.
+  await highscores.deleteMany({ user_id: cleanId });
+  await activityEvents.deleteMany({ user_id: cleanId });
+  await sessions.deleteMany({ user_id: cleanId });
   await users.deleteOne({ id: cleanId });
 }
 

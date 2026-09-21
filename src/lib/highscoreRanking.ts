@@ -1,4 +1,6 @@
-import type { GameId, ScoreEntry } from "./highscoresTypes.ts";
+import type { GameId, PublicScoreEntry, ScoreEntry } from "./highscoresTypes.ts";
+
+type DisplayEntry = ScoreEntry | PublicScoreEntry;
 
 export type ArahJalanDifficulty = "easy" | "hard";
 export type ArahJalanDifficultyFilter = "__ALL_DIFFICULTIES__" | ArahJalanDifficulty | "unknown";
@@ -97,15 +99,17 @@ const DIFFICULTY_ORDER: Partial<Record<GameId, readonly string[]>> = {
 const finiteNumber = (value: unknown): number | undefined =>
   typeof value === "number" && Number.isFinite(value) ? value : undefined;
 
-function metaValue(entry: ScoreEntry, key: string): unknown {
-  return entry.meta && typeof entry.meta === "object" ? entry.meta[key] : undefined;
+function metaValue(entry: DisplayEntry, key: string): unknown {
+  return "meta" in entry && entry.meta && typeof entry.meta === "object"
+    ? entry.meta[key]
+    : undefined;
 }
 
-export function highscoreNumericScore(entry: ScoreEntry) {
+export function highscoreNumericScore(entry: DisplayEntry) {
   return finiteNumber(entry.score) ?? 0;
 }
 
-export function highscoreAttempts(gameId: GameId, entry: ScoreEntry): number | undefined {
+export function highscoreAttempts(gameId: GameId, entry: DisplayEntry): number | undefined {
   const current = finiteNumber(entry.attempts);
   if (current !== undefined) return current;
   if (gameId === "makan-apa") return finiteNumber(metaValue(entry, "submissions"));
@@ -113,31 +117,31 @@ export function highscoreAttempts(gameId: GameId, entry: ScoreEntry): number | u
   return finiteNumber(metaValue(entry, "attempts"));
 }
 
-export function highscoreDifficulty(entry: ScoreEntry): string | undefined {
+export function highscoreDifficulty(entry: DisplayEntry): string | undefined {
   const value = entry.difficulty ?? metaValue(entry, "difficulty");
   return typeof value === "string" && value ? value : undefined;
 }
 
-export function arahJalanDifficulty(entry: ScoreEntry): ArahJalanDifficulty | "unknown" {
+export function arahJalanDifficulty(entry: DisplayEntry): ArahJalanDifficulty | "unknown" {
   const difficulty = highscoreDifficulty(entry);
   return difficulty === "easy" || difficulty === "hard" ? difficulty : "unknown";
 }
 
-export function highscoreTheme(entry: ScoreEntry): string | undefined {
+export function highscoreTheme(entry: DisplayEntry): string | undefined {
   const value = entry.theme ?? metaValue(entry, "theme");
   return typeof value === "string" && value ? value : undefined;
 }
 
-export function highscoreMode(entry: ScoreEntry): string | undefined {
+export function highscoreMode(entry: DisplayEntry): string | undefined {
   const value = entry.mode ?? metaValue(entry, "mode");
   return typeof value === "string" && value ? value : undefined;
 }
 
-export function highscoreWords(entry: ScoreEntry): number | undefined {
-  return finiteNumber(metaValue(entry, "words"));
+export function highscoreWords(entry: DisplayEntry): number | undefined {
+  return ("words" in entry ? finiteNumber(entry.words) : undefined) ?? finiteNumber(metaValue(entry, "words"));
 }
 
-export function highscoreDifficultyLabel(entry: ScoreEntry): string | undefined {
+export function highscoreDifficultyLabel(entry: DisplayEntry): string | undefined {
   const difficulty = highscoreDifficulty(entry);
   if (!difficulty) return undefined;
   if (difficulty === "ultrahard") return "Ultra Hard";
@@ -200,7 +204,7 @@ export function limitHighscoreRows(gameId: GameId, rows: readonly ScoreEntry[], 
   return sortHighscoreRows(gameId, rows).slice(0, Math.max(0, limit));
 }
 
-function hasColumnValue(gameId: GameId, entry: ScoreEntry, key: HighscoreColumnKey) {
+function hasColumnValue(gameId: GameId, entry: DisplayEntry, key: HighscoreColumnKey) {
   if (key === "attempts") return highscoreAttempts(gameId, entry) !== undefined;
   if (key === "difficulty") return highscoreDifficulty(entry) !== undefined;
   if (key === "theme") return highscoreTheme(entry) !== undefined;
@@ -209,7 +213,7 @@ function hasColumnValue(gameId: GameId, entry: ScoreEntry, key: HighscoreColumnK
   return true;
 }
 
-export function highscoreColumnsForRows(gameId: GameId, rows: readonly ScoreEntry[]) {
+export function highscoreColumnsForRows(gameId: GameId, rows: readonly DisplayEntry[]) {
   return HIGHSCORE_GAME_CONFIG[gameId].columns.filter(
     (column) => !column.optional || rows.some((entry) => hasColumnValue(gameId, entry, column.key)),
   );

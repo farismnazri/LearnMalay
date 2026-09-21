@@ -3,7 +3,7 @@ import {
   addHighScore,
   clearHighScores,
   HighscoreValidationError,
-  listHighScores,
+  listPublicHighScores,
 } from "@/server/highscoreRepo";
 import type { GameId } from "@/lib/highscoresTypes";
 import { isValidHighscoreGameId } from "@/lib/highscoresTypes";
@@ -37,7 +37,7 @@ export async function GET(req: Request) {
   const rawLimit = new URL(req.url).searchParams.get("limit");
   const parsedLimit = rawLimit ? Number.parseInt(rawLimit, 10) : undefined;
   const leaderboardLimitPerGame = parsedLimit && parsedLimit > 0 ? Math.min(parsedLimit, 100) : undefined;
-  return NextResponse.json(await listHighScores({ leaderboardLimitPerGame }));
+  return NextResponse.json(await listPublicHighScores({ leaderboardLimitPerGame }));
 }
 
 export async function POST(req: Request) {

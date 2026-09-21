@@ -57,6 +57,7 @@ test("authenticated canonical requests save every game and deduplicate only by r
     const run = {
       runId: crypto.randomUUID(), outcome: "completed",
       accuracy: 100, timeMs: 1000, attempts: 10, correct: 10, mistakes: 0, hints: 0, ...overrides,
+      meta: { privateMarker: "must-not-appear-in-public-response" },
     };
     const response = await request("/api/highscores", { method: "POST", headers: { cookie }, body: JSON.stringify({ gameId, run }) });
     assert.equal(response.status, 200, gameId);
@@ -65,13 +66,35 @@ test("authenticated canonical requests save every game and deduplicate only by r
     if (gameId === "numbers") firstRun = run;
   }
 
-  const distinctMatch = { ...firstRun, runId: crypto.randomUUID() };
+  const distinctMatch = { ...firstRun, runId: crypto.randomUUID(), accuracy: 50, correct: 5, mistakes: 5 };
   const distinct = await request("/api/highscores", { method: "POST", headers: { cookie }, body: JSON.stringify({ gameId: "numbers", run: distinctMatch }) });
   assert.deepEqual(await distinct.json(), { ok: true, saved: true, duplicate: false });
 
   const duplicate = await request("/api/highscores", { method: "POST", headers: { cookie }, body: JSON.stringify({ gameId: "numbers", run: firstRun }) });
   assert.equal(duplicate.status, 200);
   assert.deepEqual(await duplicate.json(), { ok: true, saved: false, duplicate: true });
+
+  const anonymousScores = await fetch(`${baseUrl}/api/highscores`);
+  assert.equal(anonymousScores.status, 200);
+  const publicStore = await anonymousScores.json() as Record<string, Array<Record<string, unknown>>>;
+  const publicFields = new Set([
+    "name", "avatarId", "score", "accuracy", "timeMs", "dateISO",
+    "attempts", "difficulty", "mode", "theme", "words",
+  ]);
+  for (const rows of Object.values(publicStore)) {
+    for (const row of rows) {
+      assert.ok(Object.keys(row).every((key) => publicFields.has(key)), JSON.stringify(row));
+      assert.match(String(row.dateISO), /^\d{4}-\d{2}-\d{2}$/);
+      assert.equal(row.name, name);
+    }
+  }
+  assert.deepEqual(publicStore.numbers.map((row) => row.accuracy), [100, 50]);
+  assert.equal(publicStore["arah-jalan"][0].score, 2);
+  assert.equal("accuracy" in publicStore["arah-jalan"][0], false);
+  assert.equal("attempts" in publicStore["arah-jalan"][0], false);
+  assert.equal("attempts" in publicStore.wordsearch[0], false);
+  assert.equal("score" in publicStore["misi-membeli"][0], false);
+  assert.equal(JSON.stringify(publicStore).includes("must-not-appear-in-public-response"), false);
 
   const nonAdminReset = await request("/api/highscores?gameId=numbers", { method: "DELETE", headers: { cookie } });
   assert.equal(nonAdminReset.status, 403);

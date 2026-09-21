@@ -14,10 +14,9 @@ import {
   highscoreNumericScore,
   highscoreTheme,
   highscoreWords,
-  sortHighscoreRows,
   type HighscoreColumnDefinition,
 } from "@/lib/highscoreRanking";
-import type { GameId, ScoreEntry } from "@/lib/highscores";
+import type { GameId, PublicScoreEntry } from "@/lib/highscores";
 import { clearHighScores, loadHighScores } from "@/lib/highscores";
 import { getProfileAvatarSrc, type ProfileAvatarId } from "@/lib/profileAvatars";
 import { canManageUsers, canResetHighscores, isAdmin, isDemo } from "@/lib/userCapabilities";
@@ -51,11 +50,8 @@ function formatDuration(ms: number) {
 }
 
 function formatDate(iso: string) {
-  try {
-    return new Date(iso).toLocaleString();
-  } catch {
-    return iso;
-  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) return "—";
+  return new Date(`${iso}T00:00:00`).toLocaleDateString();
 }
 
 function formatLabel(value: string | undefined) {
@@ -67,10 +63,10 @@ function formatLabel(value: string | undefined) {
     .join(" ");
 }
 
-function columnValue(gameId: GameId, row: ScoreEntry, column: HighscoreColumnDefinition, rank: number) {
+function columnValue(gameId: GameId, row: PublicScoreEntry, column: HighscoreColumnDefinition, rank: number) {
   if (column.key === "rank") return rank;
   if (column.key === "username") return row.name;
-  if (column.key === "accuracy") return `${Math.round(row.accuracy)}%`;
+  if (column.key === "accuracy") return typeof row.accuracy === "number" ? `${Math.round(row.accuracy)}%` : "—";
   if (column.key === "time") return formatDuration(row.timeMs);
   if (column.key === "difficulty") return highscoreDifficultyLabel(row) ?? "—";
   if (column.key === "attempts") return highscoreAttempts(gameId, row) ?? "—";
@@ -84,7 +80,7 @@ function columnValue(gameId: GameId, row: ScoreEntry, column: HighscoreColumnDef
 export default function HighScoresPage() {
   const [gameId, setGameId] = useState<GameId>("numbers");
   const [me, setMe] = useState<Awaited<ReturnType<typeof getCurrentUser>>>(null);
-  const [store, setStore] = useState<Record<GameId, ScoreEntry[]>>({
+  const [store, setStore] = useState<Record<GameId, PublicScoreEntry[]>>({
     numbers: [],
     "word-match": [],
     wordsearch: [],
@@ -132,8 +128,8 @@ export default function HighScoresPage() {
     if (!difficultyOptions || difficultyFilter === ALL_DIFFICULTIES) return byUser;
     return byUser.filter((row) => (highscoreDifficulty(row) ?? "unknown") === difficultyFilter);
   }, [allRows, difficultyFilter, difficultyOptions, userFilter]);
-  const rankedRows = useMemo(() => sortHighscoreRows(gameId, filteredRows), [filteredRows, gameId]);
-  const displayedRows = useMemo(() => rankedRows.slice(0, DISPLAY_LIMIT), [rankedRows]);
+  // The API sorts full-precision internal rows before projecting the public date-only view.
+  const displayedRows = useMemo(() => filteredRows.slice(0, DISPLAY_LIMIT), [filteredRows]);
   const columns = useMemo(() => highscoreColumnsForRows(gameId, filteredRows), [filteredRows, gameId]);
   const detailColumns = columns.filter((column) => !["rank", "username", "date"].includes(column.key));
 
@@ -189,6 +185,7 @@ export default function HighScoresPage() {
                   HIGH SCORES
                 </h1>
                 <p className="mt-1 text-sm font-semibold text-[#eaf6d8]/95">Filter by minigame and player.</p>
+                <p className="mt-1 text-xs font-semibold text-[#eaf6d8]/80">Public scores show the player’s chosen username, profile icon, result and date.</p>
               </div>
             </div>
 
@@ -298,7 +295,7 @@ export default function HighScoresPage() {
                 No scores for this filter yet.
               </div>
             ) : displayedRows.map((row, index) => (
-              <article key={row.id} className="rounded-2xl border border-[#d7cb98]/70 bg-white/95 p-3 shadow">
+              <article key={`${gameId}-${index}`} className="rounded-2xl border border-[#d7cb98]/70 bg-white/95 p-3 shadow">
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <Image
@@ -341,7 +338,7 @@ export default function HighScoresPage() {
                     </td>
                   </tr>
                 ) : displayedRows.map((row, index) => (
-                  <tr key={row.id} className={index % 2 === 0 ? "bg-white/95" : "bg-[#fff7df]/95"}>
+                  <tr key={`${gameId}-${index}`} className={index % 2 === 0 ? "bg-white/95" : "bg-[#fff7df]/95"}>
                     {columns.map((column) => (
                       <td key={column.key} className="border border-black/10 p-4 align-top">
                         {column.key === "username" ? (
