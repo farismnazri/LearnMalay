@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import type { AdminUserSummary } from "@/lib/adminAnalyticsTypes";
+import { RAW_ACTIVITY_RETENTION_DAYS } from "@/lib/privacyRetention";
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
 
 type SortKey = "username" | "role" | "joinedAt" | "lastActiveAt" | "chaptersCompleted" | "minigamePlays" | "highscoreEntries";
@@ -20,7 +21,7 @@ const COLUMNS: Array<{ key: SortKey; label: string }> = [
   { key: "joinedAt", label: "Joined" },
   { key: "lastActiveAt", label: "Last active" },
   { key: "chaptersCompleted", label: "Chapters" },
-  { key: "minigamePlays", label: "Minigame plays" },
+  { key: "minigamePlays", label: `Plays · ${RAW_ACTIVITY_RETENTION_DAYS}d` },
   { key: "highscoreEntries", label: "Highscores" },
 ];
 
@@ -199,7 +200,7 @@ function UserCard({ user }: { user: AdminUserSummary }) {
         <div><span className="opacity-55">Joined</span><br />{formatDate(user.joinedAt)}</div>
         <div><span className="opacity-55">Last active</span><br />{formatDate(user.lastActiveAt)}</div>
         <div>{user.chaptersCompleted}/{user.totalChapters} chapters</div>
-        <div>{user.minigamePlays} plays · {user.highscoreEntries} scores</div>
+        <div>{user.minigamePlays} plays in {RAW_ACTIVITY_RETENTION_DAYS} days · {user.highscoreEntries} scores</div>
       </div>
     </Link>
   );

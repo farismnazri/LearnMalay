@@ -81,6 +81,9 @@ type QueryOperatorValue = {
   $ne?: Primitive;
   $exists?: boolean;
   $in?: Primitive[];
+  $lt?: Primitive;
+  $lte?: Primitive;
+  $gte?: Primitive;
 };
 
 type QueryValue = Primitive | QueryOperatorValue;
@@ -96,6 +99,7 @@ type FindOptions<T extends Record<string, unknown>> = {
   projection?: Projection<T>;
   sort?: Sort<T>;
   skip?: number;
+  limit?: number;
 };
 
 type Update<T extends Record<string, unknown>> = {
@@ -136,7 +140,7 @@ function asRecord(value: unknown): Record<string, unknown> {
 function isOperatorValue(value: unknown): value is QueryOperatorValue {
   if (!value || typeof value !== "object") return false;
   const record = asRecord(value);
-  return "$ne" in record || "$exists" in record || "$in" in record;
+  return "$ne" in record || "$exists" in record || "$in" in record || "$lt" in record || "$lte" in record || "$gte" in record;
 }
 
 function compareUnknown(a: unknown, b: unknown): number {
@@ -157,6 +161,9 @@ function matchesValue(value: unknown, condition: QueryValue): boolean {
       if (Boolean(condition.$exists) !== exists) return false;
     }
     if ("$ne" in condition && value === condition.$ne) return false;
+    if ("$lt" in condition && (value === undefined || compareUnknown(value, condition.$lt) >= 0)) return false;
+    if ("$lte" in condition && (value === undefined || compareUnknown(value, condition.$lte) > 0)) return false;
+    if ("$gte" in condition && (value === undefined || compareUnknown(value, condition.$gte) < 0)) return false;
     return true;
   }
   return value === condition;
@@ -279,7 +286,10 @@ class MemoryCollection<T extends Record<string, unknown>> implements CollectionL
         const matched = this.docs.filter((doc) => matchesQuery(doc, filter)).map((doc) => cloneValue(doc));
         const sorted = sortRows(matched, options?.sort);
         const skipped = typeof options?.skip === "number" && options.skip > 0 ? sorted.slice(options.skip) : sorted;
-        return skipped.map((doc) => applyProjection(doc, options?.projection));
+        const limited = typeof options?.limit === "number" && options.limit >= 0
+          ? skipped.slice(0, options.limit)
+          : skipped;
+        return limited.map((doc) => applyProjection(doc, options?.projection));
       },
     };
   }
@@ -375,6 +385,7 @@ async function ensureIndexes(db: Db): Promise<void> {
     sessions.createIndex({ user_id: 1 }, { name: "idx_sessions_user_id" }),
     sessions.createIndex({ expires_at: 1 }, { name: "idx_sessions_expires_at" }),
     activityEvents.createIndex({ id: 1 }, { unique: true, name: "idx_activity_events_id_unique" }),
+    activityEvents.createIndex({ timestamp: 1 }, { name: "idx_activity_events_timestamp" }),
     activityEvents.createIndex({ user_id: 1, timestamp: -1 }, { name: "idx_activity_events_user_time" }),
     activityEvents.createIndex({ event_type: 1, timestamp: -1 }, { name: "idx_activity_events_type_time" }),
   ]);
@@ -391,6 +402,7 @@ async function ensureMemoryIndexes(collections: AppCollections): Promise<void> {
     collections.sessions.createIndex({ user_id: 1 }, { name: "idx_sessions_user_id" }),
     collections.sessions.createIndex({ expires_at: 1 }, { name: "idx_sessions_expires_at" }),
     collections.activityEvents.createIndex({ id: 1 }, { unique: true, name: "idx_activity_events_id_unique" }),
+    collections.activityEvents.createIndex({ timestamp: 1 }, { name: "idx_activity_events_timestamp" }),
     collections.activityEvents.createIndex({ user_id: 1, timestamp: -1 }, { name: "idx_activity_events_user_time" }),
     collections.activityEvents.createIndex({ event_type: 1, timestamp: -1 }, { name: "idx_activity_events_type_time" }),
   ]);

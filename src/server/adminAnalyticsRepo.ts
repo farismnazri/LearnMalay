@@ -2,6 +2,7 @@ import { CHAPTERS } from "@/lib/chapters";
 import { sortHighscoreRows } from "@/lib/highscoreRanking";
 import { VALID_HIGHSCORE_GAME_IDS, type GameId, type ScoreEntry } from "@/lib/highscoresTypes";
 import { MINIGAME_NAMES } from "@/lib/minigameUnlocks";
+import { rawActivityCutoff } from "@/lib/privacyRetention";
 import { resolveStoredProfileAvatar } from "@/lib/profileAvatars";
 import type {
   AdminOverview,
@@ -66,17 +67,22 @@ function describeBestScore(gameId: GameId, entries: ScoreEntry[]): string | null
   return `${Math.round(best.accuracy)}% · ${formatDuration(best.timeMs)}`;
 }
 
-async function loadAnalyticsRows() {
+async function loadAnalyticsRows(now = new Date()) {
   await initializeUserAuthState();
+  const cutoff = rawActivityCutoff(now);
   const [{ users, activityEvents }, highscoreStore] = await Promise.all([
     getCollections(),
     listHighScores(),
   ]);
   const [userRows, eventRows] = await Promise.all([
     users.find({}, { sort: { name: 1 } }).toArray(),
-    activityEvents.find({}).toArray(),
+    activityEvents.find({ timestamp: { $gte: cutoff } }).toArray(),
   ]);
-  return { userRows, eventRows, highscoreStore };
+  return {
+    userRows,
+    eventRows,
+    highscoreStore,
+  };
 }
 
 function highscoreEntriesForUser(
@@ -117,7 +123,7 @@ function buildUserSummary(
 }
 
 export async function getAdminOverview(now = new Date()): Promise<AdminOverview> {
-  const { userRows, eventRows, highscoreStore } = await loadAnalyticsRows();
+  const { userRows, eventRows, highscoreStore } = await loadAnalyticsRows(now);
   const learners = userRows.filter((row) => roleFromRow(row) === "user");
   const learnerIds = new Set(learners.map((row) => row.id));
   const sevenDaysAgo = now.getTime() - 7 * 24 * 60 * 60 * 1000;

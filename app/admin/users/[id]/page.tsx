@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getProfileAvatarSrc } from "@/lib/profileAvatars";
+import { RAW_ACTIVITY_RETENTION_DAYS } from "@/lib/privacyRetention";
 import { getAdminUserDetail } from "@/server/adminAnalyticsRepo";
 
 function formatDate(value: string | null) {
@@ -68,27 +69,27 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
               <div className="mt-3 text-xs font-semibold opacity-70">
                 Revision: {chapter.completedRevision ?? "—"} / {chapter.currentRevision}
               </div>
-              <div className="mt-1 text-xs font-semibold opacity-70">First completion: {formatDate(chapter.firstCompletedAt)}</div>
+              <div className="mt-1 text-xs font-semibold opacity-70">Completion event in last {RAW_ACTIVITY_RETENTION_DAYS} days: {formatDate(chapter.firstCompletedAt)}</div>
             </article>
           ))}
         </div>
-        <p className="mt-4 text-xs font-semibold opacity-60">Historical completion state is preserved; first-completion dates appear only when a real completion event was recorded.</p>
+        <p className="mt-4 text-xs font-semibold opacity-60">Historical completion state is preserved. Completion event dates appear only while the raw event is within the last {RAW_ACTIVITY_RETENTION_DAYS} days.</p>
       </section>
 
       <section className="admin-light-panel mt-6 rounded-3xl p-5 sm:p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs font-black tracking-[0.16em] text-[#53703f]">MINIGAME ACTIVITY</p>
-            <h2 className="mt-1 text-2xl font-black">Play and highscore history</h2>
+            <h2 className="mt-1 text-2xl font-black">Recent plays and saved highscores</h2>
           </div>
-          <div className="text-sm font-black">{user.minigamePlays} tracked plays · Most played: {mostPlayedName}</div>
+          <div className="text-sm font-black">{user.minigamePlays} tracked plays in {RAW_ACTIVITY_RETENTION_DAYS} days · Most played: {mostPlayedName}</div>
         </div>
 
         <div className="mt-5 overflow-x-auto rounded-2xl border border-[#cabe86]/60">
           <table className="w-full min-w-[860px] border-collapse text-left text-sm">
             <thead className="bg-[#f0cc65] text-[#443200]">
               <tr>
-                {['Minigame', 'Played?', 'Tracked plays', 'Best recorded score', 'Highscores', 'Last played'].map((label) => (
+                {['Minigame', 'Played?', `Plays · ${RAW_ACTIVITY_RETENTION_DAYS}d`, 'Best recorded score', 'Highscores', 'Last recorded activity'].map((label) => (
                   <th key={label} className="border-b border-black/15 px-4 py-3 text-xs font-black uppercase tracking-wide">{label}</th>
                 ))}
               </tr>

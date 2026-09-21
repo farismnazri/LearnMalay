@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { getAdminOverview } from "@/server/adminAnalyticsRepo";
+import { RAW_ACTIVITY_RETENTION_DAYS } from "@/lib/privacyRetention";
 
 function percent(value: number) {
   return `${Math.round(value * 100)}%`;
@@ -14,7 +15,7 @@ export default async function AdminOverviewPage() {
     ["Active · 7 days", overview.metrics.activeUsersLast7Days],
     ["Active today", overview.metrics.activeUsersToday],
     ["Chapter completions", overview.metrics.totalChapterCompletions],
-    ["Tracked minigame plays", overview.metrics.totalMinigamePlays],
+    [`Tracked plays · ${RAW_ACTIVITY_RETENTION_DAYS} days`, overview.metrics.totalMinigamePlays],
     ["Highscore entries", overview.metrics.totalHighscoreEntries],
   ] as const;
   const maxGamePlays = Math.max(1, ...overview.minigames.map((game) => game.totalPlays));
@@ -26,7 +27,7 @@ export default async function AdminOverviewPage() {
           <p className="text-xs font-black tracking-[0.2em] text-[#bcd398]">SYSTEM OVERVIEW</p>
           <h1 className="mt-1 text-3xl font-black text-white sm:text-4xl">Learner activity at a glance</h1>
           <p className="mt-2 max-w-2xl text-sm font-semibold text-[#dbe9c5]/75">
-            Account growth, chapter drop-off, minigame use, and saved results from first-party data.
+            Account growth, chapter drop-off, recent minigame use, and saved results from first-party data.
           </p>
           <p className="mt-1 text-xs font-semibold text-[#dbe9c5]/50">
             Learner metrics exclude the ADMIN and Demo Mode accounts; the user directory still shows every role.
@@ -76,7 +77,7 @@ export default async function AdminOverviewPage() {
         <section className="admin-light-panel rounded-3xl p-5 sm:p-6">
           <div>
             <p className="text-xs font-black tracking-[0.16em] text-[#53703f]">MINIGAME POPULARITY</p>
-            <h2 className="mt-1 text-2xl font-black">Tracked play starts</h2>
+            <h2 className="mt-1 text-2xl font-black">Tracked play starts · last {RAW_ACTIVITY_RETENTION_DAYS} days</h2>
           </div>
           <div className="mt-5 space-y-4">
             {overview.minigames.map((game) => {
@@ -96,7 +97,7 @@ export default async function AdminOverviewPage() {
             })}
           </div>
           <p className="mt-5 rounded-xl border border-[#c5b675] bg-[#fff8dc] p-3 text-xs font-semibold text-[#5a522d]">
-            Play-start and activity metrics begin with this analytics update. Historical highscore totals remain available separately.
+            Play-start and activity metrics cover the last {RAW_ACTIVITY_RETENTION_DAYS} days. Historical highscore totals remain available separately.
           </p>
         </section>
       </div>
