@@ -70,6 +70,18 @@ const AVATAR_COPY = {
   },
 } satisfies Record<UiLang, Record<string, string>>;
 
+const PUBLIC_SCORE_WARNING: Record<UiLang, string> = {
+  ms: "Jika anda menyimpan skor minigame, nama pengguna, ikon profil dan keputusan anda boleh dipaparkan secara umum di papan skor.",
+  en: "If you save a minigame score, your chosen username, profile icon and result can appear on the public leaderboard.",
+  es: "Si guardas una puntuación de minijuego, tu nombre de usuario, icono de perfil y resultado pueden aparecer en la clasificación pública.",
+};
+
+const PRIVACY_LINK_COPY: Record<UiLang, string> = {
+  ms: "Ketahui cara Red Island Studio mengendalikan maklumat akaun, kemajuan dan skor anda dalam Notis Privasi.",
+  en: "Learn how Red Island Studio handles your account, progress and score information in the Privacy Notice.",
+  es: "Consulta cómo Red Island Studio gestiona los datos de tu cuenta, progreso y puntuaciones en el Aviso de Privacidad.",
+};
+
 function readUiLang(): UiLang {
   if (typeof window === "undefined") return "ms";
   const value = window.localStorage.getItem(UI_LANG_KEY);
@@ -300,7 +312,9 @@ export default function UserSelectPage() {
       return;
     }
 
-    const ok = window.confirm(`Delete account "${me.name}"? This cannot be undone.`);
+    const ok = window.confirm(
+      `Delete account "${me.name}", its saved progress, and linked scores and activity? This cannot be undone.`
+    );
     if (!ok) return;
 
     try {
@@ -471,6 +485,20 @@ export default function UserSelectPage() {
                 </div>
 
                 <div className="user-auth-panel-form mt-5 grid gap-3">
+                  <p className="rounded-xl border border-[#8f5e31]/40 bg-[#f7dfad]/90 px-3 py-2 text-center text-xs font-semibold leading-relaxed text-[#493017]">
+                    {PRIVACY_LINK_COPY[lang]}{" "}
+                    <Link
+                      href="/privacy"
+                      className="font-black text-[#236b3b] underline decoration-2 underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#236b3b]"
+                    >
+                      {lang === "ms" ? "Baca Notis Privasi" : lang === "es" ? "Leer el Aviso de Privacidad" : "Read the Privacy Notice"}
+                    </Link>
+                  </p>
+                  {mode === "create" && (
+                    <p className="rounded-xl border border-[#b78b50]/55 bg-[#fff2d0] px-3 py-2 text-xs font-semibold text-[#493017]">
+                      {PUBLIC_SCORE_WARNING[lang]}
+                    </p>
+                  )}
                   <label className="user-auth-panel-field grid gap-2">
                     <span className="text-xs font-black uppercase text-center tracking-wide text-[#000000]/85">Username</span>
                     <input
